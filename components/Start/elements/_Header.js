@@ -1,4 +1,5 @@
-import { View, Pressable, Text } from 'react-native';
+import { View, Pressable, Text } from 'react-native'; // import Text here
+import { Ionicons } from '@expo/vector-icons';
 import STYLES from '../styles/Styles';
 
 export default _Header = props => {
@@ -16,12 +17,9 @@ export default _Header = props => {
       </Text>
       <Pressable
         onPress={props.action}
+        style={{ padding: 10 }}
       >
-        <Text
-          style={STYLES.temp_suliX}
-        >
-             X   
-        </Text>
+        <Ionicons name="close" size={24} color="black" />
       </Pressable>
     </View>
   );
