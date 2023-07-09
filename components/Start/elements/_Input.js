@@ -24,6 +24,8 @@ export default _Input = props => {
                STYLES.d2Box,
                {
                   borderColor: COLORS[props.borderColor],
+                  borderRadius: 10,
+                  padding: 10,
                },
             ]}
          />
