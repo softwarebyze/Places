@@ -26,6 +26,7 @@ export default _Input = props => {
                   borderColor: COLORS[props.borderColor],
                   borderRadius: 10,
                   padding: 10,
+                  fontSize: 17,
                },
             ]}
          />
