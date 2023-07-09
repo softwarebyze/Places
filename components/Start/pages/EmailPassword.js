@@ -45,6 +45,7 @@ export default EmailPassword = props => {
                subtextColor={emailTextState && !emailIsValid ? 'error_080' : emailFocusState ? 'clear_000' : 'clear_000'}
             />
             <_Input
+               secureTextEntry={true}
                labelText={terms['0007']}
                subtextText={terms['0015']}
                onFocus={() => setPasswordFocusState(true)}

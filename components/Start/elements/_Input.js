@@ -16,6 +16,7 @@ export default _Input = props => {
             {props.labelText}
          </Text>
          <TextInput
+            secureTextEntry={props.secureTextEntry}
             onFocus={props.onFocus}
             onBlur={props.onBlur}
             onChangeText={props.onChangeText}
