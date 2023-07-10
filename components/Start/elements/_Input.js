@@ -16,6 +16,7 @@ export default _Input = props => {
             {props.labelText}
          </Text>
          <TextInput
+            secureTextEntry={props.secureTextEntry}
             onFocus={props.onFocus}
             onBlur={props.onBlur}
             onChangeText={props.onChangeText}
@@ -23,6 +24,9 @@ export default _Input = props => {
                STYLES.d2Box,
                {
                   borderColor: COLORS[props.borderColor],
+                  borderRadius: 10,
+                  padding: 10,
+                  fontSize: 17,
                },
             ]}
          />

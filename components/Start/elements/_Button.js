@@ -13,6 +13,7 @@ export default _Button = props => {
         {
           backgroundColor: COLORS[props.color],
           borderColor: COLORS[props.borderColor],
+          borderRadius: 10,
         },
         props.style,
       ]}
