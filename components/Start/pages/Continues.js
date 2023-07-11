@@ -56,7 +56,7 @@ export default EmailPassword = props => {
          />
          <_Button
             text={terms['0013']}
-            action={() => props.setPageScreenState('LoginPage')}
+            action={() => props.setPageScreenState('LoadPage')}
             color='white_100'
             borderColor='white_100'
             textColor='primary1_100'

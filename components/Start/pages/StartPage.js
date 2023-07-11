@@ -42,7 +42,7 @@ export default StartPage = props => {
         />
         <_Button
           text={terms['0004']}
-          action={() => props.setPageScreenState('LoginPage')}
+          action={() => props.setPageScreenState('LoadPage')}
           buttonColor='white_100'
           buttonBorderColor='black_100'
           textColor='primary1_100'
