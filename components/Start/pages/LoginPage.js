@@ -4,13 +4,13 @@ import _Header from '../elements/_Header';
 import _Navigator from '../elements/_Navigator';
 import STYLES from '../styles/Styles';
 import TERMS from '../../../settings/Terms';
-import EmailPassword from './EmailPassword';
-import Google from './Google';
-import Facebook from './Facebook';
+import EmailPassword from './EmailPassword';  // make sure this handles sign-in
+import Google from './Google';  // make sure this handles sign-in
+import Facebook from './Facebook';  // make sure this handles sign-in
 
 const terms = TERMS['English'];
 
-export default SignUpPage = props => {
+export default LoginPage = props => {
   const [mainScreenState, setMainScreenState] = useState('EmailPassword');
   const [modalVisible, setModalVisible] = useState(true);
 
@@ -31,7 +31,7 @@ export default SignUpPage = props => {
 
         <View style={STYLES.modalPadding}>
           <_Header
-            text={terms['0005']}
+            text={terms['0016']}  // change this to "Login" or similar
             action={() => props.setPageScreenState('StartPage')}
           />
           <_Navigator
