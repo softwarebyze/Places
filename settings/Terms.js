@@ -15,5 +15,6 @@ export default {
       '0013': 'Already have an account',
       '0014': 'Invalid email address, please check.',
       '0015': 'Your password must be at least 6 characters.',
+      '0016': 'Sign in',
    }
 };
