@@ -40,6 +40,8 @@ export default SignUpPage = props => {
                 setPageScreenState={(_) => props.setPageScreenState(_)}
                 setMainScreenState={(_) => setMainScreenState(_)}
               />,
+
+
               'Google': <Google
                 setPageScreenState={(_) => props.setPageScreenState(_)}
                 setMainScreenState={(_) => setMainScreenState(_)}
@@ -53,15 +55,21 @@ export default SignUpPage = props => {
 
 
           />
-        </View>
-        <_Button
+
+<_Button
             text={terms['0017']}
             action={() => props.setPageScreenState('LocationPage')}
             color='just_blue'
             borderColor='primary1_030'
             textColor='white_100'
             underline={true}
+            
+            
          />
+
+        </View>
+
+     
       </View>
     </Modal>
   );
