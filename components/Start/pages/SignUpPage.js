@@ -50,8 +50,18 @@ export default SignUpPage = props => {
               />,
             }}
             screen={mainScreenState}
+
+
           />
         </View>
+        <_Button
+            text={terms['0017']}
+            action={() => props.setPageScreenState('LocationPage')}
+            color='just_blue'
+            borderColor='primary1_030'
+            textColor='white_100'
+            underline={true}
+         />
       </View>
     </Modal>
   );
