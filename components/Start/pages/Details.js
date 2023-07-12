@@ -34,6 +34,32 @@ export default EmailPassword = props => {
             borderColor={'primary1_100'}
             style={STYLES.signUpInput}
          />
+         <_Input
+            labelText={'Password'}
+            onFocus={() => setPasswordFocusState(true)}
+            onBlur={() => setPasswordFocusState(false)}
+            borderColor={'primary1_100'}
+            style={STYLES.signUpInput}
+         />
+         <_Input
+            labelText={'Confirm Passowrd'}
+            onFocus={() => setPasswordFocusState(true)}
+            onBlur={() => setPasswordFocusState(false)}
+            borderColor={'primary1_100'}
+            style={STYLES.signUpInput}
+         />
+
+        <_Button
+        
+        text={terms['0017']}
+        action={() => props.setPageScreenState('LocationPage')}
+        color='just_blue'
+        borderColor='primary1_030'
+        textColor='white_100'
+        underline={true}
+        
+        
+     />
       </View>
    );
 };

@@ -71,6 +71,7 @@ export default EmailPassword = props => {
             }}
             screen={subScreenState}
          />
+         
       </View>
    );
 };
