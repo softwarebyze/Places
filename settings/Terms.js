@@ -17,5 +17,9 @@ export default {
       '0015': 'Your password must be at least 6 characters.',
       '0016': 'Sign in',
       '0017': 'Create Account',
+      '0018' : 'Choose a Location',
+      '0019' : 'back',
+      '0020' : 'Please provide your location so we can display groups for you to join in your area',
+      
    }
 };

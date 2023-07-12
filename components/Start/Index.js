@@ -5,6 +5,7 @@ import StartPage from './pages/StartPage';
 import SignUpPage from './pages/SignUpPage';
 import LoginPage from './pages/LoginPage';
 import LocationPage from './pages/LocationPage';
+import InterestsPage from './pages/InterestsPage';
 
 export default function Index() {
   const [pageScreenState, setPageScreenState] = useState('StartPage');
@@ -25,6 +26,9 @@ export default function Index() {
         setPageScreenState={(_) => setPageScreenState(_)}
       />,
       'LocationPage': <LocationPage
+      setPageScreenState={(_) => setPageScreenState(_)}
+    />,
+    'InterestsPage': <InterestsPage
       setPageScreenState={(_) => setPageScreenState(_)}
     />,
       }}
