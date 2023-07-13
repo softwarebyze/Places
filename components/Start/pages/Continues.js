@@ -8,14 +8,6 @@ import STYLES from '../styles/Styles';
 import TERMS from '../../../settings/Terms'
 terms = TERMS['English']
 
-const validateEmail = (email) => {
-   return email.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-};
-
-const validatePassword = (password) => {
-   return (password.length >= 6)
-}
-
 export default EmailPassword = props => {
    return (
       <View
