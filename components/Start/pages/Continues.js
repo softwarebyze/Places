@@ -33,19 +33,19 @@ export default EmailPassword = props => {
             text='or'
             color='gray1_100'
          />
-         <_Button
+         {/* <_Button
             text={terms['0010']}
             action={() => console.log('APPLE NOT READY')}
             color='primary1_100'
             borderColor='primary1_100'
             textColor='white_100'
-         />
+         /> */}
          <_Button
             text={terms['0011']}
             action={() => props.setMainScreenState('Google')}
-            color='white_100'
+            color='primary1_100'
             borderColor='primary1_100'
-            textColor='primary1_100'
+            textColor='white_100'
          />
          <_Button
             text={terms['0012']}
