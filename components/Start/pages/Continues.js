@@ -6,7 +6,7 @@ import _Header from '../elements/_Header';
 import _Divider from '../elements/_Divider';
 import STYLES from '../styles/Styles';
 import TERMS from '../../../settings/Terms'
-terms = TERMS['English']
+const terms = TERMS['English']
 
 export default EmailPassword = props => {
    return (
