@@ -1,22 +1,13 @@
 import { View } from 'react-native';
-import { useState } from 'react';
 import _Button from '../elements/_Button';
 import _Input from '../elements/_Input';
 import _Header from '../elements/_Header';
 import _Divider from '../elements/_Divider';
 import STYLES from '../styles/Styles';
 import TERMS from '../../../settings/Terms'
-terms = TERMS['English']
+const terms = TERMS['English']
 
-const validateEmail = (email) => {
-   return email.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-};
-
-const validatePassword = (password) => {
-   return (password.length >= 6)
-}
-
-export default EmailPassword = props => {
+export default Continues = props => {
    return (
       <View
          style={STYLES.suliContinues}
