@@ -13,14 +13,14 @@ export default LocationPage = (props) => {
   return (
     <View>
 
-<_Button
+{/* <_Button
           text={terms['0019']}
           action={() => props.setPageScreenState('LocationPage')}
           color='primary1_100'
           borderColor='primary1_100'
           textColor='white_100'
           style={STYLES.startButton}
-        />
+        /> */}
        <Text
           style={STYLES.welcomeText}
         >
