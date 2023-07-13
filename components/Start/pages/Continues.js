@@ -8,7 +8,7 @@ import STYLES from '../styles/Styles';
 import TERMS from '../../../settings/Terms'
 const terms = TERMS['English']
 
-export default EmailPassword = props => {
+export default Continues = props => {
    return (
       <View
          style={STYLES.suliContinues}
