@@ -6,7 +6,7 @@ import SignUpPage from './pages/SignUpPage';
 import LoginPage from './pages/LoginPage';
 import LocationPage from './pages/LocationPage';
 import InterestsPage from './pages/InterestsPage';
-
+import NavigatorPage from './pages/NavigatorPage';
 export default function Index() {
   const [pageScreenState, setPageScreenState] = useState('StartPage');
 
@@ -31,6 +31,11 @@ export default function Index() {
     'InterestsPage': <InterestsPage
       setPageScreenState={(_) => setPageScreenState(_)}
     />,
+    'NavigatorPage': <NavigatorPage
+    setPageScreenState={(_) => setPageScreenState(_)}
+  />,
+
+
       }}
       screen={pageScreenState}
     />
