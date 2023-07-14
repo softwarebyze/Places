@@ -173,4 +173,10 @@ export default new StyleSheet.create({
    startButton: {
       marginBottom: 0.02*HEIGHT,
    },
+   categoryGrid:{
+      display: 'flex',
+      flexDirection: 'column'
+
+   }
+   
 });
