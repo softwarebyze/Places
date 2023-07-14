@@ -101,20 +101,9 @@ export default NavigatorPage = (props) => {
 
       </Tab.Navigator>
 <View>
-<Text
-          style={STYLES.sloganText}
-        >
-        {terms['0026']}
-
-         
-        </Text>
-
-  <_Button>
-
-  text={terms['0026']}
 
 
-  </_Button>
+
 
 </View>
      
