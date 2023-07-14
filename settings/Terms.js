@@ -26,7 +26,7 @@ export default {
       '0024' : 'SPORTS',
       '0025' : 'HOBBIES',
       '0026' : 'Join a new place',
-      
+     
 
    }
 };
