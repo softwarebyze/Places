@@ -20,6 +20,13 @@ export default {
       '0018' : 'Choose a Location',
       '0019' : 'back',
       '0020' : 'Please provide your location so we can display groups for you to join in your area',
-      
+      '0021' : 'Interests',
+      '0022' : 'Skip',
+      '0023' : 'Select some interests and we will add you to the group chat(places) for the location you have provided in the previous step',
+      '0024' : 'SPORTS',
+      '0025' : 'HOBBIES',
+      '0026' : 'Join a new place',
+     
+
    }
 };
