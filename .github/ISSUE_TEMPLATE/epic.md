@@ -3,8 +3,7 @@ name: Epic
 about: General category of product functionality
 title: "[EPIC]"
 labels: epic
-assignees: ''
-
+assignees: ""
 ---
 
 [ ] TBD links to Story that relate

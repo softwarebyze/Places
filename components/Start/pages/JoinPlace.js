@@ -1,13 +1,1 @@
-
-
-
-
-
-export default JoinPlace = (props) => {
-
-
-
-
-
-
-};
+export default JoinPlace = (props) => {};

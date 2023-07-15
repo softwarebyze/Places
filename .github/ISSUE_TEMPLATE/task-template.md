@@ -1,10 +1,9 @@
 ---
 name: Task template
 about: Use this template to create a task
-title: ''
+title: ""
 labels: task
-assignees: ''
-
+assignees: ""
 ---
 
 References user story #TBD
