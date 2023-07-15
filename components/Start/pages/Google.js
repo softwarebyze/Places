@@ -1,40 +1,40 @@
-import { View, Text } from 'react-native';
+import { View, Text } from "react-native";
 
-export default Google = props =>  {
-   return (
-      <View>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-         <Text>Login with Google</Text>
-      </View>
-   );
+export default Google = (props) => {
+  return (
+    <View>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+      <Text>Login with Google</Text>
+    </View>
+  );
 };

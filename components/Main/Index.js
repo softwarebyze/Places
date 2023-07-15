@@ -1,35 +1,35 @@
-import { View, Text } from 'react-native'
+import { View, Text } from "react-native";
 
 export default function Index() {
-   return (
-      <View>
-         <Text>MAIN PAGE. YAY!</Text>
-         <Text>MAIN PAGE. YAY!</Text>
-         <Text>MAIN PAGE. YAY!</Text>
-         <Text>MAIN PAGE. YAY!</Text>
-         <Text>MAIN PAGE. YAY!</Text>
-         <Text>MAIN PAGE. YAY!</Text>
-         <Text>MAIN PAGE. YAY!</Text>
-         <Text>MAIN PAGE. YAY!</Text>
-         <Text>MAIN PAGE. YAY!</Text>
-         <Text>MAIN PAGE. YAY!</Text>
-         <Text>MAIN PAGE. YAY!</Text>
-         <Text>MAIN PAGE. YAY!</Text>
-         <Text>MAIN PAGE. YAY!</Text>
-         <Text>MAIN PAGE. YAY!</Text>
-         <Text>MAIN PAGE. YAY!</Text>
-         <Text>MAIN PAGE. YAY!</Text>
-         <Text>MAIN PAGE. YAY!</Text>
-         <Text>MAIN PAGE. YAY!</Text>
-         <Text>MAIN PAGE. YAY!</Text>
-         <Text>MAIN PAGE. YAY!</Text>
-         <Text>MAIN PAGE. YAY!</Text>
-         <Text>MAIN PAGE. YAY!</Text>
-         <Text>MAIN PAGE. YAY!</Text>
-         <Text>MAIN PAGE. YAY!</Text>
-         <Text>MAIN PAGE. YAY!</Text>
-         <Text>MAIN PAGE. YAY!</Text>
-         <Text>MAIN PAGE. YAY!</Text>
-      </View>
-   );
-};
+  return (
+    <View>
+      <Text>MAIN PAGE. YAY!</Text>
+      <Text>MAIN PAGE. YAY!</Text>
+      <Text>MAIN PAGE. YAY!</Text>
+      <Text>MAIN PAGE. YAY!</Text>
+      <Text>MAIN PAGE. YAY!</Text>
+      <Text>MAIN PAGE. YAY!</Text>
+      <Text>MAIN PAGE. YAY!</Text>
+      <Text>MAIN PAGE. YAY!</Text>
+      <Text>MAIN PAGE. YAY!</Text>
+      <Text>MAIN PAGE. YAY!</Text>
+      <Text>MAIN PAGE. YAY!</Text>
+      <Text>MAIN PAGE. YAY!</Text>
+      <Text>MAIN PAGE. YAY!</Text>
+      <Text>MAIN PAGE. YAY!</Text>
+      <Text>MAIN PAGE. YAY!</Text>
+      <Text>MAIN PAGE. YAY!</Text>
+      <Text>MAIN PAGE. YAY!</Text>
+      <Text>MAIN PAGE. YAY!</Text>
+      <Text>MAIN PAGE. YAY!</Text>
+      <Text>MAIN PAGE. YAY!</Text>
+      <Text>MAIN PAGE. YAY!</Text>
+      <Text>MAIN PAGE. YAY!</Text>
+      <Text>MAIN PAGE. YAY!</Text>
+      <Text>MAIN PAGE. YAY!</Text>
+      <Text>MAIN PAGE. YAY!</Text>
+      <Text>MAIN PAGE. YAY!</Text>
+      <Text>MAIN PAGE. YAY!</Text>
+    </View>
+  );
+}
