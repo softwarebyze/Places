@@ -16,8 +16,6 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import SignUpPage from "./SignUpPage";
 
 
-
-
  const Tab = createBottomTabNavigator();
 
 // function MyTabs() {
@@ -32,9 +30,19 @@ import SignUpPage from "./SignUpPage";
 // }
 export default NavigatorPage = (props) => {
   return (
-    <View>
-      <Tab.Navigator
+    <View
+>
 
+      <Tab.Navigator
+    // style={{
+    //   // position: 'absolute',
+      
+    //    height: 1000,
+    //    //backgroundColor: '#ff00ff',
+    //    bottom: 10,
+    //     justifyContent: 'center',
+    //     alignItems: 'center'
+    //  }}
       screenOptions={{
         tabBarLabelStyle: { fontSize: 16, paddingBottom: 5},
         headerShown: true,
@@ -60,7 +68,7 @@ export default NavigatorPage = (props) => {
           options={{
            
             tabBarShowLabel: true,
-    
+           
           }}
           
         />
@@ -91,7 +99,7 @@ export default NavigatorPage = (props) => {
            
           options={{
             tabBarShowLabel: true,
-          
+           
           }}
         />
 
@@ -100,14 +108,30 @@ export default NavigatorPage = (props) => {
 
 
       </Tab.Navigator>
-<View>
 
 
+<Text
+        >
+          {terms['0024']}
+        </Text>
 
+    
 
-</View>
-     
+<View style={[{ width: "75%", margin: 40, backgroundColor: "red" }]}>
+        
+            <_Button
+            text={terms['0027']}
+            action={() => props.setPageScreenState('JoinPlacePage')}
+            color='hsla(268, 100%, 11%, 1)'
+            borderColor={props.canContinue ? 'primary1_100' : 'primary1_030'}
+            textColor='white_100'j
+           
+         />
+        </View> 
 
     </View>
+    
   );
 };
+
+
