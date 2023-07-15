@@ -1,3 +1,4 @@
+
 export default {
    'English': {
       '0001': 'Welcome to Places!',
@@ -26,7 +27,15 @@ export default {
       '0024' : 'SPORTS',
       '0025' : 'HOBBIES',
       '0026' : 'Join a new place',
+      '0027' : '+  Join a New Place',
+      '0028' : 'Categories',
+      '0029' : 'Sports',
+      '0030' : 'Buy/Sell',
+      '0031' : 'Donations',
+      '0032' : 'Hobbies',
+      '0033' : 'Join a Place',
      
 
    }
 };
+

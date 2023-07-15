@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import _Navigator from './elements/_Navigator';
 import LoadPage from './pages/LoadPage';
@@ -7,6 +8,7 @@ import LoginPage from './pages/LoginPage';
 import LocationPage from './pages/LocationPage';
 import InterestsPage from './pages/InterestsPage';
 import NavigatorPage from './pages/NavigatorPage';
+import JoinPlacePage from './pages/JoinPlacePage';
 export default function Index() {
   const [pageScreenState, setPageScreenState] = useState('StartPage');
 
@@ -34,8 +36,9 @@ export default function Index() {
     'NavigatorPage': <NavigatorPage
     setPageScreenState={(_) => setPageScreenState(_)}
   />,
-
-
+  'JoinPlacePage': <JoinPlacePage
+  setPageScreenState={(_) => setPageScreenState(_)}
+/>,
       }}
       screen={pageScreenState}
     />
