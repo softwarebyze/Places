@@ -1,7 +1,9 @@
 import { Image } from "react-native";
 
-export default Logo = (props) => {
+const Logo = (props) => {
   return (
     <Image source={require("../../../assets/logo.png")} style={props.style} />
   );
 };
+
+export default Logo;

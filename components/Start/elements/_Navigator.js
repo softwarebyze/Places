@@ -1,3 +1,5 @@
-export default _Navigator = (props) => {
+const _Navigator = (props) => {
   return props.screens[props.screen];
 };
+
+export default _Navigator;
