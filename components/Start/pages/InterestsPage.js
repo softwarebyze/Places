@@ -1,4 +1,3 @@
-import { View } from "react-native";
 import _Button from "../elements/_Button";
 import _Input from "../elements/_Input";
 import _Header from "../elements/_Header";
