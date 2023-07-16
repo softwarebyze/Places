@@ -8,14 +8,16 @@ import InterestsPage from "./components/Start/pages/InterestsPage";
 import HomePage from "./components/Start/pages/HomePage";
 import Details from "./components/Start/elements/Details";
 import JoinPlacePage from "./components/Start/pages/JoinPlacePage";
+import { useState } from "react";
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+  const [loggedIn, setLoggedIn] = useState(false);
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Start"
+        initialRouteName={loggedIn ? "Home" : "Start"}
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Start" component={StartPage} />
