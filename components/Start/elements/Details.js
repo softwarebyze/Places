@@ -1,7 +1,7 @@
-import _Button from "../elements/_Button";
-import _Input from "../elements/_Input";
-import _Header from "../elements/_Header";
-import _Divider from "../elements/_Divider";
+import _Button from "./_Button";
+import _Input from "./_Input";
+import _Header from "./_Header";
+import _Divider from "./_Divider";
 import STYLES from "../styles/Styles";
 import TERMS from "../../../settings/Terms";
 import { useNavigation } from "@react-navigation/native";

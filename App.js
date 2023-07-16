@@ -6,7 +6,7 @@ import SignUpPage from "./components/Start/pages/SignUpPage";
 import LocationPage from "./components/Start/pages/LocationPage";
 import InterestsPage from "./components/Start/pages/InterestsPage";
 import HomePage from "./components/Start/pages/HomePage";
-import Details from "./components/Start/pages/Details";
+import Details from "./components/Start/elements/Details";
 
 const Stack = createNativeStackNavigator();
 

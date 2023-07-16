@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import { useState } from "react";
-import _Button from "../elements/_Button";
-import _Input from "../elements/_Input";
+import _Button from "./_Button";
+import _Input from "./_Input";
 import STYLES from "../styles/Styles";
 import TERMS from "../../../settings/Terms";
 const terms = TERMS["English"];
