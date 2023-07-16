@@ -2,7 +2,7 @@ import { View, Text } from "react-native";
 import STYLES from "../styles/Styles";
 import COLORS from "../../../settings/Colors";
 
-export default _Divider = (props) => {
+const _Divider = (props) => {
   return (
     <View style={[STYLES.divider, STYLES.signUpDivider]}>
       <View
@@ -34,3 +34,5 @@ export default _Divider = (props) => {
     </View>
   );
 };
+
+export default _Divider;

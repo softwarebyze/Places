@@ -1,66 +1,34 @@
-import React, { useState } from "react";
-import { Modal, View, TouchableWithoutFeedback } from "react-native";
+import { Text, View } from "react-native";
 import _Header from "../elements/_Header";
-import _Navigator from "../elements/_Navigator";
-import STYLES from "../styles/Styles";
 import TERMS from "../../../settings/Terms";
-import EmailPassword from "./EmailPassword";
-import Google from "./Google";
-import Facebook from "./Facebook";
+import EmailPassword from "../elements/EmailPassword";
+import { useNavigation } from "@react-navigation/native";
+import _Button from "../elements/_Button";
+import STYLES from "../styles/Styles";
 
 const terms = TERMS["English"];
 
-export default SignUpPage = (props) => {
-  const [mainScreenState, setMainScreenState] = useState("EmailPassword");
-  const [modalVisible, setModalVisible] = useState(true);
+const SignUpPage = () => {
+  const navigator = useNavigation();
 
   return (
-    <Modal
-      animationType="fade"
-      transparent={true}
-      visible={modalVisible}
-      onRequestClose={() => {
-        setModalVisible(!modalVisible);
-      }}
-    >
-      <View style={STYLES.page}>
-        <TouchableWithoutFeedback
-          onPress={() => props.setPageScreenState("StartPage")}
-        >
-          <View style={STYLES.modalPadding} />
-        </TouchableWithoutFeedback>
-
-        <View style={STYLES.modalPadding}>
-          <_Header
-            text={terms["0005"]}
-            action={() => props.setPageScreenState("StartPage")}
-          />
-          <_Navigator
-            screens={{
-              EmailPassword: (
-                <EmailPassword
-                  setPageScreenState={(_) => props.setPageScreenState(_)}
-                  setMainScreenState={(_) => setMainScreenState(_)}
-                />
-              ),
-
-              Google: (
-                <Google
-                  setPageScreenState={(_) => props.setPageScreenState(_)}
-                  setMainScreenState={(_) => setMainScreenState(_)}
-                />
-              ),
-              Facebook: (
-                <Facebook
-                  setPageScreenState={(_) => props.setPageScreenState(_)}
-                  setMainScreenState={(_) => setMainScreenState(_)}
-                />
-              ),
-            }}
-            screen={mainScreenState}
-          />
-        </View>
-      </View>
-    </Modal>
+    <View style={STYLES.page}>
+      <_Header
+        text={terms["0005"]}
+        action={() => navigator.navigate("Start")}
+      />
+      <EmailPassword />
+      <_Button
+        text={terms["0013"]}
+        action={() => navigator.replace("Login")}
+        color="white_100"
+        borderColor="white_100"
+        textColor="primary1_100"
+        underline={true}
+      />
+      <Text style={{ fontSize: 2000000 }}>Hi</Text>
+    </View>
   );
 };
+
+export default SignUpPage;

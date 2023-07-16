@@ -3,9 +3,11 @@ import _Button from "../elements/_Button";
 import _Logo from "../elements/_Logo";
 import STYLES from "../styles/Styles";
 import TERMS from "../../../settings/Terms";
-terms = TERMS["English"];
+import { useNavigation } from "@react-navigation/native";
+const terms = TERMS["English"];
 
-export default StartPage = (props) => {
+const StartPage = (props) => {
+  const navigator = useNavigation();
   return (
     <View style={[STYLES.page, STYLES.spaceEvenly]}>
       <_Logo style={[STYLES.fullLogo, STYLES.startFullLogo]} />
@@ -16,7 +18,7 @@ export default StartPage = (props) => {
       <View>
         <_Button
           text={terms["0003"]}
-          action={() => props.setPageScreenState("SignUpPage")}
+          action={() => navigator.navigate("Signup")}
           color="primary1_100"
           borderColor="primary1_100"
           textColor="white_100"
@@ -24,7 +26,7 @@ export default StartPage = (props) => {
         />
         <_Button
           text={terms["0004"]}
-          action={() => props.setPageScreenState("LoginPage")}
+          action={() => navigator.navigate("Login")}
           buttonColor="white_100"
           buttonBorderColor="black_100"
           textColor="primary1_100"
@@ -34,3 +36,4 @@ export default StartPage = (props) => {
     </View>
   );
 };
+export default StartPage;

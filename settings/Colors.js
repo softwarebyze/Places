@@ -12,5 +12,6 @@ export default {
   black_070: "rgba(0, 0, 0, 0.7)",
   gray1_100: "rgb(196, 196, 196)",
   clear_000: "rgba(0, 0, 0, 0)",
-  just_blue: "rgba(0, 86, 199, 1)",
+  orange: "rgba(239, 131, 84, 1)",
+  dark_grey: "rgba(136, 136, 136, 1)",
 };

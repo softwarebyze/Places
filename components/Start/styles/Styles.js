@@ -9,29 +9,22 @@ import COLORS from "../../../settings/Colors";
 
 const ELEMENT_WIDTH = 0.87 * WIDTH;
 const ELEMENT_HEIGHT = 0.071 * HEIGHT;
-const SULI_SPACER_HEIGHT = 0.1 * HEIGHT;
 const SULI_HEADER_HEIGHT = 0.06 * HEIGHT;
-const SULI_INPUTS_HEIGHT = 0.3 * HEIGHT;
 
 export default new StyleSheet.create({
   spaceEvenly: {
     justifyContent: "space-evenly",
   },
   page: {
-    width: WIDTH,
-    height: HEIGHT,
     backgroundColor: COLORS.white_100,
-    // backgroundColor: 'red',
     flex: 1,
     alignItems: "center",
+    paddingHorizontal: 16,
   },
   fullLogo: {
     width: WIDTH / 2,
     height: (WIDTH * LOGOHEIGHT) / LOGOWIDTH,
     resizeMode: "contain",
-  },
-  d1Box: {
-    width: ELEMENT_WIDTH,
   },
   d2Box: {
     width: ELEMENT_WIDTH,
@@ -52,40 +45,10 @@ export default new StyleSheet.create({
     lineHeight: 36,
     textAlign: "center",
   },
-  suliSpacer: {
-    width: WIDTH,
-    height: 0.1 * HEIGHT,
-    backgroundColor: COLORS.black_070,
-  },
-  suliContainer: {
-    width: WIDTH,
-    height: (1 - SULI_SPACER_HEIGHT / HEIGHT) * HEIGHT,
-    backgroundColor: COLORS.white_100,
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  modalContainer: {
-    // paddingTop: 0.1*HEIGHT,
-    width: WIDTH,
-    // height: (1-SULI_SPACER_HEIGHT/HEIGHT)*HEIGHT,
-    backgroundColor: "red",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  modalPadding: {
-    width: WIDTH,
-    height: 0.1 * HEIGHT,
-    backgroundColor: "rgba(0,0,0,0.8)",
-
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  modalBackground: {
-    width: WIDTH,
-    height: HEIGHT,
-    backgroundColor: "rgba(0,0,0,0.5)",
-    position: "absolute",
-    zIndex: 1,
+  descriptionText: {
+    color: "#888888",
+    fontSize: 14,
+    textAlign: "center",
   },
   suliHeader: {
     width: WIDTH,
@@ -93,12 +56,12 @@ export default new StyleSheet.create({
     paddingRight: 0.05 * WIDTH,
     height: SULI_HEADER_HEIGHT,
     backgroundColor: COLORS.white_100,
-    // backgroundColor: 'red', //chnage this back to white
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginBottom: 25,
   },
   suliHeaderText: {
     color: COLORS.secondary_100,
@@ -113,15 +76,11 @@ export default new StyleSheet.create({
     lineHeight: 28.8,
   },
   suliMain: {
-    width: WIDTH,
-    height: (1 - (SULI_SPACER_HEIGHT + SULI_HEADER_HEIGHT) / HEIGHT) * HEIGHT,
     backgroundColor: COLORS.white_100,
     flexDirection: "column",
     alignItems: "center",
   },
   suliInputs: {
-    width: WIDTH,
-    height: SULI_INPUTS_HEIGHT,
     backgroundColor: COLORS.white_100,
     flexDirection: "column",
     alignItems: "center",
@@ -129,17 +88,12 @@ export default new StyleSheet.create({
   },
   suliContinues: {
     width: WIDTH,
-    height:
-      (1 -
-        (SULI_SPACER_HEIGHT + SULI_HEADER_HEIGHT + SULI_INPUTS_HEIGHT) /
-          HEIGHT) *
-      HEIGHT,
     backgroundColor: COLORS.white_100,
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-evenly",
   },
-  inputLable: {
+  inputLabel: {
     color: COLORS.secondary_100,
     fontSize: 18,
     fontWeight: 400,

@@ -4,7 +4,7 @@ import COLORS from "../../../settings/Colors";
 
 import STYLES from "../styles/Styles";
 
-export default _Header = (props) => {
+const _Header = (props) => {
   return (
     <View style={[STYLES.d1Box, STYLES.suliHeader]}>
       <Text style={STYLES.suliHeaderText}>{props.text}</Text>
@@ -14,3 +14,5 @@ export default _Header = (props) => {
     </View>
   );
 };
+
+export default _Header;
