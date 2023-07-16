@@ -55,7 +55,7 @@ const Details = () => {
 
       <_Button
         text={terms["0017"]}
-        action={() => navigator.replace("ChooseLocation")}
+        action={() => navigator.navigate("ChooseLocation")}
         color="primary1_100"
         borderColor="primary1_030"
         textColor="white_100"
