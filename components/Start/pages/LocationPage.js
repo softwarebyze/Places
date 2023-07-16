@@ -45,7 +45,7 @@ const LocationPage = () => {
         color="primary1_100"
         borderColor="primary1_030"
         textColor="white_100"
-        underline={true}
+        underline={false}
       />
     </SafeAreaView>
   );
