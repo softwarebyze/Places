@@ -1,4 +1,3 @@
-import { View } from "react-native";
 import _Button from "../elements/_Button";
 import _Input from "../elements/_Input";
 import _Header from "../elements/_Header";
@@ -6,12 +5,28 @@ import _Divider from "../elements/_Divider";
 import STYLES from "../styles/Styles";
 import TERMS from "../../../settings/Terms";
 import { useNavigation } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
 const terms = TERMS["English"];
 
 const Details = () => {
   const navigator = useNavigation();
   return (
-    <View style={STYLES.suliContinues}>
+    <SafeAreaView style={STYLES.suliContinues}>
+      <_Input
+        labelText={"First Name"}
+        borderColor={"primary1_100"}
+        style={STYLES.signUpInput}
+      />
+      <_Input
+        labelText={"Last Name"}
+        borderColor={"primary1_100"}
+        style={STYLES.signUpInput}
+      />
+      <_Input
+        labelText={"Email"}
+        borderColor={"primary1_100"}
+        style={STYLES.signUpInput}
+      />
       <_Input
         labelText={"Phone Number"}
         borderColor={"primary1_100"}
@@ -46,7 +61,7 @@ const Details = () => {
         textColor="white_100"
         underline={false}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
