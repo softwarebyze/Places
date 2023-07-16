@@ -28,7 +28,12 @@ const App = () => {
           options={{ headerShown: true }}
         />
         <Stack.Group>
-          <Stack.Screen name="ChooseLocation" component={LocationPage} />
+          <Stack.Screen
+            name="ChooseLocation"
+            component={LocationPage}
+            options={{ headerShown: true, headerTitle: "Choose a Location" }}
+          />
+          <Stack.Screen name="Interests" component={InterestsPage} />
           <Stack.Screen name="ChooseInterests" component={InterestsPage} />
         </Stack.Group>
         <Stack.Screen name="Home" component={HomePage} />
