@@ -35,5 +35,6 @@ export default {
     "0031": "Donations",
     "0032": "Hobbies",
     "0033": "Join a Place",
+    "0034": "Logout",
   },
 };
