@@ -16,14 +16,6 @@ import SignUpPage from "./SignUpPage";
 export default JoinPlacePage = (props) => {
   return (
     <View>
-      <_Button
-        text={terms["0019"]}
-        action={() => props.setPageScreenState("NavigatorPage")}
-        color="primary1_100"
-        borderColor="primary1_100"
-        textColor="white_100"
-      />
-
       <Text style={STYLES.welcomeText}>{terms["0033"]}</Text>
 
       <Text style={STYLES.sloganText}>{terms["0028"]}</Text>
