@@ -33,10 +33,17 @@ const App = () => {
             component={LocationPage}
             options={{ headerShown: true, headerTitle: "Choose a Location" }}
           />
-          <Stack.Screen name="Interests" component={InterestsPage} />
-          <Stack.Screen name="ChooseInterests" component={InterestsPage} />
+          <Stack.Screen
+            name="ChooseInterests"
+            component={InterestsPage}
+            options={{ headerShown: true, headerTitle: "Interests" }}
+          />
         </Stack.Group>
-        <Stack.Screen name="Home" component={HomePage} />
+        <Stack.Screen
+          name="Home"
+          component={HomePage}
+          options={{ headerShown: true }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
