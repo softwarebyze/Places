@@ -23,7 +23,7 @@ export default Continues = (props) => {
       <_Divider text="or" color="gray1_100" />
       <_Button
         text={terms["0011"]}
-        action={() => alert("Google")}
+        action={() => navigator.replace("Details")}
         color="primary1_100"
         borderColor="primary1_100"
         textColor="white_100"
@@ -31,7 +31,7 @@ export default Continues = (props) => {
       />
       <_Button
         text={terms["0012"]}
-        action={() => alert("Facebook")}
+        action={() => navigator.replace("Details")}
         color="white_100"
         borderColor="primary1_100"
         textColor="primary1_100"
