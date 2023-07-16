@@ -15,7 +15,7 @@ export default {
     "0013": "Already have an account",
     "0014": "Invalid email address, please check.",
     "0015": "Your password must be at least 6 characters.",
-    "0016": "Sign in",
+    "0016": "Log in",
     "0017": "Create Account",
     "0018": "Choose a Location",
     "0019": "back",
