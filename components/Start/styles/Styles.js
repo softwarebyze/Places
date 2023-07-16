@@ -19,14 +19,12 @@ export default new StyleSheet.create({
     backgroundColor: COLORS.white_100,
     flex: 1,
     alignItems: "center",
+    paddingHorizontal: 16,
   },
   fullLogo: {
     width: WIDTH / 2,
     height: (WIDTH * LOGOHEIGHT) / LOGOWIDTH,
     resizeMode: "contain",
-  },
-  d1Box: {
-    width: ELEMENT_WIDTH,
   },
   d2Box: {
     width: ELEMENT_WIDTH,
@@ -45,6 +43,11 @@ export default new StyleSheet.create({
     fontWeight: 400,
     fontSize: 24,
     lineHeight: 36,
+    textAlign: "center",
+  },
+  descriptionText: {
+    color: "#888888",
+    fontSize: 14,
     textAlign: "center",
   },
   suliHeader: {
