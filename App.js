@@ -22,7 +22,11 @@ const App = () => {
           <Stack.Screen name="Login" component={LoginPage} />
           <Stack.Screen name="Signup" component={SignUpPage} />
         </Stack.Group>
-        <Stack.Screen name="Details" component={Details} />
+        <Stack.Screen
+          name="Details"
+          component={Details}
+          options={{ headerShown: true }}
+        />
         <Stack.Group>
           <Stack.Screen name="ChooseLocation" component={LocationPage} />
           <Stack.Screen name="ChooseInterests" component={InterestsPage} />
