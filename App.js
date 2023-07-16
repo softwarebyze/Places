@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, Image, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Start from "./components/Start/Index";
-import Main from "./components/Main/Index";
 
 const Stack = createNativeStackNavigator();
 
@@ -16,7 +15,6 @@ export default function App() {
           screenOptions={{ headerShown: false }}
         >
           <Stack.Screen name="Start" component={Start} />
-          <Stack.Screen name="Main" component={Main} />
         </Stack.Navigator>
       </NavigationContainer>
       <StatusBar style="auto" />
