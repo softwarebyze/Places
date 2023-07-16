@@ -7,21 +7,14 @@ import STYLES from "../styles/Styles";
 import TERMS from "../../../settings/Terms";
 import { Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
 const terms = TERMS["English"];
 
 const InterestsPage = () => {
   const navigator = useNavigation();
   return (
-    <View>
-      <_Button
-        text={terms["0019"]}
-        action={() => navigator.goBack()}
-        color="primary1_100"
-        borderColor="primary1_100"
-        textColor="white_100"
-        style={STYLES.startButton}
-      />
-      <Text style={STYLES.welcomeText}>{terms["0021"]}</Text>
+    <SafeAreaView style={STYLES.page}>
+      <Text style={STYLES.descriptionText}>{terms["0023"]}</Text>
       <Text>{terms["0024"]}</Text>
       <Text>{terms["0025"]}</Text>
       <_Button
@@ -32,7 +25,7 @@ const InterestsPage = () => {
         textColor="white_100"
         style={STYLES.startButton}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
