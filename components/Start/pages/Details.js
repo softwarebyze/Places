@@ -23,7 +23,7 @@ const Details = () => {
         style={STYLES.signUpInput}
       />
       <_Input
-        labelText={"Date"}
+        labelText={"Date of Birth"}
         borderColor={"primary1_100"}
         style={STYLES.signUpInput}
       />
