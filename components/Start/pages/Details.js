@@ -33,7 +33,7 @@ const Details = () => {
         style={STYLES.signUpInput}
       />
       <_Input
-        labelText={"Confirm Passowrd"}
+        labelText={"Confirm Password"}
         borderColor={"primary1_100"}
         style={STYLES.signUpInput}
       />
