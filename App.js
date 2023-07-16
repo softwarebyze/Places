@@ -1,32 +1,36 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Start from "./components/Start/Index";
+import LoginPage from "./components/Start/pages/LoginPage";
+import StartPage from "./components/Start/pages/StartPage";
+import SignUpPage from "./components/Start/pages/SignUpPage";
+import LocationPage from "./components/Start/pages/LocationPage";
+import InterestsPage from "./components/Start/pages/InterestsPage";
+import HomePage from "./components/Start/pages/HomePage";
+import Details from "./components/Start/pages/Details";
 
 const Stack = createNativeStackNavigator();
 
-export default function App() {
+const App = () => {
   return (
-    <View style={styles.container}>
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="Start"
-          screenOptions={{ headerShown: false }}
-        >
-          <Stack.Screen name="Start" component={Start} />
-        </Stack.Navigator>
-      </NavigationContainer>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="Start"
+        screenOptions={{ headerShown: false }}
+      >
+        <Stack.Screen name="Start" component={StartPage} />
+        <Stack.Group screenOptions={{ presentation: "modal" }}>
+          <Stack.Screen name="Login" component={LoginPage} />
+          <Stack.Screen name="Signup" component={SignUpPage} />
+        </Stack.Group>
+        <Stack.Screen name="Details" component={Details} />
+        <Stack.Group>
+          <Stack.Screen name="ChooseLocation" component={LocationPage} />
+          <Stack.Screen name="ChooseInterests" component={InterestsPage} />
+        </Stack.Group>
+        <Stack.Screen name="Home" component={HomePage} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    // alignItems: 'center',
-    justifyContent: "center",
-  },
-});
+export default App;

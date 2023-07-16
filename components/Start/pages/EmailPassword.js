@@ -6,7 +6,7 @@ import _Header from "../elements/_Header";
 import _Divider from "../elements/_Divider";
 import STYLES from "../styles/Styles";
 import TERMS from "../../../settings/Terms";
-terms = TERMS["English"];
+const terms = TERMS["English"];
 import Continues from "./Continues";
 import Details from "./Details";
 
@@ -20,8 +20,7 @@ const validatePassword = (password) => {
   return password.length >= 6;
 };
 
-export default EmailPassword = (props) => {
-  const [subScreenState, setSubScreenState] = useState("Continues");
+const EmailPassword = () => {
   const [emailFocusState, setEmailFocusState] = useState(false);
   const [emailTextState, setEmailTextState] = useState("");
   const [passwordFocusState, setPasswordFocusState] = useState(false);
@@ -76,27 +75,11 @@ export default EmailPassword = (props) => {
               : "clear_000"
           }
         />
+        <Continues canContinue={emailIsValid && passwordIsValid} />
+        {/* <Details /> */}
       </View>
-      <_Navigator
-        screens={{
-          Continues: (
-            <Continues
-              setPageScreenState={(_) => props.setPageScreenState(_)}
-              setMainScreenState={(_) => props.setMainScreenState(_)}
-              setSubScreenState={(_) => setSubScreenState(_)}
-              canContinue={emailIsValid && passwordIsValid}
-            />
-          ),
-          Details: (
-            <Details
-              setPageScreenState={(_) => props.setPageScreenState(_)}
-              setMainScreenState={(_) => props.setMainScreenState(_)}
-              setSubScreenState={(_) => setSubScreenState(_)}
-            />
-          ),
-        }}
-        screen={subScreenState}
-      />
     </View>
   );
 };
+
+export default EmailPassword;

@@ -7,14 +7,16 @@ import _Divider from "../elements/_Divider";
 import STYLES from "../styles/Styles";
 import TERMS from "../../../settings/Terms";
 import { Text } from "react-native";
-terms = TERMS["English"];
+import { useNavigation } from "@react-navigation/native";
+const terms = TERMS["English"];
 
-export default LocationPage = (props) => {
+const LocationPage = (props) => {
+  const navigator = useNavigation();
   return (
     <View>
       <_Button
         text={terms["0019"]}
-        action={() => props.setPageScreenState("LocationPage")}
+        action={() => navigator.navigate("ChooseLocation")}
         color="primary1_100"
         borderColor="primary1_100"
         textColor="white_100"
@@ -46,7 +48,7 @@ export default LocationPage = (props) => {
 
       <_Button
         text={terms["0008"]}
-        action={() => props.setPageScreenState("InterestsPage")}
+        action={() => navigator.navigate("ChooseInterests")}
         color="just_blue"
         borderColor="primary1_030"
         textColor="white_100"
@@ -55,3 +57,4 @@ export default LocationPage = (props) => {
     </View>
   );
 };
+export default LocationPage;
