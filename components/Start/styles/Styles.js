@@ -90,7 +90,7 @@ export default new StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-evenly",
   },
-  inputLable: {
+  inputLabel: {
     color: COLORS.secondary_100,
     fontSize: 18,
     fontWeight: 400,
