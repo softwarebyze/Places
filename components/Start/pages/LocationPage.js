@@ -49,7 +49,7 @@ const LocationPage = (props) => {
       <_Button
         text={terms["0008"]}
         action={() => navigator.navigate("ChooseInterests")}
-        color="just_blue"
+        color="primary1_100"
         borderColor="primary1_030"
         textColor="white_100"
         underline={true}
