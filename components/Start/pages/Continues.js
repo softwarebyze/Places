@@ -14,7 +14,7 @@ export default Continues = (props) => {
     <View style={STYLES.suliContinues}>
       <_Button
         text={terms["0008"]}
-        action={() => navigator.navigate("Details")}
+        action={() => navigator.replace("Details")}
         color={props.canContinue ? "primary1_100" : "primary1_030"}
         borderColor={props.canContinue ? "primary1_100" : "primary1_030"}
         textColor="white_100"
