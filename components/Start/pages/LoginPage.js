@@ -1,6 +1,5 @@
 import { View } from "react-native";
 import _Header from "../elements/_Header";
-import _Navigator from "../elements/_Navigator";
 import STYLES from "../styles/Styles";
 import TERMS from "../../../settings/Terms";
 import EmailPassword from "./EmailPassword";

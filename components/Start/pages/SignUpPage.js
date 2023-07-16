@@ -1,6 +1,5 @@
 import { Text, View } from "react-native";
 import _Header from "../elements/_Header";
-import _Navigator from "../elements/_Navigator";
 import TERMS from "../../../settings/Terms";
 import EmailPassword from "./EmailPassword";
 import { useNavigation } from "@react-navigation/native";
