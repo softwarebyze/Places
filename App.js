@@ -7,6 +7,7 @@ import LocationPage from "./components/Start/pages/LocationPage";
 import InterestsPage from "./components/Start/pages/InterestsPage";
 import HomePage from "./components/Start/pages/HomePage";
 import Details from "./components/Start/elements/Details";
+import JoinPlacePage from "./components/Start/pages/JoinPlacePage";
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +44,11 @@ const App = () => {
           name="Home"
           component={HomePage}
           options={{ headerShown: true }}
+        />
+        <Stack.Screen
+          name="JoinPlace"
+          component={JoinPlacePage}
+          options={{ headerShown: true, headerTitle: "Join a Place" }}
         />
       </Stack.Navigator>
     </NavigationContainer>
