@@ -121,7 +121,7 @@ const App = () => {
             options={{ headerShown: true, headerTitle: "Interests" }}
           />
         </Stack.Group>
-        <Stack.Screen name="Home" component={HomeTabs} />
+        <Stack.Screen name="HomeTabs" component={HomeTabs} />
         <Stack.Group>
           <Stack.Screen
             name="JoinPlace"

@@ -9,7 +9,6 @@ const ProfilePage = () => {
   const navigator = useNavigation();
   return (
     <View style={STYLES.page}>
-      <Text>ProfilePage</Text>
       <_Button
         text={terms["0034"]}
         action={() => navigator.navigate("Start")}

@@ -18,7 +18,7 @@ const InterestsPage = () => {
       <Text>{terms["0025"]}</Text>
       <_Button
         text="Continue"
-        action={() => navigator.navigate("Home")}
+        action={() => navigator.navigate("HomeTabs")}
         color="primary1_100"
         borderColor="primary1_100"
         textColor="white_100"
