@@ -10,14 +10,22 @@ import Collapsible from "react-native-collapsible";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../../../settings/Colors";
+import { Feather } from "@expo/vector-icons";
 
 const DropdownItem = ({ label, onPress, icon }) => (
   <TouchableOpacity
-    style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+    style={{
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      backgroundColor: Colors.white_100,
+      borderBottomLeftRadius: 0,
+      borderBottomRightRadius: 0,
+    }}
     onPress={onPress}
   >
     <View style={{ margin: 16 }}>{icon}</View>
-    <Text>{label}</Text>
+    <Text style={{ fontSize: 14 }}>{label}</Text>
   </TouchableOpacity>
 );
 
@@ -60,7 +68,7 @@ const Dropdown = (props) => {
         )}
       </TouchableOpacity>
 
-      <Collapsible collapsed={isCollapsed}>
+      <Collapsible collapsed={isCollapsed} containerStyle={{ borderRadius: 0 }}>
         <DropdownItem
           icon={<Ionicons name="baseball-outline" size={24} color="red" />}
           label="Baseball / New York City"
@@ -72,11 +80,28 @@ const Dropdown = (props) => {
           onPress={() => console.log("Option 2 selected")}
         />
         {/* Add more dropdown items/components as needed */}
-        <Button
-          title={terms["0027"]}
+        <TouchableOpacity
           onPress={() => navigation.navigate("JoinPlace")}
-          color={COLORS.orange}
-        />
+          style={{
+            backgroundColor: Colors.white_100,
+            paddingHorizontal: 16,
+            paddingVertical: 12,
+          }}
+        >
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Ionicons name="add" size={24} color={Colors.orange} />
+            <Text
+              style={{
+                color: Colors.orange,
+                fontWeight: 600,
+                fontSize: 16,
+                paddingStart: 4,
+              }}
+            >
+              {terms["0026"]}
+            </Text>
+          </View>
+        </TouchableOpacity>
       </Collapsible>
     </View>
   );
