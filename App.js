@@ -26,15 +26,13 @@ const HomeTabs = () => (
   <Tab.Navigator
     screenOptions={{
       tabBarLabelStyle: {
-        fontSize: 16,
-        paddingBottom: 5,
-        color: Colors.orange,
+        fontSize: 12,
       },
       headerShown: true,
       tabBarStyle: {
-        marginBottom: Platform.OS === "ios" ? -15 : 0,
         backgroundColor: Colors.white_100,
         color: Colors.primary1_100,
+        paddingVertical: 8,
       },
       tabBarIconStyle: {
         tintColor: Colors.orange,
@@ -60,7 +58,11 @@ const HomeTabs = () => (
       component={NeighborsPage}
       options={{
         tabBarIcon: ({ color, size }) => (
-          <Foundation name="" size={size} color={color} />
+          <MaterialCommunityIcons
+            name="account-group-outline"
+            size={size}
+            color={color}
+          />
         ),
       }}
     />
@@ -69,7 +71,11 @@ const HomeTabs = () => (
       component={MapsPage}
       options={{
         tabBarIcon: ({ color, size }) => (
-          <Ionicons name="map-outline" size={size} color={color} />
+          <MaterialCommunityIcons
+            name="map-outline"
+            size={size}
+            color={color}
+          />
         ),
       }}
     />
