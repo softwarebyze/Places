@@ -38,6 +38,13 @@ export default new StyleSheet.create({
     lineHeight: 48,
     textAlign: "center",
   },
+  groupLabelText: {
+    alignSelf: "flex-start",
+    fontSize: 18,
+    color: "#000",
+    fontWeight: "600",
+    marginBottom: 16,
+  },
   sloganText: {
     fontStyle: "normal",
     fontWeight: 400,
@@ -134,5 +141,12 @@ export default new StyleSheet.create({
   },
   startButton: {
     marginBottom: 0.02 * HEIGHT,
+  },
+  blueDropdownHeader: {
+    backgroundColor: COLORS.primary1_100,
+    borderWidth: 0,
+  },
+  whiteText: {
+    color: COLORS.white_100,
   },
 });
