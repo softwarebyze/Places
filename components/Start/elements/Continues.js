@@ -23,7 +23,7 @@ export default Continues = (props) => {
       <_Divider text="or" color="gray1_100" />
       <_Button
         text={terms["0011"]}
-        action={() => navigator.replace("Details")}
+        action={() => navigator.replace("HomeTabs")}
         color="primary1_100"
         borderColor="primary1_100"
         textColor="white_100"
