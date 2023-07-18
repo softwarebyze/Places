@@ -11,6 +11,7 @@ const _Input = (props) => {
         onFocus={props.onFocus}
         onBlur={props.onBlur}
         onChangeText={props.onChangeText}
+        autoCapitalize="none"
         style={[
           STYLES.d2Box,
           {

@@ -11,6 +11,7 @@ import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../../../settings/Colors";
 import { Feather } from "@expo/vector-icons";
+import Stream from "../elements/Stream";
 
 const DropdownItem = ({ label, onPress, icon }) => (
   <TouchableOpacity
@@ -113,6 +114,7 @@ const HomePage = () => {
     <SafeAreaView style={[Styles.page, { backgroundColor: Colors.light_grey }]}>
       <Text style={Styles.groupLabelText}>Your Places</Text>
       <Dropdown heading={"New York City, NY"} />
+      <Stream />
     </SafeAreaView>
   );
 };
