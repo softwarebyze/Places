@@ -93,7 +93,7 @@ const Dropdown = (props) => {
             <Text
               style={{
                 color: Colors.orange,
-                fontWeight: 600,
+                fontWeight: "600",
                 fontSize: 16,
                 paddingStart: 4,
               }}
