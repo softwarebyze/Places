@@ -190,7 +190,7 @@ export default new StyleSheet.create({
       alignItems: 'center',
       flexWrap: 'wrap',
       height: '50%',
-      width: '35%',
+      width: '40%',
       margin: 20,
       paddingTop: 30,
       paddingLeft:40,
@@ -208,6 +208,52 @@ category: {
    fontWeight: 'bold',
    fontSize: 15
 
+},
+
+interestList:{
+   border: 1,
+   borderRadius: 15,
+   backgroundColor: 'white',
+   display: 'flex',
+   flexDirection: 'row',
+   alignItems: 'flex-start',
+   height: '11%',
+   width: '100%',
+   margin: 20,
+   paddingTop: 30,
+   paddingLeft:10,   
+   shadowColor: '#000',
+   shadowOffset: {
+         width: 0,
+         height: 8
+   },
+   shadowOpacity: 0.44,
+   shadowRadius:5.32
+
+},
+InterestPage:{
+   display: 'flex',
+   flexDirection:'column',
+   flexWrap: 'nowrap',
+
+},
+interestArrow:{
+   alignSelf:'flex-end'
+},
+interestPage:{
+   marginTop: 50
+},
+
+searchbar:{
+   backgroundColor: '#dcdcdc',
+   height: 25
+},
+interestGrid: {
+   backgroundColor: '#dcdcdc',
 }
+
+
+
+
    
 });
