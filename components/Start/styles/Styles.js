@@ -173,6 +173,9 @@ export default new StyleSheet.create({
    startButton: {
       marginBottom: 0.02*HEIGHT,
    },
+   categoryFullPage: {
+      marginTop: 40
+   },
    categoryPage: {
       display: 'flex',
       flexDirection:'row',
@@ -180,9 +183,7 @@ export default new StyleSheet.create({
 
    },
    categoryGrid:{
-      fontStyle: 'bold',
-      borderWidth: 1,
-      borderColor: 'red',
+      borderRadius: 15,
       backgroundColor: 'white',
       display: 'flex',
       flexDirection: 'column',
@@ -201,6 +202,12 @@ export default new StyleSheet.create({
       shadowOpacity: 0.44,
       shadowRadius: 10.32
 
-   }
+   },
+
+category: {
+   fontWeight: 'bold',
+   fontSize: 15
+
+}
    
 });
