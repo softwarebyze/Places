@@ -22,5 +22,4 @@ export const functions = getFunctions(app);
 // );
 onAuthStateChanged(auth, (user) => {
   console.log("onAuthStateChanged", user);
-  alert("onAuthStateChanged", user);
 });
