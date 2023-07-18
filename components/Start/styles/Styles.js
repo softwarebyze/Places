@@ -173,9 +173,33 @@ export default new StyleSheet.create({
    startButton: {
       marginBottom: 0.02*HEIGHT,
    },
-   categoryGrid:{
+   categoryPage: {
       display: 'flex',
-      flexDirection: 'column'
+      flexDirection:'row',
+      flexWrap: 'wrap',
+
+   },
+   categoryGrid:{
+      fontStyle: 'bold',
+      borderWidth: 1,
+      borderColor: 'red',
+      backgroundColor: 'white',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      flexWrap: 'wrap',
+      height: '50%',
+      width: '35%',
+      margin: 20,
+      paddingTop: 30,
+      paddingLeft:40,
+      shadowColor: '#000',
+      shadowOffset: {
+            width: 0,
+            height: 8
+      },
+      shadowOpacity: 0.44,
+      shadowRadius: 10.32
 
    }
    

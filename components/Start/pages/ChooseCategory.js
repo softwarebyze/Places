@@ -20,33 +20,30 @@ import STYLES from '../styles/Styles';
 // }
 
 export default ChooseCategory = props => {
-    <View styles = {STYLES.page}>
-           <Text>Categories</Text>
-                <View>
-                    <Text>Sports</Text>
-                    <Image source = {require("../../../assets/category_images/sports.png")}/>
-                    </View>
+    <View>
+    <Text>Categories</Text>
+    <View style = {STYLES.categoryPage}>
+         <View  style = {STYLES.categoryGrid} >
+             <Image source = {require("../../../assets/category_images/sports.png")}/>
+             <Text>Sports</Text>
+          </View>
 
-                
-               
-                <View>
-                    <Text>Buy/Sell</Text>
-                    <Image source = {require("../../../assets/category_images/buy_and_sell.png")}/>
+          <View  style = {STYLES.categoryGrid}>
+             <Image source = {require("../../../assets/category_images/buy_and_sell.png")}/>  
+             <Text>Buy/Sell</Text>
+          </View>
 
-                    
-                </View>
-                <View>
-                    <Text>Donations</Text>
-                    <Image source = {require("../../../assets/category_images/donations.png")}/>
+         <View  style = {STYLES.categoryGrid}>
+             <Image source = {require("../../../assets/category_images/donations.png")}/>
+             <Text>Donations</Text>
+           </View>
 
-                   
-                </View>
-                <View>
-                    <Text>Hobbies</Text>
-                    <Image source = {require("../../../assets/category_images/hobbies.png")}/>
-
-                   
-                </View>
-            
-    </View>
+         <View  style = {STYLES.categoryGrid}>
+             <Image source = {require("../../../assets/category_images/hobbies.png")}/>
+             <Text>Hobbies</Text>
+          </View>
+          
+         </View>
+     
+</View>
 }
