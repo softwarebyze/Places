@@ -156,13 +156,51 @@ export default new StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 10,
+  },
+  blackText: {
+    color: "black",
+  },
+  dropdownHeader: {
+    width: ELEMENT_WIDTH,
+    padding: 16,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 6,
     backgroundColor: COLORS.white_100,
-    gap: 6,
-    shadowColor: "black",
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.1,
-    width: "40%",
-    height: "35%",
+    color: COLORS.dark_grey,
+  },
+  blueBorder: {
+    borderWidth: 1,
+    borderColor: COLORS.primary1_100,
+  },
+  dropdownItem: {
+    width: ELEMENT_WIDTH,
+    padding: 16,
+  },
+  backgroundWhite: {
+    backgroundColor: COLORS.white_100,
+  },
+  dropdownMargin: {
+    marginVertical: 24,
+  },
+  tagNotSelected: {
+    backgroundColor: COLORS.white_100,
+    color: COLORS.dark_grey,
+    borderColor: COLORS.light_grey,
+  },
+  tagSelected: {
+    backgroundColor: COLORS.orange,
+    color: COLORS.white_100,
+    borderColor: COLORS.orange,
+  },
+  tagNotSelectedText: {
+    color: COLORS.dark_grey,
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  tagSelectedText: {
+    color: COLORS.white_100,
+    fontSize: 16,
+    fontWeight: "600",
   },
   categoryText: {
     fontWeight: "600",
