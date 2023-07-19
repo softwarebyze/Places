@@ -149,4 +149,29 @@ export default new StyleSheet.create({
   whiteText: {
     color: COLORS.white_100,
   },
+  blackText: {
+    color: "black",
+  },
+  dropdownHeader: {
+    width: ELEMENT_WIDTH,
+    padding: 16,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 6,
+    backgroundColor: COLORS.white_100,
+    color: COLORS.dark_grey,
+  },
+  blueBorder: {
+    borderWidth: 1,
+    borderColor: COLORS.primary1_100,
+  },
+  dropdownItem: {
+    width: ELEMENT_WIDTH,
+    padding: 16,
+  },
+  backgroundWhite: {
+    backgroundColor: COLORS.white_100,
+  },
+  dropdownMargin: {
+    marginVertical: 24,
+  },
 });
