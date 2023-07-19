@@ -156,6 +156,13 @@ export default new StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 10,
+    backgroundColor: COLORS.white_100,
+    gap: 6,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.1,
+    width: "48%",
+    height: "35%",
   },
   blackText: {
     color: "black",
@@ -204,6 +211,6 @@ export default new StyleSheet.create({
   },
   categoryText: {
     fontWeight: "600",
-    fontSize: 16,
+    fontSize: 20,
   },
 });
