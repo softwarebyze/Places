@@ -18,6 +18,7 @@ import Colors from "./settings/Colors";
 import { Foundation } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { getAuth } from "firebase/auth";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -96,7 +97,8 @@ const HomeTabs = () => (
 );
 
 const App = () => {
-  const [loggedIn] = useState(false);
+  const auth = getAuth();
+  const loggedIn = !!auth.currentUser;
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -105,11 +107,13 @@ const App = () => {
           headerTintColor: "rgba(28, 27, 31, 1)",
         }}
       >
-        <Stack.Screen name="Start" component={StartPage} />
-        <Stack.Group screenOptions={{ presentation: "modal" }}>
-          <Stack.Screen name="Login" component={LoginPage} />
-          <Stack.Screen name="Signup" component={SignUpPage} />
-        </Stack.Group>
+        {!loggedIn && <Stack.Screen name="Start" component={StartPage} />}
+        {!loggedIn && (
+          <Stack.Group screenOptions={{ presentation: "modal" }}>
+            <Stack.Screen name="Login" component={LoginPage} />
+            <Stack.Screen name="Signup" component={SignUpPage} />
+          </Stack.Group>
+        )}
         <Stack.Screen
           name="Details"
           component={Details}
