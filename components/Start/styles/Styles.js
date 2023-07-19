@@ -149,6 +149,14 @@ export default new StyleSheet.create({
   whiteText: {
     color: COLORS.white_100,
   },
+  categoryFullPage: {},
+  categoryPage: {},
+  categoryGrid: {},
+  category: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 10,
+  },
   blackText: {
     color: "black",
   },
@@ -193,5 +201,9 @@ export default new StyleSheet.create({
     color: COLORS.white_100,
     fontSize: 16,
     fontWeight: "600",
+  },
+  categoryText: {
+    fontWeight: "600",
+    fontSize: 16,
   },
 });
