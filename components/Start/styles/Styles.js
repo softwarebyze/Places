@@ -173,5 +173,24 @@ export default new StyleSheet.create({
   },
   dropdownMargin: {
     marginVertical: 24,
+  tagNotSelected: {
+    backgroundColor: COLORS.white_100,
+    color: COLORS.dark_grey,
+    borderColor: COLORS.light_grey,
+  },
+  tagSelected: {
+    backgroundColor: COLORS.orange,
+    color: COLORS.white_100,
+    borderColor: COLORS.orange,
+  },
+  tagNotSelectedText: {
+    color: COLORS.dark_grey,
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  tagSelectedText: {
+    color: COLORS.white_100,
+    fontSize: 16,
+    fontWeight: "600",
   },
 });
