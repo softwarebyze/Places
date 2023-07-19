@@ -25,7 +25,7 @@ const JoinPlacePage = () => {
         }}
       >
         <TouchableOpacity
-          action={() => navigator.navigate("Category")}
+          onPress={() => navigator.navigate("Category")}
           style={STYLES.category}
           color="primary1_100"
           borderColor="primary1_100"
@@ -37,7 +37,7 @@ const JoinPlacePage = () => {
           <Text style={STYLES.categoryText}>{terms["0029"]}</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          action={() => navigator.navigate("Category")}
+          onPress={() => navigator.navigate("Category")}
           style={STYLES.category}
           color="primary1_100"
           borderColor="primary1_100"
@@ -55,7 +55,7 @@ const JoinPlacePage = () => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          action={() => navigator.navigate("Category")}
+          onPress={() => navigator.navigate("Category")}
           style={STYLES.category}
           color="primary1_100"
           borderColor="primary1_100"
@@ -73,7 +73,7 @@ const JoinPlacePage = () => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          action={() => navigator.navigate("Category")}
+          onPress={() => navigator.navigate("Category")}
           style={STYLES.category}
           color="primary1_100"
           borderColor="primary1_100"
