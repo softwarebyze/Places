@@ -16,27 +16,9 @@ const LocationPage = () => {
   return (
     <SafeAreaView style={STYLES.page}>
       <Text style={STYLES.descriptionText}>{terms["0020"]}</Text>
-      <_Input
-        labelText={"Country"}
-        onFocus={() => setPasswordFocusState(true)}
-        onBlur={() => setPasswordFocusState(false)}
-        borderColor={"primary1_100"}
-        style={STYLES.signUpInput}
-      />
-      <_Input
-        labelText={"State / Province"}
-        onFocus={() => setPasswordFocusState(true)}
-        onBlur={() => setPasswordFocusState(false)}
-        borderColor={"primary1_100"}
-        style={STYLES.signUpInput}
-      />
-      <_Input
-        labelText={"City"}
-        onFocus={() => setPasswordFocusState(true)}
-        onBlur={() => setPasswordFocusState(false)}
-        borderColor={"primary1_100"}
-        style={STYLES.signUpInput}
-      />
+      <_Input labelText={"Country"} borderColor={"primary1_100"} />
+      <_Input labelText={"State / Province"} borderColor={"primary1_100"} />
+      <_Input labelText={"City"} borderColor={"primary1_100"} />
 
       <_Button
         text={terms["0008"]}
