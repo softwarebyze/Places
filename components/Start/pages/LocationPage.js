@@ -7,65 +7,47 @@ import _Divider from "../elements/_Divider";
 import STYLES from "../styles/Styles";
 import TERMS from "../../../settings/Terms";
 import { Text } from "react-native";
-terms = TERMS["English"];
+import { useNavigation } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Styles from "../styles/Styles";
+const terms = TERMS["English"];
 
-export default LocationPage = (props) => {
+const LocationPage = () => {
+  const navigator = useNavigation();
   return (
-    <View>
+    <SafeAreaView style={STYLES.page}>
+      <Text style={STYLES.descriptionText}>{terms["0020"]}</Text>
+      <_Input
+        labelText={"Country"}
+        onFocus={() => setPasswordFocusState(true)}
+        onBlur={() => setPasswordFocusState(false)}
+        borderColor={"primary1_100"}
+        style={STYLES.signUpInput}
+      />
+      <_Input
+        labelText={"State / Province"}
+        onFocus={() => setPasswordFocusState(true)}
+        onBlur={() => setPasswordFocusState(false)}
+        borderColor={"primary1_100"}
+        style={STYLES.signUpInput}
+      />
+      <_Input
+        labelText={"City"}
+        onFocus={() => setPasswordFocusState(true)}
+        onBlur={() => setPasswordFocusState(false)}
+        borderColor={"primary1_100"}
+        style={STYLES.signUpInput}
+      />
 
-<_Button
-          text={terms['0019']}
-          action={() => props.setPageScreenState('LocationPage')}
-          color='primary1_100'
-          borderColor='primary1_100'
-          textColor='white_100'
-          style={STYLES.startButton}
-        />
-       <Text
-          style={STYLES.welcomeText}
-        >
-          {terms['0018']}
-        </Text>
-        <Text
-          style={STYLES.sloganText}
-        >
-          {terms['0020']}
-        </Text>
-        <_Input
-            labelText={'Country'}
-            onFocus={() => setPasswordFocusState(true)}
-            onBlur={() => setPasswordFocusState(false)}
-            borderColor={'primary1_100'}
-            style={STYLES.signUpInput}
-         />
-<_Input
-            labelText={'State / Province'}
-            onFocus={() => setPasswordFocusState(true)}
-            onBlur={() => setPasswordFocusState(false)}
-            borderColor={'primary1_100'}
-            style={STYLES.signUpInput}
-         />
-         <_Input
-            labelText={'City'}
-            onFocus={() => setPasswordFocusState(true)}
-            onBlur={() => setPasswordFocusState(false)}
-            borderColor={'primary1_100'}
-            style={STYLES.signUpInput}
-         />
-
-<_Button
-        
-        text={terms['0008']}
-        action={() => props.setPageScreenState('InterestsPage')}
-        color='just_blue'
-        borderColor='primary1_030'
-        textColor='white_100'
-        underline={true}
-        
-        
-     />
-
-      
-    </View>
+      <_Button
+        text={terms["0008"]}
+        action={() => navigator.navigate("ChooseInterests")}
+        color="primary1_100"
+        borderColor="primary1_030"
+        textColor="white_100"
+        underline={false}
+      />
+    </SafeAreaView>
   );
 };
+export default LocationPage;

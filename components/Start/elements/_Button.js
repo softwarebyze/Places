@@ -1,8 +1,8 @@
-import { Pressable, Text } from 'react-native';
-import STYLES from '../styles/Styles';
-import COLORS from '../../../settings/Colors';
+import { Pressable, Text } from "react-native";
+import STYLES from "../styles/Styles";
+import COLORS from "../../../settings/Colors";
 
-export default _Button = props => {
+const _Button = (props) => {
   return (
     <Pressable
       onPress={props.action}
@@ -23,7 +23,7 @@ export default _Button = props => {
           STYLES.buttonText,
           {
             color: COLORS[props.textColor],
-            textDecorationLine: props.underline ? 'underline' : 'none',
+            textDecorationLine: props.underline ? "underline" : "none",
           },
         ]}
       >
@@ -32,3 +32,5 @@ export default _Button = props => {
     </Pressable>
   );
 };
+
+export default _Button;

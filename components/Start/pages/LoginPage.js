@@ -1,58 +1,159 @@
-import React, { useState } from 'react';
-import { Modal, View, TouchableWithoutFeedback } from 'react-native';
-import _Header from '../elements/_Header';
-import _Navigator from '../elements/_Navigator';
-import STYLES from '../styles/Styles';
-import TERMS from '../../../settings/Terms';
-import EmailPassword from './EmailPassword';  // make sure this handles sign-in
-import Google from './Google';  // make sure this handles sign-in
-import Facebook from './Facebook';  // make sure this handles sign-in
+import { Text, View } from "react-native";
+import _Header from "../elements/_Header";
+import STYLES from "../styles/Styles";
+import TERMS from "../../../settings/Terms";
+import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
+import _Button from "../elements/_Button";
+import _Input from "../elements/_Input";
+import _Divider from "../elements/_Divider";
 
-const terms = TERMS['English'];
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { StreamChat } from "stream-chat";
+import { getFunctions, httpsCallable } from "firebase/functions";
 
-export default LoginPage = props => {
-  const [mainScreenState, setMainScreenState] = useState('EmailPassword');
-  const [modalVisible, setModalVisible] = useState(true);
+const terms = TERMS["English"];
 
-  return (
-    <Modal
-      animationType="fade"
-      transparent={true}
-      visible={modalVisible}
-      onRequestClose={() => {
-        setModalVisible(!modalVisible);
-      }}
-    >
-      <View style={STYLES.page}>
-         
-        <TouchableWithoutFeedback onPress={() => props.setPageScreenState('StartPage')}>
-          <View style={STYLES.modalPadding} />
-        </TouchableWithoutFeedback>
-
-        <View style={STYLES.modalPadding}>
-          <_Header
-            text={terms['0016']}  // change this to "Login" or similar
-            action={() => props.setPageScreenState('StartPage')}
-          />
-          <_Navigator
-            screens={{
-              'EmailPassword': <EmailPassword
-                setPageScreenState={(_) => props.setPageScreenState(_)}
-                setMainScreenState={(_) => setMainScreenState(_)}
-              />,
-              'Google': <Google
-                setPageScreenState={(_) => props.setPageScreenState(_)}
-                setMainScreenState={(_) => setMainScreenState(_)}
-              />,
-              'Facebook': <Facebook
-                setPageScreenState={(_) => props.setPageScreenState(_)}
-                setMainScreenState={(_) => setMainScreenState(_)}
-              />,
-            }}
-            screen={mainScreenState}
-          />
-        </View>
-      </View>
-    </Modal>
+const validateEmail = (email) => {
+  return email.match(
+    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
   );
 };
+
+const validatePassword = (password) => {
+  return password.length >= 6;
+};
+
+// const { EXPO_PUBLIC_STREAM_API_KEY } = process.env;
+// const client = StreamChat.getInstance(EXPO_PUBLIC_STREAM_API_KEY);
+
+const signIn = async (email, password) => {
+  const auth = getAuth();
+  console.log({ auth });
+  const res = await signInWithEmailAndPassword(auth, email, password);
+  console.log("res", res);
+  console.log("auth.currentUser", auth.currentUser);
+
+  const userId = auth.currentUser.uid;
+  console.log("auth.currentUser.uid", userId);
+  // try {
+  //   const functions = getFunctions();
+  //   const getStreamUserToken = httpsCallable(
+  //     functions,
+  //     "ext-auth-chat-getStreamUserToken",
+  //   );
+  //   const data = await getStreamUserToken({ userId });
+  //   console.log(data);
+  // } catch (error) {
+  //   console.log("getStreamUserToken error: ", error);
+  // }
+
+  // const { token } = data;
+  // console.log(token);
+
+  // client.connectUser({ id: userId, name: "Zack" }, token);
+};
+
+const LoginPage = () => {
+  const navigator = useNavigation();
+  const [emailFocusState, setEmailFocusState] = useState(false);
+  const [emailTextState, setEmailTextState] = useState("");
+  const [passwordFocusState, setPasswordFocusState] = useState(false);
+  const [passwordTextState, setPasswordTextState] = useState("");
+
+  const emailIsValid = validateEmail(emailTextState);
+  const passwordIsValid = validatePassword(passwordTextState);
+  const canContinue = emailIsValid && passwordIsValid;
+
+  return (
+    <View style={STYLES.page}>
+      <_Header
+        text={terms["0016"]}
+        action={() => navigator.navigate("Start")}
+      />
+      <_Input
+        labelText={terms["0006"]}
+        subtextText={terms["0014"]}
+        onFocus={() => setEmailFocusState(true)}
+        onBlur={() => setEmailFocusState(false)}
+        onChangeText={(input) => setEmailTextState(input)}
+        borderColor={
+          emailTextState && !emailIsValid
+            ? "error_080"
+            : emailFocusState
+            ? "primary1_100"
+            : "primary1_030"
+        }
+        subtextColor={
+          emailTextState && !emailIsValid
+            ? "error_080"
+            : emailFocusState
+            ? "clear_000"
+            : "clear_000"
+        }
+      />
+      <_Input
+        secureTextEntry={true}
+        labelText={terms["0007"]}
+        subtextText={terms["0015"]}
+        onFocus={() => setPasswordFocusState(true)}
+        onBlur={() => setPasswordFocusState(false)}
+        onChangeText={(input) => setPasswordTextState(input)}
+        borderColor={
+          passwordTextState && !passwordIsValid
+            ? "error_100"
+            : passwordFocusState
+            ? "primary1_100"
+            : "primary1_030"
+        }
+        subtextColor={
+          emailTextState && !passwordIsValid
+            ? "primary1_030"
+            : passwordFocusState
+            ? "primary1_030"
+            : "clear_000"
+        }
+      />
+      <_Button
+        text={terms["0008"]}
+        action={async () => {
+          await signIn(emailTextState, passwordTextState);
+          navigator.replace("Details");
+        }}
+        color={canContinue ? "primary1_100" : "primary1_030"}
+        borderColor={canContinue ? "primary1_100" : "primary1_030"}
+        textColor="white_100"
+        disabled={!canContinue}
+      />
+      <_Divider text="or" color="gray1_100" />
+      <_Button
+        text={terms["0011"]}
+        action={async () => {
+          navigator.replace("HomeTabs");
+        }}
+        color="primary1_100"
+        borderColor="primary1_100"
+        textColor="white_100"
+        style={{ marginBottom: 20 }}
+      />
+      <_Button
+        text={terms["0012"]}
+        action={() => navigator.replace("Details")}
+        color="white_100"
+        borderColor="primary1_100"
+        textColor="primary1_100"
+      />
+      <_Button
+        text={terms["0013"]}
+        action={() => navigator.replace("Signup")}
+        color="white_100"
+        borderColor="white_100"
+        textColor="primary1_100"
+        underline={true}
+      />
+      <Text>{JSON.stringify({ emailTextState, passwordTextState })}</Text>
+    </View>
+  );
+};
+
+export default LoginPage;

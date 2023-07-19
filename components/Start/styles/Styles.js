@@ -1,12 +1,15 @@
-import { StyleSheet } from 'react-native';
-import { WIDTH, HEIGHT, LOGOWIDTH, LOGOHEIGHT } from '../../../settings/Dimensions'; 
-import COLORS from '../../../settings/Colors';
+import { StyleSheet } from "react-native";
+import {
+  WIDTH,
+  HEIGHT,
+  LOGOWIDTH,
+  LOGOHEIGHT,
+} from "../../../settings/Dimensions";
+import COLORS from "../../../settings/Colors";
 
-const ELEMENT_WIDTH = 0.87*WIDTH;
-const ELEMENT_HEIGHT = 0.071*HEIGHT;
-const SULI_SPACER_HEIGHT = 0.1*HEIGHT;
-const SULI_HEADER_HEIGHT = 0.06*HEIGHT;
-const SULI_INPUTS_HEIGHT = 0.3*HEIGHT;
+const ELEMENT_WIDTH = 0.87 * WIDTH;
+const ELEMENT_HEIGHT = 0.071 * HEIGHT;
+const SULI_HEADER_HEIGHT = 0.06 * HEIGHT;
 
 export default new StyleSheet.create({
    spaceEvenly: {
@@ -257,3 +260,4 @@ interestGrid: {
 
    
 });
+}
