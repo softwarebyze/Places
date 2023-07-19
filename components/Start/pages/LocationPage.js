@@ -9,7 +9,6 @@ import TERMS from "../../../settings/Terms";
 import { Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Styles from "../styles/Styles";
 const terms = TERMS["English"];
 
 const LocationPage = () => {
