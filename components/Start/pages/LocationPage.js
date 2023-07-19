@@ -18,6 +18,8 @@ const LocationPage = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [location, setLocation] = useState("");
 
+  const disabled = location.length === 0;
+
   const toggleDropdown = () => {
     setIsCollapsed(!isCollapsed);
   };
@@ -74,10 +76,11 @@ const LocationPage = () => {
       <_Button
         text={terms["0008"]}
         action={() => navigator.navigate("ChooseInterests")}
-        color="primary1_100"
-        borderColor="primary1_030"
+        color={disabled ? "primary1_030" : "primary1_100"}
+        borderColor={disabled ? "light_grey" : "primary1_100"}
         textColor="white_100"
         underline={false}
+        disabled={disabled}
       />
     </SafeAreaView>
   );
