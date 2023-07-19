@@ -42,19 +42,18 @@ const terms = TERMS["English"];
 
 const Details = () => {
   const [date, setDate] = useState(new Date(1598051730000));
+  const [mode, setMode] = useState("date");
+  const [show, setShow] = useState(false);
 
   const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate;
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === "ios");
     setDate(currentDate);
   };
 
   const showMode = (currentMode) => {
-    DateTimePickerAndroid.open({
-      value: date,
-      onChange,
-      mode: currentMode,
-      is24Hour: true,
-    });
+    setShow(true);
+    setMode(currentMode);
   };
 
   const showDatepicker = () => {
@@ -64,6 +63,7 @@ const Details = () => {
   const showTimepicker = () => {
     showMode("time");
   };
+
   const navigator = useNavigation();
   const [gender, setGender] = useState("Unknown");
 
@@ -137,11 +137,23 @@ const Details = () => {
         <Picker.Item label="Not Willing" value="NA" />
       </Picker>
 
-      <SafeAreaView>
+      <View>
         <_Button onPress={showDatepicker} title="Show date picker!" />
+      </View>
+      <View>
         <_Button onPress={showTimepicker} title="Show time picker!" />
-        <Text>selected: {date.toLocaleString()}</Text>
-      </SafeAreaView>
+      </View>
+      {show && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          timeZoneOffsetInMinutes={0}
+          value={date}
+          mode={mode}
+          is24Hour={true}
+          display="default"
+          onChange={onChange}
+        />
+      )}
 
       {/* <_Input
         labelText={"Date of Birth"}
