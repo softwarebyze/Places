@@ -26,7 +26,7 @@ const StartPage = (props) => {
         />
         <_Button
           text={terms["0004"]}
-          action={() => navigator.navigate("ChooseInterests")}
+          action={() => navigator.navigate("JoinPlace")}
           buttonColor="white_100"
           buttonBorderColor="black_100"
           textColor="primary1_100"

@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { TouchableOpacity, Image, View } from "react-native";
 import _Button from "../elements/_Button";
 import _Input from "../elements/_Input";
 import _Header from "../elements/_Header";
@@ -8,42 +8,89 @@ import TERMS from "../../../settings/Terms";
 import { Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Colors from "../../../settings/Colors";
 const terms = TERMS["English"];
 
 const JoinPlacePage = () => {
   const navigator = useNavigation();
   return (
-    <SafeAreaView style={STYLES.page}>
-      <Text style={STYLES.sloganText}>{terms["0028"]}</Text>
-
-      <_Button
-        text={terms["0029"]}
-        action={() => navigator.navigate("Category")}
-        color="primary1_100"
-        borderColor="primary1_100"
-        textColor="white_100"
-      />
-      <_Button
-        text={terms["0030"]}
-        action={() => navigator.navigate("Category")}
-        color="primary1_100"
-        borderColor="primary1_100"
-        textColor="white_100"
-      />
-      <_Button
-        text={terms["0031"]}
-        action={() => navigator.navigate("Category")}
-        color="primary1_100"
-        borderColor="primary1_100"
-        textColor="white_100"
-      />
-      <_Button
-        text={terms["0032"]}
-        action={() => navigator.navigate("Category")}
-        color="primary1_100"
-        borderColor="primary1_100"
-        textColor="white_100"
-      />
+    <SafeAreaView style={[STYLES.page, { backgroundColor: Colors.light_grey }]}>
+      <Text style={STYLES.groupLabelText}>{terms["0028"]}</Text>
+      <View
+        style={{
+          flexDirection: "row",
+          flexWrap: "wrap",
+          gap: 12,
+          justifyContent: "space-around",
+        }}
+      >
+        <TouchableOpacity
+          action={() => navigator.navigate("Category")}
+          style={STYLES.category}
+          color="primary1_100"
+          borderColor="primary1_100"
+          textColor="white_100"
+        >
+          <Image
+            source={require("../../../assets/category_images/sports.png")}
+          />
+          <Text style={STYLES.categoryText}>{terms["0029"]}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          action={() => navigator.navigate("Category")}
+          style={STYLES.category}
+          color="primary1_100"
+          borderColor="primary1_100"
+          textColor="white_100"
+        >
+          <Image
+            source={require("../../../assets/category_images/buy_and_sell.png")}
+          />
+          <Text
+            numberOfLines={1}
+            ellipsizeMode="clip"
+            style={STYLES.categoryText}
+          >
+            {terms["0030"]}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          action={() => navigator.navigate("Category")}
+          style={STYLES.category}
+          color="primary1_100"
+          borderColor="primary1_100"
+          textColor="white_100"
+        >
+          <Image
+            source={require("../../../assets/category_images/donations.png")}
+          />
+          <Text
+            numberOfLines={1}
+            ellipsizeMode="clip"
+            style={STYLES.categoryText}
+          >
+            {terms["0031"]}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          action={() => navigator.navigate("Category")}
+          style={STYLES.category}
+          color="primary1_100"
+          borderColor="primary1_100"
+          textColor="white_100"
+        >
+          <Image
+            source={require("../../../assets/category_images/hobbies.png")}
+          />
+          <Text
+            numberOfLines={1}
+            ellipsizeMode="clip"
+            style={STYLES.categoryText}
+          >
+            {terms["0032"]}
+          </Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
