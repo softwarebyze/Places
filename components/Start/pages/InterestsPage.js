@@ -51,7 +51,6 @@ const InterestsPage = () => {
   const navigator = useNavigation();
   const REQUIRED_INTERESTS = 5;
   const [interests, setInterests] = useState([]);
-  console.log(interests);
 
   const disabled = interests.length < REQUIRED_INTERESTS;
 
