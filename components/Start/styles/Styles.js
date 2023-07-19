@@ -173,6 +173,7 @@ export default new StyleSheet.create({
   },
   dropdownMargin: {
     marginVertical: 24,
+  },
   tagNotSelected: {
     backgroundColor: COLORS.white_100,
     color: COLORS.dark_grey,
