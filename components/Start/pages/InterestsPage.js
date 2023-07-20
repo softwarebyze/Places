@@ -51,7 +51,6 @@ const InterestsPage = () => {
   const navigator = useNavigation();
   const REQUIRED_INTERESTS = 5;
   const [interests, setInterests] = useState([]);
-  console.log(interests);
 
   const disabled = interests.length < REQUIRED_INTERESTS;
 
@@ -135,7 +134,7 @@ const InterestsPage = () => {
         text="Continue"
         action={() => navigator.navigate("HomeTabs")}
         color={disabled ? "primary1_030" : "primary1_100"}
-        borderColor="primary1_100"
+        borderColor={disabled ? "light_grey" : "primary1_100"}
         textColor="white_100"
         style={STYLES.startButton}
         disabled={disabled}
