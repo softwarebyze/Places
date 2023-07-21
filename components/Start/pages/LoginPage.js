@@ -9,8 +9,8 @@ import _Input from "../elements/_Input";
 import _Divider from "../elements/_Divider";
 
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { StreamChat } from "stream-chat";
-import { getFunctions, httpsCallable } from "firebase/functions";
+// import { StreamChat } from "stream-chat";
+// import { getFunctions, httpsCallable } from "firebase/functions";
 
 const terms = TERMS["English"];
 
@@ -27,21 +27,43 @@ const validatePassword = (password) => {
 // const { EXPO_PUBLIC_STREAM_API_KEY } = process.env;
 // const client = StreamChat.getInstance(EXPO_PUBLIC_STREAM_API_KEY);
 
+// const fetchStreamToken = async (userId) => {
+//   try {
+//     const response = await fetch(
+//       `https://us-east1-places-e6047.cloudfunctions.net/ext-auth-chat-getStreamUserToken?userId=${userId}`,
+//       {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json", // Set the Content-Type header to indicate JSON data
+//         },
+//         body: JSON.stringify({ userId }), // Send the user ID as JSON data in the request body
+//       },
+//     );
+
+//     if (!response.ok) {
+//       // Handle the error if the response is not ok
+//       console.error("Error fetching Stream token");
+//       return;
+//     }
+
+//     const data = await response.json();
+//     console.log({ data });
+//   } catch (error) {
+//     console.error("Error fetching Stream token:", error);
+//   }
+// };
+
 const signIn = async (email, password) => {
   const auth = getAuth();
   console.log({ auth });
-  const res = await signInWithEmailAndPassword(auth, email, password);
-  console.log("res", res);
+  await signInWithEmailAndPassword(auth, email, password);
   console.log("auth.currentUser", auth.currentUser);
 
   const userId = auth.currentUser.uid;
   console.log("auth.currentUser.uid", userId);
   // try {
   //   const functions = getFunctions();
-  //   const getStreamUserToken = httpsCallable(
-  //     functions,
-  //     "ext-auth-chat-getStreamUserToken",
-  //   );
+  //   const getStreamUserToken = httpsCallable(functions, "getStreamUserToken");
   //   const data = await getStreamUserToken({ userId });
   //   console.log(data);
   // } catch (error) {
@@ -50,8 +72,8 @@ const signIn = async (email, password) => {
 
   // const { token } = data;
   // console.log(token);
-
-  // client.connectUser({ id: userId, name: "Zack" }, token);
+  // fetchStreamToken(userId);
+  // client.connectUser({ id: userId }, token);
 };
 
 const LoginPage = () => {
