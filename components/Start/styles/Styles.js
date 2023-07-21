@@ -34,7 +34,7 @@ export default new StyleSheet.create({
   welcomeText: {
     fontStyle: "normal",
     fontSize: 32,
-    fontWeight: 600,
+    fontWeight: "600",
     lineHeight: 48,
     textAlign: "center",
   },
@@ -47,7 +47,7 @@ export default new StyleSheet.create({
   },
   sloganText: {
     fontStyle: "normal",
-    fontWeight: 400,
+    fontWeight: "400",
     fontSize: 24,
     lineHeight: 36,
     textAlign: "center",
@@ -73,13 +73,13 @@ export default new StyleSheet.create({
   suliHeaderText: {
     color: COLORS.secondary_100,
     fontSize: 24,
-    fontWeight: 700,
+    fontWeight: "700",
     lineHeight: 28.8,
   },
   temp_suliX: {
     color: COLORS.secondary_100,
     fontSize: 24,
-    fontWeight: 200,
+    fontWeight: "200",
     lineHeight: 28.8,
   },
   suliMain: {
@@ -103,13 +103,13 @@ export default new StyleSheet.create({
   inputLabel: {
     color: COLORS.secondary_100,
     fontSize: 18,
-    fontWeight: 400,
+    fontWeight: "400",
     lineHeight: 21.6,
     alignItems: "flex-start",
   },
   inputSubtext: {
     fontSize: 9,
-    fontWeight: 400,
+    fontWeight: "400",
     lineHeight: 10.8,
   },
   button: {
@@ -120,7 +120,7 @@ export default new StyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
-    fontWeight: 400,
+    fontWeight: "400",
   },
   divider: {
     width: ELEMENT_WIDTH,
@@ -131,7 +131,7 @@ export default new StyleSheet.create({
   dividerText: {
     fontStyle: "normal",
     fontSize: 18,
-    fontWeight: 400,
+    fontWeight: "400",
     lineHeight: 22,
     paddingHorizontal: 5,
   },
@@ -148,5 +148,69 @@ export default new StyleSheet.create({
   },
   whiteText: {
     color: COLORS.white_100,
+  },
+  categoryFullPage: {},
+  categoryPage: {},
+  categoryGrid: {},
+  category: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 10,
+    backgroundColor: COLORS.white_100,
+    gap: 6,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.1,
+    width: "48%",
+    height: "35%",
+  },
+  blackText: {
+    color: "black",
+  },
+  dropdownHeader: {
+    width: ELEMENT_WIDTH,
+    padding: 16,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 6,
+    backgroundColor: COLORS.white_100,
+    color: COLORS.dark_grey,
+  },
+  blueBorder: {
+    borderWidth: 1,
+    borderColor: COLORS.primary1_100,
+  },
+  dropdownItem: {
+    width: ELEMENT_WIDTH,
+    padding: 16,
+  },
+  backgroundWhite: {
+    backgroundColor: COLORS.white_100,
+  },
+  dropdownMargin: {
+    marginVertical: 24,
+  },
+  tagNotSelected: {
+    backgroundColor: COLORS.white_100,
+    color: COLORS.dark_grey,
+    borderColor: COLORS.light_grey,
+  },
+  tagSelected: {
+    backgroundColor: COLORS.orange,
+    color: COLORS.white_100,
+    borderColor: COLORS.orange,
+  },
+  tagNotSelectedText: {
+    color: COLORS.dark_grey,
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  tagSelectedText: {
+    color: COLORS.white_100,
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  categoryText: {
+    fontWeight: "600",
+    fontSize: 20,
   },
 });
