@@ -12,6 +12,7 @@ import CategoryPage from "./components/Start/pages/CategoryPage";
 import NeighborsPage from "./components/Start/pages/NeighborsPage";
 import MapsPage from "./components/Start/pages/MapsPage";
 import ProfilePage from "./components/Start/pages/ProfilePage";
+import Facebook from "./components/Start/pages/Facebook";
 import { useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Colors from "./settings/Colors";
@@ -109,6 +110,7 @@ const App = () => {
         <Stack.Group screenOptions={{ presentation: "modal" }}>
           <Stack.Screen name="Login" component={LoginPage} />
           <Stack.Screen name="Signup" component={SignUpPage} />
+          <Stack.Screen name="Facebook" component={Facebook} />
         </Stack.Group>
         <Stack.Screen
           name="Details"
