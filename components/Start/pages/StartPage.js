@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import _Button from "../elements/_Button";
-import _Logo from "../elements/_Logo";
+// import _Logo from "../elements/_Logo";
 import STYLES from "../styles/Styles";
 import TERMS from "../../../settings/Terms";
 import { useNavigation } from "@react-navigation/native";
@@ -10,7 +10,7 @@ const StartPage = (props) => {
   const navigator = useNavigation();
   return (
     <View style={[STYLES.page, STYLES.spaceEvenly]}>
-      <_Logo style={[STYLES.fullLogo, STYLES.startFullLogo]} />
+      {/* <_Logo style={[STYLES.fullLogo, STYLES.startFullLogo]} /> */}
       <View>
         <Text style={STYLES.welcomeText}>{terms["0001"]}</Text>
         <Text style={STYLES.sloganText}>{terms["0002"]}</Text>
