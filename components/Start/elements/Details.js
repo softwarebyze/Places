@@ -56,7 +56,7 @@ const Details = () => {
   const toggleDropdown = () => {
     setIsCollapsed(!isCollapsed);
   };
-
+  const [collapsed, setCollapsed] = useState(true);
   const navigator = useNavigation();
   const phoneRef = useRef();
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -93,12 +93,9 @@ const Details = () => {
           />
         </View>
       </View>
-      <Collapsible collapsed={isCollapsed}>
-        <SomeCollapsedView />
-      </Collapsible>
-      //GENDER PICKER GOES HERE!!!!!
+
       <View style={STYLES.signUpInput}>
-        <Text style={[STYLES.d1Box, STYLES.inputLabel]}>{"Phone Number"}</Text>
+        <Text style={[STYLES.d1Box, STYLES.inputLabel]}>{"Gender"}</Text>
         <View
           style={[
             STYLES.d2Box,
@@ -111,11 +108,46 @@ const Details = () => {
             },
           ]}
         >
-          <PhoneInput
-            initialCountry={"us"}
-            ref={phoneRef}
-            onChangePhoneNumber={setPhoneNumber}
-          />
+          <Collapsible
+            collapsed={isCollapsed}
+            containerStyle={{ borderRadius: 0 }}
+          >
+            <DropdownItem
+              icon={<Ionicons name="baseball-outline" size={24} color="red" />}
+              label="Baseball / New York City"
+              onPress={() => console.log("Option 1 selected")}
+            />
+            <DropdownItem
+              icon={
+                <Ionicons name="american-football" size={24} color="brown" />
+              }
+              label="American Football / New York City"
+              onPress={() => console.log("Option 2 selected")}
+            />
+            {/* Add more dropdown items/components as needed */}
+            <TouchableOpacity
+              onPress={() => navigation.navigate("JoinPlace")}
+              style={{
+                backgroundColor: Colors.white_100,
+                paddingHorizontal: 16,
+                paddingVertical: 12,
+              }}
+            >
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Ionicons name="add" size={24} color={Colors.orange} />
+                <Text
+                  style={{
+                    color: Colors.orange,
+                    fontWeight: "600",
+                    fontSize: 16,
+                    paddingStart: 4,
+                  }}
+                >
+                  {terms["0026"]}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </Collapsible>
         </View>
       </View>
       <View style={STYLES.signUpInput}>
