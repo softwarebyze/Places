@@ -213,4 +213,34 @@ export default new StyleSheet.create({
     fontWeight: "600",
     fontSize: 20,
   },
+  catPageGrid: {
+    flexDirection: "row",
+    width: "95%",
+    height: "9%",
+    borderRadius: 10,
+    backgroundColor: "white",
+    alignContent: "center",
+    justifyContent: "space-between",
+    marginTop: 10,
+  },
+  catPageInfo: {
+    flexDirection: "row",
+    alignSelf: "center",
+    marginLeft: 9,
+  },
+  catPageMemberInfo: {
+    marginLeft: 15,
+  },
+  catPageLocationText: {
+    fontWeight: "bold",
+    fontSize: 14,
+  },
+  catPageMembersText: {
+    fontSize: 13,
+    color: "gray",
+  },
+  catPageArrow: {
+    alignSelf: "center",
+    marginRight: 15,
+  },
 });

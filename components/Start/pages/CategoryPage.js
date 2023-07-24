@@ -6,70 +6,161 @@ import Colors from "../../../settings/Colors";
 const CategoryPage = () => {
   return (
     <SafeAreaView style={[STYLES.page, { backgroundColor: Colors.light_grey }]}>
-      <View
-        style={{
-          flexDirection: "row",
-          width: "90%",
-          height: "9%",
-          borderWidth: 1,
-          borderRadius: 10,
-          backgroundColor: "white",
-          alignContent: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <View
-          style={{ flexDirection: "row", alignSelf: "center", marginLeft: 10 }}
-        >
+      <View style={STYLES.catPageGrid}>
+        <View style={STYLES.catPageInfo}>
           <Image
             source={require("../../../assets/interest_images/football.png")}
           />
-          <View style={{ marginLeft: 15 }}>
-            <Text>American Football/New York City</Text>
-            <Text>15 members</Text>
+          <View style={STYLES.catPageMemberInfo}>
+            <Text style={STYLES.catPageLocationText}>
+              American Football/New York City
+            </Text>
+            <Text style={STYLES.catPageMembersText}>15 members</Text>
           </View>
         </View>
-        <View style={{ alignSelf: "center" }}>
+        <View style={STYLES.catPageArrow}>
           <Image
             source={require("../../../assets/interest_images/arrow.png")}
           />
         </View>
       </View>
-      <View>
-        {/* <Image source = {require("../../../assets/interest_images/baseball.png")}/> */}
-        <Text>Baseball/New York City</Text>
-        <Image source={require("../../../assets/interest_images/arrow.png")} />
+      <View style={STYLES.catPageGrid}>
+        <View style={STYLES.catPageInfo}>
+          <Image
+            source={require("../../../assets/interest_images/baseball.png")}
+          />
+          <View style={STYLES.catPageMemberInfo}>
+            <Text style={STYLES.catPageLocationText}>
+              Baseball/New York City
+            </Text>
+            <Text style={STYLES.catPageMembersText}>15 members</Text>
+          </View>
+        </View>
+        <View style={STYLES.catPageArrow}>
+          <Image
+            source={require("../../../assets/interest_images/arrow.png")}
+          />
+        </View>
       </View>
-      <View>
-        <Image
-          source={require("../../../assets/interest_images/basketball.png")}
-        />
-        <Text>Basketball/New York City</Text>
-        <Image source={require("../../../assets/interest_images/arrow.png")} />
+      <View style={STYLES.catPageGrid}>
+        <View style={STYLES.catPageInfo}>
+          <Image
+            source={require("../../../assets/interest_images/basketball.png")}
+          />
+          <View style={STYLES.catPageMemberInfo}>
+            <Text style={STYLES.catPageLocationText}>
+              Basketball/New York City
+            </Text>
+            <Text style={STYLES.catPageMembersText}>15 members</Text>
+          </View>
+        </View>
+        <View style={STYLES.catPageArrow}>
+          <Image
+            source={require("../../../assets/interest_images/arrow.png")}
+          />
+        </View>
       </View>
-      <View>
-        <Image source={require("../../../assets/interest_images/boxing.png")} />
-        <Text>Boxing/New York City</Text>
-        <Image source={require("../../../assets/interest_images/arrow.png")} />
+      <View style={STYLES.catPageGrid}>
+        <View style={STYLES.catPageInfo}>
+          <Image
+            source={require("../../../assets/interest_images/boxing.png")}
+          />
+          <View style={STYLES.catPageMemberInfo}>
+            <Text style={STYLES.catPageLocationText}>Boxing/New York City</Text>
+            <Text style={STYLES.catPageMembersText}>15 members</Text>
+          </View>
+        </View>
+        <View style={STYLES.catPageArrow}>
+          <Image
+            source={require("../../../assets/interest_images/arrow.png")}
+          />
+        </View>
       </View>
-      <View>
-        <Image
-          source={require("../../../assets/interest_images/climbing.png")}
-        />
-        <Text>Climbing/New York City</Text>
-        <Image source={require("../../../assets/interest_images/arrow.png")} />
+      <View style={STYLES.catPageGrid}>
+        <View style={STYLES.catPageInfo}>
+          <Image
+            source={require("../../../assets/interest_images/climbing.png")}
+          />
+          <View style={STYLES.catPageMemberInfo}>
+            <Text style={STYLES.catPageLocationText}>
+              Climbing/New York City
+            </Text>
+            <Text style={STYLES.catPageMembersText}>15 members</Text>
+          </View>
+        </View>
+        <View style={STYLES.catPageArrow}>
+          <Image
+            source={require("../../../assets/interest_images/arrow.png")}
+          />
+        </View>
       </View>
-      <View>
-        <Image
-          source={require("../../../assets/interest_images/cycling.png")}
-        />
-        <Text>Cycling/New York City</Text>
-        <Image source={require("../../../assets/interest_images/arrow.png")} />
+      <View style={STYLES.catPageGrid}>
+        <View style={STYLES.catPageInfo}>
+          <Image
+            source={require("../../../assets/interest_images/cycling.png")}
+          />
+          <View style={STYLES.catPageMemberInfo}>
+            <Text style={STYLES.catPageLocationText}>
+              Cycling/New York City
+            </Text>
+            <Text style={STYLES.catPageMembersText}>15 members</Text>
+          </View>
+        </View>
+        <View style={STYLES.catPageArrow}>
+          <Image
+            source={require("../../../assets/interest_images/arrow.png")}
+          />
+        </View>
       </View>
-      <View>
-        <Image source={require("../../../assets/interest_images/golf.png")} />
-        <Text>Golf/New York City</Text>
-        <Image source={require("../../../assets/interest_images/arrow.png")} />
+      <View style={STYLES.catPageGrid}>
+        <View style={STYLES.catPageInfo}>
+          <Image source={require("../../../assets/interest_images/golf.png")} />
+          <View style={STYLES.catPageMemberInfo}>
+            <Text style={STYLES.catPageLocationText}>Golf/New York City</Text>
+            <Text style={STYLES.catPageMembersText}>15 members</Text>
+          </View>
+        </View>
+        <View style={STYLES.catPageArrow}>
+          <Image
+            source={require("../../../assets/interest_images/arrow.png")}
+          />
+        </View>
+      </View>
+      <View style={STYLES.catPageGrid}>
+        <View style={STYLES.catPageInfo}>
+          <Image
+            source={require("../../../assets/interest_images/gymnastics.png")}
+          />
+          <View style={STYLES.catPageMemberInfo}>
+            <Text style={STYLES.catPageLocationText}>
+              Gymnastics/New York City
+            </Text>
+            <Text style={STYLES.catPageMembersText}>15 members</Text>
+          </View>
+        </View>
+        <View style={STYLES.catPageArrow}>
+          <Image
+            source={require("../../../assets/interest_images/arrow.png")}
+          />
+        </View>
+      </View>
+      <View style={STYLES.catPageGrid}>
+        <View style={STYLES.catPageInfo}>
+          <Image
+            source={require("../../../assets/interest_images/hockey.png")}
+          />
+          <View style={STYLES.catPageMemberInfo}>
+            <Text style={STYLES.catPageLocationText}>
+              Ice Hockey/New York City
+            </Text>
+            <Text style={STYLES.catPageMembersText}>15 members</Text>
+          </View>
+        </View>
+        <View style={STYLES.catPageArrow}>
+          <Image
+            source={require("../../../assets/interest_images/arrow.png")}
+          />
+        </View>
       </View>
       <View />
     </SafeAreaView>
