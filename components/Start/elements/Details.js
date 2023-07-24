@@ -7,30 +7,14 @@ import Styles from "../styles/Styles";
 import TERMS from "../../../settings/Terms";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
 import PhoneInput from "react-native-phone-input";
-import { Text, View } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import { useRef, useState } from "react";
 import Colors from "../../../settings/Colors";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Collapsible from "react-native-collapsible";
-import DropdownItem from "react-native-collapsible";
-import Ionicons from "react-native-collapsible";
-import TouchableOpacity from "react-native-collapsible";
-import SomeCollapsedView from "react-native-collapsible";
-// import _Button from “./_Button”;
-// import _Input from “./_Input”;
-// import _Header from “./_Header”;
-// import _Divider from “./_Divider”;
-// import STYLES from “../styles/Styles”;
-// import TERMS from “../../../settings/Terms”;
-// import { useNavigation } from “@react-navigation/native”;
-// import { SafeAreaView } from “react-native-safe-area-context”;
-// import PhoneInput from “react-native-phone-input”;
-// //import CountryPicker from “react-native-country-picker-modal”
-// import React, { useState } from “react”;
-//  import DateTimePicker from “@react-native-community/datetimepicker”;
-// import { StyleSheet, Text, View } from “react-native”;
-//  import { Picker } from “@react-native-picker/picker”;
+
 const terms = TERMS["English"];
 
 const Details = () => {
@@ -57,7 +41,6 @@ const Details = () => {
   const toggleDropdown = () => {
     setIsCollapsed(!isCollapsed);
   };
-  const [collapsed, setCollapsed] = useState(true);
   const navigator = useNavigation();
   const phoneRef = useRef();
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -94,7 +77,8 @@ const Details = () => {
           />
         </View>
       </View>
-      <View style={{ width: "100%" }}>
+      <View style={STYLES.signUpInput}>
+        <Text style={[STYLES.d1Box, STYLES.inputLabel]}>{"Gender"}</Text>
         <TouchableOpacity
           style={{
             backgroundColor: Colors.primary1_100,
@@ -107,50 +91,32 @@ const Details = () => {
           }}
           onPress={toggleDropdown}
         >
+          <Text
+            style={[
+              Styles.whiteText,
+              Styles.blueDropdownHeader,
+              { fontWeight: "bold" },
+            ]}
+          >
+            Select an option
+          </Text>
           {isCollapsed ? (
-            <Ionicons name="chevron-down-outline" size={24} color="black" />
+            <Ionicons name="chevron-down-outline" size={24} color="white" />
           ) : (
-            <Ionicons name="chevron-up-outline" size={24} color="black" />
+            <Ionicons name="chevron-up-outline" size={24} color="white" />
           )}
         </TouchableOpacity>
-
         <Collapsible
+          align="bottom"
           collapsed={isCollapsed}
+          // collapsedHeight={90}
           containerStyle={{ borderRadius: 0 }}
+          // renderChildrenCollapsed={false}
+          // duration={200}
         >
-          <DropdownItem
-            icon={<Ionicons name="baseball-outline" size={24} color="red" />}
-            label="Baseball / New York City"
-            onPress={() => console.log("Option 1 selected")}
-          />
-          <DropdownItem
-            icon={<Ionicons name="american-football" size={24} color="brown" />}
-            label="American Football / New York City"
-            onPress={() => console.log("Option 2 selected")}
-          />
+          <Text>M</Text>
+          <Text>F</Text>
           {/* Add more dropdown items/components as needed */}
-          <TouchableOpacity
-            onPress={() => navigation.navigate("JoinPlace")}
-            style={{
-              backgroundColor: Colors.white_100,
-              paddingHorizontal: 16,
-              paddingVertical: 12,
-            }}
-          >
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Ionicons name="add" size={24} color={Colors.orange} />
-              <Text
-                style={{
-                  color: Colors.orange,
-                  fontWeight: "600",
-                  fontSize: 16,
-                  paddingStart: 4,
-                }}
-              >
-                {terms["0026"]}
-              </Text>
-            </View>
-          </TouchableOpacity>
         </Collapsible>
       </View>
       <View style={STYLES.signUpInput}>
