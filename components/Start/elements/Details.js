@@ -3,6 +3,7 @@ import _Input from "./_Input";
 import _Header from "./_Header";
 import _Divider from "./_Divider";
 import STYLES from "../styles/Styles";
+import Styles from "../styles/Styles";
 import TERMS from "../../../settings/Terms";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -93,62 +94,64 @@ const Details = () => {
           />
         </View>
       </View>
-
-      <View style={STYLES.signUpInput}>
-        <Text style={[STYLES.d1Box, STYLES.inputLabel]}>{"Gender"}</Text>
-        <View
-          style={[
-            STYLES.d2Box,
-            {
-              borderRadius: 10,
-              padding: 10,
-              fontSize: 17,
-              borderColor: Colors.primary1_100,
-              justifyContent: "center",
-            },
-          ]}
+      <View style={{ width: "100%" }}>
+        <TouchableOpacity
+          style={{
+            backgroundColor: Colors.primary1_100,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingHorizontal: 16,
+            paddingVertical: 12,
+            borderRadius: 6,
+          }}
+          onPress={toggleDropdown}
         >
-          <Collapsible
-            collapsed={isCollapsed}
-            containerStyle={{ borderRadius: 0 }}
+          {isCollapsed ? (
+            <Ionicons name="chevron-down-outline" size={24} color="black" />
+          ) : (
+            <Ionicons name="chevron-up-outline" size={24} color="black" />
+          )}
+        </TouchableOpacity>
+
+        <Collapsible
+          collapsed={isCollapsed}
+          containerStyle={{ borderRadius: 0 }}
+        >
+          <DropdownItem
+            icon={<Ionicons name="baseball-outline" size={24} color="red" />}
+            label="Baseball / New York City"
+            onPress={() => console.log("Option 1 selected")}
+          />
+          <DropdownItem
+            icon={<Ionicons name="american-football" size={24} color="brown" />}
+            label="American Football / New York City"
+            onPress={() => console.log("Option 2 selected")}
+          />
+          {/* Add more dropdown items/components as needed */}
+          <TouchableOpacity
+            onPress={() => navigation.navigate("JoinPlace")}
+            style={{
+              backgroundColor: Colors.white_100,
+              paddingHorizontal: 16,
+              paddingVertical: 12,
+            }}
           >
-            <DropdownItem
-              icon={<Ionicons name="baseball-outline" size={24} color="red" />}
-              label="Baseball / New York City"
-              onPress={() => console.log("Option 1 selected")}
-            />
-            <DropdownItem
-              icon={
-                <Ionicons name="american-football" size={24} color="brown" />
-              }
-              label="American Football / New York City"
-              onPress={() => console.log("Option 2 selected")}
-            />
-            {/* Add more dropdown items/components as needed */}
-            <TouchableOpacity
-              onPress={() => navigation.navigate("JoinPlace")}
-              style={{
-                backgroundColor: Colors.white_100,
-                paddingHorizontal: 16,
-                paddingVertical: 12,
-              }}
-            >
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Ionicons name="add" size={24} color={Colors.orange} />
-                <Text
-                  style={{
-                    color: Colors.orange,
-                    fontWeight: "600",
-                    fontSize: 16,
-                    paddingStart: 4,
-                  }}
-                >
-                  {terms["0026"]}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </Collapsible>
-        </View>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Ionicons name="add" size={24} color={Colors.orange} />
+              <Text
+                style={{
+                  color: Colors.orange,
+                  fontWeight: "600",
+                  fontSize: 16,
+                  paddingStart: 4,
+                }}
+              >
+                {terms["0026"]}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </Collapsible>
       </View>
       <View style={STYLES.signUpInput}>
         <Text style={[STYLES.d1Box, STYLES.inputLabel]}>{"Date of Birth"}</Text>
