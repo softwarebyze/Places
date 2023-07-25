@@ -85,9 +85,9 @@ const Details = () => {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            paddingHorizontal: 16,
+            paddingHorizontal: 95,
             paddingVertical: 12,
-            borderRadius: 6,
+            borderRadius: 10,
           }}
           onPress={toggleDropdown}
         >
