@@ -9,8 +9,7 @@ import _Input from "../elements/_Input";
 import _Divider from "../elements/_Divider";
 
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-// import { StreamChat } from "stream-chat";
-// import { getFunctions, httpsCallable } from "firebase/functions";
+import { StreamChat } from "stream-chat";
 
 const terms = TERMS["English"];
 
@@ -24,56 +23,24 @@ const validatePassword = (password) => {
   return password.length >= 6;
 };
 
-// const { EXPO_PUBLIC_STREAM_API_KEY } = process.env;
-// const client = StreamChat.getInstance(EXPO_PUBLIC_STREAM_API_KEY);
-
-// const fetchStreamToken = async (userId) => {
-//   try {
-//     const response = await fetch(
-//       `https://us-east1-places-e6047.cloudfunctions.net/ext-auth-chat-getStreamUserToken?userId=${userId}`,
-//       {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json", // Set the Content-Type header to indicate JSON data
-//         },
-//         body: JSON.stringify({ userId }), // Send the user ID as JSON data in the request body
-//       },
-//     );
-
-//     if (!response.ok) {
-//       // Handle the error if the response is not ok
-//       console.error("Error fetching Stream token");
-//       return;
-//     }
-
-//     const data = await response.json();
-//     console.log({ data });
-//   } catch (error) {
-//     console.error("Error fetching Stream token:", error);
-//   }
-// };
+const { EXPO_PUBLIC_STREAM_API_KEY } = process.env;
+const client = StreamChat.getInstance(EXPO_PUBLIC_STREAM_API_KEY);
 
 const signIn = async (email, password) => {
   const auth = getAuth();
   console.log({ auth });
+
   await signInWithEmailAndPassword(auth, email, password);
   console.log("auth.currentUser", auth.currentUser);
 
   const userId = auth.currentUser.uid;
   console.log("auth.currentUser.uid", userId);
-  // try {
-  //   const functions = getFunctions();
-  //   const getStreamUserToken = httpsCallable(functions, "getStreamUserToken");
-  //   const data = await getStreamUserToken({ userId });
-  //   console.log(data);
-  // } catch (error) {
-  //   console.log("getStreamUserToken error: ", error);
-  // }
 
-  // const { token } = data;
-  // console.log(token);
-  // fetchStreamToken(userId);
-  // client.connectUser({ id: userId }, token);
+  const res = await fetch(`https://auth-token.onrender.com/?user_id=${userId}`);
+  const { token } = await res.json();
+  console.log(token);
+
+  client.connectUser({ id: userId }, token);
 };
 
 const LoginPage = () => {
