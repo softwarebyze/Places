@@ -2,6 +2,7 @@ import _Button from "./_Button";
 import _Input from "./_Input";
 import _Header from "./_Header";
 import _Divider from "./_Divider";
+import RadioForm from "react-native-simple-radio-button";
 
 import Styles from "../styles/Styles";
 import TERMS from "../../../settings/Terms";
@@ -9,7 +10,12 @@ import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import PhoneInput from "react-native-phone-input";
-import { Text, View, TouchableOpacity } from "react-native";
+import {
+  Text,
+  TouchableNativeFeedback,
+  View,
+  TouchableOpacity,
+} from "react-native";
 import { useRef, useState } from "react";
 import Colors from "../../../settings/Colors";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -19,14 +25,17 @@ const terms = TERMS["English"];
 
 const Details = () => {
   const [date, setDate] = useState(new Date(1598051730000));
-  const [mode, setMode] = useState("date");
+  const [chosenOption, setChosenOption] = useState("apple");
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === "ios");
     setDate(currentDate);
   };
-
+  const options = [
+    { label: "male", value: "male" },
+    { label: "female", value: "female" },
+  ];
   const [isCollapsed, setIsCollapsed] = useState(true);
 
   const toggleDropdown = () => {
@@ -102,8 +111,13 @@ const Details = () => {
           collapsed={isCollapsed}
           containerStyle={{ borderRadius: 0 }}
         >
-          <Text>M</Text>
-          <Text>F</Text>
+          <RadioForm
+            radio_props={options}
+            initial={0} //initial value of this group
+            onPress={(value) => {
+              setChosenOption(value);
+            }}
+          />
         </Collapsible>
       </View>
       <View style={Styles.signUpInput}>
@@ -120,15 +134,7 @@ const Details = () => {
             },
           ]}
         >
-          <DateTimePicker
-            testID="datepicker"
-            timeZoneOffsetInMinutes={0}
-            value={date}
-            mode={mode}
-            is24Hour={true}
-            display="default"
-            onChange={onChange}
-          />
+          <DateTimePicker value={date} onChange={onChange} />
         </View>
       </View>
 
