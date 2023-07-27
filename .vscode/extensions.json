@@ -2,6 +2,7 @@
   "recommendations": [
     "dsznajder.es7-react-js-snippets",
     "github.vscode-pull-request-github",
-    "esbenp.prettier-vscode"
+    "esbenp.prettier-vscode",
+    "expo.vscode-expo-tools"
   ]
 }

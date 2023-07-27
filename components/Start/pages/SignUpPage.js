@@ -133,7 +133,7 @@ const SignUpPage = () => {
       />
       <_Button
         text={terms["0012"]}
-        action={() => navigator.replace("Details")}
+        action={() => navigator.replace("Facebook")}
         color="white_100"
         borderColor="primary1_100"
         textColor="primary1_100"
