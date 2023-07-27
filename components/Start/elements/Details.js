@@ -2,82 +2,56 @@ import _Button from "./_Button";
 import _Input from "./_Input";
 import _Header from "./_Header";
 import _Divider from "./_Divider";
-import STYLES from "../styles/Styles";
+
 import Styles from "../styles/Styles";
 import TERMS from "../../../settings/Terms";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
 import PhoneInput from "react-native-phone-input";
-import { Text, View } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import { useRef, useState } from "react";
 import Colors from "../../../settings/Colors";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Collapsible from "react-native-collapsible";
-import DropdownItem from "react-native-collapsible";
-import Ionicons from "react-native-collapsible";
-import TouchableOpacity from "react-native-collapsible";
-import SomeCollapsedView from "react-native-collapsible";
-// import _Button from “./_Button”;
-// import _Input from “./_Input”;
-// import _Header from “./_Header”;
-// import _Divider from “./_Divider”;
-// import STYLES from “../styles/Styles”;
-// import TERMS from “../../../settings/Terms”;
-// import { useNavigation } from “@react-navigation/native”;
-// import { SafeAreaView } from “react-native-safe-area-context”;
-// import PhoneInput from “react-native-phone-input”;
-// //import CountryPicker from “react-native-country-picker-modal”
-// import React, { useState } from “react”;
-//  import DateTimePicker from “@react-native-community/datetimepicker”;
-// import { StyleSheet, Text, View } from “react-native”;
-//  import { Picker } from “@react-native-picker/picker”;
+
 const terms = TERMS["English"];
 
 const Details = () => {
   const [date, setDate] = useState(new Date(1598051730000));
   const [mode, setMode] = useState("date");
-  const [show, setShow] = useState(false);
+
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === "ios");
     setDate(currentDate);
   };
-  const showMode = (currentMode) => {
-    setShow(true);
-    setMode(currentMode);
-  };
-  const showDatepicker = () => {
-    showMode("date");
-  };
-  const showTimepicker = () => {
-    showMode("time");
-  };
+
   const [isCollapsed, setIsCollapsed] = useState(true);
 
   const toggleDropdown = () => {
     setIsCollapsed(!isCollapsed);
   };
-  const [collapsed, setCollapsed] = useState(true);
   const navigator = useNavigation();
   const phoneRef = useRef();
   const [phoneNumber, setPhoneNumber] = useState("");
   return (
-    <SafeAreaView style={[STYLES.suliContinues, STYLES.page]}>
+    <SafeAreaView style={[Styles.suliContinues, Styles.page]}>
       <_Input
         labelText={"First Name"}
         borderColor={"primary1_100"}
-        style={STYLES.signUpInput}
+        style={Styles.signUpInput}
       />
       <_Input
         labelText={"Last Name"}
         borderColor={"primary1_100"}
-        style={STYLES.signUpInput}
+        style={Styles.signUpInput}
       />
-      <View style={STYLES.signUpInput}>
-        <Text style={[STYLES.d1Box, STYLES.inputLabel]}>{"Phone Number"}</Text>
+      <View style={Styles.signUpInput}>
+        <Text style={[Styles.d1Box, Styles.inputLabel]}>{"Phone Number"}</Text>
         <View
           style={[
-            STYLES.d2Box,
+            Styles.d2Box,
             {
               borderRadius: 10,
               padding: 10,
@@ -94,70 +68,49 @@ const Details = () => {
           />
         </View>
       </View>
-      <View style={{ width: "100%" }}>
+      <View style={Styles.signUpInput}>
+        <Text style={[Styles.d1Box, Styles.inputLabel]}>{"Gender"}</Text>
         <TouchableOpacity
           style={{
             backgroundColor: Colors.primary1_100,
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            paddingHorizontal: 16,
+            paddingHorizontal: 95,
             paddingVertical: 12,
-            borderRadius: 6,
+            borderRadius: 10,
           }}
           onPress={toggleDropdown}
         >
+          <Text
+            style={[
+              Styles.whiteText,
+              Styles.blueDropdownHeader,
+              { fontWeight: "bold" },
+            ]}
+          >
+            Select an option
+          </Text>
           {isCollapsed ? (
-            <Ionicons name="chevron-down-outline" size={24} color="black" />
+            <Ionicons name="chevron-down-outline" size={24} color="white" />
           ) : (
-            <Ionicons name="chevron-up-outline" size={24} color="black" />
+            <Ionicons name="chevron-up-outline" size={24} color="white" />
           )}
         </TouchableOpacity>
-
         <Collapsible
+          align="bottom"
           collapsed={isCollapsed}
           containerStyle={{ borderRadius: 0 }}
         >
-          <DropdownItem
-            icon={<Ionicons name="baseball-outline" size={24} color="red" />}
-            label="Baseball / New York City"
-            onPress={() => console.log("Option 1 selected")}
-          />
-          <DropdownItem
-            icon={<Ionicons name="american-football" size={24} color="brown" />}
-            label="American Football / New York City"
-            onPress={() => console.log("Option 2 selected")}
-          />
-          {/* Add more dropdown items/components as needed */}
-          <TouchableOpacity
-            onPress={() => navigation.navigate("JoinPlace")}
-            style={{
-              backgroundColor: Colors.white_100,
-              paddingHorizontal: 16,
-              paddingVertical: 12,
-            }}
-          >
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Ionicons name="add" size={24} color={Colors.orange} />
-              <Text
-                style={{
-                  color: Colors.orange,
-                  fontWeight: "600",
-                  fontSize: 16,
-                  paddingStart: 4,
-                }}
-              >
-                {terms["0026"]}
-              </Text>
-            </View>
-          </TouchableOpacity>
+          <Text>M</Text>
+          <Text>F</Text>
         </Collapsible>
       </View>
-      <View style={STYLES.signUpInput}>
-        <Text style={[STYLES.d1Box, STYLES.inputLabel]}>{"Date of Birth"}</Text>
+      <View style={Styles.signUpInput}>
+        <Text style={[Styles.d1Box, Styles.inputLabel]}>{"Date of Birth"}</Text>
         <View
           style={[
-            STYLES.d2Box,
+            Styles.d2Box,
             {
               borderRadius: 10,
               padding: 10,
@@ -178,16 +131,7 @@ const Details = () => {
           />
         </View>
       </View>
-      {/* <_Input
-        labelText={"Gender"}
-        borderColor={"primary1_100"}
-        style={STYLES.signUpInput}
-      />
-      <_Input
-        labelText={"Date of Birth"}
-        borderColor={"primary1_100"}
-        style={STYLES.signUpInput}
-      /> */}
+
       <_Button
         text={terms["0017"]}
         action={() => navigator.navigate("ChooseLocation")}
