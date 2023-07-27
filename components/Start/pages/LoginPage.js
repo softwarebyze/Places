@@ -9,7 +9,6 @@ import _Input from "../elements/_Input";
 import _Divider from "../elements/_Divider";
 
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { StreamChat } from "stream-chat";
 
 const terms = TERMS["English"];
 
@@ -22,9 +21,6 @@ const validateEmail = (email) => {
 const validatePassword = (password) => {
   return password.length >= 6;
 };
-
-const { EXPO_PUBLIC_STREAM_API_KEY } = process.env;
-const client = StreamChat.getInstance(EXPO_PUBLIC_STREAM_API_KEY);
 
 const signIn = async (email, password) => {
   const auth = getAuth();

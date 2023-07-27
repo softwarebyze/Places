@@ -14,16 +14,34 @@ import { useRef, useState } from "react";
 import Colors from "../../../settings/Colors";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Collapsible from "react-native-collapsible";
+import { useChatContext } from "stream-chat-expo";
+import { getAuth } from "firebase/auth";
 
 const terms = TERMS["English"];
 
 const Details = () => {
   const [date, setDate] = useState(new Date(1598051730000));
   const [mode, setMode] = useState("date");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [gender, setGender] = useState("");
+
+  const { client } = useChatContext();
+
+  const getTokenAndConnectUser = async (userInfo) => {
+    const auth = getAuth();
+    const userId = auth.currentUser.uid;
+    const res = await fetch(
+      `https://auth-token.onrender.com/?user_id=${userId}`,
+    );
+    const { token } = await res.json();
+    console.log("adding", { id: userId, ...userInfo });
+    await client.connectUser({ id: userId, ...userInfo }, token);
+    // await client.upsertUser({ id: userId, ...userInfo });
+  };
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
-    setShow(Platform.OS === "ios");
     setDate(currentDate);
   };
 
@@ -35,17 +53,40 @@ const Details = () => {
   const navigator = useNavigation();
   const phoneRef = useRef();
   const [phoneNumber, setPhoneNumber] = useState("");
+  const handleSubmit = async () => {
+    const user = {
+      firstName,
+      lastName,
+      phoneNumber,
+      gender,
+      date,
+    };
+    await getTokenAndConnectUser(user);
+    console.log("here");
+    navigator.navigate("ChooseLocation");
+  };
   return (
     <SafeAreaView style={[Styles.suliContinues, Styles.page]}>
+      <Text>
+        {JSON.stringify({
+          firstName,
+          lastName,
+          phoneNumber,
+          gender,
+          date,
+        })}
+      </Text>
       <_Input
         labelText={"First Name"}
         borderColor={"primary1_100"}
         style={Styles.signUpInput}
+        onChangeText={(input) => setFirstName(input)}
       />
       <_Input
         labelText={"Last Name"}
         borderColor={"primary1_100"}
         style={Styles.signUpInput}
+        onChangeText={(input) => setLastName(input)}
       />
       <View style={Styles.signUpInput}>
         <Text style={[Styles.d1Box, Styles.inputLabel]}>{"Phone Number"}</Text>
@@ -102,8 +143,18 @@ const Details = () => {
           collapsed={isCollapsed}
           containerStyle={{ borderRadius: 0 }}
         >
-          <Text>M</Text>
-          <Text>F</Text>
+          <Text
+            onPress={() => setGender("Male")}
+            style={Styles.blueDropdownText}
+          >
+            Male
+          </Text>
+          <Text
+            onPress={() => setGender("Female")}
+            style={Styles.blueDropdownText}
+          >
+            Female
+          </Text>
         </Collapsible>
       </View>
       <View style={Styles.signUpInput}>
@@ -134,7 +185,7 @@ const Details = () => {
 
       <_Button
         text={terms["0017"]}
-        action={() => navigator.navigate("ChooseLocation")}
+        action={handleSubmit}
         color="primary1_100"
         borderColor="primary1_030"
         textColor="white_100"
