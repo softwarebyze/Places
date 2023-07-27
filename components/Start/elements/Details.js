@@ -2,7 +2,7 @@ import _Button from "./_Button";
 import _Input from "./_Input";
 import _Header from "./_Header";
 import _Divider from "./_Divider";
-import STYLES from "../styles/Styles";
+
 import Styles from "../styles/Styles";
 import TERMS from "../../../settings/Terms";
 import { useNavigation } from "@react-navigation/native";
@@ -20,22 +20,13 @@ const terms = TERMS["English"];
 const Details = () => {
   const [date, setDate] = useState(new Date(1598051730000));
   const [mode, setMode] = useState("date");
-  const [show, setShow] = useState(false);
+
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === "ios");
     setDate(currentDate);
   };
-  const showMode = (currentMode) => {
-    setShow(true);
-    setMode(currentMode);
-  };
-  const showDatepicker = () => {
-    showMode("date");
-  };
-  const showTimepicker = () => {
-    showMode("time");
-  };
+
   const [isCollapsed, setIsCollapsed] = useState(true);
 
   const toggleDropdown = () => {
@@ -45,22 +36,22 @@ const Details = () => {
   const phoneRef = useRef();
   const [phoneNumber, setPhoneNumber] = useState("");
   return (
-    <SafeAreaView style={[STYLES.suliContinues, STYLES.page]}>
+    <SafeAreaView style={[Styles.suliContinues, Styles.page]}>
       <_Input
         labelText={"First Name"}
         borderColor={"primary1_100"}
-        style={STYLES.signUpInput}
+        style={Styles.signUpInput}
       />
       <_Input
         labelText={"Last Name"}
         borderColor={"primary1_100"}
-        style={STYLES.signUpInput}
+        style={Styles.signUpInput}
       />
-      <View style={STYLES.signUpInput}>
-        <Text style={[STYLES.d1Box, STYLES.inputLabel]}>{"Phone Number"}</Text>
+      <View style={Styles.signUpInput}>
+        <Text style={[Styles.d1Box, Styles.inputLabel]}>{"Phone Number"}</Text>
         <View
           style={[
-            STYLES.d2Box,
+            Styles.d2Box,
             {
               borderRadius: 10,
               padding: 10,
@@ -77,8 +68,8 @@ const Details = () => {
           />
         </View>
       </View>
-      <View style={STYLES.signUpInput}>
-        <Text style={[STYLES.d1Box, STYLES.inputLabel]}>{"Gender"}</Text>
+      <View style={Styles.signUpInput}>
+        <Text style={[Styles.d1Box, Styles.inputLabel]}>{"Gender"}</Text>
         <TouchableOpacity
           style={{
             backgroundColor: Colors.primary1_100,
@@ -109,21 +100,17 @@ const Details = () => {
         <Collapsible
           align="bottom"
           collapsed={isCollapsed}
-          // collapsedHeight={90}
           containerStyle={{ borderRadius: 0 }}
-          // renderChildrenCollapsed={false}
-          // duration={200}
         >
           <Text>M</Text>
           <Text>F</Text>
-          {/* Add more dropdown items/components as needed */}
         </Collapsible>
       </View>
-      <View style={STYLES.signUpInput}>
-        <Text style={[STYLES.d1Box, STYLES.inputLabel]}>{"Date of Birth"}</Text>
+      <View style={Styles.signUpInput}>
+        <Text style={[Styles.d1Box, Styles.inputLabel]}>{"Date of Birth"}</Text>
         <View
           style={[
-            STYLES.d2Box,
+            Styles.d2Box,
             {
               borderRadius: 10,
               padding: 10,
@@ -144,16 +131,7 @@ const Details = () => {
           />
         </View>
       </View>
-      {/* <_Input
-        labelText={"Gender"}
-        borderColor={"primary1_100"}
-        style={STYLES.signUpInput}
-      />
-      <_Input
-        labelText={"Date of Birth"}
-        borderColor={"primary1_100"}
-        style={STYLES.signUpInput}
-      /> */}
+
       <_Button
         text={terms["0017"]}
         action={() => navigator.navigate("ChooseLocation")}
