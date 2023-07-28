@@ -8,11 +8,10 @@ import { useNavigation } from "@react-navigation/native";
 //import all the components we are going to use
 import { SafeAreaView, Button } from "react-native";
 
-import Spinner from "react-native-loading-spinner-overlay";
-
 import React, { useState, Component } from "react";
 
 import { Platform } from "react-native";
+import { ActivityIndicator } from "react-native";
 
 const terms = TERMS["English"];
 
@@ -31,18 +30,8 @@ const StartPage = () => {
     <View style={[STYLES.page, STYLES.spaceEvenly]}>
       <_Logo style={[STYLES.fullLogo, STYLES.startFullLogo]} />
 
-      <View style={styles.container}>
-        <Spinner
-          size="small"
-          //visibility of Overlay Loading Spinner
-          visible={loading}
-          //Text with the Spinner
-          textContent={"Loading..."}
-          //Text style of the Spinner Text
-          textStyle={styles.spinnerTextStyle}
-        />
-
-        <Button title="Start Loading" onPress={startLoading}></Button>
+      <View style={[styles.container, styles.horizontal]}>
+        <ActivityIndicator size="large" color="#ff7100" />
       </View>
 
       <View>
