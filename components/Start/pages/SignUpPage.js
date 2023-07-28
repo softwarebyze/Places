@@ -49,8 +49,6 @@ const SignUpPage = () => {
   });
   return (
     <View style={STYLES.page}>
-      <Text>Type: {netInfo.type}</Text>
-      <Text>Is Connected? {netInfo.isConnected}</Text>
       <_Header
         text={terms["0005"]}
         action={() => navigator.navigate("Start")}
