@@ -19,7 +19,7 @@ import Colors from "./settings/Colors";
 import { Foundation } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import NoConnectionPage from "./components/Start/pages/NoConnectionPage";
+import NoConnectionPage from "./components/Start/pages/Popup";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -112,7 +112,6 @@ const App = () => {
           <Stack.Screen name="Login" component={LoginPage} />
           <Stack.Screen name="Signup" component={SignUpPage} />
           <Stack.Screen name="Facebook" component={FacebookPage} />
-          <Stack.Screen name="NoConnection" component={NoConnectionPage} />
         </Stack.Group>
         <Stack.Screen
           name="Details"

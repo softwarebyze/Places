@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Text, View, Modal, StyleSheet, Pressable } from "react-native";
 import _Header from "../elements/_Header";
 import STYLES from "../styles/Styles";
 import TERMS from "../../../settings/Terms";
@@ -13,6 +13,50 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { StreamChat } from "stream-chat";
 
 const terms = TERMS["English"];
+
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+});
 
 const validateEmail = (email) => {
   return email.match(
@@ -56,97 +100,133 @@ const LoginPage = () => {
   const emailIsValid = validateEmail(emailTextState);
   const passwordIsValid = validatePassword(passwordTextState);
   const canContinue = emailIsValid && passwordIsValid;
+  const [modalVisible, setModalVisible] = useState(false);
+  if (netInfo.isConnected?.toString() == "false") {
+    return (
+      <View style={styles.centeredView}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>
+                Please check your internet connection and try again
+              </Text>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                <Text style={styles.textStyle}>Continue</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+        <Pressable
+          style={[styles.button, styles.buttonOpen]}
+          onPress={() => setModalVisible(true)}
+        >
+          <Text style={styles.textStyle}>No Connection</Text>
+        </Pressable>
+      </View>
+    );
+  } else {
+    return (
+      <View style={STYLES.page}>
+        <_Header
+          text={terms["0016"]}
+          action={() => navigator.navigate("Start")}
+        />
 
-  return (
-    <View style={STYLES.page}>
-      <_Header
-        text={terms["0016"]}
-        action={() => navigator.navigate("Start")}
-      />
-
-      <_Input
-        labelText={terms["0006"]}
-        subtextText={terms["0014"]}
-        onFocus={() => setEmailFocusState(true)}
-        onBlur={() => setEmailFocusState(false)}
-        onChangeText={(input) => setEmailTextState(input)}
-        borderColor={
-          emailTextState && !emailIsValid
-            ? "error_080"
-            : emailFocusState
-            ? "primary1_100"
-            : "primary1_030"
-        }
-        subtextColor={
-          emailTextState && !emailIsValid
-            ? "error_080"
-            : emailFocusState
-            ? "clear_000"
-            : "clear_000"
-        }
-      />
-      <_Input
-        secureTextEntry={true}
-        labelText={terms["0007"]}
-        subtextText={terms["0015"]}
-        onFocus={() => setPasswordFocusState(true)}
-        onBlur={() => setPasswordFocusState(false)}
-        onChangeText={(input) => setPasswordTextState(input)}
-        borderColor={
-          passwordTextState && !passwordIsValid
-            ? "error_100"
-            : passwordFocusState
-            ? "primary1_100"
-            : "primary1_030"
-        }
-        subtextColor={
-          emailTextState && !passwordIsValid
-            ? "primary1_030"
-            : passwordFocusState
-            ? "primary1_030"
-            : "clear_000"
-        }
-      />
-      <_Button
-        text={terms["0008"]}
-        action={async () => {
-          await signIn(emailTextState, passwordTextState);
-          navigator.replace("Details");
-        }}
-        color={canContinue ? "primary1_100" : "primary1_030"}
-        borderColor={canContinue ? "primary1_100" : "primary1_030"}
-        textColor="white_100"
-        disabled={!canContinue}
-      />
-      <_Divider text="or" color="gray1_100" />
-      <_Button
-        text={terms["0011"]}
-        action={async () => {
-          navigator.replace("HomeTabs");
-        }}
-        color="primary1_100"
-        borderColor="primary1_100"
-        textColor="white_100"
-        style={{ marginBottom: 20 }}
-      />
-      <_Button
-        text={terms["0012"]}
-        action={() => navigator.replace("Details")}
-        color="white_100"
-        borderColor="primary1_100"
-        textColor="primary1_100"
-      />
-      <_Button
-        text={terms["0013"]}
-        action={() => navigator.replace("Signup")}
-        color="white_100"
-        borderColor="white_100"
-        textColor="primary1_100"
-        underline={true}
-      />
-      <Text>{JSON.stringify({ emailTextState, passwordTextState })}</Text>
-    </View>
-  );
+        <_Input
+          labelText={terms["0006"]}
+          subtextText={terms["0014"]}
+          onFocus={() => setEmailFocusState(true)}
+          onBlur={() => setEmailFocusState(false)}
+          onChangeText={(input) => setEmailTextState(input)}
+          borderColor={
+            emailTextState && !emailIsValid
+              ? "error_080"
+              : emailFocusState
+              ? "primary1_100"
+              : "primary1_030"
+          }
+          subtextColor={
+            emailTextState && !emailIsValid
+              ? "error_080"
+              : emailFocusState
+              ? "clear_000"
+              : "clear_000"
+          }
+        />
+        <_Input
+          secureTextEntry={true}
+          labelText={terms["0007"]}
+          subtextText={terms["0015"]}
+          onFocus={() => setPasswordFocusState(true)}
+          onBlur={() => setPasswordFocusState(false)}
+          onChangeText={(input) => setPasswordTextState(input)}
+          borderColor={
+            passwordTextState && !passwordIsValid
+              ? "error_100"
+              : passwordFocusState
+              ? "primary1_100"
+              : "primary1_030"
+          }
+          subtextColor={
+            emailTextState && !passwordIsValid
+              ? "primary1_030"
+              : passwordFocusState
+              ? "primary1_030"
+              : "clear_000"
+          }
+        />
+        <_Button
+          text={terms["0008"]}
+          action={async () => {
+            await signIn(emailTextState, passwordTextState);
+            navigator.replace("Details");
+          }}
+          color={canContinue ? "primary1_100" : "primary1_030"}
+          borderColor={canContinue ? "primary1_100" : "primary1_030"}
+          textColor="white_100"
+          disabled={!canContinue}
+        />
+        <_Divider text="or" color="gray1_100" />
+        <_Button
+          text={terms["0011"]}
+          action={async () => {
+            navigator.replace("HomeTabs");
+          }}
+          color="primary1_100"
+          borderColor="primary1_100"
+          textColor="white_100"
+          style={{ marginBottom: 20 }}
+        />
+        <_Button
+          text={terms["0012"]}
+          action={() => navigator.replace("Details")}
+          color="white_100"
+          borderColor="primary1_100"
+          textColor="primary1_100"
+        />
+        <_Button
+          text={terms["0013"]}
+          action={() => navigator.replace("Signup")}
+          color="white_100"
+          borderColor="white_100"
+          textColor="primary1_100"
+          underline={true}
+        />
+        <Text>{JSON.stringify({ emailTextState, passwordTextState })}</Text>
+      </View>
+    );
+  }
 };
 
 export default LoginPage;

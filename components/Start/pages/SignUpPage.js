@@ -42,12 +42,6 @@ const SignUpPage = () => {
 
   const netInfo = useNetInfo();
 
-  netInfo.isConnected.fetch().then((isConnected) => {
-    if (!isConnected) {
-      navigator.navigate("NoConnection");
-    }
-  });
-
   return (
     <View style={STYLES.page}>
       <_Header
