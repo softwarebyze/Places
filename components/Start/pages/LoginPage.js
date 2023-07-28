@@ -2,12 +2,13 @@ import { Text, View } from "react-native";
 import _Header from "../elements/_Header";
 import STYLES from "../styles/Styles";
 import TERMS from "../../../settings/Terms";
-import { useNavigation } from "@react-navigation/native";
+
 import { useState } from "react";
 import _Button from "../elements/_Button";
 import _Input from "../elements/_Input";
 import _Divider from "../elements/_Divider";
-
+import { useNavigation } from "@react-navigation/native";
+import { useNetInfo } from "@react-native-community/netinfo";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { StreamChat } from "stream-chat";
 
@@ -44,6 +45,8 @@ const signIn = async (email, password) => {
 };
 
 const LoginPage = () => {
+  const netInfo = useNetInfo();
+
   const navigator = useNavigation();
   const [emailFocusState, setEmailFocusState] = useState(false);
   const [emailTextState, setEmailTextState] = useState("");
@@ -60,6 +63,7 @@ const LoginPage = () => {
         text={terms["0016"]}
         action={() => navigator.navigate("Start")}
       />
+
       <_Input
         labelText={terms["0006"]}
         subtextText={terms["0014"]}

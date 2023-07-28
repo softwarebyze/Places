@@ -4,13 +4,16 @@ import _Logo from "../elements/_Logo";
 import STYLES from "../styles/Styles";
 import TERMS from "../../../settings/Terms";
 import { useNavigation } from "@react-navigation/native";
+import { useNetInfo } from "@react-native-community/netinfo";
 const terms = TERMS["English"];
 
 const StartPage = (props) => {
+  const netInfo = useNetInfo();
   const navigator = useNavigation();
   return (
     <View style={[STYLES.page, STYLES.spaceEvenly]}>
       <_Logo style={[STYLES.fullLogo, STYLES.startFullLogo]} />
+
       <View>
         <Text style={STYLES.welcomeText}>{terms["0001"]}</Text>
         <Text style={STYLES.sloganText}>{terms["0002"]}</Text>

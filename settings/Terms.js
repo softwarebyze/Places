@@ -38,5 +38,7 @@ export default {
     "0034": "Logout",
     "0035": "Facebook",
     "0036": "Log in to use your Facebook account with Places.",
+    "0037": "No Connection",
+    "0038": "Please Check your Connection and Try Again",
   },
 };

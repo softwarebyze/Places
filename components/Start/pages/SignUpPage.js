@@ -4,11 +4,12 @@ import TERMS from "../../../settings/Terms";
 import _Input from "../elements/_Input";
 import _Divider from "../elements/_Divider";
 import { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+
 import _Button from "../elements/_Button";
 import STYLES from "../styles/Styles";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-
+import { useNavigation } from "@react-navigation/native";
+import { useNetInfo } from "@react-native-community/netinfo";
 const terms = TERMS["English"];
 
 const validateEmail = (email) => {
@@ -38,8 +39,18 @@ const SignUpPage = () => {
   const emailIsValid = validateEmail(emailTextState);
   const passwordIsValid = validatePassword(passwordTextState);
   const canContinue = emailIsValid && passwordIsValid && passwordsMatch;
+
+  const netInfo = useNetInfo();
+
+  netInfo.isConnected.fetch().then((isConnected) => {
+    if (!isConnected) {
+      navigator.navigate("NoConnection");
+    }
+  });
   return (
     <View style={STYLES.page}>
+      <Text>Type: {netInfo.type}</Text>
+      <Text>Is Connected? {netInfo.isConnected}</Text>
       <_Header
         text={terms["0005"]}
         action={() => navigator.navigate("Start")}
