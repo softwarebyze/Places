@@ -19,7 +19,7 @@ import Colors from "./settings/Colors";
 import { Foundation } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import NoConnectionPage from "./components/Start/pages/noConnectionPage";
+import NoConnectionPage from "./components/Start/pages/NoConnectionPage";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
