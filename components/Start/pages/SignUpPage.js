@@ -47,6 +47,7 @@ const SignUpPage = () => {
       navigator.navigate("NoConnection");
     }
   });
+
   return (
     <View style={STYLES.page}>
       <_Header
