@@ -1,4 +1,4 @@
-import { Text, View, Image } from "react-native";
+import { Text, View, Image, TextInput } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import STYLES from "../styles/Styles";
 import Colors from "../../../settings/Colors";
@@ -6,6 +6,24 @@ import Colors from "../../../settings/Colors";
 const CategoryPage = () => {
   return (
     <SafeAreaView style={[STYLES.page, { backgroundColor: Colors.light_grey }]}>
+      <View
+        style={{
+          width: "100%",
+          height: "15%",
+          justifyContent: "center",
+          flexDirection: "row",
+        }}
+      >
+        <Image
+          source={require("../../../assets/search-icon.png")}
+          style={{ marginTop: 15, position: "absolute", left: 15 }}
+        />
+        <TextInput
+          placeholder="search"
+          keyboardType="default"
+          style={{ height: "45%", width: "90%", backgroundColor: "#D3D3D3" }}
+        />
+      </View>
       <View style={STYLES.catPageGrid}>
         <View style={STYLES.catPageInfo}>
           <Image
