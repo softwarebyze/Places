@@ -35,6 +35,7 @@ const Details = () => {
   const options = [
     { label: "male", value: "male" },
     { label: "female", value: "female" },
+    { label: "other", value: "other" },
   ];
   const [isCollapsed, setIsCollapsed] = useState(true);
 
