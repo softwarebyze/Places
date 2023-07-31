@@ -78,49 +78,49 @@ const Details = () => {
           />
         </View>
       </View>
-      <View style={Styles.signUpInput}>
-        <Text style={[Styles.d1Box, Styles.inputLabel]}>{"Gender"}</Text>
-        <TouchableOpacity
-          style={{
-            backgroundColor: Colors.primary1_100,
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            paddingHorizontal: 95,
-            paddingVertical: 12,
-            borderRadius: 10,
+
+      <Text style={[Styles.d1Box, Styles.inputLabel]}>{"Gender"}</Text>
+      <TouchableOpacity
+        style={{
+          backgroundColor: Colors.primary1_100,
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          paddingHorizontal: 95,
+          paddingVertical: 12,
+          borderRadius: 100,
+        }}
+        onPress={toggleDropdown}
+      >
+        <Text
+          style={[
+            Styles.whiteText,
+            Styles.blueDropdownHeader,
+            { fontWeight: "bold" },
+          ]}
+        >
+          Select an option
+        </Text>
+        {isCollapsed ? (
+          <Ionicons name="chevron-down-outline" size={24} color="white" />
+        ) : (
+          <Ionicons name="chevron-up-outline" size={24} color="white" />
+        )}
+      </TouchableOpacity>
+      <Collapsible
+        align="bottom"
+        collapsed={isCollapsed}
+        containerStyle={{ borderRadius: 0 }}
+      >
+        <RadioForm
+          radio_props={options}
+          initial={0} //initial value of this group
+          onPress={(value) => {
+            setChosenOption(value);
           }}
-          onPress={toggleDropdown}
-        >
-          <Text
-            style={[
-              Styles.whiteText,
-              Styles.blueDropdownHeader,
-              { fontWeight: "bold" },
-            ]}
-          >
-            Select an option
-          </Text>
-          {isCollapsed ? (
-            <Ionicons name="chevron-down-outline" size={24} color="white" />
-          ) : (
-            <Ionicons name="chevron-up-outline" size={24} color="white" />
-          )}
-        </TouchableOpacity>
-        <Collapsible
-          align="bottom"
-          collapsed={isCollapsed}
-          containerStyle={{ borderRadius: 0 }}
-        >
-          <RadioForm
-            radio_props={options}
-            initial={0} //initial value of this group
-            onPress={(value) => {
-              setChosenOption(value);
-            }}
-          />
-        </Collapsible>
-      </View>
+        />
+      </Collapsible>
+
       <View style={Styles.signUpInput}>
         <Text style={[Styles.d1Box, Styles.inputLabel]}>{"Date of Birth"}</Text>
         <View
