@@ -181,14 +181,14 @@ const CategoryPage = () => {
         </View>
         <View />
 
-        <View>
-          <Text>
-            Not seeing your interest? Submit a request and we will add it to the
-            list?
+        <View style={{ marginTop: 30, alignItems: "center" }}>
+          <Text style={{ color: "grey" }}> Not seeing your interest? </Text>
+          <Text style={{ color: "grey" }}>
+            Submit a request and we will add it to the list?
           </Text>
           <_Button
             text={"Request a New Interest"}
-            color={"primary1_030"}
+            color={"primary1_100"}
             borderColor={"light_grey"}
             textColor="white_100"
             underline={false}

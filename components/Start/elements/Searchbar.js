@@ -1,7 +1,6 @@
 import React from "react";
 import { Stylesheet, TextInput, View, Image } from "react-native";
 import Colors from "../../../settings/Colors";
-import { Feather, Entypo } from "@expo/vector-icons";
 
 const Searchbar = (props) => {
   return (
@@ -26,7 +25,11 @@ const Searchbar = (props) => {
         }}
       >
         <Image source={require("../../../assets/search-icon.png")} />
-        <TextInput placeholder="search" keyboard="default" />
+        <TextInput
+          placeholder="search"
+          keyboard="default"
+          style={{ marginLeft: 10 }}
+        />
       </View>
     </View>
   );

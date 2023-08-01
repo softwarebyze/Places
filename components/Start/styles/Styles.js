@@ -215,14 +215,14 @@ export default new StyleSheet.create({
   },
   catPageGrid: {
     flexDirection: "row",
-    width: "90%",
-    height: "15%",
+    width: "95%",
+    height: "12%",
     borderRadius: 10,
     backgroundColor: "white",
     alignContent: "center",
     justifyContent: "space-between",
     marginTop: 10,
-    marginLeft: 20,
+    marginLeft: 10,
   },
   catPageInfo: {
     flexDirection: "row",
