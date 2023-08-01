@@ -80,15 +80,14 @@ const Details = () => {
         labelText="Gender"
         onSelect={setGender}
       />
-
       <View style={Styles.signUpInput}>
         <Text style={[Styles.d1Box, Styles.inputLabel]}>{"Date of Birth"}</Text>
         <View
           style={[
             Styles.d2Box,
             {
+              flexDirection: "row",
               borderRadius: 10,
-              padding: 10,
               fontSize: 17,
               borderColor: Colors.primary1_100,
               justifyContent: "flex-start",
