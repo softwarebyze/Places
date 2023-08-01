@@ -1,40 +1,24 @@
-import { Text, View, Image, TextInput, ScrollView } from "react-native";
+import { Text, View, Image, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import _Button from "../elements/_Button";
+import Searchbar from "../elements/Searchbar";
 import STYLES from "../styles/Styles";
 import Colors from "../../../settings/Colors";
 
 const CategoryPage = () => {
   return (
-    <SafeAreaView style={[STYLES.page, { backgroundColor: Colors.light_grey }]}>
-      <View
+    <SafeAreaView
+      style={{ flex: 1, alignItems: "center", paddingHorizontal: 16 }}
+    >
+      <Searchbar />
+
+      <ScrollView
         style={{
+          backgroundColor: Colors.light_grey,
           width: "100%",
-          height: "15%",
-          justifyContent: "center",
-          flexDirection: "row",
-          backgroundColor: "white",
-          paddingTop: 40,
+          paddingTop: 20,
         }}
       >
-        <View style={{ backgroundColor: "#D3D3D3", height: "45%" }}>
-          <Image
-            source={require("../../../assets/search-icon.png")}
-            style={{ marginTop: 5 }}
-          />
-        </View>
-        <TextInput
-          placeholder="search"
-          keyboardType="default"
-          style={{
-            height: "45%",
-            width: "90%",
-            backgroundColor: "#D3D3D3",
-            zIndex: -1,
-          }}
-        />
-      </View>
-      <ScrollView>
         <View style={STYLES.catPageGrid}>
           <View style={STYLES.catPageInfo}>
             <Image
@@ -196,20 +180,21 @@ const CategoryPage = () => {
           </View>
         </View>
         <View />
+
+        <View>
+          <Text>
+            Not seeing your interest? Submit a request and we will add it to the
+            list?
+          </Text>
+          <_Button
+            text={"Request a New Interest"}
+            color={"primary1_030"}
+            borderColor={"light_grey"}
+            textColor="white_100"
+            underline={false}
+          />
+        </View>
       </ScrollView>
-      <View>
-        <Text>
-          Not seeing your interest? Submit a request and we will add it to the
-          list?
-        </Text>
-        <_Button
-          text={"Request a New Interest"}
-          color={"primary1_030"}
-          borderColor={"light_grey"}
-          textColor="white_100"
-          underline={false}
-        />
-      </View>
     </SafeAreaView>
   );
 };
