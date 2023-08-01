@@ -1,8 +1,9 @@
-import { Image, StyleSheet, Text } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { View } from "react-native";
 import { useState } from "react";
-// To deploy, follow https://docs.expo.dev/versions/latest/sdk/map-view/#deploy-app-with-google-maps
+import Colors from "../../../settings/Colors";
+// To deploy, ollow https://docs.expo.dev/versions/latest/sdk/map-view/#deploy-app-with-google-maps
 
 const initialRegion = {
   latitude: 32.0853,
@@ -15,7 +16,7 @@ const markers = [
   {
     location: { latitude: 32.0853, longitude: 34.781768 },
     title: "Tel Aviv",
-    description: "Tel Aviv",
+    description: "A fun place with nice beaches",
   },
   {
     location: {
@@ -23,7 +24,7 @@ const markers = [
       longitude: 35.217018,
     },
     title: "Jerusalem",
-    description: "Jerusalem",
+    description: "A very holy place",
   },
   {
     location: {
@@ -31,15 +32,18 @@ const markers = [
       longitude: 34.989571,
     },
     title: "Haifa",
-    description: "Haifa",
+    description: "A nice place in the north",
   },
 ];
 
-const SlideUpPanel = ({ title }) => {
+const SlideUpPanel = ({ title, description, onClose }) => {
   return (
     <View style={styles.slideUpPanel}>
       <Text style={styles.panelTitle}>{title}</Text>
-      {/* Add other content here */}
+      <Text style={styles.panelDescription}>{description}</Text>
+      <TouchableOpacity style={styles.interestedButton} onPress={onClose}>
+        <Text style={styles.buttonText}>I'm interested</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -49,6 +53,10 @@ const MapsPage = () => {
 
   const handleMarkerPress = (marker) => {
     setSelectedMarker(marker);
+  };
+
+  const closeSlideUpPanel = () => {
+    setSelectedMarker(null);
   };
 
   return (
@@ -66,7 +74,11 @@ const MapsPage = () => {
       </MapView>
       {selectedMarker && (
         <View style={styles.markerInfoContainer}>
-          <SlideUpPanel title={selectedMarker.title} />
+          <SlideUpPanel
+            title={selectedMarker.title}
+            description={selectedMarker.description}
+            onClose={closeSlideUpPanel}
+          />
         </View>
       )}
     </View>
@@ -98,12 +110,29 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    padding: 20,
+    paddingVertical: 20,
   },
   panelTitle: {
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 10,
+    color: Colors.primary1_100,
+  },
+  panelDescription: {
+    fontSize: 16,
+    marginBottom: 20,
+  },
+  interestedButton: {
+    backgroundColor: Colors.primary1_100,
+    padding: 10,
+    borderRadius: 10,
+    alignItems: "center",
+    paddingVertical: 20,
+  },
+  buttonText: {
+    color: Colors.white_100,
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
 
