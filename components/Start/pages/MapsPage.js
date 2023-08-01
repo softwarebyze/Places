@@ -1,6 +1,7 @@
-import { Image, StyleSheet } from "react-native";
+import { Image, StyleSheet, Text } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { View } from "react-native";
+import { useState } from "react";
 // To deploy, follow https://docs.expo.dev/versions/latest/sdk/map-view/#deploy-app-with-google-maps
 
 const initialRegion = {
@@ -35,28 +36,55 @@ const markers = [
 ];
 
 const MapsPage = () => {
+  const [selectedMarker, setSelectedMarker] = useState(null);
+
+  const handleMarkerPress = (marker) => {
+    setSelectedMarker(marker);
+  };
+
   return (
-    <View>
+    <View style={styles.container}>
       <MapView style={styles.map} initialRegion={initialRegion}>
         {markers.map((marker, index) => (
           <Marker
             key={index}
             coordinate={marker.location}
-            title={marker.title}
-            description={marker.description}
+            onPress={() => handleMarkerPress(marker)}
           >
             <Image source={require("../../../assets/marker.png")} />
           </Marker>
         ))}
       </MapView>
+      {selectedMarker && (
+        <View style={styles.markerInfoContainer}>
+          <Text style={styles.markerTitle}>{selectedMarker.title}</Text>
+        </View>
+      )}
     </View>
   );
 };
-export default MapsPage;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   map: {
     width: "100%",
     height: "100%",
   },
+  markerInfoContainer: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "white",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
+  markerTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
 });
+
+export default MapsPage;
