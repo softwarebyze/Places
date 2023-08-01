@@ -69,7 +69,7 @@ const Details = () => {
       </View>
       <_Dropdown
         label="Select an option"
-        data={genders}
+        options={genders}
         labelText="Gender"
         onSelect={setGender}
       />

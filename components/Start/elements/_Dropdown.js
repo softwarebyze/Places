@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  TouchableNativeFeedback,
-  TouchableOpacity,
-  Pressable,
-} from "react-native";
+import { View, Text, TouchableOpacity, Pressable } from "react-native";
 import React from "react";
 import Styles from "../styles/Styles";
 import { useState } from "react";
@@ -12,8 +6,11 @@ import Collapsible from "react-native-collapsible";
 import { Ionicons } from "@expo/vector-icons";
 
 const _Dropdown = (props) => {
-  /**
-   *
+  /*
+   * labelText is shown above the dropdown
+   * label is shown in the dropdown header when no option is selected
+   * options is an array with objects of the form {label: "label", value: "value"}
+   * onSelect is a function that takes the value of the selected option as an argument
    */
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [selected, setSelected] = useState("");
@@ -49,7 +46,7 @@ const _Dropdown = (props) => {
         </Pressable>
         <Collapsible collapsed={isCollapsed}>
           <View style={[Styles.blueBorder]}>
-            {props.data.map(({ label, value }) => (
+            {props.options.map(({ label, value }) => (
               <TouchableOpacity
                 style={Styles.dropdownItem}
                 onPress={() => {
