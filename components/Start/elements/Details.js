@@ -43,8 +43,8 @@ const Details = () => {
 
   const navigator = useNavigation();
   return (
-    <SafeAreaView style={[Styles.suliContinues, Styles.page]}>
-      <KeyboardAvoidingView>
+    <SafeAreaView style={Styles.page}>
+      <KeyboardAvoidingView style={[Styles.suliContinues, Styles.page]}>
         <_Input
           labelText={"First Name"}
           borderColor={"primary1_100"}

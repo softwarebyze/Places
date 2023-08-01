@@ -1,4 +1,3 @@
-import { Text, View } from "react-native";
 import _Header from "../elements/_Header";
 import TERMS from "../../../settings/Terms";
 import _Input from "../elements/_Input";
@@ -8,6 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import _Button from "../elements/_Button";
 import STYLES from "../styles/Styles";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const terms = TERMS["English"];
 
@@ -39,7 +39,7 @@ const SignUpPage = () => {
   const passwordIsValid = validatePassword(passwordTextState);
   const canContinue = emailIsValid && passwordIsValid && passwordsMatch;
   return (
-    <View style={STYLES.page}>
+    <SafeAreaView style={STYLES.page}>
       <_Header
         text={terms["0005"]}
         action={() => navigator.navigate("Start")}
@@ -146,7 +146,7 @@ const SignUpPage = () => {
         textColor="primary1_100"
         underline={true}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

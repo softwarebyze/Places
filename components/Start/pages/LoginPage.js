@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Text } from "react-native";
 import _Header from "../elements/_Header";
 import STYLES from "../styles/Styles";
 import TERMS from "../../../settings/Terms";
@@ -10,6 +10,7 @@ import _Divider from "../elements/_Divider";
 
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { StreamChat } from "stream-chat";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const terms = TERMS["English"];
 
@@ -55,7 +56,7 @@ const LoginPage = () => {
   const canContinue = emailIsValid && passwordIsValid;
 
   return (
-    <View style={STYLES.page}>
+    <SafeAreaView style={STYLES.page}>
       <_Header
         text={terms["0016"]}
         action={() => navigator.navigate("Start")}
@@ -140,8 +141,7 @@ const LoginPage = () => {
         textColor="primary1_100"
         underline={true}
       />
-      <Text>{JSON.stringify({ emailTextState, passwordTextState })}</Text>
-    </View>
+    </SafeAreaView>
   );
 };
 
