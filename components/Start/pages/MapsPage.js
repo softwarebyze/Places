@@ -1,5 +1,4 @@
-import { StyleSheet, Text } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet } from "react-native";
 import MapView from "react-native-maps";
 import { View } from "react-native";
 // To deploy, follow https://docs.expo.dev/versions/latest/sdk/map-view/#deploy-app-with-google-maps
