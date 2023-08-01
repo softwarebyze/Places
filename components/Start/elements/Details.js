@@ -2,6 +2,7 @@ import _Button from "./_Button";
 import _Input from "./_Input";
 import _Header from "./_Header";
 import _Divider from "./_Divider";
+import _Dropdown from "./_Dropdown";
 import RadioForm from "react-native-simple-radio-button";
 
 import Styles from "../styles/Styles";
@@ -15,6 +16,7 @@ import {
   TouchableNativeFeedback,
   View,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { useRef, useState } from "react";
 import Colors from "../../../settings/Colors";
@@ -29,16 +31,18 @@ const Details = () => {
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
-    setShow(Platform.OS === "ios");
+
     setDate(currentDate);
   };
   const options = [
-    { label: "male", value: "male" },
-    { label: "female", value: "female" },
-    { label: "other", value: "other" },
+    { label: "Male", value: "Male" },
+    { label: "Female", value: "Female" },
+    { label: "Other", value: "Other" },
   ];
   const [isCollapsed, setIsCollapsed] = useState(true);
+  const [location, setLocation] = useState("");
 
+  const disabled = location.length === 0;
   const toggleDropdown = () => {
     setIsCollapsed(!isCollapsed);
   };
@@ -78,48 +82,50 @@ const Details = () => {
           />
         </View>
       </View>
-
-      <Text style={[Styles.d1Box, Styles.inputLabel]}>{"Gender"}</Text>
-      <TouchableOpacity
-        style={{
-          backgroundColor: Colors.primary1_100,
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          paddingHorizontal: 95,
-          paddingVertical: 12,
-          borderRadius: 100,
-        }}
-        onPress={toggleDropdown}
-      >
-        <Text
-          style={[
-            Styles.whiteText,
-            Styles.blueDropdownHeader,
-            { fontWeight: "bold" },
-          ]}
-        >
-          Select an option
-        </Text>
-        {isCollapsed ? (
-          <Ionicons name="chevron-down-outline" size={24} color="white" />
-        ) : (
-          <Ionicons name="chevron-up-outline" size={24} color="white" />
-        )}
-      </TouchableOpacity>
-      <Collapsible
-        align="bottom"
-        collapsed={isCollapsed}
-        containerStyle={{ borderRadius: 0 }}
-      >
-        <RadioForm
-          radio_props={options}
-          initial={0} //initial value of this group
-          onPress={(value) => {
-            setChosenOption(value);
-          }}
-        />
-      </Collapsible>
+      <View style={Styles.dropdownMargin}>
+        <Pressable onPress={toggleDropdown}>
+          <Text
+            style={[
+              Styles.dropdownHeader,
+              !isCollapsed ? Styles.blueBorder : "",
+              location.length > 0 ? Styles.blackText : "",
+            ]}
+          >
+            Select an option
+          </Text>
+        </Pressable>
+        <Collapsible collapsed={isCollapsed}>
+          <View style={[Styles.blueBorder, Styles.backgroundWhite]}>
+            <TouchableOpacity
+              style={Styles.dropdownItem}
+              onPress={() => {
+                setLocation("New York City, USA");
+                toggleDropdown();
+              }}
+            >
+              <Text>New York City, USA</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={Styles.dropdownItem}
+              onPress={() => {
+                setLocation("Tel Aviv, Israel");
+                toggleDropdown();
+              }}
+            >
+              <Text>Tel Aviv, Israel</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={Styles.dropdownItem}
+              onPress={() => {
+                setLocation("Herzilya, Israel");
+                toggleDropdown();
+              }}
+            >
+              <Text>Herzilya, Israel</Text>
+            </TouchableOpacity>
+          </View>
+        </Collapsible>
+      </View>
 
       <View style={Styles.signUpInput}>
         <Text style={[Styles.d1Box, Styles.inputLabel]}>{"Date of Birth"}</Text>
@@ -147,6 +153,7 @@ const Details = () => {
         textColor="white_100"
         underline={false}
       />
+      <_Dropdown />
     </SafeAreaView>
   );
 };

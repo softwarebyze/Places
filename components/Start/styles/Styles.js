@@ -243,4 +243,7 @@ export default new StyleSheet.create({
     alignSelf: "center",
     marginRight: 15,
   },
+  genderInput: {
+    width: ELEMENT_WIDTH,
+  },
 });
