@@ -35,6 +35,15 @@ const markers = [
   },
 ];
 
+const SlideUpPanel = ({ title }) => {
+  return (
+    <View style={styles.slideUpPanel}>
+      <Text style={styles.panelTitle}>{title}</Text>
+      {/* Add other content here */}
+    </View>
+  );
+};
+
 const MapsPage = () => {
   const [selectedMarker, setSelectedMarker] = useState(null);
 
@@ -57,7 +66,7 @@ const MapsPage = () => {
       </MapView>
       {selectedMarker && (
         <View style={styles.markerInfoContainer}>
-          <Text style={styles.markerTitle}>{selectedMarker.title}</Text>
+          <SlideUpPanel title={selectedMarker.title} />
         </View>
       )}
     </View>
@@ -84,6 +93,17 @@ const styles = StyleSheet.create({
   markerTitle: {
     fontSize: 18,
     fontWeight: "bold",
+  },
+  slideUpPanel: {
+    backgroundColor: "white",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    padding: 20,
+  },
+  panelTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
   },
 });
 
