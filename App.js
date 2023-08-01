@@ -106,7 +106,7 @@ const App = () => {
           headerTintColor: "rgba(28, 27, 31, 1)",
         }}
       >
-        <Stack.Screen name="Start" component={Details} />
+        <Stack.Screen name="Start" component={StartPage} />
         <Stack.Group screenOptions={{ presentation: "modal" }}>
           <Stack.Screen name="Login" component={LoginPage} />
           <Stack.Screen name="Signup" component={SignUpPage} />
