@@ -7,60 +7,64 @@ import {
 } from "react-native";
 import React from "react";
 import Styles from "../styles/Styles";
+import { useState } from "react";
+import Collapsible from "react-native-collapsible";
+import { Ionicons } from "@expo/vector-icons";
 
 const _Dropdown = (props) => {
+  /**
+   *
+   */
   const [isCollapsed, setIsCollapsed] = useState(true);
-  const [location, setLocation] = useState("");
-
-  const disabled = location.length === 0;
+  const [selected, setSelected] = useState("");
 
   const toggleDropdown = () => {
     setIsCollapsed(!isCollapsed);
   };
   return (
-    <View style={Styles.dropdownMargin}>
-      <Pressable onPress={toggleDropdown}>
-        <Text
+    <View>
+      <Text style={[Styles.inputLabel]}>{props.labelText}</Text>
+      <View>
+        <Pressable
           style={[
+            Styles.blueBorder,
+            selected.length > 0 ? Styles.blackText : "",
             Styles.dropdownHeader,
-            !isCollapsed ? Styles.blueBorder : "",
-            location.length > 0 ? Styles.blackText : "",
+            isCollapsed ? Styles.borderRadii : Styles.topBorderRadii,
+            !isCollapsed && Styles.dropdownHeaderActive,
+            {
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            },
           ]}
+          onPress={toggleDropdown}
         >
-          {location.length > 0 ? location : "Choose a Location"}
-        </Text>
-      </Pressable>
-      <Collapsible collapsed={isCollapsed}>
-        <View style={[Styles.blueBorder, Styles.backgroundWhite]}>
-          <TouchableOpacity
-            style={Styles.dropdownItem}
-            onPress={() => {
-              setLocation("New York City, USA");
-              toggleDropdown();
-            }}
-          >
-            <Text>New York City, USA</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={Styles.dropdownItem}
-            onPress={() => {
-              setLocation("Tel Aviv, Israel");
-              toggleDropdown();
-            }}
-          >
-            <Text>Tel Aviv, Israel</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={Styles.dropdownItem}
-            onPress={() => {
-              setLocation("Herzilya, Israel");
-              toggleDropdown();
-            }}
-          >
-            <Text>Herzilya, Israel</Text>
-          </TouchableOpacity>
-        </View>
-      </Collapsible>
+          <Text>{selected.length > 0 ? selected : props.label}</Text>
+          {isCollapsed ? (
+            <Ionicons name="chevron-down-outline" size={24} />
+          ) : (
+            <Ionicons name="chevron-up-outline" size={24} />
+          )}
+        </Pressable>
+        <Collapsible collapsed={isCollapsed}>
+          <View style={[Styles.blueBorder]}>
+            {props.data.map(({ label, value }) => (
+              <TouchableOpacity
+                style={Styles.dropdownItem}
+                onPress={() => {
+                  setSelected(value);
+                  toggleDropdown();
+                  props.onSelect(value);
+                }}
+                key={value}
+              >
+                <Text>{label}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </Collapsible>
+      </View>
     </View>
   );
 };

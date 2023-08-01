@@ -3,49 +3,34 @@ import _Input from "./_Input";
 import _Header from "./_Header";
 import _Divider from "./_Divider";
 import _Dropdown from "./_Dropdown";
-import RadioForm from "react-native-simple-radio-button";
 
 import Styles from "../styles/Styles";
 import TERMS from "../../../settings/Terms";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons } from "@expo/vector-icons";
 import PhoneInput from "react-native-phone-input";
-import {
-  Text,
-  TouchableNativeFeedback,
-  View,
-  TouchableOpacity,
-  Pressable,
-} from "react-native";
+import { Text, View } from "react-native";
 import { useRef, useState } from "react";
 import Colors from "../../../settings/Colors";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import Collapsible from "react-native-collapsible";
 
 const terms = TERMS["English"];
 
 const Details = () => {
-  const [date, setDate] = useState(new Date(1598051730000));
-  const [chosenOption, setChosenOption] = useState("apple");
+  const [date, setDate] = useState(new Date());
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
 
     setDate(currentDate);
   };
-  const options = [
+  const genders = [
     { label: "Male", value: "Male" },
     { label: "Female", value: "Female" },
     { label: "Other", value: "Other" },
   ];
-  const [isCollapsed, setIsCollapsed] = useState(true);
-  const [location, setLocation] = useState("");
+  const [gender, setGender] = useState("");
 
-  const disabled = location.length === 0;
-  const toggleDropdown = () => {
-    setIsCollapsed(!isCollapsed);
-  };
   const navigator = useNavigation();
   const phoneRef = useRef();
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -82,50 +67,12 @@ const Details = () => {
           />
         </View>
       </View>
-      <View style={Styles.dropdownMargin}>
-        <Pressable onPress={toggleDropdown}>
-          <Text
-            style={[
-              Styles.dropdownHeader,
-              !isCollapsed ? Styles.blueBorder : "",
-              location.length > 0 ? Styles.blackText : "",
-            ]}
-          >
-            Select an option
-          </Text>
-        </Pressable>
-        <Collapsible collapsed={isCollapsed}>
-          <View style={[Styles.blueBorder, Styles.backgroundWhite]}>
-            <TouchableOpacity
-              style={Styles.dropdownItem}
-              onPress={() => {
-                setLocation("New York City, USA");
-                toggleDropdown();
-              }}
-            >
-              <Text>New York City, USA</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={Styles.dropdownItem}
-              onPress={() => {
-                setLocation("Tel Aviv, Israel");
-                toggleDropdown();
-              }}
-            >
-              <Text>Tel Aviv, Israel</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={Styles.dropdownItem}
-              onPress={() => {
-                setLocation("Herzilya, Israel");
-                toggleDropdown();
-              }}
-            >
-              <Text>Herzilya, Israel</Text>
-            </TouchableOpacity>
-          </View>
-        </Collapsible>
-      </View>
+      <_Dropdown
+        label="Select an option"
+        data={genders}
+        labelText="Gender"
+        onSelect={setGender}
+      />
 
       <View style={Styles.signUpInput}>
         <Text style={[Styles.d1Box, Styles.inputLabel]}>{"Date of Birth"}</Text>
@@ -137,7 +84,7 @@ const Details = () => {
               padding: 10,
               fontSize: 17,
               borderColor: Colors.primary1_100,
-              justifyContent: "center",
+              justifyContent: "flex-start",
             },
           ]}
         >
@@ -153,7 +100,6 @@ const Details = () => {
         textColor="white_100"
         underline={false}
       />
-      <_Dropdown />
     </SafeAreaView>
   );
 };
