@@ -9,10 +9,11 @@ import TERMS from "../../../settings/Terms";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import PhoneInput from "react-native-phone-input";
-import { Text, View } from "react-native";
+import { Platform, Text, View } from "react-native";
 import { useRef, useState } from "react";
 import Colors from "../../../settings/Colors";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { Button } from "react-native";
 
 const terms = TERMS["English"];
 
@@ -21,7 +22,8 @@ const Details = () => {
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [gender, setGender] = useState("");
-  const [dateOfBirth, setDateOfBirth] = useState(new Date());
+  const [dateOfBirth, setDateOfBirth] = useState(new Date(0));
+  const [showDatePicker, setShowDatePicker] = useState(false);
   const phoneRef = useRef();
 
   const completed = firstName.length && lastName.length && gender.length;
@@ -29,6 +31,7 @@ const Details = () => {
 
   const onChangeDate = (event, selectedDate) => {
     const currentDate = selectedDate || dateOfBirth;
+    setShowDatePicker(false);
     setDateOfBirth(currentDate);
   };
 
@@ -91,10 +94,24 @@ const Details = () => {
               fontSize: 17,
               borderColor: Colors.primary1_100,
               justifyContent: "flex-start",
+              alignItems: "center",
+              padding: 12,
+              height: 70,
             },
           ]}
         >
-          <DateTimePicker value={dateOfBirth} onChange={onChangeDate} />
+          {/* Added platform code because there's a bug in Android 
+          where the date picker won't hide */}
+          {Platform.OS === "ios" ? (
+            <DateTimePicker value={dateOfBirth} onChange={onChangeDate} />
+          ) : showDatePicker ? (
+            <DateTimePicker value={dateOfBirth} onChange={onChangeDate} />
+          ) : (
+            <Button
+              title={dateOfBirth.toLocaleDateString()}
+              onPress={() => setShowDatePicker(true)}
+            />
+          )}
         </View>
       </View>
       <_Button
