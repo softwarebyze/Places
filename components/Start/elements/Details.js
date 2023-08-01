@@ -17,34 +17,41 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 const terms = TERMS["English"];
 
 const Details = () => {
-  const [date, setDate] = useState(new Date());
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [gender, setGender] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState(new Date());
+  const phoneRef = useRef();
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
+  const completed = firstName.length && lastName.length && gender.length;
+  const disabled = !completed;
 
-    setDate(currentDate);
+  const onChangeDate = (event, selectedDate) => {
+    const currentDate = selectedDate || dateOfBirth;
+    setDateOfBirth(currentDate);
   };
+
   const genders = [
     { label: "Male", value: "Male" },
     { label: "Female", value: "Female" },
     { label: "Other", value: "Other" },
   ];
-  const [gender, setGender] = useState("");
 
   const navigator = useNavigation();
-  const phoneRef = useRef();
-  const [phoneNumber, setPhoneNumber] = useState("");
   return (
     <SafeAreaView style={[Styles.suliContinues, Styles.page]}>
       <_Input
         labelText={"First Name"}
         borderColor={"primary1_100"}
         style={Styles.signUpInput}
+        onChangeText={setFirstName}
       />
       <_Input
         labelText={"Last Name"}
         borderColor={"primary1_100"}
         style={Styles.signUpInput}
+        onChangeText={setLastName}
       />
       <View style={Styles.signUpInput}>
         <Text style={[Styles.d1Box, Styles.inputLabel]}>{"Phone Number"}</Text>
@@ -61,7 +68,7 @@ const Details = () => {
           ]}
         >
           <PhoneInput
-            initialCountry={"us"}
+            initialCountry="us"
             ref={phoneRef}
             onChangePhoneNumber={setPhoneNumber}
           />
@@ -88,17 +95,17 @@ const Details = () => {
             },
           ]}
         >
-          <DateTimePicker value={date} onChange={onChange} />
+          <DateTimePicker value={dateOfBirth} onChange={onChangeDate} />
         </View>
       </View>
-
       <_Button
         text={terms["0017"]}
         action={() => navigator.navigate("ChooseLocation")}
-        color="primary1_100"
-        borderColor="primary1_030"
+        color={disabled ? "primary1_030" : "primary1_100"}
+        borderColor={disabled ? "light_grey" : "primary1_100"}
         textColor="white_100"
         underline={false}
+        disabled={disabled}
       />
     </SafeAreaView>
   );
