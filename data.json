@@ -1,0 +1,98 @@
+{
+  "football": {
+    "category": "sports",
+    "location": "New York City",
+    "members": 10,
+    "image": "/assets/interest_images/football.png"
+  },
+  "baseball": {
+    "category": "buy/sell",
+    "location": "New York City",
+    "members": 150,
+    "image": "/assets/interest_images/baseball.png"
+  },
+  "basketball": {
+    "category": "donations",
+    "location": "New York City",
+    "members": 115,
+    "image": "/assets/interest_images/basketball.png"
+  },
+  "boxing": {
+    "category": "hobbies",
+    "location": "New York City",
+    "members": 3,
+    "image": "/assets/interest_images/boxing.png"
+  },
+  "climbing": {
+    "category": "sports",
+    "location": "New York City",
+    "members": 7,
+    "image": "/assets/interest_images/climbing.png"
+  },
+  "cycling": {
+    "category": "buy/sell",
+    "location": "New York City",
+    "members": 1500,
+    "image": "/assets/interest_images/cycling.png"
+  },
+  "golf": {
+    "category": "donations",
+    "location": "New York City",
+    "members": 68,
+    "image": "/assets/interest_images/golf.png"
+  },
+  "gymnastics": {
+    "category": "hobbies",
+    "location": "New York City",
+    "members": 9,
+    "image": "/assets/interest_images/gymnastics.png"
+  },
+  "hockey": {
+    "category": "sports",
+    "location": "New York City",
+    "members": 100,
+    "image": "/assets/interest_images/hockey.png"
+  },
+  "skateboarding": {
+    "category": "buy/sell",
+    "location": "New York City",
+    "members": 151,
+    "image": "/assets/interest_images/skateboarding.png"
+  },
+  "skiing": {
+    "category": "donations",
+    "location": "New York City",
+    "members": 15,
+    "image": "/assets/interest_images/skiing.png"
+  },
+  "rugby": {
+    "category": "hobbies",
+    "location": "New York City",
+    "members": 35,
+    "image": "/assets/interest_images/rugby.png"
+  },
+  "soccer": {
+    "category": "sports",
+    "location": "New York City",
+    "members": 68,
+    "image": "/assets/interest_images/soccer.png"
+  },
+  "surfing": {
+    "category": "buy/sell",
+    "location": "New York City",
+    "members": 82,
+    "image": "/assets/interest_images/surfing.png"
+  },
+  "swimming": {
+    "category": "donations",
+    "location": "New York City",
+    "members": 99,
+    "image": "/assets/interest_images/swimming.png"
+  },
+  "volleyball": {
+    "category": "hobbies",
+    "location": "New York City",
+    "members": 1000,
+    "image": "/assets/interest_images/volleyball.png"
+  }
+}
