@@ -37,7 +37,7 @@ const signIn = async (email, password) => {
   const userId = auth.currentUser.uid;
   console.log("auth.currentUser.uid", userId);
 
-  const res = await fetch(`https://auth-token.onrender.com/?user_id=${userId}`);
+  const res = await fetch(`https://auth-token.onrender.com/${userId}`);
   const { token } = await res.json();
   console.log(token);
 
