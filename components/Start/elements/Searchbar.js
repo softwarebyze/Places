@@ -37,6 +37,7 @@ const Searchbar = (props) => {
             flex: 1,
             height: "100%",
           }}
+          onChangeText={props.onChange}
         />
       </View>
     </View>

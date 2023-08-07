@@ -1,4 +1,5 @@
-import { Text, View, Image, ScrollView } from "react-native";
+import { Text, View, Image, ScrollView, SafeAreaView } from "react-native";
+import { useState } from "react";
 import _Button from "../elements/_Button";
 import Searchbar from "../elements/Searchbar";
 import NoResults from "../elements/NoResults";
@@ -7,11 +8,14 @@ import Colors from "../../../settings/Colors";
 import { interests } from "../../../data.js";
 
 const CategoryPage = () => {
-  console.log(interests);
+  const [search, setSearch] = useState("");
+  const filteredInterests = interests.filter((interest) =>
+    interest.name.includes(search.toLowerCase()),
+  );
 
   return (
-    <View style={{ flex: 1, alignItems: "center" }}>
-      <Searchbar />
+    <View style={STYLES.page}>
+      <Searchbar onChange={setSearch} />
 
       <ScrollView
         style={{
@@ -19,7 +23,7 @@ const CategoryPage = () => {
           width: "100%",
         }}
       >
-        {interests.map((interest, index) => (
+        {filteredInterests.map((interest, index) => (
           <View key={index} style={STYLES.catPageGrid}>
             <View style={STYLES.catPageInfo}>
               <Image
@@ -44,9 +48,10 @@ const CategoryPage = () => {
         ))}
 
         <View style={{ marginTop: 27, marginBottom: 24, alignItems: "center" }}>
-          <Text style={{ color: "grey" }}> Not seeing your interest? </Text>
-          <Text style={{ color: "grey" }}>
-            Submit a request and we will add it to the list.
+          {!filteredInterests.length && <NoResults />}
+          <Text style={{ color: "grey", textAlign: "center" }}>
+            Not seeing one of your interests? Submit a request and we will add
+            it to the list.
           </Text>
           <_Button
             style={{ marginTop: 23 }}
