@@ -1,54 +1,55 @@
 import { Text, View, Image, ScrollView } from "react-native";
-import { useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import _Button from "../elements/_Button";
 import Searchbar from "../elements/Searchbar";
 import NoResults from "../elements/NoResults";
 import STYLES from "../styles/Styles";
 import Colors from "../../../settings/Colors";
-import { data } from "../../../data.json";
-
-const [interests, setInterests] = useState([]);
+import { interests } from "../../../data.js";
 
 const CategoryPage = () => {
-  const interestList = JSON.parse(interests);
+  console.log(interests);
 
   return (
-    <SafeAreaView style={{ flex: 1, alignItems: "center" }}>
+    <View style={{ flex: 1, alignItems: "center" }}>
       <Searchbar />
 
       <ScrollView
         style={{
           backgroundColor: Colors.light_grey,
           width: "100%",
-          paddingTop: 20,
         }}
       >
-        <View style={STYLES.catPageGrid}>
-          <View style={STYLES.catPageInfo}>
-            <Image
-              source={require("../../../assets/interest_images/football.png")}
-            />
-            <View style={STYLES.catPageMemberInfo}>
-              <Text style={STYLES.catPageLocationText}>
-                American Football/New York City
-              </Text>
-              <Text style={STYLES.catPageMembersText}>15 members</Text>
+        {interests.map((interest, index) => (
+          <View key={index} style={STYLES.catPageGrid}>
+            <View style={STYLES.catPageInfo}>
+              <Image
+                source={{ uri: interest.image }}
+                style={{ width: 32, height: 32 }}
+              />
+              <View style={STYLES.catPageMemberInfo}>
+                <Text style={STYLES.catPageLocationText}>
+                  {`${interest.name}/New York City`}
+                </Text>
+                <Text style={STYLES.catPageMembersText}>
+                  {`${interest.members} members`}
+                </Text>
+              </View>
+            </View>
+            <View style={STYLES.catPageArrow}>
+              <Image
+                source={require("../../../assets/interest_images/arrow.png")}
+              />
             </View>
           </View>
-          <View style={STYLES.catPageArrow}>
-            <Image
-              source={require("../../../assets/interest_images/arrow.png")}
-            />
-          </View>
-        </View>
+        ))}
 
-        <View style={{ marginTop: 30, alignItems: "center" }}>
+        <View style={{ marginTop: 27, marginBottom: 24, alignItems: "center" }}>
           <Text style={{ color: "grey" }}> Not seeing your interest? </Text>
           <Text style={{ color: "grey" }}>
-            Submit a request and we will add it to the list?
+            Submit a request and we will add it to the list.
           </Text>
           <_Button
+            style={{ marginTop: 23 }}
             text={"Request a New Interest"}
             color={"primary1_100"}
             borderColor={"light_grey"}
@@ -57,7 +58,7 @@ const CategoryPage = () => {
           />
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 

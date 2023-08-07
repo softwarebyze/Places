@@ -216,7 +216,7 @@ export default new StyleSheet.create({
   catPageGrid: {
     flexDirection: "row",
     width: "95%",
-    height: "12%",
+    height: 64,
     borderRadius: 10,
     backgroundColor: "white",
     alignContent: "center",

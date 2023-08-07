@@ -9,7 +9,8 @@ const Searchbar = (props) => {
         width: "100%",
         backgroundColor: Colors.white_100,
         alignItems: "center",
-        height: "10%",
+        height: 72,
+        justifyContent: "center",
       }}
     >
       <View
@@ -17,18 +18,25 @@ const Searchbar = (props) => {
           flexDirection: "row",
           backgroundColor: Colors.light_grey,
           alignItems: "center",
-          borderWidth: 1,
-          borderRadius: 5,
-          height: "50%",
+          borderRadius: 6,
+          height: 40,
           width: "90%",
-          marginTop: 15,
+          justifyContent: "space-around",
+          borderWidth: 1,
         }}
       >
-        <Image source={require("../../../assets/search-icon.png")} />
+        <Image
+          style={{
+            marginHorizontal: 10,
+          }}
+          source={require("../../../assets/search-icon.png")}
+        />
         <TextInput
           placeholder="search"
-          keyboard="default"
-          style={{ marginLeft: 10 }}
+          style={{
+            flex: 1,
+            height: "100%",
+          }}
         />
       </View>
     </View>
