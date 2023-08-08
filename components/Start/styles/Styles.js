@@ -43,7 +43,7 @@ export default new StyleSheet.create({
     fontSize: 18,
     color: "#000",
     fontWeight: "600",
-    marginBottom: 16,
+    marginVertical: 16,
   },
   sloganText: {
     fontStyle: "normal",
@@ -223,13 +223,13 @@ export default new StyleSheet.create({
   },
   catPageGrid: {
     flexDirection: "row",
-    width: "95%",
-    height: "9%",
+    height: 64,
     borderRadius: 10,
     backgroundColor: "white",
     alignContent: "center",
     justifyContent: "space-between",
     marginTop: 10,
+    marginHorizontal: 16,
   },
   catPageInfo: {
     flexDirection: "row",
@@ -249,7 +249,7 @@ export default new StyleSheet.create({
   },
   catPageArrow: {
     alignSelf: "center",
-    marginRight: 15,
+    marginHorizontal: 20,
   },
   genderInput: {
     width: ELEMENT_WIDTH,
