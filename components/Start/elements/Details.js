@@ -56,6 +56,7 @@ const Details = () => {
         phone: phoneNumber,
         gender,
         details_completed: true,
+        birth_date: dateOfBirth,
       },
       { merge: true },
     );
