@@ -43,7 +43,7 @@ export default new StyleSheet.create({
     fontSize: 18,
     color: "#000",
     fontWeight: "600",
-    marginBottom: 16,
+    marginVertical: 16,
   },
   sloganText: {
     fontStyle: "normal",
