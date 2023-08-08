@@ -8,6 +8,7 @@ import _Button from "../elements/_Button";
 import STYLES from "../styles/Styles";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ActivityIndicator } from "react-native";
 
 const terms = TERMS["English"];
 
@@ -32,12 +33,25 @@ const SignUpPage = () => {
   const [confirmPasswordFocusState, setConfirmPasswordFocusState] =
     useState(false);
   const [confirmPasswordTextState, setConfirmPasswordTextState] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const passwordsMatch =
     passwordTextState.length && passwordTextState === confirmPasswordTextState;
-
   const emailIsValid = validateEmail(emailTextState);
   const passwordIsValid = validatePassword(passwordTextState);
   const canContinue = emailIsValid && passwordIsValid && passwordsMatch;
+
+  const handleSignUp = async () => {
+    setLoading(true);
+    await createUserWithEmailAndPassword(
+      auth,
+      emailTextState,
+      passwordTextState,
+    );
+    setLoading(false);
+    navigator.replace("Details");
+  };
+
   return (
     <SafeAreaView style={STYLES.page}>
       <_Header
@@ -104,48 +118,47 @@ const SignUpPage = () => {
             : "clear_000"
         }
       />
-      <_Button
-        // continue ->
-        // if firebase has your first name -> "This email is already in use."
-        // else -> Details
-        text={terms["0008"]}
-        action={async () => {
-          await createUserWithEmailAndPassword(
-            auth,
-            emailTextState,
-            passwordTextState,
-          );
-          navigator.replace("Details");
-        }}
-        color={canContinue ? "primary1_100" : "primary1_030"}
-        borderColor={canContinue ? "primary1_100" : "primary1_030"}
-        textColor="white_100"
-        disabled={!canContinue}
-      />
-      <_Divider text="or" color="gray1_100" />
-      <_Button
-        text={terms["0011"]}
-        action={() => navigator.replace("HomeTabs")}
-        color="primary1_100"
-        borderColor="primary1_100"
-        textColor="white_100"
-        style={{ marginBottom: 20 }}
-      />
-      <_Button
-        text={terms["0012"]}
-        action={() => navigator.replace("Facebook")}
-        color="white_100"
-        borderColor="primary1_100"
-        textColor="primary1_100"
-      />
-      <_Button
-        text={"Already have an account?"}
-        action={() => navigator.replace("Login")}
-        color="white_100"
-        borderColor="white_100"
-        textColor="primary1_100"
-        underline={true}
-      />
+      {loading ? (
+        <ActivityIndicator />
+      ) : (
+        <>
+          <_Button
+            // continue ->
+            // if firebase has your first name -> "This email is already in use."
+            // else -> Details
+            text={terms["0008"]}
+            action={handleSignUp}
+            color={canContinue ? "primary1_100" : "primary1_030"}
+            borderColor={canContinue ? "primary1_100" : "primary1_030"}
+            textColor="white_100"
+            disabled={!canContinue}
+          />
+          <_Divider text="or" color="gray1_100" />
+          <_Button
+            text={terms["0011"]}
+            action={() => navigator.replace("HomeTabs")}
+            color="primary1_100"
+            borderColor="primary1_100"
+            textColor="white_100"
+            style={{ marginBottom: 20 }}
+          />
+          <_Button
+            text={terms["0012"]}
+            action={() => navigator.replace("Facebook")}
+            color="white_100"
+            borderColor="primary1_100"
+            textColor="primary1_100"
+          />
+          <_Button
+            text={"Already have an account?"}
+            action={() => navigator.replace("Login")}
+            color="white_100"
+            borderColor="white_100"
+            textColor="primary1_100"
+            underline={true}
+          />
+        </>
+      )}
     </SafeAreaView>
   );
 };

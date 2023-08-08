@@ -10,6 +10,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../../../settings/Colors";
 import { useState } from "react";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../../../firebaseConfig";
+import { ActivityIndicator } from "react-native";
+import { getAuth } from "firebase/auth";
 
 const terms = TERMS["English"];
 
@@ -51,6 +55,7 @@ const InterestsPage = () => {
   const navigator = useNavigation();
   const REQUIRED_INTERESTS = 5;
   const [interests, setInterests] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const disabled = interests.length < REQUIRED_INTERESTS;
 
@@ -60,6 +65,16 @@ const InterestsPage = () => {
     } else {
       setInterests([...interests, interest]);
     }
+  };
+
+  const handleSubmitInterests = async () => {
+    setLoading(true);
+    const auth = getAuth();
+    const userId = auth.currentUser.uid;
+    const userRef = doc(db, "users", userId);
+    await setDoc(userRef, { interests }, { merge: true });
+    setLoading(false);
+    navigator.navigate("HomeTabs");
   };
 
   return (
@@ -130,15 +145,19 @@ const InterestsPage = () => {
           />
         </View>
       </View>
-      <_Button
-        text="Continue"
-        action={() => navigator.navigate("HomeTabs")}
-        color={disabled ? "primary1_030" : "primary1_100"}
-        borderColor={disabled ? "light_grey" : "primary1_100"}
-        textColor="white_100"
-        style={STYLES.startButton}
-        disabled={disabled}
-      />
+      {loading ? (
+        <ActivityIndicator />
+      ) : (
+        <_Button
+          text="Continue"
+          action={handleSubmitInterests}
+          color={disabled ? "primary1_030" : "primary1_100"}
+          borderColor={disabled ? "light_grey" : "primary1_100"}
+          textColor="white_100"
+          style={STYLES.startButton}
+          disabled={disabled}
+        />
+      )}
     </View>
   );
 };

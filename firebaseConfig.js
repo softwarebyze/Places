@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFunctions, httpsCallable } from "firebase/functions";
+import { getFirestore } from "firebase/firestore";
 
 // Initialize Firebase
 const firebaseConfig = {
@@ -16,6 +17,8 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const functions = getFunctions(app);
+// Initialize Cloud Firestore and get a reference to the service
+export const db = getFirestore(app);
 // export const getStreamUserToken = httpsCallable(
 //   functions,
 //   "ext-auth-chat-getStreamUserToken",
