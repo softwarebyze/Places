@@ -63,7 +63,7 @@ const InterestsPage = () => {
   };
 
   return (
-    <SafeAreaView style={[STYLES.page, { backgroundColor: Colors.light_grey }]}>
+    <View style={[STYLES.page, { backgroundColor: Colors.light_grey }]}>
       <Text style={STYLES.descriptionText}>{terms["0023"]}</Text>
 
       <View style={{ marginBottom: 20 }}>
@@ -139,7 +139,7 @@ const InterestsPage = () => {
         style={STYLES.startButton}
         disabled={disabled}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
