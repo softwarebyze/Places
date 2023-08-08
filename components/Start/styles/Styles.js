@@ -167,13 +167,20 @@ export default new StyleSheet.create({
   blackText: {
     color: "black",
   },
+  borderRadii: {
+    borderRadius: 10,
+  },
+  topBorderRadii: {
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
   dropdownHeader: {
-    width: ELEMENT_WIDTH,
     padding: 16,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 6,
     backgroundColor: COLORS.white_100,
     color: COLORS.dark_grey,
+  },
+  dropdownHeaderActive: {
+    borderBottomWidth: 0,
   },
   blueBorder: {
     borderWidth: 1,
@@ -182,6 +189,7 @@ export default new StyleSheet.create({
   dropdownItem: {
     width: ELEMENT_WIDTH,
     padding: 16,
+    backgroundColor: COLORS.white_100,
   },
   backgroundWhite: {
     backgroundColor: COLORS.white_100,
@@ -242,5 +250,8 @@ export default new StyleSheet.create({
   catPageArrow: {
     alignSelf: "center",
     marginHorizontal: 20,
+  },
+  genderInput: {
+    width: ELEMENT_WIDTH,
   },
 });

@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Text } from "react-native";
 import _Header from "../elements/_Header";
 import STYLES from "../styles/Styles";
 import TERMS from "../../../settings/Terms";
@@ -10,7 +10,7 @@ import _Divider from "../elements/_Divider";
 
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { StreamChat } from "stream-chat";
-import { getFunctions, httpsCallable } from "firebase/functions";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const terms = TERMS["English"];
 
@@ -24,34 +24,24 @@ const validatePassword = (password) => {
   return password.length >= 6;
 };
 
-// const { EXPO_PUBLIC_STREAM_API_KEY } = process.env;
-// const client = StreamChat.getInstance(EXPO_PUBLIC_STREAM_API_KEY);
+const { EXPO_PUBLIC_STREAM_API_KEY } = process.env;
+const client = StreamChat.getInstance(EXPO_PUBLIC_STREAM_API_KEY);
 
 const signIn = async (email, password) => {
   const auth = getAuth();
   console.log({ auth });
-  const res = await signInWithEmailAndPassword(auth, email, password);
-  console.log("res", res);
+
+  await signInWithEmailAndPassword(auth, email, password);
   console.log("auth.currentUser", auth.currentUser);
 
   const userId = auth.currentUser.uid;
   console.log("auth.currentUser.uid", userId);
-  // try {
-  //   const functions = getFunctions();
-  //   const getStreamUserToken = httpsCallable(
-  //     functions,
-  //     "ext-auth-chat-getStreamUserToken",
-  //   );
-  //   const data = await getStreamUserToken({ userId });
-  //   console.log(data);
-  // } catch (error) {
-  //   console.log("getStreamUserToken error: ", error);
-  // }
 
-  // const { token } = data;
-  // console.log(token);
+  const res = await fetch(`https://auth-token.onrender.com/${userId}`);
+  const { token } = await res.json();
+  console.log(token);
 
-  // client.connectUser({ id: userId, name: "Zack" }, token);
+  client.connectUser({ id: userId }, token);
 };
 
 const LoginPage = () => {
@@ -66,7 +56,7 @@ const LoginPage = () => {
   const canContinue = emailIsValid && passwordIsValid;
 
   return (
-    <View style={STYLES.page}>
+    <SafeAreaView style={STYLES.page}>
       <_Header
         text={terms["0016"]}
         action={() => navigator.navigate("Start")}
@@ -151,8 +141,7 @@ const LoginPage = () => {
         textColor="primary1_100"
         underline={true}
       />
-      <Text>{JSON.stringify({ emailTextState, passwordTextState })}</Text>
-    </View>
+    </SafeAreaView>
   );
 };
 

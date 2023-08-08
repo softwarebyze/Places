@@ -13,9 +13,11 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.placesdev.places"
     },
     "android": {
+      "package": "com.places.places",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -28,12 +30,6 @@
       "eas": {
         "projectId": "5b4659d0-7e6a-4071-a149-4ccb3830ab4b"
       }
-    },
-    "runtimeVersion": {
-      "policy": "sdkVersion"
-    },
-    "updates": {
-      "url": "https://u.expo.dev/5b4659d0-7e6a-4071-a149-4ccb3830ab4b"
     }
   }
 }
