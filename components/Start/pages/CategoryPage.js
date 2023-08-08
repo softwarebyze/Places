@@ -14,7 +14,7 @@ const CategoryPage = () => {
   );
 
   return (
-    <View style={{ flex: 1, alignItems: "center", paddingHorizontal: 16 }}>
+    <View style={{ flex: 1, alignItems: "center" }}>
       <Searchbar onChange={setSearch} />
 
       <ScrollView
