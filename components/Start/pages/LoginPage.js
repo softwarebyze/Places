@@ -1,4 +1,4 @@
-import { ActivityIndicator, Text } from "react-native";
+import { ActivityIndicator } from "react-native";
 import _Header from "../elements/_Header";
 import STYLES from "../styles/Styles";
 import TERMS from "../../../settings/Terms";
@@ -11,7 +11,7 @@ import _Divider from "../elements/_Divider";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { StreamChat } from "stream-chat";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { collection, doc, getDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
 
 const terms = TERMS["English"];
@@ -31,27 +31,19 @@ const client = StreamChat.getInstance(EXPO_PUBLIC_STREAM_API_KEY);
 
 const signIn = async (email, password) => {
   const auth = getAuth();
-  console.log({ auth });
-
   await signInWithEmailAndPassword(auth, email, password);
-  console.log("auth.currentUser", auth.currentUser);
-
   const userId = auth.currentUser.uid;
-  console.log("auth.currentUser.uid", userId);
-
   const res = await fetch(`https://auth-token.onrender.com/${userId}`);
   const { token } = await res.json();
-  console.log(token);
-
-  // client.connectUser({ id: userId }, token);
+  await client.connectUser({ id: userId }, token);
 };
 
 const LoginPage = () => {
   const navigator = useNavigation();
   const [emailFocusState, setEmailFocusState] = useState(false);
-  const [emailTextState, setEmailTextState] = useState("zack@test.com");
+  const [emailTextState, setEmailTextState] = useState("");
   const [passwordFocusState, setPasswordFocusState] = useState(false);
-  const [passwordTextState, setPasswordTextState] = useState("123456");
+  const [passwordTextState, setPasswordTextState] = useState("");
   const [loading, setLoading] = useState(false);
 
   const emailIsValid = validateEmail(emailTextState);
@@ -61,25 +53,26 @@ const LoginPage = () => {
   const getUserData = async () => {
     const auth = getAuth();
     const userId = auth.currentUser.uid;
-    console.log("user id: ", userId);
 
     const userRef = doc(db, "users", userId);
     const userSnap = await getDoc(userRef);
 
     if (userSnap.exists()) {
-      console.log("user data: ", userSnap.data());
+      return userSnap.data();
     } else {
       console.log("No data for user!");
       return null;
     }
   };
 
-  const handleSignIn = async () => {
+  const handleSignInFlow = async () => {
     setLoading(true);
     await signIn(emailTextState, passwordTextState);
-    setLoading(false);
     const userData = await getUserData();
-    if (!userData) navigator.replace("Details");
+    setLoading(false);
+    if (!userData?.details_completed) return navigator.replace("Details");
+    if (!userData?.location) return navigator.replace("ChooseLocation");
+    if (!userData?.interests) return navigator.replace("ChooseInterests");
   };
 
   return (
@@ -137,7 +130,7 @@ const LoginPage = () => {
         <>
           <_Button
             text={terms["0008"]}
-            action={handleSignIn}
+            action={handleSignInFlow}
             color={canContinue ? "primary1_100" : "primary1_030"}
             borderColor={canContinue ? "primary1_100" : "primary1_030"}
             textColor="white_100"
