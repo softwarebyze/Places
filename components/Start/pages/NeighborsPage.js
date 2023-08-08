@@ -10,35 +10,22 @@ import {
 } from "stream-chat-expo";
 import { StreamChat } from "stream-chat";
 import { getAuth } from "firebase/auth";
-import _Header from "../elements/_Header";
-import _Button from "../elements/_Button";
+import { useNavigation } from "@react-navigation/native";
 
-const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
+// const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
 const auth = getAuth();
 
 const NeighborsPage = () => {
   const [selectedChannel, setSelectedChannel] = useState(null);
+  const navigator = useNavigation();
   return (
     <View style={{ flex: 1 }}>
-      <OverlayProvider>
-        <Chat client={client}>
-          {!selectedChannel ? (
-            <ChannelList
-              filters={{ members: { $in: [auth.currentUser.uid] } }}
-              onSelect={(channel) => {
-                console.log(selectedChannel);
-                setSelectedChannel(channel);
-              }}
-            />
-          ) : (
-            <Channel channel={selectedChannel}>
-              <View></View>
-              <MessageList />
-              <MessageInput />
-            </Channel>
-          )}
-        </Chat>
-      </OverlayProvider>
+      <ChannelList
+        filters={{ members: { $in: [auth.currentUser.uid] } }}
+        onSelect={(channel) => {
+          navigator.navigate("Channel", { channel });
+        }}
+      />
     </View>
   );
 };
