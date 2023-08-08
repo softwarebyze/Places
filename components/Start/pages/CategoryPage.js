@@ -1,12 +1,14 @@
 import { Text, View, ScrollView } from "react-native";
 import { Image } from "expo-image";
-import { useState } from "react";
+import { useState, useMemo, useRef } from "react";
 import _Button from "../elements/_Button";
 import Searchbar from "../elements/Searchbar";
 import NoResults from "../elements/NoResults";
 import STYLES from "../styles/Styles";
 import Colors from "../../../settings/Colors";
 import { interests } from "../../../data.js";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import BottomSheet from "@gorhom/bottom-sheet";
 
 const InterestListItem = ({ interest }) => {
   return (
@@ -37,40 +39,69 @@ const CategoryPage = () => {
   const filteredInterests = interests.filter((interest) =>
     interest.name.includes(search.toLowerCase()),
   );
+  const bottomSheetRef = useRef(null);
+  const snapPoints = useMemo(() => ["50%"], []);
+
+  const [showPopup, setShowPopup] = useState(false);
+
+  const handleClose = () => {
+    setShowPopup(false);
+  };
 
   return (
-    <View style={{ flex: 1, alignItems: "center" }}>
-      <Searchbar onChange={setSearch} />
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <View style={{ flex: 1, alignItems: "center" }}>
+        <Searchbar onChange={setSearch} />
 
-      <ScrollView
-        style={{
-          backgroundColor: Colors.light_grey,
-          width: "100%",
-        }}
-      >
-        {filteredInterests.map((interest, index) => (
-          <InterestListItem interest={interest} key={index} />
-        ))}
+        <ScrollView
+          style={{
+            backgroundColor: Colors.light_grey,
+            width: "100%",
+          }}
+        >
+          {filteredInterests.map((interest, index) => (
+            <InterestListItem interest={interest} key={index} />
+          ))}
 
-        <View style={{ marginTop: 27, marginBottom: 24, alignItems: "center" }}>
-          {!filteredInterests.length && <NoResults />}
-          <Text
-            style={{ color: "grey", textAlign: "center", marginHorizontal: 15 }}
+          <View
+            style={{ marginTop: 27, marginBottom: 24, alignItems: "center" }}
           >
-            Not seeing one of your interests? Submit a request and we will add
-            it to the list.
-          </Text>
-          <_Button
-            style={{ marginTop: 23 }}
-            text={"Request a New Interest"}
-            color={"primary1_100"}
-            borderColor={"light_grey"}
-            textColor="white_100"
-            underline={false}
-          />
-        </View>
-      </ScrollView>
-    </View>
+            {!filteredInterests.length && <NoResults />}
+            <Text
+              style={{
+                color: "grey",
+                textAlign: "center",
+                marginHorizontal: 15,
+              }}
+            >
+              Not seeing one of your interests? Submit a request and we will add
+              it to the list.
+            </Text>
+            <_Button
+              action={() => setShowPopup(true)}
+              style={{ marginTop: 23 }}
+              text={"Request a New Interest"}
+              color={"primary1_100"}
+              borderColor={"light_grey"}
+              textColor="white_100"
+              underline={false}
+            />
+          </View>
+        </ScrollView>
+        {showPopup && (
+          <BottomSheet
+            ref={bottomSheetRef}
+            snapPoints={snapPoints}
+            enablePanDownToClose={true}
+            onClose={handleClose}
+          >
+            <View>
+              <Text>Awesome 🎉</Text>
+            </View>
+          </BottomSheet>
+        )}
+      </View>
+    </GestureHandlerRootView>
   );
 };
 
