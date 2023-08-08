@@ -19,6 +19,7 @@ import Colors from "./settings/Colors";
 import { Foundation } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -99,51 +100,53 @@ const HomeTabs = () => (
 const App = () => {
   const [loggedIn] = useState(false);
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-          headerTintColor: "rgba(28, 27, 31, 1)",
-        }}
-      >
-        <Stack.Screen name="Start" component={StartPage} />
-        <Stack.Group screenOptions={{ presentation: "modal" }}>
-          <Stack.Screen name="Login" component={LoginPage} />
-          <Stack.Screen name="Signup" component={SignUpPage} />
-          <Stack.Screen name="Facebook" component={FacebookPage} />
-        </Stack.Group>
-        <Stack.Screen
-          name="Details"
-          component={Details}
-          options={{ headerShown: true }}
-        />
-        <Stack.Group>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+            headerTintColor: "rgba(28, 27, 31, 1)",
+          }}
+        >
+          <Stack.Screen name="Start" component={StartPage} />
+          <Stack.Group screenOptions={{ presentation: "modal" }}>
+            <Stack.Screen name="Login" component={LoginPage} />
+            <Stack.Screen name="Signup" component={SignUpPage} />
+            <Stack.Screen name="Facebook" component={FacebookPage} />
+          </Stack.Group>
           <Stack.Screen
-            name="ChooseLocation"
-            component={LocationPage}
-            options={{ headerShown: true, headerTitle: "Choose a Location" }}
-          />
-          <Stack.Screen
-            name="ChooseInterests"
-            component={InterestsPage}
-            options={{ headerShown: true, headerTitle: "Interests" }}
-          />
-        </Stack.Group>
-        <Stack.Screen name="HomeTabs" component={HomeTabs} />
-        <Stack.Group>
-          <Stack.Screen
-            name="JoinPlace"
-            component={JoinPlacePage}
-            options={{ headerShown: true, headerTitle: "Join a Place" }}
-          />
-          <Stack.Screen
-            name="Category"
-            component={CategoryPage}
+            name="Details"
+            component={Details}
             options={{ headerShown: true }}
           />
-        </Stack.Group>
-      </Stack.Navigator>
-    </NavigationContainer>
+          <Stack.Group>
+            <Stack.Screen
+              name="ChooseLocation"
+              component={LocationPage}
+              options={{ headerShown: true, headerTitle: "Choose a Location" }}
+            />
+            <Stack.Screen
+              name="ChooseInterests"
+              component={InterestsPage}
+              options={{ headerShown: true, headerTitle: "Interests" }}
+            />
+          </Stack.Group>
+          <Stack.Screen name="HomeTabs" component={HomeTabs} />
+          <Stack.Group>
+            <Stack.Screen
+              name="JoinPlace"
+              component={JoinPlacePage}
+              options={{ headerShown: true, headerTitle: "Join a Place" }}
+            />
+            <Stack.Screen
+              name="Category"
+              component={CategoryPage}
+              options={{ headerShown: true }}
+            />
+          </Stack.Group>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 };
 
