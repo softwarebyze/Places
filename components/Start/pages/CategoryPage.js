@@ -7,6 +7,30 @@ import STYLES from "../styles/Styles";
 import Colors from "../../../settings/Colors";
 import { interests } from "../../../data.js";
 
+const InterestListItem = ({ interest }) => {
+  return (
+    <View style={STYLES.catPageGrid}>
+      <View style={STYLES.catPageInfo}>
+        <Image
+          source={{ uri: interest.image }}
+          style={{ width: 32, height: 32 }}
+        />
+        <View style={STYLES.catPageMemberInfo}>
+          <Text style={STYLES.catPageLocationText}>
+            {`${interest.name}/New York City`}
+          </Text>
+          <Text style={STYLES.catPageMembersText}>
+            {`${interest.members} members`}
+          </Text>
+        </View>
+      </View>
+      <View style={STYLES.catPageArrow}>
+        <Image source={require("../../../assets/interest_images/arrow.png")} />
+      </View>
+    </View>
+  );
+};
+
 const CategoryPage = () => {
   const [search, setSearch] = useState("");
   const filteredInterests = interests.filter((interest) =>
@@ -24,27 +48,7 @@ const CategoryPage = () => {
         }}
       >
         {filteredInterests.map((interest, index) => (
-          <View key={index} style={STYLES.catPageGrid}>
-            <View style={STYLES.catPageInfo}>
-              <Image
-                source={{ uri: interest.image }}
-                style={{ width: 32, height: 32 }}
-              />
-              <View style={STYLES.catPageMemberInfo}>
-                <Text style={STYLES.catPageLocationText}>
-                  {`${interest.name}/New York City`}
-                </Text>
-                <Text style={STYLES.catPageMembersText}>
-                  {`${interest.members} members`}
-                </Text>
-              </View>
-            </View>
-            <View style={STYLES.catPageArrow}>
-              <Image
-                source={require("../../../assets/interest_images/arrow.png")}
-              />
-            </View>
-          </View>
+          <InterestListItem interest={interest} key={index} />
         ))}
 
         <View style={{ marginTop: 27, marginBottom: 24, alignItems: "center" }}>
