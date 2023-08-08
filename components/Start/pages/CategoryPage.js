@@ -49,7 +49,9 @@ const CategoryPage = () => {
 
         <View style={{ marginTop: 27, marginBottom: 24, alignItems: "center" }}>
           {!filteredInterests.length && <NoResults />}
-          <Text style={{ color: "grey", textAlign: "center" }}>
+          <Text
+            style={{ color: "grey", textAlign: "center", marginHorizontal: 15 }}
+          >
             Not seeing one of your interests? Submit a request and we will add
             it to the list.
           </Text>
