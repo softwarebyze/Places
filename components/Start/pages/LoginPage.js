@@ -35,7 +35,7 @@ const signIn = async (email, password) => {
   const userId = auth.currentUser.uid;
   const res = await fetch(`https://auth-token.onrender.com/${userId}`);
   const { token } = await res.json();
-  await client.connectUser({ id: userId }, token);
+  // await client.connectUser({ id: userId }, token);
 };
 
 const LoginPage = () => {
@@ -73,6 +73,7 @@ const LoginPage = () => {
     if (!userData?.details_completed) return navigator.replace("Details");
     if (!userData?.location) return navigator.replace("ChooseLocation");
     if (!userData?.interests) return navigator.replace("ChooseInterests");
+    return navigator.replace("HomeTabs");
   };
 
   return (
