@@ -1,4 +1,5 @@
-import { Text, View, Image, ScrollView, SafeAreaView } from "react-native";
+import { Text, View, ScrollView } from "react-native";
+import { Image } from "expo-image";
 import { useState } from "react";
 import _Button from "../elements/_Button";
 import Searchbar from "../elements/Searchbar";
