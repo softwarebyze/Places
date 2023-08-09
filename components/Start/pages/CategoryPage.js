@@ -6,7 +6,6 @@ import Searchbar from "../elements/Searchbar";
 import NoResults from "../elements/NoResults";
 import STYLES from "../styles/Styles";
 import Colors from "../../../settings/Colors";
-import { interests } from "../../../data.js";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheet from "@gorhom/bottom-sheet";
 
@@ -34,7 +33,8 @@ const InterestListItem = ({ interest }) => {
   );
 };
 
-const CategoryPage = () => {
+const CategoryPage = ({ route }) => {
+  const { interests } = route.params;
   const [search, setSearch] = useState("");
   const filteredInterests = interests.filter((interest) =>
     interest.name.includes(search.toLowerCase()),

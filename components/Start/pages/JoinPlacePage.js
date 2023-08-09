@@ -10,8 +10,21 @@ import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "../../../settings/Colors";
 const terms = TERMS["English"];
+import { interests } from "../../../data";
 
 const JoinPlacePage = () => {
+  const buySellList = interests.filter((interest) =>
+    interest.category.includes("buy/sell"),
+  );
+  const sportsList = interests.filter((interest) =>
+    interest.category.includes("sports"),
+  );
+  const donationsList = interests.filter((interest) =>
+    interest.category.includes("donations"),
+  );
+  const hobbiesList = interests.filter((interest) =>
+    interest.category.includes("hobbies"),
+  );
   const navigator = useNavigation();
   return (
     <View style={[STYLES.page, { backgroundColor: Colors.light_grey }]}>
@@ -25,7 +38,9 @@ const JoinPlacePage = () => {
         }}
       >
         <TouchableOpacity
-          onPress={() => navigator.navigate("Category")}
+          onPress={() =>
+            navigator.navigate("Category", { interests: sportsList })
+          }
           style={STYLES.category}
           color="primary1_100"
           borderColor="primary1_100"
@@ -37,7 +52,9 @@ const JoinPlacePage = () => {
           <Text style={STYLES.categoryText}>{terms["0029"]}</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigator.navigate("Category")}
+          onPress={() =>
+            navigator.navigate("Category", { interests: buySellList })
+          }
           style={STYLES.category}
           color="primary1_100"
           borderColor="primary1_100"
@@ -55,7 +72,9 @@ const JoinPlacePage = () => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigator.navigate("Category")}
+          onPress={() =>
+            navigator.navigate("Category", { interests: donationsList })
+          }
           style={STYLES.category}
           color="primary1_100"
           borderColor="primary1_100"
@@ -73,7 +92,9 @@ const JoinPlacePage = () => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigator.navigate("Category")}
+          onPress={() =>
+            navigator.navigate("Category", { interests: hobbiesList })
+          }
           style={STYLES.category}
           color="primary1_100"
           borderColor="primary1_100"
