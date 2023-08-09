@@ -14,6 +14,9 @@ import { useRef, useState } from "react";
 import Colors from "../../../settings/Colors";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Button } from "react-native";
+import { doc, setDoc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { db } from "../../../firebaseConfig";
 
 const terms = TERMS["English"];
 
@@ -40,6 +43,25 @@ const Details = () => {
     { label: "Female", value: "Female" },
     { label: "Other", value: "Other" },
   ];
+
+  const handleSubmitDetails = async () => {
+    const auth = getAuth();
+    const userId = auth.currentUser.uid;
+    const userRef = doc(db, "users", userId);
+    await setDoc(
+      userRef,
+      {
+        first_name: firstName,
+        last_name: lastName,
+        phone: phoneNumber,
+        gender,
+        details_completed: true,
+        birth_date: dateOfBirth,
+      },
+      { merge: true },
+    );
+    navigator.navigate("ChooseLocation");
+  };
 
   const navigator = useNavigation();
   return (
@@ -121,7 +143,7 @@ const Details = () => {
         </View>
         <_Button
           text={terms["0017"]}
-          action={() => navigator.navigate("ChooseLocation")}
+          action={handleSubmitDetails}
           color={disabled ? "primary1_030" : "primary1_100"}
           borderColor={disabled ? "light_grey" : "primary1_100"}
           textColor="white_100"

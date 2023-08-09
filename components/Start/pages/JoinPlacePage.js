@@ -14,7 +14,7 @@ const terms = TERMS["English"];
 const JoinPlacePage = () => {
   const navigator = useNavigation();
   return (
-    <SafeAreaView style={[STYLES.page, { backgroundColor: Colors.light_grey }]}>
+    <View style={[STYLES.page, { backgroundColor: Colors.light_grey }]}>
       <Text style={STYLES.groupLabelText}>{terms["0028"]}</Text>
       <View
         style={{
@@ -91,7 +91,7 @@ const JoinPlacePage = () => {
           </Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

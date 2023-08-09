@@ -108,11 +108,11 @@ const Dropdown = (props) => {
 
 const HomePage = () => {
   return (
-    <SafeAreaView style={[Styles.page, { backgroundColor: Colors.light_grey }]}>
+    <View style={[Styles.page, { backgroundColor: Colors.light_grey }]}>
       <Text style={Styles.groupLabelText}>Your Places</Text>
       <Dropdown heading={"New York City, NY"} />
       <Stream />
-    </SafeAreaView>
+    </View>
   );
 };
 export default HomePage;
