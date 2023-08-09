@@ -1,46 +1,15 @@
-import HomePage from "./HomePage";
-import NeighborsPage from "./NeighborsPage";
-import MapsPage from "./MapsPage";
-import ProfilePage from "./ProfilePage";
+import HomePage from "../pages/HomePage";
+import MapsPage from "../pages/MapsPage";
+import ProfilePage from "../pages/ProfilePage";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { OverlayProvider } from "stream-chat-expo";
-import { StreamChat } from "stream-chat";
-import { Chat } from "stream-chat-expo";
+import NeighborsStackScreen from "./NeighborsTab";
 
 import Colors from "../../../settings/Colors";
 import { Foundation } from "@expo/vector-icons";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { NeighborChat } from "./NeighborChatPage";
-import { channel } from "expo-updates";
 
 const Tab = createBottomTabNavigator();
-const NeighborsStack = createNativeStackNavigator();
-const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
-
-const NeighborsStackScreen = () => (
-  <OverlayProvider>
-    <Chat client={client}>
-      <NeighborsStack.Navigator>
-        <NeighborsStack.Screen
-          name="Neighbors"
-          component={NeighborsPage}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <NeighborsStack.Screen
-          name="Channel"
-          component={NeighborChat}
-          options={{
-            title: null, // to be changed to chat name
-          }}
-        />
-      </NeighborsStack.Navigator>
-    </Chat>
-  </OverlayProvider>
-);
 
 const HomeTabs = () => (
   <Tab.Navigator

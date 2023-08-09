@@ -16,7 +16,6 @@ import { useNavigation } from "@react-navigation/native";
 const auth = getAuth();
 
 const NeighborsPage = () => {
-  const [selectedChannel, setSelectedChannel] = useState(null);
   const navigator = useNavigation();
   return (
     <View style={{ flex: 1 }}>
@@ -24,6 +23,10 @@ const NeighborsPage = () => {
         filters={{ members: { $in: [auth.currentUser.uid] } }}
         onSelect={(channel) => {
           navigator.navigate("Channel", { channel });
+          // navigator.navigate("Neighbors", {
+          //   screen: "Channel",
+          //   params: { channel },
+          // });
         }}
       />
     </View>
