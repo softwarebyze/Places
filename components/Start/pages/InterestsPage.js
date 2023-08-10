@@ -5,7 +5,7 @@ import _Divider from "../elements/_Divider";
 import STYLES from "../styles/Styles";
 import TERMS from "../../../settings/Terms";
 import { Text, TouchableOpacity, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../../../settings/Colors";
@@ -14,6 +14,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
 import { ActivityIndicator } from "react-native";
 import { getAuth } from "firebase/auth";
+import { StreamChat } from "stream-chat";
 
 const terms = TERMS["English"];
 
@@ -53,6 +54,7 @@ export const InterestTag = (props) => {
 
 const InterestsPage = () => {
   const navigator = useNavigation();
+  const route = useRoute();
   const REQUIRED_INTERESTS = 5;
   const [interests, setInterests] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -67,12 +69,37 @@ const InterestsPage = () => {
     }
   };
 
+  const addUserToChannels = async (userId, interests, location) => {
+    try {
+      const client = StreamChat.getInstance(
+        process.env.EXPO_PUBLIC_STREAM_API_KEY,
+      );
+
+      const channels = await Promise.all(
+        interests.map(async (interest) => {
+          const channel = client.channel(
+            "team",
+            `${interest}/${location}`
+              .replaceAll(" ", "-")
+              .replaceAll(",", "_")
+              .replaceAll("/", "_-_"),
+          );
+          await channel.addMembers([userId]);
+        }),
+      );
+      return channels;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleSubmitInterests = async () => {
     setLoading(true);
     const auth = getAuth();
     const userId = auth.currentUser.uid;
     const userRef = doc(db, "users", userId);
     await setDoc(userRef, { interests }, { merge: true });
+    await addUserToChannels(userId, interests, route.params.location);
     setLoading(false);
     navigator.navigate("HomeTabs");
   };
