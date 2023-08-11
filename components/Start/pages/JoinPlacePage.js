@@ -11,8 +11,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "../../../settings/Colors";
 const terms = TERMS["English"];
 import { interests } from "../../../data";
+import { useState } from "react";
 
 const JoinPlacePage = () => {
+  const [interestList, setInterestList] = useState("");
+
   const buySellList = interests.filter((interest) =>
     interest.category.includes("buy/sell"),
   );
@@ -24,6 +27,9 @@ const JoinPlacePage = () => {
   );
   const hobbiesList = interests.filter((interest) =>
     interest.category.includes("hobbies"),
+  );
+  const filteredInterestList = interests.filter((interest) =>
+    interest.category.includes(interestList),
   );
   const navigator = useNavigation();
   return (

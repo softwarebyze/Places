@@ -161,8 +161,8 @@ export default new StyleSheet.create({
     shadowColor: "black",
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.1,
-    width: "48%",
-    height: "35%",
+    width: 171,
+    height: 109,
   },
   blackText: {
     color: "black",
