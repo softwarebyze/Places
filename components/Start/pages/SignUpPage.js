@@ -8,7 +8,14 @@ import _Button from "../elements/_Button";
 import STYLES from "../styles/Styles";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ActivityIndicator } from "react-native";
+import {
+  ActivityIndicator,
+  View,
+  StyleSheet,
+  Modal,
+  Text,
+  Pressable,
+} from "react-native";
 
 const terms = TERMS["English"];
 
@@ -25,7 +32,7 @@ const validatePassword = (password) => {
 const SignUpPage = () => {
   const navigator = useNavigation();
   const auth = getAuth();
-
+  const [modalVisible, setModalVisible] = useState(false);
   const [emailFocusState, setEmailFocusState] = useState(false);
   const [emailTextState, setEmailTextState] = useState("");
   const [passwordFocusState, setPasswordFocusState] = useState(false);
@@ -43,13 +50,28 @@ const SignUpPage = () => {
 
   const handleSignUp = async () => {
     setLoading(true);
-    await createUserWithEmailAndPassword(
-      auth,
-      emailTextState,
-      passwordTextState,
-    );
-    setLoading(false);
-    navigator.replace("Details");
+
+    try {
+      console.log("initiating user now");
+      var user = await createUserWithEmailAndPassword(
+        auth,
+        emailTextState,
+        passwordTextState,
+      );
+    } catch (error) {
+      if (error.code == "auth/email-already-in-use") {
+        console.log("email already exists!!!!");
+        setModalVisible(true);
+      }
+    } finally {
+      console.log("the finally stage");
+      setLoading(false);
+    }
+    console.log("clear of errors");
+    if (user) {
+      console.log("new users!");
+      navigator.replace("Details");
+    }
   };
 
   return (
@@ -159,8 +181,91 @@ const SignUpPage = () => {
           />
         </>
       )}
+
+      <View style={styles.centeredView}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.textStyle_2}>Account already made.</Text>
+              <Text style={styles.modalText}>
+                Looks like you already have a Places account, please log in to
+                continue
+              </Text>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                <Text style={styles.textStyle}>Continue</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+        {/* <Pressable
+          style={[styles.button, styles.buttonOpen]}
+          onPress={() => setModalVisible(true)}
+        >
+          <Text style={styles.textStyle_2}>Account already made</Text>
+        </Pressable> */}
+      </View>
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  textStyle_2: {
+    color: "black",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+});
 
 export default SignUpPage;
