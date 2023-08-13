@@ -20,7 +20,10 @@ const NeighborsPage = () => {
   return (
     <View style={{ flex: 1 }}>
       <ChannelList
-        filters={{ members: { $in: [auth.currentUser.uid] } }}
+        filters={{
+          type: "messaging",
+          members: { $in: [auth.currentUser.uid] },
+        }}
         onSelect={(channel) => {
           navigator.navigate("Channel", { channel });
           // navigator.navigate("Neighbors", {
