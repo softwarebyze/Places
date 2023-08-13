@@ -1,14 +1,6 @@
-import { View, Text } from "react-native";
-import React, { useState } from "react";
-import {
-  Channel,
-  ChannelList,
-  Chat,
-  OverlayProvider,
-  MessageList,
-  MessageInput,
-} from "stream-chat-expo";
-import { StreamChat } from "stream-chat";
+import { View } from "react-native";
+import React from "react";
+import { ChannelList } from "stream-chat-expo";
 import { getAuth } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 
