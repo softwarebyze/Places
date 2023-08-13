@@ -13,7 +13,6 @@ import NeighborsPage from "./components/Start/pages/NeighborsPage";
 import MapsPage from "./components/Start/pages/MapsPage";
 import ProfilePage from "./components/Start/pages/ProfilePage";
 import FacebookPage from "./components/Start/pages/FacebookPage";
-import { useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Colors from "./settings/Colors";
 import { Foundation } from "@expo/vector-icons";
@@ -21,11 +20,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import HomeTabs from "./components/Start/Navigation/HomeTabs";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-  const [loggedIn] = useState(false);
+  GoogleSignin.configure();
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer>
