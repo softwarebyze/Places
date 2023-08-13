@@ -24,8 +24,12 @@ import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 const Stack = createNativeStackNavigator();
 
+GoogleSignin.configure({
+  iosClientId:
+    "1017409536489-artjcffteg6erir59nv5vn3pd7m4cbon.apps.googleusercontent.com",
+});
+
 const App = () => {
-  GoogleSignin.configure();
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer>
