@@ -9,6 +9,7 @@ import STYLES from "../styles/Styles";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ActivityIndicator } from "react-native";
+import { StreamChat } from "stream-chat";
 
 const terms = TERMS["English"];
 
@@ -48,6 +49,13 @@ const SignUpPage = () => {
       emailTextState,
       passwordTextState,
     );
+    const userId = auth.currentUser.uid;
+    const res = await fetch(`https://auth-token.onrender.com/${userId}`);
+    const { token } = await res.json();
+    const client = StreamChat.getInstance(
+      process.env.EXPO_PUBLIC_STREAM_API_KEY,
+    );
+    await client.connectUser({ id: userId }, token);
     setLoading(false);
     navigator.replace("Details");
   };
