@@ -1,7 +1,7 @@
 import MapsPage from "../pages/MapsPage";
 import ProfilePage from "../pages/ProfilePage";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import NeighborsStack from "./NeighborsTab";
+import NeighborsStack from "./NeighborsStack";
 
 import Colors from "../../../settings/Colors";
 import { Foundation } from "@expo/vector-icons";
