@@ -2,29 +2,29 @@ import { ChatScreen } from "../pages/ChatScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StreamChat } from "stream-chat";
 import { Chat } from "stream-chat-expo";
-import NeighborsPage from "../pages/NeighborsPage";
+import HomePage from "../pages/HomePage";
 
-const NeighborsStack = createNativeStackNavigator();
+const HomeStack = createNativeStackNavigator();
 const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
 
-const NeighborsStackScreen = () => (
+const HomeStackScreen = () => (
   <Chat client={client}>
-    <NeighborsStack.Navigator>
-      <NeighborsStack.Screen
-        name="NeighborsList"
-        component={NeighborsPage}
+    <HomeStack.Navigator>
+      <HomeStack.Screen
+        name="HomePage"
+        component={HomePage}
         options={{
           headerShown: false,
         }}
       />
-      <NeighborsStack.Screen
+      <HomeStack.Screen
         name="Channel"
         component={ChatScreen}
         options={{
           title: null, // to be changed to chat name
         }}
       />
-    </NeighborsStack.Navigator>
+    </HomeStack.Navigator>
   </Chat>
 );
-export default NeighborsStackScreen;
+export default HomeStackScreen;

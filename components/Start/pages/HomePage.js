@@ -105,6 +105,9 @@ const Dropdown = (props) => {
                 location: { $in: [props.heading] },
               }}
               PreviewTitle={CustomChannelPreview}
+              onSelect={(channel) => {
+                navigation.navigate("Channel", { channel });
+              }}
             />
 
             {/* Add more dropdown items/components as needed */}
