@@ -6,7 +6,10 @@ import Searchbar from "../elements/Searchbar";
 import NoResults from "../elements/NoResults";
 import STYLES from "../styles/Styles";
 import Colors from "../../../settings/Colors";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import {
+  GestureHandlerRootView,
+  TextInput,
+} from "react-native-gesture-handler";
 import BottomSheet from "@gorhom/bottom-sheet";
 
 const InterestListItem = ({ interest }) => {
@@ -95,8 +98,50 @@ const CategoryPage = ({ route }) => {
             enablePanDownToClose={true}
             onClose={handleClose}
           >
-            <View>
-              <Text>Awesome 🎉</Text>
+            <View style={{ marginHorizontal: 24 }}>
+              <View
+                style={{
+                  width: 334.36,
+                  height: 71,
+                  borderBottomWidth: 1,
+                  borderBlockColor: "grey",
+                  justifyContent: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    color: Colors.orange,
+                    fontSize: 25,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Request New Interest
+                </Text>
+              </View>
+              <View style={{ marginTop: 30 }}>
+                <Text style={{ fontWeight: "bold" }}>
+                  Not Seeing A Group For Your Interest? No Worries! Enter Your
+                  Desired Interest Below For Our Team To Review.
+                </Text>
+                <TextInput
+                  placeholder="Enter request interest here"
+                  style={{
+                    borderRadius: 5,
+                    marginTop: 39,
+                    borderWidth: 1,
+                    height: 56,
+                    borderColor: Colors.primary1_100,
+                  }}
+                />
+                <_Button
+                  style={{ marginTop: 50 }}
+                  text={"Submit"}
+                  color={"primary1_100"}
+                  borderColor={"light_grey"}
+                  textColor="white_100"
+                  underline={false}
+                />
+              </View>
             </View>
           </BottomSheet>
         )}
