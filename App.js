@@ -27,17 +27,20 @@ const App = () => {
               headerTintColor: "rgba(28, 27, 31, 1)",
             }}
           >
+            {/* Start */}
             <Stack.Screen name="Start" component={StartPage} />
+            {/* Auth Modals */}
             <Stack.Group screenOptions={{ presentation: "modal" }}>
               <Stack.Screen name="Login" component={LoginPage} />
               <Stack.Screen name="Signup" component={SignUpPage} />
             </Stack.Group>
-            <Stack.Screen
-              name="Details"
-              component={Details}
-              options={{ headerShown: true }}
-            />
+            {/* Onboarding */}
             <Stack.Group>
+              <Stack.Screen
+                name="Details"
+                component={Details}
+                options={{ headerShown: true }}
+              />
               <Stack.Screen
                 name="ChooseLocation"
                 component={LocationPage}
@@ -52,7 +55,9 @@ const App = () => {
                 options={{ headerShown: true, headerTitle: "Interests" }}
               />
             </Stack.Group>
+            {/* All the 4 tabs of the main app */}
             <Stack.Screen name="HomeTabs" component={HomeTabs} />
+            {/* Join a Place flow */}
             <Stack.Group>
               <Stack.Screen
                 name="JoinPlace"
