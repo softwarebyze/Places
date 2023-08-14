@@ -1,4 +1,3 @@
-import HomePage from "../pages/HomePage";
 import MapsPage from "../pages/MapsPage";
 import ProfilePage from "../pages/ProfilePage";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
