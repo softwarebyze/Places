@@ -1,5 +1,10 @@
-import { Text, View, ScrollView } from "react-native";
-import { Image } from "expo-image";
+import {
+  Text,
+  View,
+  ScrollView,
+  TouchableHighlight,
+  Image,
+} from "react-native";
 import { useState, useMemo, useRef } from "react";
 import _Button from "../elements/_Button";
 import Searchbar from "../elements/Searchbar";
@@ -9,6 +14,7 @@ import Colors from "../../../settings/Colors";
 import { interests } from "../../../data.js";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheet from "@gorhom/bottom-sheet";
+import { SEVEN_Z } from "stream-chat-expo";
 
 const InterestListItem = ({ interest }) => {
   return (
@@ -95,8 +101,16 @@ const CategoryPage = () => {
             enablePanDownToClose={true}
             onClose={handleClose}
           >
-            <View>
-              <Text>Awesome 🎉</Text>
+            <View style={{ marginHorizontal: 30 }}>
+              <View style={STYLES.sheetHeader}>
+                <Text style={STYLES.suliHeaderText}>Request New Interest</Text>
+                <TouchableHighlight onPress={() => setShowPopup(false)}>
+                  <Image
+                    source={require("../../../assets/x-circle.png")}
+                    onPress={() => setShowPopup(false)}
+                  />
+                </TouchableHighlight>
+              </View>
             </View>
           </BottomSheet>
         )}
