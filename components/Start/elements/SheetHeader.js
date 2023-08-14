@@ -5,7 +5,7 @@ import Colors from "../../../settings/Colors";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
 const SheetHeader = (props) => {
-  const { setShowPopup } = true;
+  const { setShowPopup } = props;
   const cancelButton = () => {
     setShowPopup = false;
     console.log(setShowPopup);
@@ -13,7 +13,9 @@ const SheetHeader = (props) => {
   return (
     <View style={Styles.sheetHeader}>
       <Text style={Styles.suliHeaderText}>Request New Interest</Text>
-      <TouchableHighlight onPress={() => cancelButton}></TouchableHighlight>
+      <TouchableHighlight onPress={() => setShowPopup(false)}>
+        <Image source={require("../../../assets/x-circle.png")} />
+      </TouchableHighlight>
     </View>
   );
 };

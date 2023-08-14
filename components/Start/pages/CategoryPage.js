@@ -4,6 +4,7 @@ import {
   ScrollView,
   TouchableHighlight,
   Image,
+  TextInput,
 } from "react-native";
 import { useState, useMemo, useRef } from "react";
 import _Button from "../elements/_Button";
@@ -15,6 +16,8 @@ import { interests } from "../../../data.js";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { SEVEN_Z } from "stream-chat-expo";
+import SheetHeader from "../elements/SheetHeader";
+import SheetBody from "../elements/SheetBody";
 
 const InterestListItem = ({ interest }) => {
   return (
@@ -46,7 +49,7 @@ const CategoryPage = () => {
     interest.name.includes(search.toLowerCase()),
   );
   const bottomSheetRef = useRef(null);
-  const snapPoints = useMemo(() => ["50%"], []);
+  const snapPoints = useMemo(() => ["55%"], []);
 
   const [showPopup, setShowPopup] = useState(false);
 
@@ -103,14 +106,9 @@ const CategoryPage = () => {
           >
             <View style={{ marginHorizontal: 30 }}>
               <View style={STYLES.sheetHeader}>
-                <Text style={STYLES.suliHeaderText}>Request New Interest</Text>
-                <TouchableHighlight onPress={() => setShowPopup(false)}>
-                  <Image
-                    source={require("../../../assets/x-circle.png")}
-                    onPress={() => setShowPopup(false)}
-                  />
-                </TouchableHighlight>
+                <SheetHeader setShowPopup={setShowPopup} />
               </View>
+              <SheetBody search={search} />
             </View>
           </BottomSheet>
         )}
