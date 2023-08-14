@@ -17,9 +17,10 @@ import {
   Chat,
   ChannelPreviewTitle,
 } from "stream-chat-expo";
-import { auth } from "../../../firebaseConfig";
+import { getAuth } from "firebase/auth";
 
 const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
+const auth = getAuth();
 
 const DropdownItem = ({ label, onPress, icon }) => (
   <TouchableOpacity
