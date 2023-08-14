@@ -31,7 +31,15 @@ const client = StreamChat.getInstance(EXPO_PUBLIC_STREAM_API_KEY);
 
 const signIn = async (email, password) => {
   const auth = getAuth();
-  await signInWithEmailAndPassword(auth, email, password);
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+  } catch (error) {
+    if (error.code === "auth/wrong-password") {
+      console.log("Wrong password");
+      alert("Wrong password.");
+    }
+  }
+
   const userId = auth.currentUser.uid;
   const res = await fetch(`https://auth-token.onrender.com/${userId}`);
   const { token } = await res.json();
@@ -68,6 +76,7 @@ const LoginPage = () => {
   const handleSignInFlow = async () => {
     setLoading(true);
     await signIn(emailTextState, passwordTextState);
+
     const userData = await getUserData();
     setLoading(false);
     if (!userData?.details_completed) return navigator.replace("Details");
