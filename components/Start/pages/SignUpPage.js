@@ -6,9 +6,15 @@ import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import _Button from "../elements/_Button";
 import STYLES from "../styles/Styles";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithCredential,
+} from "firebase/auth";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ActivityIndicator } from "react-native";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 const terms = TERMS["English"];
 
@@ -50,6 +56,34 @@ const SignUpPage = () => {
     );
     setLoading(false);
     navigator.replace("Details");
+  };
+
+  const signInWithGoogle = async () => {
+    console.log("signInWithGoogle");
+    try {
+      await GoogleSignin.hasPlayServices();
+      const { idToken } = await GoogleSignin.signIn();
+      console.log("here");
+      console.log("idToken: ", idToken);
+      const googleCredential = GoogleAuthProvider.credential(idToken);
+      return await signInWithCredential(auth, googleCredential);
+    } catch (error) {
+      console.log("got error: ", error.message);
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (e.g. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+      } else {
+        // some other error happened
+      }
+    }
+  };
+
+  const handleSignInWithGoogle = async () => {
+    const credential = await signInWithGoogle();
+    if (credential) navigator.replace("HomeTabs");
   };
 
   return (
@@ -136,7 +170,7 @@ const SignUpPage = () => {
           <_Divider text="or" color="gray1_100" />
           <_Button
             text={terms["0011"]}
-            action={() => navigator.replace("HomeTabs")}
+            action={handleSignInWithGoogle}
             color="primary1_100"
             borderColor="primary1_100"
             textColor="white_100"
