@@ -17,7 +17,7 @@ const NeighborsPage = () => {
           members: { $in: [auth.currentUser.uid] },
         }}
         onSelect={(channel) => {
-          navigator.navigate("Channel", { channel });
+          navigator.navigate("NeighborsChat", { channel });
           // navigator.navigate("Neighbors", {
           //   screen: "Channel",
           //   params: { channel },
