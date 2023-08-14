@@ -37,7 +37,7 @@ const LocationPage = () => {
     const userRef = doc(db, "users", userId);
     await setDoc(userRef, { location }, { merge: true });
     setLoading(false);
-    navigator.navigate("ChooseInterests");
+    navigator.navigate("ChooseInterests", { location });
   };
 
   return (
