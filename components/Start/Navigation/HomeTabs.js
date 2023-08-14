@@ -55,20 +55,6 @@ const HomeTabs = () => (
         ),
       }}
     />
-    {/* <Stack.Screen
-        name="MessageChannel"
-        component={NeighborsPage}
-        // options={{
-        //   tabBarIcon: ({ color, size }) => (
-        //     <MaterialCommunityIcons
-        //       name="account-group-outline"
-        //       size={size}
-        //       color={color}
-        //     />
-        //   ),
-        // }}
-      /> */}
-    {/* </Tab.Group> */}
     <Tab.Screen
       name="Maps"
       component={MapsPage}
