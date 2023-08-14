@@ -20,7 +20,6 @@ import {
 import { getAuth } from "firebase/auth";
 
 const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
-const auth = getAuth();
 
 const DropdownItem = ({ label, onPress, icon }) => (
   <TouchableOpacity
@@ -52,6 +51,7 @@ const Dropdown = (props) => {
   };
 
   const navigation = useNavigation();
+  const auth = getAuth();
 
   return (
     <View style={{ width: "100%" }}>
