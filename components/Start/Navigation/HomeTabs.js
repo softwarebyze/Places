@@ -1,7 +1,7 @@
 import MapsPage from "../pages/MapsPage";
 import ProfilePage from "../pages/ProfilePage";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import NeighborsStackScreen from "./NeighborsTab";
+import NeighborsStack from "./NeighborsTab";
 
 import Colors from "../../../settings/Colors";
 import { Foundation } from "@expo/vector-icons";
@@ -44,7 +44,7 @@ const HomeTabs = () => (
     />
     <Tab.Screen
       name="Neighbors"
-      component={NeighborsStackScreen}
+      component={NeighborsStack}
       options={{
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons
