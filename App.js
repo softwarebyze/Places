@@ -8,7 +8,6 @@ import InterestsPage from "./components/Start/pages/InterestsPage";
 import Details from "./components/Start/elements/Details";
 import JoinPlacePage from "./components/Start/pages/JoinPlacePage";
 import CategoryPage from "./components/Start/pages/CategoryPage";
-import FacebookPage from "./components/Start/pages/FacebookPage";
 import { useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import HomeTabs from "./components/Start/navigation/HomeTabs";
@@ -32,7 +31,6 @@ const App = () => {
             <Stack.Group screenOptions={{ presentation: "modal" }}>
               <Stack.Screen name="Login" component={LoginPage} />
               <Stack.Screen name="Signup" component={SignUpPage} />
-              <Stack.Screen name="Facebook" component={FacebookPage} />
             </Stack.Group>
             <Stack.Screen
               name="Details"

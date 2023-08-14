@@ -68,7 +68,7 @@ const SignUpPage = () => {
     } finally {
       setLoading(false);
     }
-    
+
     const userId = auth.currentUser.uid;
     const res = await fetch(`https://auth-token.onrender.com/${userId}`);
     const { token } = await res.json();
@@ -172,7 +172,7 @@ const SignUpPage = () => {
           />
           <_Button
             text={terms["0012"]}
-            action={() => navigator.replace("Facebook")}
+            action={() => alert("Facebook Not Yet Implemented")}
             color="white_100"
             borderColor="primary1_100"
             textColor="primary1_100"
