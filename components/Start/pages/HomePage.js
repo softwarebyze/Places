@@ -107,7 +107,7 @@ const Dropdown = (props) => {
               }}
               PreviewTitle={CustomChannelPreview}
               onSelect={(channel) => {
-                navigation.navigate("Channel", { channel });
+                navigation.navigate("PlacesChat", { channel });
               }}
             />
 

@@ -3,7 +3,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { View, Text } from "react-native";
 import { Channel, MessageList, MessageInput } from "stream-chat-expo";
 
-export const ChatScreen = () => {
+const NeighborsChatPage = () => {
   const route = useRoute();
   const { channel } = route.params;
   return (
@@ -13,3 +13,5 @@ export const ChatScreen = () => {
     </Channel>
   );
 };
+
+export default NeighborsChatPage;

@@ -1,4 +1,4 @@
-import { ChatScreen } from "../pages/ChatScreen";
+import PlacesChatPage from "../pages/PlacesChatPage";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StreamChat } from "stream-chat";
 import { Chat } from "stream-chat-expo";
@@ -18,8 +18,8 @@ const HomeStack = () => (
         }}
       />
       <Stack.Screen
-        name="Channel"
-        component={ChatScreen}
+        name="PlacesChat"
+        component={PlacesChatPage}
         options={{
           title: null, // to be changed to chat name
         }}
