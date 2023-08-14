@@ -7,7 +7,7 @@ import Colors from "../../../settings/Colors";
 import { Foundation } from "@expo/vector-icons";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import HomeStack from "./PlacesTab";
+import HomeStack from "./HomeStack";
 
 const Tab = createBottomTabNavigator();
 
