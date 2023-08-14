@@ -52,25 +52,21 @@ const SignUpPage = () => {
     setLoading(true);
 
     try {
-      console.log("initiating user now");
-      var user = await createUserWithEmailAndPassword(
+      const user = await createUserWithEmailAndPassword(
         auth,
         emailTextState,
         passwordTextState,
       );
+
+      if (user) {
+        navigator.replace("Details");
+      }
     } catch (error) {
       if (error.code == "auth/email-already-in-use") {
-        console.log("email already exists!!!!");
         setModalVisible(true);
       }
     } finally {
-      console.log("the finally stage");
       setLoading(false);
-    }
-    console.log("clear of errors");
-    if (user) {
-      console.log("new users!");
-      navigator.replace("Details");
     }
   };
 
@@ -188,7 +184,6 @@ const SignUpPage = () => {
           transparent={true}
           visible={modalVisible}
           onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
             setModalVisible(!modalVisible);
           }}
         >
@@ -201,7 +196,7 @@ const SignUpPage = () => {
               </Text>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}
+                onPress={() => setModalVisible(false)}
               >
                 <Text style={styles.textStyle}>Continue</Text>
               </Pressable>
