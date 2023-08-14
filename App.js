@@ -20,7 +20,7 @@ import { Foundation } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import HomeTabs from "./components/Start/Navigation/HomeTabs";
+import HomeTabs from "./components/Start/navigation/HomeTabs";
 import { OverlayProvider } from "stream-chat-expo";
 
 const Stack = createNativeStackNavigator();
