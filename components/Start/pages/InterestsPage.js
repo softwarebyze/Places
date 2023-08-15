@@ -3,10 +3,8 @@ import _Input from "../elements/_Input";
 import _Header from "../elements/_Header";
 import _Divider from "../elements/_Divider";
 import STYLES from "../styles/Styles";
-import TERMS from "../../../settings/Terms";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View, ScrollView } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../../../settings/Colors";
 import { useState } from "react";
@@ -15,8 +13,20 @@ import { db } from "../../../firebaseConfig";
 import { ActivityIndicator } from "react-native";
 import { getAuth } from "firebase/auth";
 import { StreamChat } from "stream-chat";
+import { useEffect } from "react";
 
-const terms = TERMS["English"];
+const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
+
+const groupChannelsByCategory = (channelsData) => {
+  return channelsData.reduce((acc, channel) => {
+    const category = channel.category;
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+    acc[category].push(channel);
+    return acc;
+  }, {});
+};
 
 export const InterestTag = (props) => {
   return (
@@ -56,34 +66,61 @@ const InterestsPage = () => {
   const navigator = useNavigation();
   const route = useRoute();
   const REQUIRED_INTERESTS = 5;
-  const [interests, setInterests] = useState([]);
+  const [userInterests, setUserInterests] = useState([]);
+  const [channelList, setChannelList] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const disabled = interests.length < REQUIRED_INTERESTS;
+  const disabled = userInterests.length < REQUIRED_INTERESTS;
 
-  const toggleInterest = (interest) => {
-    if (interests.includes(interest)) {
-      setInterests(interests.filter((i) => i !== interest));
+  const toggleInterest = (interestId) => {
+    const interestChosen = userInterests.some((i) => i.id === interestId);
+
+    if (interestChosen) {
+      setUserInterests((prevInterests) =>
+        prevInterests.filter((i) => i.id !== interestId),
+      );
     } else {
-      setInterests([...interests, interest]);
+      const interestToAdd = channelList.find(
+        (channel) => channel.id === interestId,
+      );
+      if (interestToAdd) {
+        setUserInterests((prevInterests) => [...prevInterests, interestToAdd]);
+      }
     }
   };
 
+  useEffect(() => {
+    const fetchInterests = async () => {
+      try {
+        setLoading(true);
+        const channels = [];
+        for (let i = 0; i < 3; i++) {
+          const newChannels = await client.queryChannels(
+            {
+              type: "team",
+              location: route.params.location,
+            },
+            {},
+            { limit: 30, offset: 30 * i },
+          );
+          channels.push(...newChannels);
+        }
+        const channelsData = channels.map((c) => c.data);
+        setChannelList(channelsData);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchInterests();
+  }, []);
+
   const addUserToChannels = async (userId, interests, location) => {
     try {
-      const client = StreamChat.getInstance(
-        process.env.EXPO_PUBLIC_STREAM_API_KEY,
-      );
-
       const channels = await Promise.all(
         interests.map(async (interest) => {
-          const channel = client.channel(
-            "team",
-            `${interest}/${location}`
-              .replaceAll(" ", "-")
-              .replaceAll(",", "_")
-              .replaceAll("/", "_-_"),
-          );
+          const channel = client.channel("team", interest.id);
           await channel.addMembers([userId]);
         }),
       );
@@ -97,80 +134,56 @@ const InterestsPage = () => {
     const auth = getAuth();
     const userId = auth.currentUser.uid;
     const userRef = doc(db, "users", userId);
+    const interests = userInterests.map((interest) => interest.name);
     await setDoc(userRef, { interests }, { merge: true });
-    await addUserToChannels(userId, interests, route.params.location);
+    await addUserToChannels(userId, userInterests, route.params.location);
     setLoading(false);
     navigator.navigate("HomeTabs");
   };
 
+  const channelsGroupedByCategory = groupChannelsByCategory(channelList);
+
   return (
     <View style={[STYLES.page, { backgroundColor: Colors.light_grey }]}>
-      <Text style={STYLES.descriptionText}>{terms["0023"]}</Text>
-
-      <View style={{ marginBottom: 20 }}>
-        <Text style={[STYLES.groupLabelText, { marginVertical: 16 }]}>
-          {terms["0024"]}
-        </Text>
-        <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 16 }}>
-          <InterestTag
-            onPress={() => toggleInterest("Soccer")}
-            label={"Soccer"}
-            selected={interests.includes("Soccer")}
-          />
-          <InterestTag
-            onPress={() => toggleInterest("Basketball")}
-            label={"Basketball"}
-            selected={interests.includes("Basketball")}
-          />
-          <InterestTag
-            onPress={() => toggleInterest("Tennis")}
-            label={"Tennis"}
-            selected={interests.includes("Tennis")}
-          />
-          <InterestTag
-            onPress={() => toggleInterest("Golf")}
-            label={"Golf"}
-            selected={interests.includes("Golf")}
-          />
-          <InterestTag
-            onPress={() => toggleInterest("American_Football")}
-            label={"American Football"}
-            selected={interests.includes("American_Football")}
-          />
-          <InterestTag
-            onPress={() => toggleInterest("Baseball")}
-            label={"Baseball"}
-            selected={interests.includes("Baseball")}
-          />
+      <ScrollView>
+        <View style={{ marginBottom: 20 }}>
+          <View>
+            {Object.entries(channelsGroupedByCategory).map(
+              ([category, channels]) => {
+                return (
+                  <View key={category}>
+                    <Text
+                      style={[STYLES.groupLabelText, { marginVertical: 16 }]}
+                    >
+                      {category.toUpperCase()}
+                    </Text>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        gap: 16,
+                      }}
+                    >
+                      {channels.map((channel) => {
+                        return (
+                          <InterestTag
+                            onPress={() => toggleInterest(channel.id)}
+                            label={channel.interest}
+                            selected={userInterests.some(
+                              (interest) => interest.id === channel.id,
+                            )}
+                            key={channel.id}
+                          />
+                        );
+                      })}
+                    </View>
+                  </View>
+                );
+              },
+            )}
+          </View>
         </View>
-      </View>
-      <View style={{ marginBottom: 20 }}>
-        <Text style={[STYLES.groupLabelText, { marginVertical: 16 }]}>
-          {terms["0025"]}
-        </Text>
-        <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 16 }}>
-          <InterestTag
-            onPress={() => toggleInterest("Painting")}
-            label={"Painting"}
-            selected={interests.includes("Painting")}
-          />
-          <InterestTag
-            onPress={() => toggleInterest("Photography")}
-            label={"Photography"}
-            selected={interests.includes("Photography")}
-          />
-          <InterestTag
-            onPress={() => toggleInterest("Yoga")}
-            label={"Yoga"}
-            selected={interests.includes("Yoga")}
-          />
-          <InterestTag
-            onPress={() => toggleInterest("Drawing")}
-            label={"Drawing"}
-            selected={interests.includes("Drawing")}
-          />
-        </View>
-      </View>
+      </ScrollView>
       {loading ? (
         <ActivityIndicator />
       ) : (
