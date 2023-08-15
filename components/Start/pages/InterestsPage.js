@@ -91,8 +91,7 @@ const InterestsPage = () => {
         console.error(error);
       }
     };
-
-    fetchInterests(setChannelList);
+    fetchInterests();
   }, []);
 
   const addUserToChannels = async (userId, interests, location) => {
