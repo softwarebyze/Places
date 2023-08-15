@@ -3,7 +3,6 @@ import _Input from "../elements/_Input";
 import _Header from "../elements/_Header";
 import _Divider from "../elements/_Divider";
 import STYLES from "../styles/Styles";
-import TERMS from "../../../settings/Terms";
 import { Text, TouchableOpacity, View, ScrollView } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
@@ -16,8 +15,18 @@ import { getAuth } from "firebase/auth";
 import { StreamChat } from "stream-chat";
 import { useEffect } from "react";
 
-const terms = TERMS["English"];
 const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
+
+const groupChannelsByCategory = (channelsData) => {
+  return channelsData.reduce((acc, channel) => {
+    const category = channel.category;
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+    acc[category].push(channel);
+    return acc;
+  }, {});
+};
 
 export const InterestTag = (props) => {
   return (
@@ -63,11 +72,20 @@ const InterestsPage = () => {
 
   const disabled = userInterests.length < REQUIRED_INTERESTS;
 
-  const toggleInterest = (interest) => {
-    if (userInterests.some((i) => i.name === interest.name)) {
-      setUserInterests(userInterests.filter((i) => i.name !== interest.name));
+  const toggleInterest = (interestId) => {
+    const interestChosen = userInterests.some((i) => i.id === interestId);
+
+    if (interestChosen) {
+      setUserInterests((prevInterests) =>
+        prevInterests.filter((i) => i.id !== interestId),
+      );
     } else {
-      setUserInterests([...userInterests, interest]);
+      const interestToAdd = channelList.find(
+        (channel) => channel.id === interestId,
+      );
+      if (interestToAdd) {
+        setUserInterests((prevInterests) => [...prevInterests, interestToAdd]);
+      }
     }
   };
 
@@ -86,7 +104,8 @@ const InterestsPage = () => {
           );
           channels.push(...newChannels);
         }
-        setChannelList(channels);
+        const channelsData = channels.map((c) => c.data);
+        setChannelList(channelsData);
       } catch (error) {
         console.error(error);
       }
@@ -119,67 +138,46 @@ const InterestsPage = () => {
     navigator.navigate("HomeTabs");
   };
 
+  const channelsGroupedByCategory = groupChannelsByCategory(channelList);
+
   return (
     <View style={[STYLES.page, { backgroundColor: Colors.light_grey }]}>
       <ScrollView>
-        <Text style={STYLES.descriptionText}>{terms["0023"]}</Text>
-
         <View style={{ marginBottom: 20 }}>
-          <Text style={[STYLES.groupLabelText, { marginVertical: 16 }]}>
-            {terms["0024"]}
-          </Text>
-          <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 16 }}>
-            {channelList
-              .filter(
-                (i) =>
-                  i.data.category.toLowerCase() === terms["0024"].toLowerCase(),
-              )
-              .map((channel) => {
+          <View>
+            {Object.entries(channelsGroupedByCategory).map(
+              ([category, channels]) => {
                 return (
-                  <InterestTag
-                    onPress={() =>
-                      toggleInterest({
-                        name: channel.data.interest,
-                        id: channel.data.id,
-                      })
-                    }
-                    label={channel.data.interest}
-                    selected={userInterests.some(
-                      (interest) => interest.name === channel.data.interest,
-                    )}
-                    key={channel.cid}
-                  />
+                  <View key={category}>
+                    <Text
+                      style={[STYLES.groupLabelText, { marginVertical: 16 }]}
+                    >
+                      {category.toUpperCase()}
+                    </Text>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        gap: 16,
+                      }}
+                    >
+                      {channels.map((channel) => {
+                        return (
+                          <InterestTag
+                            onPress={() => toggleInterest(channel.id)}
+                            label={channel.interest}
+                            selected={userInterests.some(
+                              (interest) => interest.id === channel.id,
+                            )}
+                            key={channel.id}
+                          />
+                        );
+                      })}
+                    </View>
+                  </View>
                 );
-              })}
-          </View>
-        </View>
-        <View style={{ marginBottom: 20 }}>
-          <Text style={[STYLES.groupLabelText, { marginVertical: 16 }]}>
-            {terms["0025"]}
-          </Text>
-          <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 16 }}>
-            {channelList
-              .filter(
-                (i) =>
-                  i.data.category.toLowerCase() === terms["0025"].toLowerCase(),
-              )
-              .map((channel) => {
-                return (
-                  <InterestTag
-                    onPress={() =>
-                      toggleInterest({
-                        name: channel.data.interest,
-                        id: channel.cid,
-                      })
-                    }
-                    label={channel.data.interest}
-                    selected={userInterests.some(
-                      (interest) => interest.name === channel.data.interest,
-                    )}
-                    key={channel.cid}
-                  />
-                );
-              })}
+              },
+            )}
           </View>
         </View>
       </ScrollView>
