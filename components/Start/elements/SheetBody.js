@@ -1,8 +1,8 @@
-import { View, Text, TextInput, Image } from "react-native";
+import { View, Text, Image } from "react-native";
 import Colors from "../../../settings/Colors";
-import STYLES from "../styles/Styles";
 import _Button from "./_Button";
 import { useState } from "react";
+import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 
 const RequestSubmitted = (props) => {
   return (
@@ -44,12 +44,14 @@ const SheetBody = (props) => {
             Not Seeing A Group For Your Interest? No Worries! Enter Your Desired
             Interest Below For Our Team To Review.
           </Text>
-          <TextInput
+          <BottomSheetTextInput
             placeholder={search}
             style={{
+              fontSize: 17,
               borderWidth: 1,
               borderColor: Colors.primary1_100,
-              borderRadius: 5,
+              borderRadius: 10,
+              padding: 10,
               height: 56,
             }}
           />
@@ -60,9 +62,7 @@ const SheetBody = (props) => {
             textColor={"white_100"}
             style={{ marginTop: 40 }}
             borderColor={"light_grey"}
-          >
-            Submit
-          </_Button>
+          />
         </View>
       ) : (
         <RequestSubmitted />

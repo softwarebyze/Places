@@ -1,11 +1,4 @@
-import {
-  Text,
-  View,
-  ScrollView,
-  TouchableHighlight,
-  Image,
-  TextInput,
-} from "react-native";
+import { Text, View, ScrollView, Image } from "react-native";
 import { useState, useMemo, useRef } from "react";
 import _Button from "../elements/_Button";
 import Searchbar from "../elements/Searchbar";
@@ -15,7 +8,6 @@ import Colors from "../../../settings/Colors";
 import { interests } from "../../../data.js";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheet from "@gorhom/bottom-sheet";
-import { SEVEN_Z } from "stream-chat-expo";
 import SheetHeader from "../elements/SheetHeader";
 import SheetBody from "../elements/SheetBody";
 
@@ -42,7 +34,6 @@ const InterestListItem = ({ interest }) => {
     </View>
   );
 };
-
 const CategoryPage = () => {
   const [search, setSearch] = useState("");
   const filteredInterests = interests.filter((interest) =>
@@ -50,18 +41,14 @@ const CategoryPage = () => {
   );
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ["55%"], []);
-
   const [showPopup, setShowPopup] = useState(false);
-
   const handleClose = () => {
     setShowPopup(false);
   };
-
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={{ flex: 1, alignItems: "center" }}>
         <Searchbar onChange={setSearch} />
-
         <ScrollView
           style={{
             backgroundColor: Colors.light_grey,
@@ -71,7 +58,6 @@ const CategoryPage = () => {
           {filteredInterests.map((interest, index) => (
             <InterestListItem interest={interest} key={index} />
           ))}
-
           <View
             style={{ marginTop: 27, marginBottom: 24, alignItems: "center" }}
           >
@@ -106,7 +92,7 @@ const CategoryPage = () => {
           >
             <View style={{ marginHorizontal: 30 }}>
               <View style={STYLES.sheetHeader}>
-                <SheetHeader setShowPopup={setShowPopup} />
+                <SheetHeader handleClose={handleClose} />
               </View>
               <SheetBody search={search} />
             </View>
@@ -116,5 +102,4 @@ const CategoryPage = () => {
     </GestureHandlerRootView>
   );
 };
-
 export default CategoryPage;

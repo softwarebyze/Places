@@ -1,23 +1,15 @@
 import Styles from "../styles/Styles";
-import _Divider from "../elements/_Divider.js";
-import { View, Image, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
+import { Octicons } from "@expo/vector-icons";
 import Colors from "../../../settings/Colors";
-import { TouchableHighlight } from "react-native-gesture-handler";
 
-const SheetHeader = (props) => {
-  const { setShowPopup } = props;
-  const cancelButton = () => {
-    setShowPopup = false;
-    console.log(setShowPopup);
-  };
-  return (
-    <View style={Styles.sheetHeader}>
-      <Text style={Styles.suliHeaderText}>Request New Interest</Text>
-      <TouchableHighlight onPress={() => setShowPopup(false)}>
-        <Image source={require("../../../assets/x-circle.png")} />
-      </TouchableHighlight>
-    </View>
-  );
-};
+const SheetHeader = (props) => (
+  <View style={Styles.sheetHeader}>
+    <Text style={Styles.suliHeaderText}>Request New Interest</Text>
+    <TouchableOpacity onPress={props.handleClose}>
+      <Octicons name="x-circle-fill" size={24} color={Colors.orange} />
+    </TouchableOpacity>
+  </View>
+);
 
 export default SheetHeader;
