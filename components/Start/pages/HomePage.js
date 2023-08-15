@@ -9,7 +9,6 @@ import Collapsible from "react-native-collapsible";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../../../settings/Colors";
-import Stream from "../elements/Stream";
 import { StreamChat } from "stream-chat";
 import {
   ChannelList,
@@ -146,7 +145,6 @@ const HomePage = () => {
     <View style={[Styles.page, { backgroundColor: Colors.light_grey }]}>
       <Text style={Styles.groupLabelText}>Your Places</Text>
       <Dropdown heading={"New York City, USA"} />
-      <Stream />
     </View>
   );
 };
