@@ -86,7 +86,6 @@ const InterestsPage = () => {
           );
           channels.push(...newChannels);
         }
-        console.log("channels: ", channels.length);
         setChannelList(channels);
       } catch (error) {
         console.error(error);
@@ -114,8 +113,9 @@ const InterestsPage = () => {
     const auth = getAuth();
     const userId = auth.currentUser.uid;
     const userRef = doc(db, "users", userId);
+    const interests = userInterests.map((interest) => interest.name);
     await setDoc(userRef, { interests }, { merge: true });
-    await addUserToChannels(userId, interests, route.params.location);
+    await addUserToChannels(userId, userInterests, route.params.location);
     setLoading(false);
     navigator.navigate("HomeTabs");
   };
@@ -141,7 +141,7 @@ const InterestsPage = () => {
                     onPress={() =>
                       toggleInterest({
                         name: channel.data.interest,
-                        id: channel.cid,
+                        id: channel.data.id,
                       })
                     }
                     label={channel.data.interest}
