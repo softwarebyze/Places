@@ -92,6 +92,7 @@ const InterestsPage = () => {
   useEffect(() => {
     const fetchInterests = async () => {
       try {
+        setLoading(true);
         const channels = [];
         for (let i = 0; i < 3; i++) {
           const newChannels = await client.queryChannels(
@@ -108,6 +109,8 @@ const InterestsPage = () => {
         setChannelList(channelsData);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchInterests();
