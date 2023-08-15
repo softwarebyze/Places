@@ -1,14 +1,6 @@
-import { View, Text } from "react-native";
-import React, { useState } from "react";
-import {
-  Channel,
-  ChannelList,
-  Chat,
-  OverlayProvider,
-  MessageList,
-  MessageInput,
-} from "stream-chat-expo";
-import { StreamChat } from "stream-chat";
+import { View } from "react-native";
+import React from "react";
+import { ChannelList } from "stream-chat-expo";
 import { getAuth } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 
@@ -20,9 +12,12 @@ const NeighborsPage = () => {
   return (
     <View style={{ flex: 1 }}>
       <ChannelList
-        filters={{ members: { $in: [auth.currentUser.uid] } }}
+        filters={{
+          type: "messaging",
+          members: { $in: [auth.currentUser.uid] },
+        }}
         onSelect={(channel) => {
-          navigator.navigate("Channel", { channel });
+          navigator.navigate("NeighborsChat", { channel });
           // navigator.navigate("Neighbors", {
           //   screen: "Channel",
           //   params: { channel },

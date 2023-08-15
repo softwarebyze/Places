@@ -10,6 +10,16 @@ import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../../../settings/Colors";
 import Stream from "../elements/Stream";
+import { StreamChat } from "stream-chat";
+import {
+  ChannelList,
+  OverlayProvider,
+  Chat,
+  ChannelPreviewTitle,
+} from "stream-chat-expo";
+import { getAuth } from "firebase/auth";
+
+const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
 
 const DropdownItem = ({ label, onPress, icon }) => (
   <TouchableOpacity
@@ -28,6 +38,11 @@ const DropdownItem = ({ label, onPress, icon }) => (
   </TouchableOpacity>
 );
 
+const CustomChannelPreview = ({ channel }) => {
+  return (
+    <ChannelPreviewTitle channel={channel} displayName={channel.data.id} />
+  );
+};
 const Dropdown = (props) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
 
@@ -36,39 +51,45 @@ const Dropdown = (props) => {
   };
 
   const navigation = useNavigation();
+  const auth = getAuth();
 
   return (
     <View style={{ width: "100%" }}>
-      <TouchableOpacity
-        style={{
-          backgroundColor: Colors.primary1_100,
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          paddingHorizontal: 16,
-          paddingVertical: 12,
-          borderRadius: 6,
-        }}
-        onPress={toggleDropdown}
-      >
-        <Text
-          style={[
-            Styles.whiteText,
-            Styles.blueDropdownHeader,
-            { fontWeight: "bold" },
-          ]}
+      <Chat client={client}>
+        <TouchableOpacity
+          style={{
+            backgroundColor: Colors.primary1_100,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingHorizontal: 16,
+            paddingVertical: 12,
+            borderRadius: 6,
+          }}
+          onPress={toggleDropdown}
         >
-          {props.heading}
-        </Text>
-        {isCollapsed ? (
-          <Ionicons name="chevron-down-outline" size={24} color="white" />
-        ) : (
-          <Ionicons name="chevron-up-outline" size={24} color="white" />
-        )}
-      </TouchableOpacity>
+          <Text
+            style={[
+              Styles.whiteText,
+              Styles.blueDropdownHeader,
+              { fontWeight: "bold" },
+            ]}
+          >
+            {props.heading}
+          </Text>
+          {isCollapsed ? (
+            <Ionicons name="chevron-down-outline" size={24} color="white" />
+          ) : (
+            <Ionicons name="chevron-up-outline" size={24} color="white" />
+          )}
+        </TouchableOpacity>
 
-      <Collapsible collapsed={isCollapsed} containerStyle={{ borderRadius: 0 }}>
-        <DropdownItem
+        <Collapsible
+          collapsed={isCollapsed}
+          containerStyle={{ borderRadius: 0 }}
+        >
+          <View style={{ flex: 1 }}>
+            {/* <DropdownItem
           icon={<Ionicons name="baseball-outline" size={24} color="red" />}
           label="Baseball / New York City"
           onPress={() => console.log("Option 1 selected")}
@@ -77,31 +98,45 @@ const Dropdown = (props) => {
           icon={<Ionicons name="american-football" size={24} color="brown" />}
           label="American Football / New York City"
           onPress={() => console.log("Option 2 selected")}
-        />
-        {/* Add more dropdown items/components as needed */}
-        <TouchableOpacity
-          onPress={() => navigation.navigate("JoinPlace")}
-          style={{
-            backgroundColor: Colors.white_100,
-            paddingHorizontal: 16,
-            paddingVertical: 12,
-          }}
-        >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Ionicons name="add" size={24} color={Colors.orange} />
-            <Text
+        /> */}
+            <ChannelList
+              filters={{
+                type: "team",
+                members: { $in: [auth.currentUser.uid] },
+                location: { $in: [props.heading] },
+              }}
+              PreviewTitle={CustomChannelPreview}
+              onSelect={(channel) => {
+                navigation.navigate("PlacesChat", { channel });
+              }}
+            />
+
+            {/* Add more dropdown items/components as needed */}
+            <TouchableOpacity
+              onPress={() => navigation.navigate("JoinPlace")}
               style={{
-                color: Colors.orange,
-                fontWeight: "600",
-                fontSize: 16,
-                paddingStart: 4,
+                backgroundColor: Colors.white_100,
+                paddingHorizontal: 16,
+                paddingVertical: 12,
               }}
             >
-              {terms["0026"]}
-            </Text>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Ionicons name="add" size={24} color={Colors.orange} />
+                <Text
+                  style={{
+                    color: Colors.orange,
+                    fontWeight: "600",
+                    fontSize: 16,
+                    paddingStart: 4,
+                  }}
+                >
+                  {terms["0026"]}
+                </Text>
+              </View>
+            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
-      </Collapsible>
+        </Collapsible>
+      </Chat>
     </View>
   );
 };
@@ -110,7 +145,7 @@ const HomePage = () => {
   return (
     <View style={[Styles.page, { backgroundColor: Colors.light_grey }]}>
       <Text style={Styles.groupLabelText}>Your Places</Text>
-      <Dropdown heading={"New York City, NY"} />
+      <Dropdown heading={"New York City, USA"} />
       <Stream />
     </View>
   );

@@ -108,7 +108,7 @@ export default new StyleSheet.create({
     alignItems: "flex-start",
   },
   inputSubtext: {
-    fontSize: 9,
+    fontSize: 13,
     fontWeight: "400",
     lineHeight: 10.8,
   },
