@@ -4,9 +4,8 @@ import _Header from "../elements/_Header";
 import _Divider from "../elements/_Divider";
 import STYLES from "../styles/Styles";
 import TERMS from "../../../settings/Terms";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View, ScrollView } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../../../settings/Colors";
 import { useState } from "react";
@@ -15,8 +14,10 @@ import { db } from "../../../firebaseConfig";
 import { ActivityIndicator } from "react-native";
 import { getAuth } from "firebase/auth";
 import { StreamChat } from "stream-chat";
+import { useEffect } from "react";
 
 const terms = TERMS["English"];
+const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
 
 export const InterestTag = (props) => {
   return (
@@ -56,34 +57,50 @@ const InterestsPage = () => {
   const navigator = useNavigation();
   const route = useRoute();
   const REQUIRED_INTERESTS = 5;
-  const [interests, setInterests] = useState([]);
+  const [userInterests, setUserInterests] = useState([]);
+  const [channelList, setChannelList] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const disabled = interests.length < REQUIRED_INTERESTS;
+  const disabled = userInterests.length < REQUIRED_INTERESTS;
 
   const toggleInterest = (interest) => {
-    if (interests.includes(interest)) {
-      setInterests(interests.filter((i) => i !== interest));
+    if (userInterests.some((i) => i.name === interest.name)) {
+      setUserInterests(userInterests.filter((i) => i.name !== interest.name));
     } else {
-      setInterests([...interests, interest]);
+      setUserInterests([...userInterests, interest]);
     }
   };
 
+  useEffect(() => {
+    const fetchInterests = async () => {
+      try {
+        const channels = [];
+        for (let i = 0; i < 3; i++) {
+          const newChannels = await client.queryChannels(
+            {
+              type: "team",
+              location: route.params.location,
+            },
+            {},
+            { limit: 30, offset: 30 * i },
+          );
+          channels.push(...newChannels);
+        }
+        console.log("channels: ", channels.length);
+        setChannelList(channels);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchInterests(setChannelList);
+  }, []);
+
   const addUserToChannels = async (userId, interests, location) => {
     try {
-      const client = StreamChat.getInstance(
-        process.env.EXPO_PUBLIC_STREAM_API_KEY,
-      );
-
       const channels = await Promise.all(
         interests.map(async (interest) => {
-          const channel = client.channel(
-            "team",
-            `${interest}/${location}`
-              .replaceAll(" ", "-")
-              .replaceAll(",", "_")
-              .replaceAll("/", "_-_"),
-          );
+          const channel = client.channel("team", interest.id);
           await channel.addMembers([userId]);
         }),
       );
@@ -105,72 +122,68 @@ const InterestsPage = () => {
 
   return (
     <View style={[STYLES.page, { backgroundColor: Colors.light_grey }]}>
-      <Text style={STYLES.descriptionText}>{terms["0023"]}</Text>
+      <ScrollView>
+        <Text style={STYLES.descriptionText}>{terms["0023"]}</Text>
 
-      <View style={{ marginBottom: 20 }}>
-        <Text style={[STYLES.groupLabelText, { marginVertical: 16 }]}>
-          {terms["0024"]}
-        </Text>
-        <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 16 }}>
-          <InterestTag
-            onPress={() => toggleInterest("Soccer")}
-            label={"Soccer"}
-            selected={interests.includes("Soccer")}
-          />
-          <InterestTag
-            onPress={() => toggleInterest("Basketball")}
-            label={"Basketball"}
-            selected={interests.includes("Basketball")}
-          />
-          <InterestTag
-            onPress={() => toggleInterest("Tennis")}
-            label={"Tennis"}
-            selected={interests.includes("Tennis")}
-          />
-          <InterestTag
-            onPress={() => toggleInterest("Golf")}
-            label={"Golf"}
-            selected={interests.includes("Golf")}
-          />
-          <InterestTag
-            onPress={() => toggleInterest("American_Football")}
-            label={"American Football"}
-            selected={interests.includes("American_Football")}
-          />
-          <InterestTag
-            onPress={() => toggleInterest("Baseball")}
-            label={"Baseball"}
-            selected={interests.includes("Baseball")}
-          />
+        <View style={{ marginBottom: 20 }}>
+          <Text style={[STYLES.groupLabelText, { marginVertical: 16 }]}>
+            {terms["0024"]}
+          </Text>
+          <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 16 }}>
+            {channelList
+              .filter(
+                (i) =>
+                  i.data.category.toLowerCase() === terms["0024"].toLowerCase(),
+              )
+              .map((channel) => {
+                return (
+                  <InterestTag
+                    onPress={() =>
+                      toggleInterest({
+                        name: channel.data.interest,
+                        id: channel.cid,
+                      })
+                    }
+                    label={channel.data.interest}
+                    selected={userInterests.some(
+                      (interest) => interest.name === channel.data.interest,
+                    )}
+                    key={channel.cid}
+                  />
+                );
+              })}
+          </View>
         </View>
-      </View>
-      <View style={{ marginBottom: 20 }}>
-        <Text style={[STYLES.groupLabelText, { marginVertical: 16 }]}>
-          {terms["0025"]}
-        </Text>
-        <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 16 }}>
-          <InterestTag
-            onPress={() => toggleInterest("Painting")}
-            label={"Painting"}
-            selected={interests.includes("Painting")}
-          />
-          <InterestTag
-            onPress={() => toggleInterest("Photography")}
-            label={"Photography"}
-            selected={interests.includes("Photography")}
-          />
-          <InterestTag
-            onPress={() => toggleInterest("Yoga")}
-            label={"Yoga"}
-            selected={interests.includes("Yoga")}
-          />
-          <InterestTag
-            onPress={() => toggleInterest("Drawing")}
-            label={"Drawing"}
-            selected={interests.includes("Drawing")}
-          />
+        <View style={{ marginBottom: 20 }}>
+          <Text style={[STYLES.groupLabelText, { marginVertical: 16 }]}>
+            {terms["0025"]}
+          </Text>
+          <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 16 }}>
+            {channelList
+              .filter(
+                (i) =>
+                  i.data.category.toLowerCase() === terms["0025"].toLowerCase(),
+              )
+              .map((channel) => {
+                return (
+                  <InterestTag
+                    onPress={() =>
+                      toggleInterest({
+                        name: channel.data.interest,
+                        id: channel.cid,
+                      })
+                    }
+                    label={channel.data.interest}
+                    selected={userInterests.some(
+                      (interest) => interest.name === channel.data.interest,
+                    )}
+                    key={channel.cid}
+                  />
+                );
+              })}
+          </View>
         </View>
-      </View>
+      </ScrollView>
       {loading ? (
         <ActivityIndicator />
       ) : (
