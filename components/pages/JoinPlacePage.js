@@ -4,11 +4,11 @@ import _Input from "../elements/_Input";
 import _Header from "../elements/_Header";
 import _Divider from "../elements/_Divider";
 import STYLES from "../styles/Styles";
-import TERMS from "../../../settings/Terms";
+import TERMS from "../../settings/Terms";
 import { Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Colors from "../../../settings/Colors";
+import Colors from "../../settings/Colors";
 const terms = TERMS["English"];
 
 const JoinPlacePage = () => {
@@ -31,9 +31,7 @@ const JoinPlacePage = () => {
           borderColor="primary1_100"
           textColor="white_100"
         >
-          <Image
-            source={require("../../../assets/category_images/sports.png")}
-          />
+          <Image source={require("../../assets/category_images/sports.png")} />
           <Text style={STYLES.categoryText}>{terms["0029"]}</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -44,7 +42,7 @@ const JoinPlacePage = () => {
           textColor="white_100"
         >
           <Image
-            source={require("../../../assets/category_images/buy_and_sell.png")}
+            source={require("../../assets/category_images/buy_and_sell.png")}
           />
           <Text
             numberOfLines={1}
@@ -62,7 +60,7 @@ const JoinPlacePage = () => {
           textColor="white_100"
         >
           <Image
-            source={require("../../../assets/category_images/donations.png")}
+            source={require("../../assets/category_images/donations.png")}
           />
           <Text
             numberOfLines={1}
@@ -79,9 +77,7 @@ const JoinPlacePage = () => {
           borderColor="primary1_100"
           textColor="white_100"
         >
-          <Image
-            source={require("../../../assets/category_images/hobbies.png")}
-          />
+          <Image source={require("../../assets/category_images/hobbies.png")} />
           <Text
             numberOfLines={1}
             ellipsizeMode="clip"

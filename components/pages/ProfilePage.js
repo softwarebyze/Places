@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import _Button from "../elements/_Button";
-import TERMS from "../../../settings/Terms";
+import TERMS from "../../settings/Terms";
 import STYLES from "../styles/Styles";
 import { useNavigation } from "@react-navigation/native";
 import { getAuth, signOut } from "firebase/auth";

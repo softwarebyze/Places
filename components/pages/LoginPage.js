@@ -1,7 +1,7 @@
 import { ActivityIndicator } from "react-native";
 import _Header from "../elements/_Header";
 import STYLES from "../styles/Styles";
-import TERMS from "../../../settings/Terms";
+import TERMS from "../../settings/Terms";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import _Button from "../elements/_Button";
@@ -12,7 +12,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { StreamChat } from "stream-chat";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../../firebaseConfig";
+import { db } from "../../firebaseConfig";
 
 const terms = TERMS["English"];
 

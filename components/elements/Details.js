@@ -5,18 +5,18 @@ import _Divider from "./_Divider";
 import _Dropdown from "./_Dropdown";
 
 import Styles from "../styles/Styles";
-import TERMS from "../../../settings/Terms";
+import TERMS from "../../settings/Terms";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import PhoneInput from "react-native-phone-input";
 import { KeyboardAvoidingView, Platform, Text, View } from "react-native";
 import { useRef, useState } from "react";
-import Colors from "../../../settings/Colors";
+import Colors from "../../settings/Colors";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Button } from "react-native";
 import { doc, setDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { db } from "../../../firebaseConfig";
+import { db } from "../../firebaseConfig";
 
 const terms = TERMS["English"];
 

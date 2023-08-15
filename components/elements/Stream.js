@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import { useEffect } from "react";
 import { StreamChat } from "stream-chat";
-import { getStreamUserToken } from "../../../firebaseConfig";
+import { getStreamUserToken } from "../../firebaseConfig";
 
 // const userId = "edJIZSIglMb34XPCimVfeROxVa43";
 

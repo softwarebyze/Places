@@ -2,7 +2,7 @@ import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { View } from "react-native";
 import { useState } from "react";
-import Colors from "../../../settings/Colors";
+import Colors from "../../settings/Colors";
 import { AntDesign } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
@@ -195,7 +195,7 @@ const MapsPage = () => {
             coordinate={marker.location}
             onPress={() => handleMarkerPress(marker)}
           >
-            <Image source={require("../../../assets/marker.png")} />
+            <Image source={require("../../assets/marker.png")} />
           </Marker>
         ))}
       </MapView>
