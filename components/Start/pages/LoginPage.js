@@ -36,6 +36,7 @@ const signIn = async (email, password) => {
   } catch (error) {
     if (error.code === "auth/wrong-password") {
       console.log("Wrong password");
+
       alert("Wrong password.");
     }
   }
