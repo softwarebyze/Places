@@ -102,7 +102,7 @@ const Dropdown = (props) => {
       />
 
       <Collapsible collapsed={isCollapsed} containerStyle={{ borderRadius: 0 }}>
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, maxHeight: 400 }}>
           <ChannelList
             filters={{
               type: "team",
