@@ -1,5 +1,5 @@
 import _Header from "../elements/_Header";
-import TERMS from "../../../settings/Terms";
+import TERMS from "../../settings/Terms";
 import _Input from "../elements/_Input";
 import _Divider from "../elements/_Divider";
 import { useState } from "react";

@@ -1,5 +1,5 @@
 import { Text, Button, View, TouchableOpacity } from "react-native";
-import TERMS from "../../../settings/Terms";
+import TERMS from "../../settings/Terms";
 const terms = TERMS["English"];
 import _Button from "../elements/_Button";
 import { useNavigation } from "@react-navigation/native";
@@ -8,7 +8,7 @@ import Styles from "../styles/Styles";
 import Collapsible from "react-native-collapsible";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import Colors from "../../../settings/Colors";
+import Colors from "../../settings/Colors";
 import Stream from "../elements/Stream";
 import { StreamChat } from "stream-chat";
 import {
