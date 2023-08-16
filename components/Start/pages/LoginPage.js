@@ -144,7 +144,7 @@ const LoginPage = () => {
         }
         subtextColor={
           error.length
-            ? Colors.error_100
+            ? "error_100"
             : emailTextState && !passwordIsValid
             ? "primary1_030"
             : passwordFocusState
