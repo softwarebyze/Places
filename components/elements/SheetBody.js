@@ -1,5 +1,5 @@
 import { View, Text, Image } from "react-native";
-import Colors from "../../../settings/Colors";
+import Colors from "../../settings/Colors";
 import _Button from "./_Button";
 import { useState } from "react";
 import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
@@ -13,7 +13,7 @@ const RequestSubmitted = (props) => {
         marginVertical: 40,
       }}
     >
-      <Image source={require("../../../assets/checked.png")} />
+      <Image source={require("../../assets/checked.png")} />
       <Text
         style={{
           fontSize: 24,

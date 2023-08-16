@@ -1,5 +1,5 @@
 import _Header from "../elements/_Header";
-import TERMS from "../../../settings/Terms";
+import TERMS from "../../settings/Terms";
 import _Input from "../elements/_Input";
 import _Divider from "../elements/_Divider";
 import { useState } from "react";
@@ -110,7 +110,7 @@ const SignUpPage = () => {
       <_Input
         secureTextEntry={true}
         labelText={terms["0007"]}
-        subtextText={terms["0015"]}
+        subtextText={terms["your_password_must_be_at_least_6_characters"]}
         onFocus={() => setPasswordFocusState(true)}
         onBlur={() => setPasswordFocusState(false)}
         onChangeText={(input) => setPasswordTextState(input)}
