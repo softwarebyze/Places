@@ -138,22 +138,18 @@ const SlideUpPanel = ({
 };
 
 const FloatingPlusButton = () => (
-  <TouchableOpacity
+  <Ionicons
+    name="add-circle"
+    size={58}
+    backgroundColor="white"
+    color={Colors.orange}
     style={{
       position: "absolute",
       bottom: 26,
       right: 26,
-      justifyContent: "center",
-      alignItems: "center",
     }}
-  >
-    <Ionicons
-      name="add-circle"
-      size={58}
-      color={Colors.orange}
-      style={{ backgroundColor: Colors.white_100 }}
-    />
-  </TouchableOpacity>
+    onPress={() => alert("plus pressed")}
+  />
 );
 
 const convertTimestampToDateAndTime = (timestamp) => {
@@ -213,8 +209,8 @@ const MapsPage = () => {
             <Image source={require("../../assets/marker.png")} />
           </Marker>
         ))}
-        <FloatingPlusButton />
       </MapView>
+      <FloatingPlusButton />
       {selectedMarker && (
         <View style={styles.markerInfoContainer}>
           <SlideUpPanel
