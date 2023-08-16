@@ -8,6 +8,7 @@ import { EvilIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
+import { format } from "date-fns";
 // To deploy, follow https://docs.expo.dev/versions/latest/sdk/map-view/#deploy-app-with-google-maps
 
 const initialRegion = {
@@ -138,8 +139,8 @@ const SlideUpPanel = ({
 const convertTimestampToDateAndTime = (timestamp) => {
   const dateObj = new Date(timestamp.seconds * 1000);
   return {
-    date: dateObj.toLocaleDateString(),
-    time: dateObj.getHours() + ":" + ("0" + dateObj.getMinutes()).slice(-2), // This will give time in HH:mm format.
+    date: format(dateObj, "MM/dd/yyyy"),
+    time: format(dateObj, "h:mm a").toLocaleLowerCase(),
   };
 };
 
