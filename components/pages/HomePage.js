@@ -1,48 +1,88 @@
-import { Text, Button, View, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity, Image } from "react-native";
 import TERMS from "../../settings/Terms";
 const terms = TERMS["English"];
 import _Button from "../elements/_Button";
 import { useNavigation } from "@react-navigation/native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import Styles from "../styles/Styles";
 import Collapsible from "react-native-collapsible";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../../settings/Colors";
-import Stream from "../elements/Stream";
 import { StreamChat } from "stream-chat";
-import {
-  ChannelList,
-  OverlayProvider,
-  Chat,
-  ChannelPreviewTitle,
-} from "stream-chat-expo";
+import { ChannelList } from "stream-chat-expo";
 import { getAuth } from "firebase/auth";
 
 const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
 
-const DropdownItem = ({ label, onPress, icon }) => (
+const groupChannelsByLocation = (channels) => {
+  return channels.reduce((acc, channel) => {
+    const location = channel.data.location;
+    if (!acc[location]) {
+      acc[location] = [];
+    }
+    acc[location].push(channel);
+    return acc;
+  }, {});
+};
+
+const DropdownHeader = (props) => (
   <TouchableOpacity
     style={{
-      display: "flex",
+      backgroundColor: Colors.primary1_100,
       flexDirection: "row",
+      justifyContent: "space-between",
       alignItems: "center",
-      backgroundColor: Colors.white_100,
-      borderBottomLeftRadius: 0,
-      borderBottomRightRadius: 0,
+      paddingHorizontal: 16,
+      paddingVertical: 12,
+      borderRadius: 6,
     }}
-    onPress={onPress}
+    onPress={props.onPress}
   >
-    <View style={{ margin: 16 }}>{icon}</View>
-    <Text style={{ fontSize: 14 }}>{label}</Text>
+    <Text
+      style={[
+        Styles.whiteText,
+        Styles.blueDropdownHeader,
+        { fontWeight: "bold" },
+      ]}
+    >
+      {props.heading}
+    </Text>
+    {props.isCollapsed ? (
+      <Ionicons name="chevron-down-outline" size={24} color="white" />
+    ) : (
+      <Ionicons name="chevron-up-outline" size={24} color="white" />
+    )}
   </TouchableOpacity>
 );
 
-const CustomChannelPreview = ({ channel }) => {
+const JoinANewPlace = () => {
+  const navigation = useNavigation();
   return (
-    <ChannelPreviewTitle channel={channel} displayName={channel.data.id} />
+    <TouchableOpacity
+      onPress={() => navigation.navigate("JoinPlace")}
+      style={{
+        backgroundColor: Colors.white_100,
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+      }}
+    >
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <Ionicons name="add" size={24} color={Colors.orange} />
+        <Text
+          style={{
+            color: Colors.orange,
+            fontWeight: "600",
+            fontSize: 16,
+            paddingStart: 4,
+          }}
+        >
+          {terms["0026"]}
+        </Text>
+      </View>
+    </TouchableOpacity>
   );
 };
+
 const Dropdown = (props) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
 
@@ -54,99 +94,64 @@ const Dropdown = (props) => {
   const auth = getAuth();
 
   return (
-    <View style={{ width: "100%" }}>
-      <Chat client={client}>
-        <TouchableOpacity
-          style={{
-            backgroundColor: Colors.primary1_100,
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            paddingHorizontal: 16,
-            paddingVertical: 12,
-            borderRadius: 6,
-          }}
-          onPress={toggleDropdown}
-        >
-          <Text
-            style={[
-              Styles.whiteText,
-              Styles.blueDropdownHeader,
-              { fontWeight: "bold" },
-            ]}
-          >
-            {props.heading}
-          </Text>
-          {isCollapsed ? (
-            <Ionicons name="chevron-down-outline" size={24} color="white" />
-          ) : (
-            <Ionicons name="chevron-up-outline" size={24} color="white" />
-          )}
-        </TouchableOpacity>
+    <View style={{ width: "100%", flex: 1 }}>
+      <DropdownHeader
+        onPress={toggleDropdown}
+        heading={props.heading}
+        isCollapsed={isCollapsed}
+      />
 
-        <Collapsible
-          collapsed={isCollapsed}
-          containerStyle={{ borderRadius: 0 }}
-        >
-          <View style={{ flex: 1 }}>
-            {/* <DropdownItem
-          icon={<Ionicons name="baseball-outline" size={24} color="red" />}
-          label="Baseball / New York City"
-          onPress={() => console.log("Option 1 selected")}
-        />
-        <DropdownItem
-          icon={<Ionicons name="american-football" size={24} color="brown" />}
-          label="American Football / New York City"
-          onPress={() => console.log("Option 2 selected")}
-        /> */}
-            <ChannelList
-              filters={{
-                type: "team",
-                members: { $in: [auth.currentUser.uid] },
-                location: { $in: [props.heading] },
-              }}
-              PreviewTitle={CustomChannelPreview}
-              onSelect={(channel) => {
-                navigation.navigate("PlacesChat", { channel });
-              }}
-            />
-
-            {/* Add more dropdown items/components as needed */}
-            <TouchableOpacity
-              onPress={() => navigation.navigate("JoinPlace")}
-              style={{
-                backgroundColor: Colors.white_100,
-                paddingHorizontal: 16,
-                paddingVertical: 12,
-              }}
-            >
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Ionicons name="add" size={24} color={Colors.orange} />
-                <Text
-                  style={{
-                    color: Colors.orange,
-                    fontWeight: "600",
-                    fontSize: 16,
-                    paddingStart: 4,
-                  }}
-                >
-                  {terms["0026"]}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </Collapsible>
-      </Chat>
+      <Collapsible collapsed={isCollapsed} containerStyle={{ borderRadius: 0 }}>
+        <View style={{ flex: 1 }}>
+          <ChannelList
+            filters={{
+              type: "team",
+              members: { $in: [auth.currentUser.uid] },
+              location: { $in: [props.heading] },
+            }}
+            onSelect={(channel) => {
+              navigation.navigate("PlacesChat", { channel });
+            }}
+          />
+          <JoinANewPlace />
+        </View>
+      </Collapsible>
     </View>
   );
 };
 
 const HomePage = () => {
+  const auth = getAuth();
+  const [channelList, setChannelList] = useState([]);
+
+  useEffect(() => {
+    const fetchChannels = async () => {
+      try {
+        const channels = await client.queryChannels(
+          {
+            type: "team",
+            members: { $in: [auth.currentUser.uid] },
+          },
+          {},
+          { limit: 30 },
+        );
+        setChannelList(channels);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchChannels();
+  }, []);
+
+  const channelsGroupedByLocation = groupChannelsByLocation(channelList);
   return (
     <View style={[Styles.page, { backgroundColor: Colors.light_grey }]}>
       <Text style={Styles.groupLabelText}>Your Places</Text>
-      <Dropdown heading={"New York City, USA"} />
-      <Stream />
+      {Object.entries(channelsGroupedByLocation).map(([location, channels]) => {
+        return (
+          <Dropdown heading={location} channels={channels} key={location} />
+        );
+      })}
     </View>
   );
 };
