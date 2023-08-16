@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import STYLES from "../styles/Styles";
-import COLORS from "../../../settings/Colors";
+import COLORS from "../../settings/Colors";
 
 const _Divider = (props) => {
   return (

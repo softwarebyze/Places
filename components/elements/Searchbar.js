@@ -1,6 +1,6 @@
 import React from "react";
 import { Stylesheet, TextInput, View, Image } from "react-native";
-import Colors from "../../../settings/Colors";
+import Colors from "../../settings/Colors";
 
 const Searchbar = (props) => {
   return (
@@ -29,7 +29,7 @@ const Searchbar = (props) => {
           style={{
             marginHorizontal: 10,
           }}
-          source={require("../../../assets/search-icon.png")}
+          source={require("../../assets/search-icon.png")}
         />
         <TextInput
           placeholder="search"

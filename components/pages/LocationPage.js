@@ -6,14 +6,14 @@ import _Header from "../elements/_Header";
 import _Dropdown from "../elements/_Dropdown";
 import _Divider from "../elements/_Divider";
 import STYLES from "../styles/Styles";
-import TERMS from "../../../settings/Terms";
+import TERMS from "../../settings/Terms";
 import { Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Colors from "../../../settings/Colors";
+import Colors from "../../settings/Colors";
 import { getAuth } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import { db } from "../../../firebaseConfig";
+import { db } from "../../firebaseConfig";
 import { ActivityIndicator } from "react-native";
 const terms = TERMS["English"];
 

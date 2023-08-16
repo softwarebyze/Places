@@ -3,7 +3,7 @@ import ProfilePage from "../pages/ProfilePage";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import NeighborsStack from "./NeighborsStack";
 
-import Colors from "../../../settings/Colors";
+import Colors from "../../settings/Colors";
 import { Foundation } from "@expo/vector-icons";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
