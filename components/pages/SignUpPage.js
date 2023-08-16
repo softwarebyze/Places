@@ -59,6 +59,14 @@ const SignUpPage = () => {
         passwordTextState,
       );
       if (user) {
+        const userId = auth.currentUser.uid;
+        const res = await fetch(`https://auth-token.onrender.com/${userId}`);
+        const { token } = await res.json();
+        const client = StreamChat.getInstance(
+          process.env.EXPO_PUBLIC_STREAM_API_KEY,
+        );
+        await client.connectUser({ id: userId }, token);
+        setLoading(false);
         navigator.replace("Details");
       }
     } catch (error) {
@@ -68,16 +76,6 @@ const SignUpPage = () => {
     } finally {
       setLoading(false);
     }
-
-    const userId = auth.currentUser.uid;
-    const res = await fetch(`https://auth-token.onrender.com/${userId}`);
-    const { token } = await res.json();
-    const client = StreamChat.getInstance(
-      process.env.EXPO_PUBLIC_STREAM_API_KEY,
-    );
-    await client.connectUser({ id: userId }, token);
-    setLoading(false);
-    navigator.replace("Details");
   };
 
   return (
