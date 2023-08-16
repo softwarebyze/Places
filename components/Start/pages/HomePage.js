@@ -14,16 +14,15 @@ import { getAuth } from "firebase/auth";
 
 const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
 
-const groupChannelsByLocation = (channels /*Data*/) => {
-  return channels /*Data*/
-    .reduce((acc, channel) => {
-      const location = channel.data.location;
-      if (!acc[location]) {
-        acc[location] = [];
-      }
-      acc[location].push(channel);
-      return acc;
-    }, {});
+const groupChannelsByLocation = (channels) => {
+  return channels.reduce((acc, channel) => {
+    const location = channel.data.location;
+    if (!acc[location]) {
+      acc[location] = [];
+    }
+    acc[location].push(channel);
+    return acc;
+  }, {});
 };
 
 const DropdownHeader = (props) => (
@@ -56,6 +55,34 @@ const DropdownHeader = (props) => (
   </TouchableOpacity>
 );
 
+const JoinANewPlace = () => {
+  const navigation = useNavigation();
+  return (
+    <TouchableOpacity
+      onPress={() => navigation.navigate("JoinPlace")}
+      style={{
+        backgroundColor: Colors.white_100,
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+      }}
+    >
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <Ionicons name="add" size={24} color={Colors.orange} />
+        <Text
+          style={{
+            color: Colors.orange,
+            fontWeight: "600",
+            fontSize: 16,
+            paddingStart: 4,
+          }}
+        >
+          {terms["0026"]}
+        </Text>
+      </View>
+    </TouchableOpacity>
+  );
+};
+
 const Dropdown = (props) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
 
@@ -67,7 +94,7 @@ const Dropdown = (props) => {
   const auth = getAuth();
 
   return (
-    <View style={{ width: "100%" }}>
+    <View style={{ width: "100%", flex: 1 }}>
       <DropdownHeader
         onPress={toggleDropdown}
         heading={props.heading}
@@ -86,29 +113,7 @@ const Dropdown = (props) => {
               navigation.navigate("PlacesChat", { channel });
             }}
           />
-
-          <TouchableOpacity
-            onPress={() => navigation.navigate("JoinPlace")}
-            style={{
-              backgroundColor: Colors.white_100,
-              paddingHorizontal: 16,
-              paddingVertical: 12,
-            }}
-          >
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Ionicons name="add" size={24} color={Colors.orange} />
-              <Text
-                style={{
-                  color: Colors.orange,
-                  fontWeight: "600",
-                  fontSize: 16,
-                  paddingStart: 4,
-                }}
-              >
-                {terms["0026"]}
-              </Text>
-            </View>
-          </TouchableOpacity>
+          <JoinANewPlace />
         </View>
       </Collapsible>
     </View>
@@ -130,8 +135,7 @@ const HomePage = () => {
           {},
           { limit: 30 },
         );
-        const channelsData = channels; //.map((c) => c.data);
-        setChannelList(channelsData);
+        setChannelList(channels);
       } catch (error) {
         console.error(error);
       }
