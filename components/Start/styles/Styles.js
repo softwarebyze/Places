@@ -254,4 +254,13 @@ export default new StyleSheet.create({
   genderInput: {
     width: ELEMENT_WIDTH,
   },
+  sheetHeader: {
+    height: 71,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.gray1_100,
+    alignItems: "center",
+  },
 });

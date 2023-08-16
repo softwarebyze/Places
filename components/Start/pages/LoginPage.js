@@ -91,7 +91,10 @@ const LoginPage = () => {
     setLoading(false);
     if (!userData?.details_completed) return navigator.replace("Details");
     if (!userData?.location) return navigator.replace("ChooseLocation");
-    if (!userData?.interests) return navigator.replace("ChooseInterests");
+    if (!userData?.interests)
+      return navigator.replace("ChooseInterests", {
+        location: userData.location,
+      });
     return navigator.replace("HomeTabs");
   };
 

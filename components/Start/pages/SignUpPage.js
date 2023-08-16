@@ -8,7 +8,14 @@ import _Button from "../elements/_Button";
 import STYLES from "../styles/Styles";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ActivityIndicator } from "react-native";
+import {
+  ActivityIndicator,
+  View,
+  StyleSheet,
+  Modal,
+  Text,
+  Pressable,
+} from "react-native";
 import { StreamChat } from "stream-chat";
 
 const terms = TERMS["English"];
@@ -26,7 +33,7 @@ const validatePassword = (password) => {
 const SignUpPage = () => {
   const navigator = useNavigation();
   const auth = getAuth();
-
+  const [modalVisible, setModalVisible] = useState(false);
   const [emailFocusState, setEmailFocusState] = useState(false);
   const [emailTextState, setEmailTextState] = useState("");
   const [passwordFocusState, setPasswordFocusState] = useState(false);
@@ -44,11 +51,24 @@ const SignUpPage = () => {
 
   const handleSignUp = async () => {
     setLoading(true);
-    await createUserWithEmailAndPassword(
-      auth,
-      emailTextState,
-      passwordTextState,
-    );
+
+    try {
+      const user = await createUserWithEmailAndPassword(
+        auth,
+        emailTextState,
+        passwordTextState,
+      );
+      if (user) {
+        navigator.replace("Details");
+      }
+    } catch (error) {
+      if (error.code == "auth/email-already-in-use") {
+        setModalVisible(true);
+      }
+    } finally {
+      setLoading(false);
+    }
+
     const userId = auth.currentUser.uid;
     const res = await fetch(`https://auth-token.onrender.com/${userId}`);
     const { token } = await res.json();
@@ -152,7 +172,7 @@ const SignUpPage = () => {
           />
           <_Button
             text={terms["0012"]}
-            action={() => navigator.replace("Facebook")}
+            action={() => alert("Facebook Not Yet Implemented")}
             color="white_100"
             borderColor="primary1_100"
             textColor="primary1_100"
@@ -167,8 +187,90 @@ const SignUpPage = () => {
           />
         </>
       )}
+
+      <View style={styles.centeredView}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.textStyle_2}>Account already made.</Text>
+              <Text style={styles.modalText}>
+                Looks like you already have a Places account, please log in to
+                continue
+              </Text>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setModalVisible(false)}
+              >
+                <Text style={styles.textStyle}>Continue</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+        {/* <Pressable
+          style={[styles.button, styles.buttonOpen]}
+          onPress={() => setModalVisible(true)}
+        >
+          <Text style={styles.textStyle_2}>Account already made</Text>
+        </Pressable> */}
+      </View>
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  textStyle_2: {
+    color: "black",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+});
 
 export default SignUpPage;

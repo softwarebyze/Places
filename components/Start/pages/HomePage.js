@@ -17,7 +17,7 @@ import {
   Chat,
   ChannelPreviewTitle,
 } from "stream-chat-expo";
-import { auth } from "../../../firebaseConfig";
+import { getAuth } from "firebase/auth";
 
 const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
 
@@ -51,6 +51,7 @@ const Dropdown = (props) => {
   };
 
   const navigation = useNavigation();
+  const auth = getAuth();
 
   return (
     <View style={{ width: "100%" }}>
@@ -105,6 +106,9 @@ const Dropdown = (props) => {
                 location: { $in: [props.heading] },
               }}
               PreviewTitle={CustomChannelPreview}
+              onSelect={(channel) => {
+                navigation.navigate("PlacesChat", { channel });
+              }}
             />
 
             {/* Add more dropdown items/components as needed */}

@@ -1,13 +1,13 @@
-import HomePage from "../pages/HomePage";
 import MapsPage from "../pages/MapsPage";
 import ProfilePage from "../pages/ProfilePage";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import NeighborsStackScreen from "./NeighborsTab";
+import NeighborsStack from "./NeighborsStack";
 
 import Colors from "../../../settings/Colors";
 import { Foundation } from "@expo/vector-icons";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import HomeStack from "./HomeStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -35,7 +35,7 @@ const HomeTabs = () => (
     <Tab.Screen
       name="Home"
       text={"Home"}
-      component={HomePage}
+      component={HomeStack}
       options={{
         tabBarIcon: ({ color, size }) => (
           <Foundation name="home" size={size} color={color} />
@@ -44,7 +44,7 @@ const HomeTabs = () => (
     />
     <Tab.Screen
       name="Neighbors"
-      component={NeighborsStackScreen}
+      component={NeighborsStack}
       options={{
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons
@@ -55,20 +55,6 @@ const HomeTabs = () => (
         ),
       }}
     />
-    {/* <Stack.Screen
-        name="MessageChannel"
-        component={NeighborsPage}
-        // options={{
-        //   tabBarIcon: ({ color, size }) => (
-        //     <MaterialCommunityIcons
-        //       name="account-group-outline"
-        //       size={size}
-        //       color={color}
-        //     />
-        //   ),
-        // }}
-      /> */}
-    {/* </Tab.Group> */}
     <Tab.Screen
       name="Maps"
       component={MapsPage}
