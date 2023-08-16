@@ -1,11 +1,13 @@
 import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { View } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Colors from "../../settings/Colors";
 import { AntDesign } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
 // To deploy, follow https://docs.expo.dev/versions/latest/sdk/map-view/#deploy-app-with-google-maps
 
 const initialRegion = {
@@ -14,45 +16,6 @@ const initialRegion = {
   latitudeDelta: 1,
   longitudeDelta: 1,
 };
-
-const markers = [
-  {
-    location: { latitude: 32.0853, longitude: 34.781768 },
-    title: "Tel Aviv",
-    description: "A fun place with nice beaches",
-    address: "1800 Tel Aviv Way",
-    datetime: { date: "06/12/2024", time: "3:00 pm" },
-    city: "Tel Aviv",
-    state: "Israel",
-    zip: "42525",
-  },
-  {
-    location: {
-      latitude: 31.771959,
-      longitude: 35.217018,
-    },
-    title: "Jerusalem",
-    description: "A very holy place",
-    address: "1800 Jerusalem Way",
-    datetime: { date: "09/3/2023", time: "8:00 pm" },
-    city: "Jerusalem",
-    state: "Israel",
-    zip: "54252",
-  },
-  {
-    location: {
-      latitude: 32.794044,
-      longitude: 34.989571,
-    },
-    title: "Haifa",
-    description: "A nice place in the north",
-    address: "1800 Haifa Way",
-    datetime: { date: "03/16/2024", time: "10:00 am" },
-    city: "Haifa",
-    state: "Israel",
-    zip: "52352",
-  },
-];
 
 const Divider = () => (
   <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -172,8 +135,42 @@ const SlideUpPanel = ({
   );
 };
 
+const convertTimestampToDateAndTime = (timestamp) => {
+  const dateObj = new Date(timestamp.seconds * 1000);
+  return {
+    date: dateObj.toLocaleDateString(),
+    time: dateObj.getHours() + ":" + ("0" + dateObj.getMinutes()).slice(-2), // This will give time in HH:mm format.
+  };
+};
+
 const MapsPage = () => {
+  const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const eventsCollection = collection(db, "events");
+        const eventsSnapshot = await getDocs(eventsCollection);
+        const eventsData = eventsSnapshot.docs.map((doc) => {
+          const eventData = doc.data();
+          return {
+            ...eventData,
+            location: {
+              latitude: eventData.location._lat,
+              longitude: eventData.location._long,
+            },
+            datetime: convertTimestampToDateAndTime(eventData.datetime),
+          };
+        });
+        setMarkers(eventsData);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
+
+    fetchEvents();
+  }, []);
 
   const handleMarkerPress = (marker) => {
     setSelectedMarker(marker);
