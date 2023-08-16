@@ -21,8 +21,7 @@ const markers = [
     title: "Tel Aviv",
     description: "A fun place with nice beaches",
     address: "1800 Tel Aviv Way",
-    date: "06/12/2024",
-    time: "3:00 pm",
+    datetime: { date: "06/12/2024", time: "3:00 pm" },
     city: "Tel Aviv",
     state: "Israel",
     zip: "42525",
@@ -35,8 +34,7 @@ const markers = [
     title: "Jerusalem",
     description: "A very holy place",
     address: "1800 Jerusalem Way",
-    date: "09/3/2023",
-    time: "8:00 pm",
+    datetime: { date: "09/3/2023", time: "8:00 pm" },
     city: "Jerusalem",
     state: "Israel",
     zip: "54252",
@@ -49,8 +47,7 @@ const markers = [
     title: "Haifa",
     description: "A nice place in the north",
     address: "1800 Haifa Way",
-    date: "03/16/2024",
-    time: "10:00 am",
+    datetime: { date: "03/16/2024", time: "10:00 am" },
     city: "Haifa",
     state: "Israel",
     zip: "52352",
@@ -209,8 +206,8 @@ const MapsPage = () => {
             city={selectedMarker.city}
             state={selectedMarker.state}
             zip={selectedMarker.zip}
-            date={selectedMarker.date}
-            time={selectedMarker.time}
+            date={selectedMarker.datetime.date}
+            time={selectedMarker.datetime.time}
           />
         </View>
       )}
