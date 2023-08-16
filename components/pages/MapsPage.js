@@ -9,6 +9,7 @@ import { Feather } from "@expo/vector-icons";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import { format } from "date-fns";
+import { Ionicons } from "@expo/vector-icons";
 // To deploy, follow https://docs.expo.dev/versions/latest/sdk/map-view/#deploy-app-with-google-maps
 
 const initialRegion = {
@@ -136,6 +137,21 @@ const SlideUpPanel = ({
   );
 };
 
+const FloatingPlusButton = () => (
+  <Ionicons
+    name="add-circle"
+    size={58}
+    backgroundColor="white"
+    color={Colors.orange}
+    style={{
+      position: "absolute",
+      bottom: 26,
+      right: 26,
+    }}
+    onPress={() => alert("plus pressed")}
+  />
+);
+
 const convertTimestampToDateAndTime = (timestamp) => {
   const dateObj = new Date(timestamp.seconds * 1000);
   return {
@@ -194,6 +210,7 @@ const MapsPage = () => {
           </Marker>
         ))}
       </MapView>
+      <FloatingPlusButton />
       {selectedMarker && (
         <View style={styles.markerInfoContainer}>
           <SlideUpPanel
