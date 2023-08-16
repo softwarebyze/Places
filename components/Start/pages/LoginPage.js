@@ -13,6 +13,7 @@ import { StreamChat } from "stream-chat";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
+import Colors from "../../../settings/Colors";
 
 const terms = TERMS["English"];
 
@@ -29,15 +30,6 @@ const validatePassword = (password) => {
 const { EXPO_PUBLIC_STREAM_API_KEY } = process.env;
 const client = StreamChat.getInstance(EXPO_PUBLIC_STREAM_API_KEY);
 
-const signIn = async (email, password) => {
-  const auth = getAuth();
-  await signInWithEmailAndPassword(auth, email, password);
-  const userId = auth.currentUser.uid;
-  const res = await fetch(`https://auth-token.onrender.com/${userId}`);
-  const { token } = await res.json();
-  await client.connectUser({ id: userId }, token);
-};
-
 const LoginPage = () => {
   const navigator = useNavigation();
   const [emailFocusState, setEmailFocusState] = useState(false);
@@ -45,10 +37,35 @@ const LoginPage = () => {
   const [passwordFocusState, setPasswordFocusState] = useState(false);
   const [passwordTextState, setPasswordTextState] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const emailIsValid = validateEmail(emailTextState);
   const passwordIsValid = validatePassword(passwordTextState);
   const canContinue = emailIsValid && passwordIsValid;
+
+  const signIn = async () => {
+    const auth = getAuth();
+    try {
+      const user = await signInWithEmailAndPassword(
+        auth,
+        emailTextState,
+        passwordTextState,
+      );
+      const userId = auth.currentUser.uid;
+      const res = await fetch(`https://auth-token.onrender.com/${userId}`);
+      const { token } = await res.json();
+      await client.connectUser({ id: userId }, token);
+      return user;
+    } catch (error) {
+      if (error.code === "auth/wrong-password") {
+        setError(terms["incorrect_password"]);
+      } else if (error.code === "auth/too-many-requests") {
+        setError(terms["too_many_attempts_try_again_later"]);
+      } else {
+        throw new Error(error);
+      }
+    }
+  };
 
   const getUserData = async () => {
     const auth = getAuth();
@@ -67,7 +84,9 @@ const LoginPage = () => {
 
   const handleSignInFlow = async () => {
     setLoading(true);
-    await signIn(emailTextState, passwordTextState);
+    const user = await signIn();
+    if (!user) return setLoading(false);
+
     const userData = await getUserData();
     setLoading(false);
     if (!userData?.details_completed) return navigator.replace("Details");
@@ -109,7 +128,13 @@ const LoginPage = () => {
       <_Input
         secureTextEntry={true}
         labelText={terms["0007"]}
-        subtextText={terms["0015"]}
+        subtextText={
+          passwordTextState.length < 6
+            ? terms["your_password_must_be_at_least_6_characters"]
+            : error.length
+            ? error
+            : ""
+        }
         onFocus={() => setPasswordFocusState(true)}
         onBlur={() => setPasswordFocusState(false)}
         onChangeText={(input) => setPasswordTextState(input)}
@@ -121,7 +146,9 @@ const LoginPage = () => {
             : "primary1_030"
         }
         subtextColor={
-          emailTextState && !passwordIsValid
+          error.length
+            ? "error_100"
+            : emailTextState && !passwordIsValid
             ? "primary1_030"
             : passwordFocusState
             ? "primary1_030"
