@@ -1,11 +1,11 @@
 import { Text, View, ScrollView, Image } from "react-native";
+import { useRoute } from "@react-navigation/native";
 import { useState, useMemo, useRef } from "react";
 import _Button from "../elements/_Button";
 import Searchbar from "../elements/Searchbar";
 import NoResults from "../elements/NoResults";
 import STYLES from "../styles/Styles";
 import Colors from "../../../settings/Colors";
-import { interests } from "../../../data.js";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheet from "@gorhom/bottom-sheet";
 import SheetHeader from "../elements/SheetHeader";
@@ -21,7 +21,7 @@ const InterestListItem = ({ interest }) => {
         />
         <View style={STYLES.catPageMemberInfo}>
           <Text style={STYLES.catPageLocationText}>
-            {`${interest.name}/New York City`}
+            {interest.interest} / {interest.location}
           </Text>
           <Text style={STYLES.catPageMembersText}>
             {`${interest.members} members`}
@@ -35,9 +35,11 @@ const InterestListItem = ({ interest }) => {
   );
 };
 const CategoryPage = () => {
+  route = useRoute();
+  const { interests } = route.params;
   const [search, setSearch] = useState("");
   const filteredInterests = interests.filter((interest) =>
-    interest.name.includes(search.toLowerCase()),
+    interest.interest.includes(search.toLowerCase()),
   );
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ["55%"], []);
