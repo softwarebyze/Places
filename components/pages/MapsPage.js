@@ -138,7 +138,7 @@ const SlideUpPanel = ({
   );
 };
 
-const FloatingPlusButton = () => (
+const FloatingPlusButton = (props) => (
   <Ionicons
     name="add-circle"
     size={58}
@@ -149,7 +149,7 @@ const FloatingPlusButton = () => (
       bottom: 26,
       right: 26,
     }}
-    onPress={() => alert("plus pressed")}
+    onPress={props.onPress}
   />
 );
 
@@ -164,7 +164,9 @@ const convertTimestampToDateAndTime = (timestamp) => {
 const MapsPage = () => {
   const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
-  const bottomSheetRef = useRef(null);
+  const [showCreateEventSheet, setShowCreateEventSheet] = useState(false);
+  const eventDetailsBottomSheetRef = useRef(null);
+  const createEventBottomSheetRef = useRef(null);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -199,9 +201,15 @@ const MapsPage = () => {
     setSelectedMarker(null);
   };
 
-  const onBottomSheetChange = (code) => {
+  const onEventDetailsBottomSheetChange = (code) => {
     if (code === -1) {
       setSelectedMarker(null);
+    }
+  };
+
+  const onCreateEventBottomSheetChange = (code) => {
+    if (code === -1) {
+      setShowCreateEventSheet(false);
     }
   };
 
@@ -218,14 +226,18 @@ const MapsPage = () => {
           </Marker>
         ))}
       </MapView>
-      <FloatingPlusButton />
+      <FloatingPlusButton
+        onPress={() => {
+          setShowCreateEventSheet(true);
+        }}
+      />
       {selectedMarker && (
         <BottomSheet
-          ref={bottomSheetRef}
+          ref={eventDetailsBottomSheetRef}
           snapPoints={["62%"]}
           enablePanDownToClose={true}
           style={{ flex: 1 }}
-          onChange={onBottomSheetChange}
+          onChange={onEventDetailsBottomSheetChange}
         >
           <View style={styles.markerInfoContainer}>
             <SlideUpPanel
@@ -240,6 +252,17 @@ const MapsPage = () => {
               time={selectedMarker.datetime.time}
             />
           </View>
+        </BottomSheet>
+      )}
+      {showCreateEventSheet && (
+        <BottomSheet
+          ref={createEventBottomSheetRef}
+          snapPoints={["62%"]}
+          enablePanDownToClose={true}
+          style={{ flex: 1 }}
+          onChange={onCreateEventBottomSheetChange}
+        >
+          <Text>Create event sheet</Text>
         </BottomSheet>
       )}
     </View>
