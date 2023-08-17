@@ -1,7 +1,7 @@
 import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { View } from "react-native";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Colors from "../../settings/Colors";
 import { AntDesign } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
@@ -10,6 +10,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import { format } from "date-fns";
 import { Ionicons } from "@expo/vector-icons";
+import BottomSheet from "@gorhom/bottom-sheet";
 // To deploy, follow https://docs.expo.dev/versions/latest/sdk/map-view/#deploy-app-with-google-maps
 
 const initialRegion = {
@@ -137,7 +138,7 @@ const SlideUpPanel = ({
   );
 };
 
-const FloatingPlusButton = () => (
+const FloatingPlusButton = (props) => (
   <Ionicons
     name="add-circle"
     size={58}
@@ -148,7 +149,7 @@ const FloatingPlusButton = () => (
       bottom: 26,
       right: 26,
     }}
-    onPress={() => alert("plus pressed")}
+    onPress={props.onPress}
   />
 );
 
@@ -163,6 +164,9 @@ const convertTimestampToDateAndTime = (timestamp) => {
 const MapsPage = () => {
   const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
+  const [showCreateEventSheet, setShowCreateEventSheet] = useState(false);
+  const eventDetailsBottomSheetRef = useRef(null);
+  const createEventBottomSheetRef = useRef(null);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -197,6 +201,18 @@ const MapsPage = () => {
     setSelectedMarker(null);
   };
 
+  const onEventDetailsBottomSheetChange = (code) => {
+    if (code === -1) {
+      setSelectedMarker(null);
+    }
+  };
+
+  const onCreateEventBottomSheetChange = (code) => {
+    if (code === -1) {
+      setShowCreateEventSheet(false);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <MapView style={styles.map} initialRegion={initialRegion}>
@@ -210,21 +226,44 @@ const MapsPage = () => {
           </Marker>
         ))}
       </MapView>
-      <FloatingPlusButton />
+      <FloatingPlusButton
+        onPress={() => {
+          setShowCreateEventSheet(true);
+        }}
+      />
       {selectedMarker && (
-        <View style={styles.markerInfoContainer}>
-          <SlideUpPanel
-            title={selectedMarker.title}
-            description={selectedMarker.description}
-            onClose={closeSlideUpPanel}
-            address={selectedMarker.address}
-            city={selectedMarker.city}
-            state={selectedMarker.state}
-            zip={selectedMarker.zip}
-            date={selectedMarker.datetime.date}
-            time={selectedMarker.datetime.time}
-          />
-        </View>
+        <BottomSheet
+          ref={eventDetailsBottomSheetRef}
+          snapPoints={["62%"]}
+          enablePanDownToClose={true}
+          style={{ flex: 1 }}
+          onChange={onEventDetailsBottomSheetChange}
+        >
+          <View style={styles.markerInfoContainer}>
+            <SlideUpPanel
+              title={selectedMarker.title}
+              description={selectedMarker.description}
+              onClose={closeSlideUpPanel}
+              address={selectedMarker.address}
+              city={selectedMarker.city}
+              state={selectedMarker.state}
+              zip={selectedMarker.zip}
+              date={selectedMarker.datetime.date}
+              time={selectedMarker.datetime.time}
+            />
+          </View>
+        </BottomSheet>
+      )}
+      {showCreateEventSheet && (
+        <BottomSheet
+          ref={createEventBottomSheetRef}
+          snapPoints={["62%"]}
+          enablePanDownToClose={true}
+          style={{ flex: 1 }}
+          onChange={onCreateEventBottomSheetChange}
+        >
+          <Text>Create event sheet</Text>
+        </BottomSheet>
       )}
     </View>
   );
