@@ -4,8 +4,8 @@ import _Button from "../elements/_Button";
 import Searchbar from "../elements/Searchbar";
 import NoResults from "../elements/NoResults";
 import STYLES from "../styles/Styles";
-import Colors from "../../../settings/Colors";
-import { interests } from "../../../data.js";
+import Colors from "../../settings/Colors";
+import { interests } from "../../data.js";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheet from "@gorhom/bottom-sheet";
 import SheetHeader from "../elements/SheetHeader";
@@ -29,7 +29,7 @@ const InterestListItem = ({ interest }) => {
         </View>
       </View>
       <View style={STYLES.catPageArrow}>
-        <Image source={require("../../../assets/interest_images/arrow.png")} />
+        <Image source={require("../../assets/interest_images/arrow.png")} />
       </View>
     </View>
   );

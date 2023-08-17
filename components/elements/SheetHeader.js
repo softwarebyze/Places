@@ -1,7 +1,7 @@
 import Styles from "../styles/Styles";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Octicons } from "@expo/vector-icons";
-import Colors from "../../../settings/Colors";
+import Colors from "../../settings/Colors";
 
 const SheetHeader = (props) => (
   <View style={Styles.sheetHeader}>

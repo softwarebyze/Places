@@ -4,8 +4,8 @@ import {
   HEIGHT,
   LOGOWIDTH,
   LOGOHEIGHT,
-} from "../../../settings/Dimensions";
-import COLORS from "../../../settings/Colors";
+} from "../../settings/Dimensions";
+import COLORS from "../../settings/Colors";
 
 const ELEMENT_WIDTH = 0.87 * WIDTH;
 const ELEMENT_HEIGHT = 0.071 * HEIGHT;
