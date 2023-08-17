@@ -14,7 +14,10 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.placesdev.places"
+      "bundleIdentifier": "com.placesdev.places",
+      "config": {
+        "googleMapsApiKey": "AIzaSyA3sy5QlAue92zhvItbsNYjkL0GEOHiT5k"
+      }
     },
     "android": {
       "package": "com.places.places",
