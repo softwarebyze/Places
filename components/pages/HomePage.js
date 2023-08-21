@@ -55,11 +55,13 @@ const DropdownHeader = (props) => (
   </TouchableOpacity>
 );
 
-const JoinANewPlace = () => {
+const JoinANewPlace = (props) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate("JoinPlace")}
+      onPress={() =>
+        navigation.navigate("JoinPlace", { location: props.location })
+      }
       style={{
         backgroundColor: Colors.white_100,
         paddingHorizontal: 16,
@@ -113,7 +115,7 @@ const Dropdown = (props) => {
               navigation.navigate("PlacesChat", { channel });
             }}
           />
-          <JoinANewPlace />
+          <JoinANewPlace location={props.heading} />
         </View>
       </Collapsible>
     </View>
