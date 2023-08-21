@@ -1,12 +1,33 @@
 import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { View } from "react-native";
-import { useState } from "react";
-import Colors from "../../../settings/Colors";
+import { useEffect, useRef, useState } from "react";
+import Colors from "../../settings/Colors";
 import { AntDesign } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-// To deploy, follow https://docs.expo.dev/versions/latest/sdk/map-view/#deploy-app-with-google-maps
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
+import { format } from "date-fns";
+import { Ionicons } from "@expo/vector-icons";
+import BottomSheet from "@gorhom/bottom-sheet";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+
+const GooglePlacesInput = () => {
+  return (
+    <GooglePlacesAutocomplete
+      placeholder="Search"
+      onPress={(data, details = null) => {
+        // 'details' is provided when fetchDetails = true
+        console.log(data, details);
+      }}
+      query={{
+        key: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
+        language: "en",
+      }}
+    />
+  );
+};
 
 const initialRegion = {
   latitude: 32.0853,
@@ -14,48 +35,6 @@ const initialRegion = {
   latitudeDelta: 1,
   longitudeDelta: 1,
 };
-
-const markers = [
-  {
-    location: { latitude: 32.0853, longitude: 34.781768 },
-    title: "Tel Aviv",
-    description: "A fun place with nice beaches",
-    address: "1800 Tel Aviv Way",
-    date: "06/12/2024",
-    time: "3:00 pm",
-    city: "Tel Aviv",
-    state: "Israel",
-    zip: "42525",
-  },
-  {
-    location: {
-      latitude: 31.771959,
-      longitude: 35.217018,
-    },
-    title: "Jerusalem",
-    description: "A very holy place",
-    address: "1800 Jerusalem Way",
-    date: "09/3/2023",
-    time: "8:00 pm",
-    city: "Jerusalem",
-    state: "Israel",
-    zip: "54252",
-  },
-  {
-    location: {
-      latitude: 32.794044,
-      longitude: 34.989571,
-    },
-    title: "Haifa",
-    description: "A nice place in the north",
-    address: "1800 Haifa Way",
-    date: "03/16/2024",
-    time: "10:00 am",
-    city: "Haifa",
-    state: "Israel",
-    zip: "52352",
-  },
-];
 
 const Divider = () => (
   <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -175,8 +154,60 @@ const SlideUpPanel = ({
   );
 };
 
+const FloatingPlusButton = (props) => (
+  <Ionicons
+    name="add-circle"
+    size={58}
+    backgroundColor="white"
+    color={Colors.orange}
+    style={{
+      position: "absolute",
+      bottom: 26,
+      right: 26,
+    }}
+    onPress={props.onPress}
+  />
+);
+
+const convertTimestampToDateAndTime = (timestamp) => {
+  const dateObj = new Date(timestamp.seconds * 1000);
+  return {
+    date: format(dateObj, "MM/dd/yyyy"),
+    time: format(dateObj, "h:mm a").toLocaleLowerCase(),
+  };
+};
+
 const MapsPage = () => {
+  const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
+  const [showCreateEventSheet, setShowCreateEventSheet] = useState(false);
+  const eventDetailsBottomSheetRef = useRef(null);
+  const createEventBottomSheetRef = useRef(null);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const eventsCollection = collection(db, "events");
+        const eventsSnapshot = await getDocs(eventsCollection);
+        const eventsData = eventsSnapshot.docs.map((doc) => {
+          const eventData = doc.data();
+          return {
+            ...eventData,
+            location: {
+              latitude: eventData.location._lat,
+              longitude: eventData.location._long,
+            },
+            datetime: convertTimestampToDateAndTime(eventData.datetime),
+          };
+        });
+        setMarkers(eventsData);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
+
+    fetchEvents();
+  }, []);
 
   const handleMarkerPress = (marker) => {
     setSelectedMarker(marker);
@@ -186,33 +217,74 @@ const MapsPage = () => {
     setSelectedMarker(null);
   };
 
+  const onEventDetailsBottomSheetChange = (code) => {
+    if (code === -1) {
+      setSelectedMarker(null);
+    }
+  };
+
+  const onCreateEventBottomSheetChange = (code) => {
+    if (code === -1) {
+      setShowCreateEventSheet(false);
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <MapView style={styles.map} initialRegion={initialRegion}>
+      <MapView
+        style={styles.map}
+        initialRegion={initialRegion}
+        provider={PROVIDER_GOOGLE}
+      >
         {markers.map((marker, index) => (
           <Marker
             key={index}
             coordinate={marker.location}
             onPress={() => handleMarkerPress(marker)}
           >
-            <Image source={require("../../../assets/marker.png")} />
+            <Image source={require("../../assets/marker.png")} />
           </Marker>
         ))}
       </MapView>
+      <FloatingPlusButton
+        onPress={() => {
+          setShowCreateEventSheet(true);
+        }}
+      />
       {selectedMarker && (
-        <View style={styles.markerInfoContainer}>
-          <SlideUpPanel
-            title={selectedMarker.title}
-            description={selectedMarker.description}
-            onClose={closeSlideUpPanel}
-            address={selectedMarker.address}
-            city={selectedMarker.city}
-            state={selectedMarker.state}
-            zip={selectedMarker.zip}
-            date={selectedMarker.date}
-            time={selectedMarker.time}
-          />
-        </View>
+        <BottomSheet
+          ref={eventDetailsBottomSheetRef}
+          snapPoints={["62%"]}
+          enablePanDownToClose={true}
+          style={{ flex: 1 }}
+          onChange={onEventDetailsBottomSheetChange}
+        >
+          <View style={styles.markerInfoContainer}>
+            <SlideUpPanel
+              title={selectedMarker.title}
+              description={selectedMarker.description}
+              onClose={closeSlideUpPanel}
+              address={selectedMarker.address}
+              city={selectedMarker.city}
+              state={selectedMarker.state}
+              zip={selectedMarker.zip}
+              date={selectedMarker.datetime.date}
+              time={selectedMarker.datetime.time}
+            />
+          </View>
+        </BottomSheet>
+      )}
+      {showCreateEventSheet && (
+        <BottomSheet
+          ref={createEventBottomSheetRef}
+          snapPoints={["62%"]}
+          enablePanDownToClose={true}
+          style={{ flex: 1 }}
+          onChange={onCreateEventBottomSheetChange}
+        >
+          <Text>Create event sheet</Text>
+          <GooglePlacesInput />
+        </BottomSheet>
       )}
     </View>
   );

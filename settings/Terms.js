@@ -14,7 +14,8 @@ export default {
     "0012": "Continue with Facebook",
     "0013": "Need to create an account?",
     "0014": "Invalid email address, please check.",
-    "0015": "Your password must be at least 6 characters.",
+    your_password_must_be_at_least_6_characters:
+      "Your password must be at least 6 characters.",
     "0016": "Log in",
     "0017": "Create Account",
     "0018": "Choose a Location",
@@ -38,6 +39,9 @@ export default {
     "0034": "Logout",
     "0035": "Facebook",
     "0036": "Log in to use your Facebook account with Places.",
+    incorrect_password: "Incorrect Password",
+    too_many_attempts_try_again_later:
+      "Too many attempts. Please try again later",
     "0037": "Services",
   },
 };

@@ -1,16 +1,16 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import LoginPage from "./components/Start/pages/LoginPage";
-import StartPage from "./components/Start/pages/StartPage";
-import SignUpPage from "./components/Start/pages/SignUpPage";
-import LocationPage from "./components/Start/pages/LocationPage";
-import InterestsPage from "./components/Start/pages/InterestsPage";
-import Details from "./components/Start/elements/Details";
-import JoinPlacePage from "./components/Start/pages/JoinPlacePage";
-import CategoryPage from "./components/Start/pages/CategoryPage";
+import LoginPage from "./components/pages/LoginPage";
+import StartPage from "./components/pages/StartPage";
+import SignUpPage from "./components/pages/SignUpPage";
+import LocationPage from "./components/pages/LocationPage";
+import InterestsPage from "./components/pages/InterestsPage";
+import Details from "./components/elements/Details";
+import JoinPlacePage from "./components/pages/JoinPlacePage";
+import CategoryPage from "./components/pages/CategoryPage";
 import { useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import HomeTabs from "./components/Start/navigation/HomeTabs";
+import HomeTabs from "./components/navigation/HomeTabs";
 import { OverlayProvider } from "stream-chat-expo";
 
 const Stack = createNativeStackNavigator();
