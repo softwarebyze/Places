@@ -40,7 +40,7 @@ const CategoryPage = () => {
   const { interests } = route.params;
   const [search, setSearch] = useState("");
   const filteredInterests = interests.filter((interest) =>
-    interest.interest.includes(search),
+    interest.interest.toLowerCase().includes(search.toLowerCase()),
   );
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ["55%"], []);
