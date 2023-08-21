@@ -51,7 +51,7 @@ const CategoryCard = (props) => {
   return (
     <TouchableOpacity
       onPress={() =>
-        navigator.navigate("Category", { interests: props.interests })
+        navigator.navigate("Category", { channels: props.channels })
       }
       style={STYLES.category}
       color="primary1_100"
@@ -87,9 +87,8 @@ const JoinPlacePage = () => {
         { limit: 30, offset: 30 * i },
       );
       categoryChannels.push(...newCategoryChannels);
-      const categoryData = categoryChannels.map((c) => c.data);
-      return categoryData;
     }
+    return categoryChannels;
   };
 
   useEffect(() => {
@@ -109,11 +108,11 @@ const JoinPlacePage = () => {
   }, []);
 
   const categories = [
-    { interests: sports, image: <SportsImage />, category: "Sports" },
-    { interests: buyAndSell, image: <BuyAndSellImage />, category: "Buy/Sell" },
-    { interests: donations, image: <DonationsImage />, category: "Donations" },
-    { interests: hobbies, image: <HobbiesImage />, category: "Hobbies" },
-    { interests: services, image: <ServicesImage />, category: "Services" },
+    { channels: sports, image: <SportsImage />, category: "Sports" },
+    { channels: buyAndSell, image: <BuyAndSellImage />, category: "Buy/Sell" },
+    { channels: donations, image: <DonationsImage />, category: "Donations" },
+    { channels: hobbies, image: <HobbiesImage />, category: "Hobbies" },
+    { channels: services, image: <ServicesImage />, category: "Services" },
   ];
 
   return (
@@ -130,7 +129,7 @@ const JoinPlacePage = () => {
         {categories.map((category) => (
           <CategoryCard
             key={category.category}
-            interests={category.interests}
+            channels={category.channels}
             image={category.image}
             category={category.category}
           />

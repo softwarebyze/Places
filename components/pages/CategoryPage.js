@@ -12,18 +12,20 @@ import SheetHeader from "../elements/SheetHeader";
 import SheetBody from "../elements/SheetBody";
 import { useRoute } from "@react-navigation/native";
 
-const InterestListItem = ({ interest }) => {
+const InterestListItem = ({ channel }) => {
   return (
     <View style={STYLES.catPageGrid}>
       <View style={STYLES.catPageInfo}>
         <Image
-          source={{ uri: interest.image }}
+          source={{ uri: channel.data.image }}
           style={{ width: 32, height: 32 }}
         />
         <View style={STYLES.catPageMemberInfo}>
-          <Text style={STYLES.catPageLocationText}>{`${interest.name}`}</Text>
+          <Text
+            style={STYLES.catPageLocationText}
+          >{`${channel.data.name}`}</Text>
           <Text style={STYLES.catPageMembersText}>
-            {`${interest.members} members`}
+            {`${channel.data.member_count || 0} members`}
           </Text>
         </View>
       </View>
@@ -38,10 +40,10 @@ const InterestListItem = ({ interest }) => {
 };
 const CategoryPage = () => {
   const route = useRoute();
-  const { interests } = route.params;
+  const { channels } = route.params;
   const [search, setSearch] = useState("");
-  const filteredInterests = interests.filter((interest) =>
-    interest.name.toLowerCase().includes(search.toLowerCase()),
+  const filteredChannels = channels.filter((channel) =>
+    channel.data.name.toLowerCase().includes(search.toLowerCase()),
   );
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ["55%"], []);
@@ -59,13 +61,13 @@ const CategoryPage = () => {
             width: "100%",
           }}
         >
-          {filteredInterests.map((interest, index) => (
-            <InterestListItem interest={interest} key={index} />
+          {filteredChannels.map((channel, index) => (
+            <InterestListItem channel={channel} key={index} />
           ))}
           <View
             style={{ marginTop: 27, marginBottom: 24, alignItems: "center" }}
           >
-            {!filteredInterests.length && <NoResults />}
+            {!filteredChannels.length && <NoResults />}
             <Text
               style={{
                 color: "grey",
