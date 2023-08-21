@@ -80,9 +80,7 @@ const Details = () => {
           onChangeText={setLastName}
         />
         <View style={Styles.signUpInput}>
-          <Text style={[Styles.d1Box, Styles.inputLabel]}>
-            {"Phone Number"}
-          </Text>
+          <Text style={[Styles.inputLabel]}>{"Phone Number"}</Text>
           <View
             style={[
               Styles.d2Box,
@@ -109,9 +107,7 @@ const Details = () => {
           onSelect={setGender}
         />
         <View style={Styles.signUpInput}>
-          <Text style={[Styles.d1Box, Styles.inputLabel]}>
-            {"Date of Birth"}
-          </Text>
+          <Text style={[Styles.inputLabel]}>{"Date of Birth"}</Text>
           <View
             style={[
               Styles.d2Box,

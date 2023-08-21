@@ -5,7 +5,7 @@ import COLORS from "../../settings/Colors";
 const _Input = (props) => {
   return (
     <View style={props.style}>
-      <Text style={[STYLES.d1Box, STYLES.inputLabel]}>{props.labelText}</Text>
+      <Text style={[STYLES.inputLabel]}>{props.labelText}</Text>
       <TextInput
         secureTextEntry={props.secureTextEntry}
         onFocus={props.onFocus}
@@ -24,7 +24,6 @@ const _Input = (props) => {
       />
       <Text
         style={[
-          STYLES.d1Box,
           STYLES.inputSubtext,
           {
             color: COLORS[props.subtextColor],
