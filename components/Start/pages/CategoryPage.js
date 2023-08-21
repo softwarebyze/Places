@@ -1,4 +1,5 @@
-import { Text, View, ScrollView, Image } from "react-native";
+import { Text, View, ScrollView } from "react-native";
+import { Image } from "expo-image";
 import { useRoute } from "@react-navigation/native";
 import { useState, useMemo, useRef } from "react";
 import _Button from "../elements/_Button";
@@ -35,11 +36,11 @@ const InterestListItem = ({ interest }) => {
   );
 };
 const CategoryPage = () => {
-  route = useRoute();
+  const route = useRoute();
   const { interests } = route.params;
   const [search, setSearch] = useState("");
   const filteredInterests = interests.filter((interest) =>
-    interest.interest.includes(search.toLowerCase()),
+    interest.interest.includes(search),
   );
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ["55%"], []);

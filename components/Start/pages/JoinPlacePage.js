@@ -136,6 +136,7 @@ const JoinPlacePage = () => {
           textColor="white_100"
         >
           <Image
+            style={{ height: 35, width: 35 }}
             source={require("../../../assets/category_images/sports.png")}
           />
           <Text style={STYLES.categoryText}>{terms["0029"]}</Text>
@@ -150,6 +151,7 @@ const JoinPlacePage = () => {
           textColor="white_100"
         >
           <Image
+            style={{ height: 35, width: 35 }}
             source={require("../../../assets/category_images/buy_and_sell.png")}
           />
           <Text
@@ -170,6 +172,7 @@ const JoinPlacePage = () => {
           textColor="white_100"
         >
           <Image
+            style={{ height: 35, width: 35 }}
             source={require("../../../assets/category_images/donations.png")}
           />
           <Text
@@ -188,6 +191,7 @@ const JoinPlacePage = () => {
           textColor="white_100"
         >
           <Image
+            style={{ height: 35, width: 35 }}
             source={require("../../../assets/category_images/hobbies.png")}
           />
           <Text
@@ -208,7 +212,8 @@ const JoinPlacePage = () => {
           textColor="white_100"
         >
           <Image
-            source={require("../../../assets/category_images/donations.png")}
+            style={{ height: 35, width: 35 }}
+            source={require("../../../assets/category_images/services.png")}
           />
           <Text
             numberOfLines={1}
