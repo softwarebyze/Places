@@ -22,7 +22,7 @@ const GooglePlacesInput = () => {
         console.log(data, details);
       }}
       query={{
-        key: "AIzaSyBtFA_VaG9PvVYts99WhYoU8sMFlwGKsDQ",
+        key: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
         language: "en",
       }}
     />
