@@ -129,6 +129,7 @@ const JoinPlacePage = () => {
       >
         {categories.map((category) => (
           <CategoryCard
+            key={category.category}
             interests={category.interests}
             image={category.image}
             category={category.category}
