@@ -11,7 +11,23 @@ import { db } from "../../firebaseConfig";
 import { format } from "date-fns";
 import { Ionicons } from "@expo/vector-icons";
 import BottomSheet from "@gorhom/bottom-sheet";
-// To deploy, follow https://docs.expo.dev/versions/latest/sdk/map-view/#deploy-app-with-google-maps
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+
+const GooglePlacesInput = () => {
+  return (
+    <GooglePlacesAutocomplete
+      placeholder="Search"
+      onPress={(data, details = null) => {
+        // 'details' is provided when fetchDetails = true
+        console.log(data, details);
+      }}
+      query={{
+        key: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
+        language: "en",
+      }}
+    />
+  );
+};
 
 const initialRegion = {
   latitude: 32.0853,
@@ -267,6 +283,7 @@ const MapsPage = () => {
           onChange={onCreateEventBottomSheetChange}
         >
           <Text>Create event sheet</Text>
+          <GooglePlacesInput />
         </BottomSheet>
       )}
     </View>
