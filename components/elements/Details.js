@@ -144,7 +144,6 @@ const Details = () => {
         <_Button
           text={terms["0017"]}
           action={handleSubmitDetails}
-          underline={false}
           disabled={disabled}
         />
       </KeyboardAvoidingView>

@@ -43,7 +43,6 @@ const ChannelInfoPage = () => {
             marginLeft: 30,
           }}
           text={"Join"}
-          underline={false}
         />
       </View>
     </View>

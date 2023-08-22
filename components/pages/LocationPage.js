@@ -47,7 +47,6 @@ const LocationPage = () => {
         <_Button
           text={terms["0008"]}
           action={handleSubmitLocation}
-          underline={false}
           disabled={disabled}
         />
       )}
