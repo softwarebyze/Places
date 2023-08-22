@@ -43,7 +43,6 @@ const ChannelInfoPage = () => {
             marginLeft: 30,
           }}
           text={"Join"}
-          color={"primary1_100"}
           borderColor={"light_grey"}
           underline={false}
         />

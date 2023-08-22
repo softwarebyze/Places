@@ -154,7 +154,6 @@ const SignUpPage = () => {
             // else -> Details
             text={terms["0008"]}
             action={handleSignUp}
-            color={canContinue ? "primary1_100" : "primary1_030"}
             borderColor={canContinue ? "primary1_100" : "primary1_030"}
             disabled={!canContinue}
           />
@@ -162,7 +161,6 @@ const SignUpPage = () => {
           <_Button
             text={terms["0011"]}
             action={() => navigator.replace("HomeTabs")}
-            color="primary1_100"
             borderColor="primary1_100"
             style={{ marginBottom: 20 }}
           />
@@ -170,14 +168,12 @@ const SignUpPage = () => {
             type="secondary"
             text={terms["0012"]}
             action={() => alert("Facebook Not Yet Implemented")}
-            color="white_100"
             borderColor="primary1_100"
           />
           <_Button
             type="secondary"
             text={"Already have an account?"}
             action={() => navigator.replace("Login")}
-            color="white_100"
             borderColor="white_100"
             underline={true}
           />

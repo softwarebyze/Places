@@ -26,7 +26,6 @@ const ProfilePage = () => {
       <_Button
         text={terms["0034"]}
         action={logout}
-        color="primary1_100"
         borderColor="primary1_100"
       />
     </View>

@@ -13,7 +13,11 @@ const _Button = (props) => {
         STYLES.d2Box,
         STYLES.button,
         {
-          backgroundColor: COLORS[props.color],
+          backgroundColor: disabled
+            ? COLORS.primary1_030
+            : type === "primary"
+            ? COLORS.primary1_100
+            : COLORS.white_100,
           borderColor: COLORS[props.borderColor],
           borderRadius: 10,
         },
@@ -40,4 +44,4 @@ const _Button = (props) => {
 
 export default _Button;
 
-// color: (type === "secondary" && !disabled) ? blue : white
+// bgcolor: disabled ? bluegrey : primary ? blue : white

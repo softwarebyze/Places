@@ -47,7 +47,6 @@ const LocationPage = () => {
         <_Button
           text={terms["0008"]}
           action={handleSubmitLocation}
-          color={disabled ? "primary1_030" : "primary1_100"}
           borderColor={disabled ? "light_grey" : "primary1_100"}
           underline={false}
           disabled={disabled}

@@ -167,7 +167,6 @@ const LoginPage = () => {
           <_Button
             text={terms["0008"]}
             action={handleSignInFlow}
-            color={canContinue ? "primary1_100" : "primary1_030"}
             borderColor={canContinue ? "primary1_100" : "primary1_030"}
             disabled={!canContinue}
           />
@@ -177,7 +176,6 @@ const LoginPage = () => {
             action={async () => {
               navigator.replace("HomeTabs");
             }}
-            color="primary1_100"
             borderColor="primary1_100"
             style={{ marginBottom: 20 }}
           />
@@ -185,14 +183,12 @@ const LoginPage = () => {
             type="secondary"
             text={terms["0012"]}
             action={() => navigator.replace("Details")}
-            color="white_100"
             borderColor="primary1_100"
           />
           <_Button
             type="secondary"
             text={terms["0013"]}
             action={() => navigator.replace("Signup")}
-            color="white_100"
             borderColor="white_100"
             underline={true}
           />

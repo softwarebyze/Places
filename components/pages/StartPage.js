@@ -19,7 +19,6 @@ const StartPage = (props) => {
         <_Button
           text={terms["0003"]}
           action={() => navigator.navigate("Signup")}
-          color="primary1_100"
           borderColor="primary1_100"
           style={STYLES.startButton}
         />
