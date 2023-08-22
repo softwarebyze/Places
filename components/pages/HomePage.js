@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity, Image } from "react-native";
+import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native";
 import TERMS from "../../settings/Terms";
 const terms = TERMS["English"];
 import _Button from "../elements/_Button";
@@ -96,15 +96,14 @@ const Dropdown = (props) => {
   const auth = getAuth();
 
   return (
-    <View style={{ width: "100%", flex: 1 }}>
+    <View style={{ width: "100%", marginBottom: 16 }}>
       <DropdownHeader
         onPress={toggleDropdown}
         heading={props.heading}
         isCollapsed={isCollapsed}
       />
-
       <Collapsible collapsed={isCollapsed} containerStyle={{ borderRadius: 0 }}>
-        <View style={{ flex: 1, maxHeight: 400 }}>
+        <View style={{ flex: 1 }}>
           <ChannelList
             filters={{
               type: "team",
@@ -147,14 +146,40 @@ const HomePage = () => {
 
   const channelsGroupedByLocation = groupChannelsByLocation(channelList);
   return (
-    <View style={[Styles.page, { backgroundColor: Colors.light_grey }]}>
+    <View
+      style={[
+        Styles.page,
+        {
+          backgroundColor: Colors.light_grey,
+          alignItems: "flex-start",
+        },
+      ]}
+    >
       <Text style={Styles.groupLabelText}>Your Places</Text>
       {Object.entries(channelsGroupedByLocation).map(([location, channels]) => {
         return (
           <Dropdown heading={location} channels={channels} key={location} />
         );
       })}
+      <TouchableOpacity style={styles.addACity}>
+        <Text style={styles.addACityText}>+ Add a City</Text>
+      </TouchableOpacity>
     </View>
   );
 };
+
 export default HomePage;
+
+const styles = StyleSheet.create({
+  addACity: {
+    borderWidth: 2,
+    padding: 8,
+    borderRadius: 6,
+    borderColor: Colors.dark_grey,
+  },
+  addACityText: {
+    color: Colors.dark_grey,
+    fontSize: 14,
+    fontWeight: "600",
+  },
+});
