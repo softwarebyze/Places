@@ -28,7 +28,6 @@ const ProfilePage = () => {
         action={logout}
         color="primary1_100"
         borderColor="primary1_100"
-        textColor="white_100"
       />
     </View>
   );

@@ -146,7 +146,6 @@ const Details = () => {
           action={handleSubmitDetails}
           color={disabled ? "primary1_030" : "primary1_100"}
           borderColor={disabled ? "light_grey" : "primary1_100"}
-          textColor="white_100"
           underline={false}
           disabled={disabled}
         />

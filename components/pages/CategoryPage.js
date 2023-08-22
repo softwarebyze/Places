@@ -90,7 +90,6 @@ const CategoryPage = () => {
               text={"Request a New Interest"}
               color={"primary1_100"}
               borderColor={"light_grey"}
-              textColor="white_100"
               underline={false}
             />
           </View>

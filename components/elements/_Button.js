@@ -3,10 +3,12 @@ import STYLES from "../styles/Styles";
 import COLORS from "../../settings/Colors";
 
 const _Button = (props) => {
+  const type = props.type || "primary";
+  const disabled = props.disabled || false;
   return (
     <Pressable
       onPress={props.action}
-      disabled={props.disabled}
+      disabled={disabled}
       style={[
         STYLES.d2Box,
         STYLES.button,
@@ -22,7 +24,10 @@ const _Button = (props) => {
         style={[
           STYLES.buttonText,
           {
-            color: COLORS[props.textColor],
+            color:
+              type === "secondary" && !disabled
+                ? COLORS.primary1_100
+                : COLORS.white_100,
             textDecorationLine: props.underline ? "underline" : "none",
           },
         ]}
@@ -34,3 +39,5 @@ const _Button = (props) => {
 };
 
 export default _Button;
+
+// color: (type === "secondary" && !disabled) ? blue : white

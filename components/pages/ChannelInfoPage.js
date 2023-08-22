@@ -45,7 +45,6 @@ const ChannelInfoPage = () => {
           text={"Join"}
           color={"primary1_100"}
           borderColor={"light_grey"}
-          textColor="white_100"
           underline={false}
         />
       </View>
