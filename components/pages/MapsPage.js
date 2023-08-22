@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import { View } from "react-native";
 import { useEffect, useRef, useState } from "react";
 import Colors from "../../settings/Colors";
@@ -231,11 +231,7 @@ const MapsPage = () => {
 
   return (
     <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        initialRegion={initialRegion}
-        provider={PROVIDER_GOOGLE}
-      >
+      <MapView style={styles.map} initialRegion={initialRegion}>
         {markers.map((marker, index) => (
           <Marker
             key={index}
