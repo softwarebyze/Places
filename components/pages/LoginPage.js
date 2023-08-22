@@ -7,7 +7,8 @@ import { useState } from "react";
 import _Button from "../elements/_Button";
 import _Input from "../elements/_Input";
 import _Divider from "../elements/_Divider";
-
+import Colors from "../../settings/Colors";
+import { Text } from "react-native";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { StreamChat } from "stream-chat";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -36,7 +37,7 @@ const LoginPage = () => {
   const [passwordFocusState, setPasswordFocusState] = useState(false);
   const [passwordTextState, setPasswordTextState] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const [error, setError] = useState("");
   const emailIsValid = validateEmail(emailTextState);
   const passwordIsValid = validatePassword(passwordTextState);
   const canContinue = emailIsValid && passwordIsValid;
@@ -49,12 +50,19 @@ const LoginPage = () => {
         emailTextState,
         passwordTextState,
       );
+      if (!user) {
+        setLoading(false);
+
+        return;
+      }
       const userId = auth.currentUser.uid;
       const res = await fetch(`https://auth-token.onrender.com/${userId}`);
       const { token } = await res.json();
       await client.connectUser({ id: userId }, token);
+
       return user;
     } catch (error) {
+      console.log("error detected!");
       if (error.code === "auth/wrong-password") {
         setError(terms["incorrect_password"]);
       } else if (error.code === "auth/too-many-requests") {
@@ -62,6 +70,8 @@ const LoginPage = () => {
       } else {
         throw new Error(error);
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -143,6 +153,10 @@ const LoginPage = () => {
             : "clear_000"
         }
       />
+
+      {error.length ? (
+        <Text style={{ color: Colors.error_100 }}>{error}</Text>
+      ) : null}
       {loading ? (
         <ActivityIndicator />
       ) : (
