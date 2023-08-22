@@ -17,7 +17,9 @@ const InterestListItem = ({ channel }) => {
   return (
     <TouchableOpacity
       style={STYLES.catPageGrid}
-      onPress={() => navigator.navigate("ChannelInfo")}
+      onPress={() =>
+        navigator.navigate("ChannelInfo", { channelInfo: channel })
+      }
     >
       <View style={STYLES.catPageInfo}>
         <Image
