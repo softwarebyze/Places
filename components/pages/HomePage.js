@@ -12,6 +12,7 @@ import { StreamChat } from "stream-chat";
 import { ChannelList } from "stream-chat-expo";
 import { getAuth } from "firebase/auth";
 import BottomSheet from "@gorhom/bottom-sheet";
+import CitiesDropdown from "../elements/CitiesDropdown";
 
 const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
 
@@ -122,6 +123,16 @@ const Dropdown = (props) => {
   );
 };
 
+const AddCityForm = () => {
+  const [city, setCity] = useState(null);
+  return (
+    <View>
+      <Text>Add a City</Text>
+      <CitiesDropdown onSelect={setCity} />
+    </View>
+  );
+};
+
 const HomePage = () => {
   const auth = getAuth();
   const [channelList, setChannelList] = useState([]);
@@ -184,7 +195,7 @@ const HomePage = () => {
           style={{ flex: 1 }}
           onChange={onAddCitySheetChange}
         >
-          <Text>Add City sheet</Text>
+          <AddCityForm />
         </BottomSheet>
       )}
     </View>
