@@ -3,10 +3,17 @@ import { useRoute } from "@react-navigation/native";
 import _Button from "../elements/_Button";
 import _Header from "../elements/_Header";
 import Styles from "../styles/Styles";
+import { getAuth } from "firebase/auth";
 
-const ChannelInfoPage = (props) => {
+const ChannelInfoPage = () => {
   const route = useRoute();
   const { channelInfo } = route.params;
+
+  const addChannel = async () => {
+    const auth = getAuth();
+    await channelInfo.addMembers([auth.currentUser.uid]);
+    console.log("added member");
+  };
   return (
     <View style={Styles.page}>
       <View style={{ alignItems: "center" }}>
@@ -27,6 +34,7 @@ const ChannelInfoPage = (props) => {
           place
         </Text>
         <_Button
+          action={addChannel}
           style={{
             marginTop: 23,
             borderRadius: 18,
