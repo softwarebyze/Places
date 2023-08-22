@@ -1,16 +1,17 @@
-import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import TERMS from "../../settings/Terms";
 const terms = TERMS["English"];
 import _Button from "../elements/_Button";
 import { useNavigation } from "@react-navigation/native";
 import Styles from "../styles/Styles";
 import Collapsible from "react-native-collapsible";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../../settings/Colors";
 import { StreamChat } from "stream-chat";
 import { ChannelList } from "stream-chat-expo";
 import { getAuth } from "firebase/auth";
+import BottomSheet from "@gorhom/bottom-sheet";
 
 const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
 
@@ -124,6 +125,14 @@ const Dropdown = (props) => {
 const HomePage = () => {
   const auth = getAuth();
   const [channelList, setChannelList] = useState([]);
+  const [showAddCitySheet, setShowAddCitySheet] = useState(false);
+  const addCitySheetRef = useRef(null);
+
+  const onAddCitySheetChange = (code) => {
+    if (code === -1) {
+      setShowAddCitySheet(false);
+    }
+  };
 
   useEffect(() => {
     const fetchChannels = async () => {
@@ -161,9 +170,23 @@ const HomePage = () => {
           <Dropdown heading={location} channels={channels} key={location} />
         );
       })}
-      <TouchableOpacity style={styles.addACity}>
+      <TouchableOpacity
+        onPress={() => setShowAddCitySheet(true)}
+        style={styles.addACity}
+      >
         <Text style={styles.addACityText}>{`+ ${terms["add_a_city"]}`}</Text>
       </TouchableOpacity>
+      {showAddCitySheet && (
+        <BottomSheet
+          ref={addCitySheetRef}
+          snapPoints={["62%"]}
+          enablePanDownToClose={true}
+          style={{ flex: 1 }}
+          onChange={onAddCitySheetChange}
+        >
+          <Text>Add City sheet</Text>
+        </BottomSheet>
+      )}
     </View>
   );
 };
