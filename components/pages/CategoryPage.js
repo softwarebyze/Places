@@ -88,10 +88,6 @@ const CategoryPage = () => {
               action={() => setShowPopup(true)}
               style={{ marginTop: 23 }}
               text={"Request a New Interest"}
-              color={"primary1_100"}
-              borderColor={"light_grey"}
-              textColor="white_100"
-              underline={false}
             />
           </View>
         </ScrollView>

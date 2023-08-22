@@ -17,6 +17,7 @@ import {
   Pressable,
 } from "react-native";
 import { StreamChat } from "stream-chat";
+import Colors from "../../settings/Colors";
 
 const terms = TERMS["English"];
 
@@ -154,35 +155,25 @@ const SignUpPage = () => {
             // else -> Details
             text={terms["0008"]}
             action={handleSignUp}
-            color={canContinue ? "primary1_100" : "primary1_030"}
-            borderColor={canContinue ? "primary1_100" : "primary1_030"}
-            textColor="white_100"
             disabled={!canContinue}
           />
           <_Divider text="or" color="gray1_100" />
           <_Button
             text={terms["0011"]}
             action={() => navigator.replace("HomeTabs")}
-            color="primary1_100"
-            borderColor="primary1_100"
-            textColor="white_100"
             style={{ marginBottom: 20 }}
           />
           <_Button
+            type="secondary"
             text={terms["0012"]}
             action={() => alert("Facebook Not Yet Implemented")}
-            color="white_100"
-            borderColor="primary1_100"
-            textColor="primary1_100"
           />
-          <_Button
-            text={"Already have an account?"}
-            action={() => navigator.replace("Login")}
-            color="white_100"
-            borderColor="white_100"
-            textColor="primary1_100"
-            underline={true}
-          />
+          <Text
+            style={STYLES.textButton}
+            onPress={() => navigator.replace("Login")}
+          >
+            {terms["already_have_an_account"]}
+          </Text>
         </>
       )}
 

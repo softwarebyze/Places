@@ -3,7 +3,7 @@ export default {
     "0001": "Welcome to Places!",
     "0002": "Discover. Meet. Belong.",
     "0003": "Create an account",
-    "0004": "Already have an account?",
+    already_have_an_account: "Already have an account?",
     "0005": "Sign up",
     "0006": "Email",
     "0007": "Password",

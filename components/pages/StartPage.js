@@ -19,17 +19,12 @@ const StartPage = (props) => {
         <_Button
           text={terms["0003"]}
           action={() => navigator.navigate("Signup")}
-          color="primary1_100"
-          borderColor="primary1_100"
-          textColor="white_100"
           style={STYLES.startButton}
         />
         <_Button
-          text={terms["0004"]}
+          type="secondary"
+          text={terms["already_have_an_account"]}
           action={() => navigator.navigate("Login")}
-          buttonColor="white_100"
-          buttonBorderColor="black_100"
-          textColor="primary1_100"
           style={STYLES.startButton}
         />
       </View>

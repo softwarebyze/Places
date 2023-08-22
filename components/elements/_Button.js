@@ -1,18 +1,24 @@
-import { Pressable, Text } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import STYLES from "../styles/Styles";
 import COLORS from "../../settings/Colors";
 
 const _Button = (props) => {
+  const type = props.type || "primary";
+  const disabled = props.disabled || false;
   return (
-    <Pressable
+    <TouchableOpacity
       onPress={props.action}
-      disabled={props.disabled}
+      disabled={disabled}
       style={[
         STYLES.d2Box,
         STYLES.button,
         {
-          backgroundColor: COLORS[props.color],
-          borderColor: COLORS[props.borderColor],
+          backgroundColor: disabled
+            ? COLORS.primary1_030
+            : type === "primary"
+            ? COLORS.primary1_100
+            : COLORS.white_100,
+          borderColor: disabled ? COLORS.primary1_030 : COLORS.primary1_100,
           borderRadius: 10,
         },
         props.style,
@@ -22,14 +28,16 @@ const _Button = (props) => {
         style={[
           STYLES.buttonText,
           {
-            color: COLORS[props.textColor],
-            textDecorationLine: props.underline ? "underline" : "none",
+            color:
+              type === "secondary" && !disabled
+                ? COLORS.primary1_100
+                : COLORS.white_100,
           },
         ]}
       >
         {props.text}
       </Text>
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 

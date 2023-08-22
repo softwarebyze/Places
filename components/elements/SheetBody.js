@@ -58,10 +58,7 @@ const SheetBody = (props) => {
           <_Button
             action={() => setRequestSubmitted(true)}
             text={"Submit"}
-            color={"primary1_100"}
-            textColor={"white_100"}
             style={{ marginTop: 40 }}
-            borderColor={"light_grey"}
           />
         </View>
       ) : (
