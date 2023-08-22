@@ -7,7 +7,8 @@ import { useState } from "react";
 import _Button from "../elements/_Button";
 import _Input from "../elements/_Input";
 import _Divider from "../elements/_Divider";
-
+import Colors from "../../settings/Colors";
+import { Text } from "react-native";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { StreamChat } from "stream-chat";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -29,15 +30,6 @@ const validatePassword = (password) => {
 const { EXPO_PUBLIC_STREAM_API_KEY } = process.env;
 const client = StreamChat.getInstance(EXPO_PUBLIC_STREAM_API_KEY);
 
-const signIn = async (email, password) => {
-  const auth = getAuth();
-  await signInWithEmailAndPassword(auth, email, password);
-  const userId = auth.currentUser.uid;
-  const res = await fetch(`https://auth-token.onrender.com/${userId}`);
-  const { token } = await res.json();
-  await client.connectUser({ id: userId }, token);
-};
-
 const LoginPage = () => {
   const navigator = useNavigation();
   const [emailFocusState, setEmailFocusState] = useState(false);
@@ -45,14 +37,49 @@ const LoginPage = () => {
   const [passwordFocusState, setPasswordFocusState] = useState(false);
   const [passwordTextState, setPasswordTextState] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const [error, setError] = useState("");
   const emailIsValid = validateEmail(emailTextState);
   const passwordIsValid = validatePassword(passwordTextState);
   const canContinue = emailIsValid && passwordIsValid;
 
+  const signIn = async () => {
+    const auth = getAuth();
+    try {
+      const user = await signInWithEmailAndPassword(
+        auth,
+        emailTextState,
+        passwordTextState,
+      );
+      if (!user) {
+        setLoading(false);
+        return;
+      }
+      const userId = auth?.currentUser?.uid;
+      const res = await fetch(`https://auth-token.onrender.com/${userId}`);
+      const { token } = await res.json();
+      await client.connectUser({ id: userId }, token);
+
+      return user;
+    } catch (error) {
+      console.log("error detected!");
+      if (error.code === "auth/wrong-password") {
+        setError(terms["incorrect_password"]);
+      } else if (error.code === "auth/too-many-requests") {
+        setError(terms["too_many_attempts_try_again_later"]);
+      } else if (error.code === "auth/user-not-found") {
+        setError(terms["user_not_found"]);
+      } else {
+        throw new Error(error);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const getUserData = async () => {
     const auth = getAuth();
-    const userId = auth.currentUser.uid;
+    const userId = auth.currentUser?.uid;
+    if (!userId) throw new Error("No user ID found!");
 
     const userRef = doc(db, "users", userId);
     const userSnap = await getDoc(userRef);
@@ -67,7 +94,8 @@ const LoginPage = () => {
 
   const handleSignInFlow = async () => {
     setLoading(true);
-    await signIn(emailTextState, passwordTextState);
+    const user = await signIn();
+    if (!user) return;
     const userData = await getUserData();
     setLoading(false);
     if (!userData?.details_completed) return navigator.replace("Details");
@@ -128,6 +156,10 @@ const LoginPage = () => {
             : "clear_000"
         }
       />
+
+      {error.length ? (
+        <Text style={{ color: Colors.error_100 }}>{error}</Text>
+      ) : null}
       {loading ? (
         <ActivityIndicator />
       ) : (

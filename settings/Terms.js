@@ -42,6 +42,7 @@ export default {
     incorrect_password: "Incorrect Password",
     too_many_attempts_try_again_later:
       "Too many attempts. Please try again later",
+    user_not_found: "User not found",
     services: "Services",
   },
 };
