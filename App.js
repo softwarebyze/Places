@@ -12,6 +12,7 @@ import { useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import HomeTabs from "./components/navigation/HomeTabs";
 import { OverlayProvider } from "stream-chat-expo";
+import ChannelInfoPage from "./components/pages/ChannelInfoPage";
 
 const Stack = createNativeStackNavigator();
 
@@ -67,6 +68,11 @@ const App = () => {
               <Stack.Screen
                 name="Category"
                 component={CategoryPage}
+                options={{ headerShown: true }}
+              />
+              <Stack.Screen
+                name="ChannelInfo"
+                component={ChannelInfoPage}
                 options={{ headerShown: true }}
               />
             </Stack.Group>
