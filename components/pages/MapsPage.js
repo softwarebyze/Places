@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { View } from "react-native";
 import { useEffect, useRef, useState } from "react";
 import Colors from "../../settings/Colors";
@@ -11,7 +11,23 @@ import { db } from "../../firebaseConfig";
 import { format } from "date-fns";
 import { Ionicons } from "@expo/vector-icons";
 import BottomSheet from "@gorhom/bottom-sheet";
-// To deploy, follow https://docs.expo.dev/versions/latest/sdk/map-view/#deploy-app-with-google-maps
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+
+const GooglePlacesInput = () => {
+  return (
+    <GooglePlacesAutocomplete
+      placeholder="Search"
+      onPress={(data, details = null) => {
+        // 'details' is provided when fetchDetails = true
+        console.log(data, details);
+      }}
+      query={{
+        key: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
+        language: "en",
+      }}
+    />
+  );
+};
 
 const initialRegion = {
   latitude: 32.0853,
@@ -215,7 +231,11 @@ const MapsPage = () => {
 
   return (
     <View style={styles.container}>
-      <MapView style={styles.map} initialRegion={initialRegion}>
+      <MapView
+        style={styles.map}
+        initialRegion={initialRegion}
+        provider={PROVIDER_GOOGLE}
+      >
         {markers.map((marker, index) => (
           <Marker
             key={index}
@@ -263,6 +283,7 @@ const MapsPage = () => {
           onChange={onCreateEventBottomSheetChange}
         >
           <Text>Create event sheet</Text>
+          <GooglePlacesInput />
         </BottomSheet>
       )}
     </View>

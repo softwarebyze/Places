@@ -14,13 +14,21 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.placesdev.places"
+      "bundleIdentifier": "com.placesdev.places",
+      "config": {
+        "googleMapsApiKey": "AIzaSyA3sy5QlAue92zhvItbsNYjkL0GEOHiT5k"
+      }
     },
     "android": {
       "package": "com.places.places",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBQGgd3x8BYVc_Jc4CJtiK_XQMy5rr7zf8"
+        }
       }
     },
     "web": {
