@@ -52,10 +52,9 @@ const LoginPage = () => {
       );
       if (!user) {
         setLoading(false);
-
         return;
       }
-      const userId = auth.currentUser.uid;
+      const userId = auth?.currentUser?.uid;
       const res = await fetch(`https://auth-token.onrender.com/${userId}`);
       const { token } = await res.json();
       await client.connectUser({ id: userId }, token);
@@ -67,6 +66,8 @@ const LoginPage = () => {
         setError(terms["incorrect_password"]);
       } else if (error.code === "auth/too-many-requests") {
         setError(terms["too_many_attempts_try_again_later"]);
+      } else if (error.code === "auth/user-not-found") {
+        setError(terms["user_not_found"]);
       } else {
         throw new Error(error);
       }
@@ -77,7 +78,8 @@ const LoginPage = () => {
 
   const getUserData = async () => {
     const auth = getAuth();
-    const userId = auth.currentUser.uid;
+    const userId = auth.currentUser?.uid;
+    if (!userId) throw new Error("No user ID found!");
 
     const userRef = doc(db, "users", userId);
     const userSnap = await getDoc(userRef);
@@ -92,7 +94,8 @@ const LoginPage = () => {
 
   const handleSignInFlow = async () => {
     setLoading(true);
-    await signIn();
+    const user = await signIn();
+    if (!user) return;
     const userData = await getUserData();
     setLoading(false);
     if (!userData?.details_completed) return navigator.replace("Details");
