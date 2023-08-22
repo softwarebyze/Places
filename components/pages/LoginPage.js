@@ -167,7 +167,6 @@ const LoginPage = () => {
           <_Button
             text={terms["0008"]}
             action={handleSignInFlow}
-            borderColor={canContinue ? "primary1_100" : "primary1_030"}
             disabled={!canContinue}
           />
           <_Divider text="or" color="gray1_100" />
@@ -176,22 +175,19 @@ const LoginPage = () => {
             action={async () => {
               navigator.replace("HomeTabs");
             }}
-            borderColor="primary1_100"
             style={{ marginBottom: 20 }}
           />
           <_Button
             type="secondary"
             text={terms["0012"]}
             action={() => navigator.replace("Details")}
-            borderColor="primary1_100"
           />
-          <_Button
-            type="secondary"
-            text={terms["0013"]}
-            action={() => navigator.replace("Signup")}
-            borderColor="white_100"
-            underline={true}
-          />
+          <Text
+            style={STYLES.textButton}
+            onPress={() => navigator.replace("Signup")}
+          >
+            {terms["0013"]}
+          </Text>
         </>
       )}
     </SafeAreaView>

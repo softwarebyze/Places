@@ -18,7 +18,7 @@ const _Button = (props) => {
             : type === "primary"
             ? COLORS.primary1_100
             : COLORS.white_100,
-          borderColor: COLORS[props.borderColor],
+          borderColor: disabled ? COLORS.primary1_030 : COLORS.primary1_100,
           borderRadius: 10,
         },
         props.style,
@@ -43,5 +43,3 @@ const _Button = (props) => {
 };
 
 export default _Button;
-
-// bgcolor: disabled ? bluegrey : primary ? blue : white

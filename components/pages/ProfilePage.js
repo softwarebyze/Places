@@ -23,11 +23,7 @@ const ProfilePage = () => {
     <View style={STYLES.page}>
       <Text>Display Name: {auth.currentUser.displayName}</Text>
       <Text>Email: {auth.currentUser.email}</Text>
-      <_Button
-        text={terms["0034"]}
-        action={logout}
-        borderColor="primary1_100"
-      />
+      <_Button text={terms["0034"]} action={logout} />
     </View>
   );
 };

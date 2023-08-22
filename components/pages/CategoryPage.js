@@ -88,7 +88,6 @@ const CategoryPage = () => {
               action={() => setShowPopup(true)}
               style={{ marginTop: 23 }}
               text={"Request a New Interest"}
-              borderColor={"light_grey"}
               underline={false}
             />
           </View>

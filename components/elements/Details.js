@@ -144,7 +144,6 @@ const Details = () => {
         <_Button
           text={terms["0017"]}
           action={handleSubmitDetails}
-          borderColor={disabled ? "light_grey" : "primary1_100"}
           underline={false}
           disabled={disabled}
         />

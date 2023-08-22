@@ -190,7 +190,6 @@ const InterestsPage = () => {
         <_Button
           text="Continue"
           action={handleSubmitInterests}
-          borderColor={disabled ? "light_grey" : "primary1_100"}
           style={STYLES.startButton}
           disabled={disabled}
         />
