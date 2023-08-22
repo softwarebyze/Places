@@ -15,6 +15,7 @@ import { getAuth } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import { ActivityIndicator } from "react-native";
+import CitiesDropdown from "../elements/CitiesDropdown";
 const terms = TERMS["English"];
 
 const LocationPage = () => {
@@ -23,12 +24,6 @@ const LocationPage = () => {
   const [loading, setLoading] = useState(false);
 
   const disabled = location.length === 0;
-
-  const cities = [
-    { label: "New York City, USA", value: "New York City, USA" },
-    { label: "Tel Aviv, Israel", value: "Tel Aviv, Israel" },
-    { label: "Herzilya, Israel", value: "Herzilya, Israel" },
-  ];
 
   const handleSubmitLocation = async () => {
     setLoading(true);
@@ -45,14 +40,7 @@ const LocationPage = () => {
       <Text style={[STYLES.descriptionText, { marginHorizontal: 30 }]}>
         {terms["0020"]}
       </Text>
-      <View style={STYLES.dropdownMargin}>
-        <_Dropdown
-          labelText=""
-          label="Choose a Location"
-          options={cities}
-          onSelect={setLocation}
-        />
-      </View>
+      <CitiesDropdown onSelect={setLocation} />
       {loading ? (
         <ActivityIndicator />
       ) : (
