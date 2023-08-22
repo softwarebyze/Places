@@ -162,7 +162,7 @@ const HomePage = () => {
         );
       })}
       <TouchableOpacity style={styles.addACity}>
-        <Text style={styles.addACityText}>+ Add a City</Text>
+        <Text style={styles.addACityText}>{`+ ${terms["add_a_city"]}`}</Text>
       </TouchableOpacity>
     </View>
   );

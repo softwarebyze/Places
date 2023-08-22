@@ -44,5 +44,6 @@ export default {
       "Too many attempts. Please try again later",
     user_not_found: "User not found",
     services: "Services",
+    add_a_city: "Add a City",
   },
 };
