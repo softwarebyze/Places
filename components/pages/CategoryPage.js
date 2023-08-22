@@ -1,4 +1,4 @@
-import { Text, View, ScrollView } from "react-native";
+import { Text, TouchableOpacity, ScrollView, View } from "react-native";
 import { Image } from "expo-image";
 import { useState, useMemo, useRef } from "react";
 import _Button from "../elements/_Button";
@@ -10,11 +10,17 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheet from "@gorhom/bottom-sheet";
 import SheetHeader from "../elements/SheetHeader";
 import SheetBody from "../elements/SheetBody";
-import { useRoute } from "@react-navigation/native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 
 const InterestListItem = ({ channel }) => {
+  const navigator = useNavigation();
   return (
-    <View style={STYLES.catPageGrid}>
+    <TouchableOpacity
+      style={STYLES.catPageGrid}
+      onPress={() =>
+        navigator.navigate("ChannelInfo", { channelInfo: channel })
+      }
+    >
       <View style={STYLES.catPageInfo}>
         <Image
           source={{ uri: channel.data.image }}
@@ -35,7 +41,7 @@ const InterestListItem = ({ channel }) => {
           source={require("../../assets/interest_images/arrow.png")}
         />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 const CategoryPage = () => {
