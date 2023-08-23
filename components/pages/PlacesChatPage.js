@@ -5,10 +5,15 @@ import { Channel, MessageList, MessageInput } from "stream-chat-expo";
 
 const PlacesChatPage = () => {
   const route = useRoute();
+  const navigator = useNavigation();
   const { channel } = route.params;
   return (
     <Channel channel={channel}>
-      <MessageList />
+      <MessageList
+        onThreadSelect={(thread) => {
+          navigator.navigate("Thread", { channel, thread });
+        }}
+      />
       <MessageInput />
     </Channel>
   );
