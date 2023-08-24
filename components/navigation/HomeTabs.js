@@ -38,6 +38,7 @@ const HomeTabs = () => (
         tabBarIcon: ({ color, size }) => (
           <Foundation name="home" size={size} color={color} />
         ),
+        headerShown: false,
       }}
     />
     <Tab.Screen
