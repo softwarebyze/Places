@@ -1,9 +1,9 @@
-import { View, Text, TouchableOpacity, Pressable } from "react-native";
-import React from "react";
-import Styles from "../styles/Styles";
-import { useState } from "react";
-import Collapsible from "react-native-collapsible";
 import { Ionicons } from "@expo/vector-icons";
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, Pressable } from "react-native";
+import Collapsible from "react-native-collapsible";
+
+import Styles from "../styles/Styles";
 
 const _Dropdown = (props) => {
   /*

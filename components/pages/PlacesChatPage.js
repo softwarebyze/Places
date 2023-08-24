@@ -1,6 +1,5 @@
-import React from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { View, Text } from "react-native";
+import React from "react";
 import { Channel, MessageList, MessageInput } from "stream-chat-expo";
 
 const PlacesChatPage = () => {

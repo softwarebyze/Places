@@ -1,18 +1,18 @@
-import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
-import TERMS from "../../settings/Terms";
-const terms = TERMS["English"];
-import _Button from "../elements/_Button";
-import { useNavigation } from "@react-navigation/native";
-import Styles from "../styles/Styles";
-import Collapsible from "react-native-collapsible";
-import { useEffect, useRef, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import Colors from "../../settings/Colors";
+import BottomSheet from "@gorhom/bottom-sheet";
+import { useNavigation } from "@react-navigation/native";
+import { getAuth } from "firebase/auth";
+import { useEffect, useRef, useState } from "react";
+import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import Collapsible from "react-native-collapsible";
 import { StreamChat } from "stream-chat";
 import { ChannelList } from "stream-chat-expo";
-import { getAuth } from "firebase/auth";
-import BottomSheet from "@gorhom/bottom-sheet";
+
+import Colors from "../../settings/Colors";
+import TERMS from "../../settings/Terms";
 import CitiesDropdown from "../elements/CitiesDropdown";
+import Styles from "../styles/Styles";
+const terms = TERMS["English"];
 
 const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
 
@@ -191,7 +191,7 @@ const HomePage = () => {
         <BottomSheet
           ref={addCitySheetRef}
           snapPoints={["62%"]}
-          enablePanDownToClose={true}
+          enablePanDownToClose
           style={{ flex: 1 }}
           onChange={onAddCitySheetChange}
         >
