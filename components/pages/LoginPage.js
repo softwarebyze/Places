@@ -57,7 +57,7 @@ const LoginPage = () => {
       const userId = auth?.currentUser?.uid;
       const res = await fetch(`https://auth-token.onrender.com/${userId}`);
       const { token } = await res.json();
-      await client.connectUser({ id: userId }, token);
+      if (!client?.user) await client.connectUser({ id: userId }, token);
 
       return user;
     } catch (error) {

@@ -7,10 +7,11 @@ import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import Collapsible from "react-native-collapsible";
 import { StreamChat } from "stream-chat";
 import { ChannelList } from "stream-chat-expo";
-import AddCityForm from "../elements/AddCityForm";
 
 import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
+import AddCityForm from "../elements/AddCityForm";
+import PlacesHeader from "../elements/PlacesHeader";
 import Styles from "../styles/Styles";
 const terms = TERMS["English"];
 
@@ -156,39 +157,44 @@ const HomePage = () => {
 
   const channelsGroupedByLocation = groupChannelsByLocation(channelList);
   return (
-    <View
-      style={[
-        Styles.page,
-        {
-          backgroundColor: Colors.light_grey,
-          alignItems: "flex-start",
-        },
-      ]}
-    >
-      <Text style={Styles.groupLabelText}>Your Places</Text>
-      {Object.entries(channelsGroupedByLocation).map(([location, channels]) => {
-        return (
-          <Dropdown heading={location} channels={channels} key={location} />
-        );
-      })}
-      <TouchableOpacity
-        onPress={() => setShowAddCitySheet(true)}
-        style={styles.addACity}
+    <>
+      <PlacesHeader />
+      <View
+        style={[
+          Styles.page,
+          {
+            backgroundColor: Colors.light_grey,
+            alignItems: "flex-start",
+          },
+        ]}
       >
-        <Text style={styles.addACityText}>{`+ ${terms["add_a_city"]}`}</Text>
-      </TouchableOpacity>
-      {showAddCitySheet && (
-        <BottomSheet
-          ref={addCitySheetRef}
-          snapPoints={["62%"]}
-          enablePanDownToClose
-          style={{ flex: 1 }}
-          onChange={onAddCitySheetChange}
+        <Text style={Styles.groupLabelText}>Your Places</Text>
+        {Object.entries(channelsGroupedByLocation).map(
+          ([location, channels]) => {
+            return (
+              <Dropdown heading={location} channels={channels} key={location} />
+            );
+          },
+        )}
+        <TouchableOpacity
+          onPress={() => setShowAddCitySheet(true)}
+          style={styles.addACity}
         >
-          <AddCityForm />
-        </BottomSheet>
-      )}
-    </View>
+          <Text style={styles.addACityText}>{`+ ${terms["add_a_city"]}`}</Text>
+        </TouchableOpacity>
+        {showAddCitySheet && (
+          <BottomSheet
+            ref={addCitySheetRef}
+            snapPoints={["62%"]}
+            enablePanDownToClose
+            style={{ flex: 1 }}
+            onChange={onAddCitySheetChange}
+          >
+            <AddCityForm />
+          </BottomSheet>
+        )}
+      </View>
+    </>
   );
 };
 
