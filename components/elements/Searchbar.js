@@ -1,5 +1,6 @@
 import React from "react";
-import { Stylesheet, TextInput, View, Image } from "react-native";
+import { TextInput, View, Image } from "react-native";
+
 import Colors from "../../settings/Colors";
 
 const Searchbar = (props) => {

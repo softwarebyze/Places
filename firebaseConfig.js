@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFunctions, httpsCallable } from "firebase/functions";
 import { getFirestore } from "firebase/firestore";
+import { getFunctions /*, httpsCallable*/ } from "firebase/functions";
 
 // Initialize Firebase
 const firebaseConfig = {

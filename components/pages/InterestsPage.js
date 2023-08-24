@@ -1,19 +1,21 @@
-import _Button from "../elements/_Button";
-import _Input from "../elements/_Input";
-import _Header from "../elements/_Header";
-import _Divider from "../elements/_Divider";
-import STYLES from "../styles/Styles";
-import { Text, TouchableOpacity, View, ScrollView } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-import Colors from "../../settings/Colors";
-import { useState } from "react";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "../../firebaseConfig";
-import { ActivityIndicator } from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { getAuth } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { useState, useEffect } from "react";
+import {
+  Text,
+  TouchableOpacity,
+  View,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 import { StreamChat } from "stream-chat";
-import { useEffect } from "react";
+
+import { db } from "../../firebaseConfig";
+import Colors from "../../settings/Colors";
+import _Button from "../elements/_Button";
+import STYLES from "../styles/Styles";
 
 const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
 

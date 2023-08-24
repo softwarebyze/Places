@@ -1,6 +1,7 @@
 import { View } from "react-native";
-import Styles from "../styles/Styles";
+
 import _Dropdown from "./_Dropdown";
+import Styles from "../styles/Styles";
 
 const cities = [
   { label: "New York City, USA", value: "New York City, USA" },

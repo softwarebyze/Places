@@ -1,19 +1,19 @@
-import { ActivityIndicator } from "react-native";
-import _Header from "../elements/_Header";
-import STYLES from "../styles/Styles";
-import TERMS from "../../settings/Terms";
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
-import _Button from "../elements/_Button";
-import _Input from "../elements/_Input";
-import _Divider from "../elements/_Divider";
-import Colors from "../../settings/Colors";
-import { Text } from "react-native";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { StreamChat } from "stream-chat";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { doc, getDoc } from "firebase/firestore";
+import { useState } from "react";
+import { Text, ActivityIndicator } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StreamChat } from "stream-chat";
+
 import { db } from "../../firebaseConfig";
+import Colors from "../../settings/Colors";
+import TERMS from "../../settings/Terms";
+import _Button from "../elements/_Button";
+import _Divider from "../elements/_Divider";
+import _Header from "../elements/_Header";
+import _Input from "../elements/_Input";
+import STYLES from "../styles/Styles";
 
 const terms = TERMS["English"];
 
@@ -135,7 +135,7 @@ const LoginPage = () => {
         }
       />
       <_Input
-        secureTextEntry={true}
+        secureTextEntry
         labelText={terms["0007"]}
         subtextText={terms["0015"]}
         onFocus={() => setPasswordFocusState(true)}

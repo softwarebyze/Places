@@ -1,9 +1,9 @@
-import { View, Text } from "react-native";
 import { useRoute } from "@react-navigation/native";
-import _Button from "../elements/_Button";
-import _Header from "../elements/_Header";
-import Styles from "../styles/Styles";
 import { getAuth } from "firebase/auth";
+import { View, Text } from "react-native";
+
+import _Button from "../elements/_Button";
+import Styles from "../styles/Styles";
 
 const ChannelInfoPage = () => {
   const route = useRoute();
@@ -42,7 +42,7 @@ const ChannelInfoPage = () => {
             width: 330,
             marginLeft: 30,
           }}
-          text={"Join"}
+          text="Join"
         />
       </View>
     </View>

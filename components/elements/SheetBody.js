@@ -1,8 +1,9 @@
-import { View, Text, Image } from "react-native";
-import Colors from "../../settings/Colors";
-import _Button from "./_Button";
-import { useState } from "react";
 import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
+import { useState } from "react";
+import { View, Text, Image } from "react-native";
+
+import _Button from "./_Button";
+import Colors from "../../settings/Colors";
 
 const RequestSubmitted = (props) => {
   return (
@@ -57,7 +58,7 @@ const SheetBody = (props) => {
           />
           <_Button
             action={() => setRequestSubmitted(true)}
-            text={"Submit"}
+            text="Submit"
             style={{ marginTop: 40 }}
           />
         </View>

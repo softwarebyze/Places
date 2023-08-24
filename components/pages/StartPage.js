@@ -1,9 +1,10 @@
+import { useNavigation } from "@react-navigation/native";
 import { View, Text } from "react-native";
+
+import TERMS from "../../settings/Terms";
 import _Button from "../elements/_Button";
 import _Logo from "../elements/_Logo";
 import STYLES from "../styles/Styles";
-import TERMS from "../../settings/Terms";
-import { useNavigation } from "@react-navigation/native";
 const terms = TERMS["English"];
 
 const StartPage = (props) => {
