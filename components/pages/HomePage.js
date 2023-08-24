@@ -196,3 +196,17 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
+const styles = StyleSheet.create({
+  addACity: {
+    borderWidth: 2,
+    padding: 8,
+    borderRadius: 6,
+    borderColor: Colors.dark_grey,
+  },
+  addACityText: {
+    color: Colors.dark_grey,
+    fontSize: 14,
+    fontWeight: "600",
+  },
+});
