@@ -2,6 +2,8 @@ import { Ionicons } from "@expo/vector-icons";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
 import { getAuth } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
 import { useEffect, useRef, useState } from "react";
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import Collapsible from "react-native-collapsible";
@@ -125,10 +127,39 @@ const Dropdown = (props) => {
 
 const AddCityForm = () => {
   const [city, setCity] = useState(null);
+  const [usersCities, setUsersCities] = useState([]);
+
+  useEffect(() => {
+    const fetchUsersCities = async () => {
+      try {
+        const auth = getAuth();
+        const userId = auth.currentUser?.uid;
+        const userRef = doc(db, "users", userId);
+        const userSnap = await getDoc(userRef);
+
+        if (userSnap.exists()) {
+          setUsersCities([userSnap.data().location]);
+        } else {
+          throw new Error("No user found");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchUsersCities();
+  }, []);
   return (
     <View>
-      <Text>Add a City</Text>
+      <Text style={Styles.groupLabelText}>Add a City</Text>
       <CitiesDropdown onSelect={setCity} />
+      <Text style={Styles.groupLabelText}>Your Cities</Text>
+      <View style={{ display: "flex", alignItems: "flex-start", padding: 5 }}>
+        {usersCities.map((city) => (
+          <View style={styles.usersCityButton}>
+            <Text style={styles.usersCityButtonText}>{city}</Text>
+          </View>
+        ))}
+      </View>
     </View>
   );
 };
@@ -215,5 +246,22 @@ const styles = StyleSheet.create({
     color: Colors.dark_grey,
     fontSize: 14,
     fontWeight: "600",
+  },
+  usersCityButton: {
+    borderWidth: 1.5,
+    padding: 12,
+    borderRadius: 4,
+    borderColor: Colors.orange,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  usersCityButtonText: {
+    color: Colors.orange,
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  removeButton: {
+    fontSize: 25,
   },
 });
