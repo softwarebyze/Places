@@ -7,10 +7,10 @@ import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import Collapsible from "react-native-collapsible";
 import { StreamChat } from "stream-chat";
 import { ChannelList } from "stream-chat-expo";
+import AddCityForm from "../elements/AddCityForm";
 
 import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
-import CitiesDropdown from "../elements/CitiesDropdown";
 import Styles from "../styles/Styles";
 const terms = TERMS["English"];
 
@@ -119,16 +119,6 @@ const Dropdown = (props) => {
           <JoinANewPlace location={props.heading} />
         </View>
       </Collapsible>
-    </View>
-  );
-};
-
-const AddCityForm = () => {
-  const [city, setCity] = useState(null);
-  return (
-    <View>
-      <Text>Add a City</Text>
-      <CitiesDropdown onSelect={setCity} />
     </View>
   );
 };
