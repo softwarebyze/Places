@@ -99,7 +99,8 @@ const LoginPage = () => {
     const userData = await getUserData();
     setLoading(false);
     if (!userData?.details_completed) return navigator.replace("Details");
-    if (!userData?.location) return navigator.replace("ChooseLocation");
+    if (!userData?.location && !userData?.cities.length)
+      return navigator.replace("ChooseLocation");
     if (!userData?.interests)
       return navigator.replace("ChooseInterests", {
         location: userData.location,

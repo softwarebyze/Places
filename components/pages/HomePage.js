@@ -136,9 +136,15 @@ const AddCityForm = () => {
         const userId = auth.currentUser?.uid;
         const userRef = doc(db, "users", userId);
         const userSnap = await getDoc(userRef);
-
+        console.log("cities:", userSnap.data().cities);
         if (userSnap.exists()) {
-          setUsersCities([userSnap.data().location]);
+          setUsersCities(() => {
+            const cities = userSnap.data().cities || [userSnap.data().location];
+            return cities.map((city, i) => ({
+              city: city,
+              id: Date.now() + i + Math.random(),
+            }));
+          });
         } else {
           throw new Error("No user found");
         }
@@ -154,8 +160,8 @@ const AddCityForm = () => {
       <CitiesDropdown onSelect={setCity} />
       <Text style={Styles.groupLabelText}>Your Cities</Text>
       <View style={{ display: "flex", alignItems: "flex-start", padding: 5 }}>
-        {usersCities.map((city) => (
-          <View style={styles.usersCityButton}>
+        {usersCities.map(({ city, id }) => (
+          <View style={styles.usersCityButton} key={id}>
             <Text style={styles.usersCityButtonText}>{city}</Text>
           </View>
         ))}

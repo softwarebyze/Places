@@ -25,7 +25,7 @@ const LocationPage = () => {
     const auth = getAuth();
     const userId = auth.currentUser.uid;
     const userRef = doc(db, "users", userId);
-    await setDoc(userRef, { location }, { merge: true });
+    await setDoc(userRef, { cities: [location] }, { merge: true });
     setLoading(false);
     navigator.navigate("ChooseInterests", { location });
   };
