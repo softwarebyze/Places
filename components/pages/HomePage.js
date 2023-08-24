@@ -2,8 +2,6 @@ import { Ionicons } from "@expo/vector-icons";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
 import { getAuth } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../firebaseConfig";
 import { useEffect, useRef, useState } from "react";
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import Collapsible from "react-native-collapsible";
@@ -13,7 +11,6 @@ import AddCityForm from "../elements/AddCityForm";
 
 import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
-import CitiesDropdown from "../elements/CitiesDropdown";
 import Styles from "../styles/Styles";
 const terms = TERMS["English"];
 

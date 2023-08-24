@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Styles from "../styles/Styles";
 import Colors from "../../settings/Colors";
-import { getAuth } from "firebase/auth";
-import { db } from "../../firebaseConfig";
-import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
 import CitiesDropdown from "./CitiesDropdown";
 import _Button from "./_Button";
+
+import { getAuth } from "firebase/auth";
+import { db } from "../../firebaseConfig";
+
+import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
 
 const AddCityForm = () => {
   const [city, setCity] = useState(null);
