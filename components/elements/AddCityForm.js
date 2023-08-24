@@ -57,8 +57,17 @@ const AddCityForm = () => {
   return (
     <View>
       <Text style={Styles.groupLabelText}>Add a City</Text>
-      <CitiesDropdown onSelect={setCity} />
-      <_Button action={handleAddCity} text="Add City" disabled={!city} />
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <CitiesDropdown onSelect={setCity} />
+        <_Button action={handleAddCity} text="Add City" disabled={!city} />
+      </View>
       <Text style={Styles.groupLabelText}>Your Cities</Text>
       <View
         style={{
