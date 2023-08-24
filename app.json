@@ -17,7 +17,8 @@
       "bundleIdentifier": "com.placesdev.places",
       "config": {
         "googleMapsApiKey": "AIzaSyA3sy5QlAue92zhvItbsNYjkL0GEOHiT5k"
-      }
+      },
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "package": "com.places.places",
@@ -29,11 +30,17 @@
         "googleMaps": {
           "apiKey": "AIzaSyBQGgd3x8BYVc_Jc4CJtiK_XQMy5rr7zf8"
         }
-      }
+      },
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "plugins": [
+      "@react-native-firebase/app"
+      // "@react-native-firebase/perf",
+      // "@react-native-firebase/crashlytics"
+    ],
     "extra": {
       "eas": {
         "projectId": "5b4659d0-7e6a-4071-a149-4ccb3830ab4b"
