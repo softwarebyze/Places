@@ -9,6 +9,7 @@ import {
   Text,
   View,
   Button,
+  TextInput,
 } from "react-native";
 import PhoneInput from "react-native-phone-input";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -101,6 +102,9 @@ const Details = () => {
               ref={phoneRef}
               onChangePhoneNumber={setPhoneNumber}
               autoFormat
+              textProps={{
+                enterKeyHint: "done",
+              }}
             />
           </View>
         </View>
