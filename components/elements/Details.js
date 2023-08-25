@@ -100,6 +100,7 @@ const Details = () => {
               initialCountry="us"
               ref={phoneRef}
               onChangePhoneNumber={setPhoneNumber}
+              autoFormat
             />
           </View>
         </View>
