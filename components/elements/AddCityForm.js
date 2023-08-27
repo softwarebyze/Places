@@ -5,11 +5,6 @@ import Colors from "../../settings/Colors";
 import CitiesDropdown from "./CitiesDropdown";
 import _Button from "./_Button";
 
-import { getAuth } from "firebase/auth";
-import { db } from "../../firebaseConfig";
-
-import { arrayUnion, doc, updateDoc } from "firebase/firestore";
-
 import { fetchUsersCities, addUserCity } from "../../firebase/users";
 
 const AddCityForm = () => {
