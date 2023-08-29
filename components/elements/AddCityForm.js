@@ -15,14 +15,15 @@ const AddCityForm = () => {
     try {
       addUserCity(city, usersCities);
       setCity(null);
-      fetchUsersCities(setUsersCities);
+      const cities = await fetchUsersCities();
+      setUsersCities(cities);
     } catch (error) {
       console.error(error);
     }
   };
 
   useEffect(() => {
-    fetchUsersCities(setUsersCities);
+    fetchUsersCities().then((cities) => setUsersCities(cities));
   }, []);
 
   return (
@@ -50,8 +51,8 @@ const AddCityForm = () => {
           gap: 10,
         }}
       >
-        {usersCities.map(({ city, id }) => (
-          <View style={styles.usersCityButton} key={id}>
+        {usersCities.map((city) => (
+          <View style={styles.usersCityButton} key={city}>
             <Text style={styles.usersCityButtonText}>{city}</Text>
           </View>
         ))}

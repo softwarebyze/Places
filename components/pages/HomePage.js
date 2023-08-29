@@ -124,7 +124,7 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    fetchUsersCities(setCities);
+    fetchUsersCities().then((cities) => setCities(cities));
   }, []);
 
   return (

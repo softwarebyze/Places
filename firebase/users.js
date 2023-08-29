@@ -2,20 +2,15 @@ import { getAuth } from "firebase/auth";
 import { db } from "../firebaseConfig";
 import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 
-const fetchUsersCities = async (setStateFunction) => {
+const fetchUsersCities = async () => {
   try {
     const auth = getAuth();
     const userId = auth.currentUser?.uid;
     const userRef = doc(db, "users", userId);
     const userSnap = await getDoc(userRef);
     if (userSnap.exists()) {
-      setStateFunction(() => {
-        const cities = userSnap.data().cities || [userSnap.data().location];
-        return cities.map((city, i) => ({
-          city: city,
-          id: Date.now() + i + Math.random(),
-        }));
-      });
+      const cities = userSnap.data().cities || [userSnap.data().location];
+      return cities;
     } else {
       throw new Error("No user found");
     }
