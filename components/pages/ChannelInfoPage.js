@@ -15,6 +15,7 @@ const ChannelInfoPage = () => {
     await channelInfo.addMembers([auth.currentUser.uid]);
     console.log("added member");
     navigator.navigate("PlacesChat", { channel: channelInfo });
+    console.log(`you are entering ${channelInfo.data.name}'s chat!`);
   };
   return (
     <View style={Styles.page}>
