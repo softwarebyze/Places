@@ -1,6 +1,7 @@
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
+import { Image } from "expo-image";
 import { getAuth } from "firebase/auth";
 import { useEffect, useRef, useState } from "react";
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
@@ -41,14 +42,32 @@ const DropdownHeader = (props) => (
     }}
     onPress={props.onPress}
   >
-    <Text
-      style={[
-        Styles.whiteText,
-        Styles.blueDropdownHeader,
-        { fontWeight: "bold" },
-      ]}
-    >
+    <Text style={[Styles.whiteText, { fontWeight: "bold" }]}>
       {props.heading}
+    </Text>
+    {props.isCollapsed ? (
+      <Ionicons name="chevron-down-outline" size={24} color="white" />
+    ) : (
+      <Ionicons name="chevron-up-outline" size={24} color="white" />
+    )}
+  </TouchableOpacity>
+);
+
+const PopularDropdownHeader = (props) => (
+  <TouchableOpacity
+    style={{
+      backgroundColor: Colors.orange,
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      paddingHorizontal: 16,
+      paddingVertical: 12,
+      borderRadius: 6,
+    }}
+    onPress={props.onPress}
+  >
+    <Text style={[Styles.whiteText, { fontWeight: "bold" }]}>
+      Popular In Your Cities
     </Text>
     {props.isCollapsed ? (
       <Ionicons name="chevron-down-outline" size={24} color="white" />
@@ -99,14 +118,14 @@ const Dropdown = (props) => {
   const auth = getAuth();
 
   return (
-    <View style={{ width: "100%", marginBottom: 16 }}>
+    <View style={{ width: "100%" }}>
       <DropdownHeader
         onPress={toggleDropdown}
         heading={props.heading}
         isCollapsed={isCollapsed}
       />
       <Collapsible collapsed={isCollapsed} containerStyle={{ borderRadius: 0 }}>
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, maxHeight: 200 }}>
           <ChannelList
             filters={{
               type: "team",
@@ -118,6 +137,105 @@ const Dropdown = (props) => {
             }}
           />
           <JoinANewPlace location={props.heading} />
+        </View>
+      </Collapsible>
+    </View>
+  );
+};
+
+const JoinButton = () => (
+  <TouchableOpacity
+    // onPress={() => setShowAddCitySheet(true)}
+    style={styles.join}
+  >
+    <Text style={styles.joinText}>Join</Text>
+  </TouchableOpacity>
+);
+
+const Location = (props) => (
+  <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+    <FontAwesome5 name="map-pin" size={11} color="grey" />
+    <Text style={{ color: Colors.dark_grey }}>
+      {props.location.split(",")[0]}
+    </Text>
+  </View>
+);
+
+const PopularChannel = ({ channel }) => {
+  const navigator = useNavigation();
+  return (
+    <View
+      style={{ padding: 8 }}
+      onPress={() =>
+        navigator.navigate("ChannelInfo", { channelInfo: channel })
+      }
+    >
+      <View style={{ flexDirection: "row" }}>
+        <Image
+          source={{ uri: channel.data.image }}
+          style={{ width: 32, height: 32 }}
+        />
+        <View style={Styles.catPageMemberInfo}>
+          <Text
+            style={Styles.catPageLocationText}
+          >{`${channel.data.interest}`}</Text>
+          <Text style={Styles.catPageMembersText}>
+            {`${channel.data.member_count || 0} members`}
+          </Text>
+        </View>
+        <View
+          style={{
+            marginLeft: "auto",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 8,
+          }}
+        >
+          <Location location={channel.data.location} />
+          <JoinButton />
+        </View>
+      </View>
+    </View>
+  );
+};
+
+const PopularDropdown = () => {
+  const [isCollapsed, setIsCollapsed] = useState(true);
+
+  const toggleDropdown = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
+  const navigation = useNavigation();
+  const auth = getAuth();
+
+  const filters = {
+    type: "team",
+    members: { $nin: [auth.currentUser.uid] },
+    location: { $in: ["Herzilya, Israel"] },
+  };
+  const sort = { member_count: -1 };
+  const options = { limit: 3 };
+
+  return (
+    <View style={{ width: "100%", marginBottom: 16 }}>
+      <PopularDropdownHeader
+        onPress={toggleDropdown}
+        isCollapsed={isCollapsed}
+      />
+      <Collapsible collapsed={isCollapsed} containerStyle={{ borderRadius: 0 }}>
+        <View style={{ flex: 1 }}>
+          <ChannelList
+            // channelRenderFilterFn={customChannelFilterFunction}
+            filters={filters}
+            sort={sort}
+            options={options}
+            onSelect={(channel) => {
+              navigation.navigate("PlacesChat", { channel });
+            }}
+            // PreviewMessage={NumberOfMembersPreview}
+            Preview={PopularChannel}
+          />
         </View>
       </Collapsible>
     </View>
@@ -165,6 +283,8 @@ const HomePage = () => {
           {
             backgroundColor: Colors.light_grey,
             alignItems: "flex-start",
+            gap: 16,
+            marginTop: 16,
           },
         ]}
       >
@@ -182,6 +302,7 @@ const HomePage = () => {
         >
           <Text style={styles.addACityText}>{`+ ${terms["add_a_city"]}`}</Text>
         </TouchableOpacity>
+        <PopularDropdown />
         {showAddCitySheet && (
           <BottomSheet
             ref={addCitySheetRef}
@@ -209,6 +330,17 @@ const styles = StyleSheet.create({
   },
   addACityText: {
     color: Colors.dark_grey,
+    fontSize: 14,
+    fontWeight: "600",
+  },
+  join: {
+    borderWidth: 2,
+    padding: 8,
+    borderRadius: 6,
+    borderColor: Colors.orange,
+  },
+  joinText: {
+    color: Colors.orange,
     fontSize: 14,
     fontWeight: "600",
   },
