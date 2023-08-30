@@ -1,13 +1,11 @@
+import { Foundation, MaterialCommunityIcons } from "@expo/vector-icons";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
+import HomeStack from "./HomeStack";
+import NeighborsStack from "./NeighborsStack";
+import Colors from "../../settings/Colors";
 import MapsPage from "../pages/MapsPage";
 import ProfilePage from "../pages/ProfilePage";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import NeighborsStack from "./NeighborsStack";
-
-import Colors from "../../settings/Colors";
-import { Foundation } from "@expo/vector-icons";
-
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import HomeStack from "./HomeStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -34,12 +32,13 @@ const HomeTabs = () => (
   >
     <Tab.Screen
       name="Home"
-      text={"Home"}
+      text="Home"
       component={HomeStack}
       options={{
         tabBarIcon: ({ color, size }) => (
           <Foundation name="home" size={size} color={color} />
         ),
+        headerShown: false,
       }}
     />
     <Tab.Screen

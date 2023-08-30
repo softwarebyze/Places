@@ -3,7 +3,7 @@ export default {
     "0001": "Welcome to Places!",
     "0002": "Discover. Meet. Belong.",
     "0003": "Create an account",
-    "0004": "Already have an account?",
+    already_have_an_account: "Already have an account?",
     "0005": "Sign up",
     "0006": "Email",
     "0007": "Password",
@@ -42,5 +42,8 @@ export default {
     incorrect_password: "Incorrect Password",
     too_many_attempts_try_again_later:
       "Too many attempts. Please try again later",
+    user_not_found: "User not found",
+    services: "Services",
+    add_a_city: "Add a City",
   },
 };

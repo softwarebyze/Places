@@ -1,6 +1,7 @@
 import { View, Text, TextInput } from "react-native";
-import STYLES from "../styles/Styles";
+
 import COLORS from "../../settings/Colors";
+import STYLES from "../styles/Styles";
 
 const _Input = (props) => {
   return (

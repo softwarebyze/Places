@@ -1,6 +1,6 @@
+import BottomSheet from "@gorhom/bottom-sheet";
 import React, { useMemo, useRef } from "react";
 import { View, Text } from "react-native";
-import BottomSheet from "@gorhom/bottom-sheet";
 
 const BottomSheetExample = () => {
   const bottomSheetRef = useRef(null);
@@ -9,7 +9,7 @@ const BottomSheetExample = () => {
     <BottomSheet
       ref={bottomSheetRef}
       snapPoints={snapPoints}
-      enablePanDownToClose={true}
+      enablePanDownToClose
     >
       <View>
         <Text>Awesome 🎉</Text>

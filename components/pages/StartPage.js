@@ -1,9 +1,10 @@
+import { useNavigation } from "@react-navigation/native";
 import { View, Text } from "react-native";
+
+import TERMS from "../../settings/Terms";
 import _Button from "../elements/_Button";
 import _Logo from "../elements/_Logo";
 import STYLES from "../styles/Styles";
-import TERMS from "../../settings/Terms";
-import { useNavigation } from "@react-navigation/native";
 const terms = TERMS["English"];
 
 const StartPage = (props) => {
@@ -19,17 +20,12 @@ const StartPage = (props) => {
         <_Button
           text={terms["0003"]}
           action={() => navigator.navigate("Signup")}
-          color="primary1_100"
-          borderColor="primary1_100"
-          textColor="white_100"
           style={STYLES.startButton}
         />
         <_Button
-          text={terms["0004"]}
+          type="secondary"
+          text={terms["already_have_an_account"]}
           action={() => navigator.navigate("Login")}
-          buttonColor="white_100"
-          buttonBorderColor="black_100"
-          textColor="primary1_100"
           style={STYLES.startButton}
         />
       </View>

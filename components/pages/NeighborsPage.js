@@ -1,8 +1,8 @@
-import { View } from "react-native";
-import React from "react";
-import { ChannelList } from "stream-chat-expo";
-import { getAuth } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
+import { getAuth } from "firebase/auth";
+import React from "react";
+import { View } from "react-native";
+import { ChannelList } from "stream-chat-expo";
 
 // const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
 const auth = getAuth();

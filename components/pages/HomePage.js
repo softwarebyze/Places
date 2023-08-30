@@ -1,16 +1,19 @@
-import { Text, View, TouchableOpacity, Image } from "react-native";
-import TERMS from "../../settings/Terms";
-const terms = TERMS["English"];
-import _Button from "../elements/_Button";
-import { useNavigation } from "@react-navigation/native";
-import Styles from "../styles/Styles";
-import Collapsible from "react-native-collapsible";
-import { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import Colors from "../../settings/Colors";
+import BottomSheet from "@gorhom/bottom-sheet";
+import { useNavigation } from "@react-navigation/native";
+import { getAuth } from "firebase/auth";
+import { useEffect, useRef, useState } from "react";
+import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import Collapsible from "react-native-collapsible";
 import { StreamChat } from "stream-chat";
 import { ChannelList } from "stream-chat-expo";
-import { getAuth } from "firebase/auth";
+
+import Colors from "../../settings/Colors";
+import TERMS from "../../settings/Terms";
+import AddCityForm from "../elements/AddCityForm";
+import PlacesHeader from "../elements/PlacesHeader";
+import Styles from "../styles/Styles";
+const terms = TERMS["English"];
 
 const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
 
@@ -55,11 +58,13 @@ const DropdownHeader = (props) => (
   </TouchableOpacity>
 );
 
-const JoinANewPlace = () => {
+const JoinANewPlace = (props) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate("JoinPlace")}
+      onPress={() =>
+        navigation.navigate("JoinPlace", { location: props.location })
+      }
       style={{
         backgroundColor: Colors.white_100,
         paddingHorizontal: 16,
@@ -94,15 +99,14 @@ const Dropdown = (props) => {
   const auth = getAuth();
 
   return (
-    <View style={{ width: "100%", flex: 1 }}>
+    <View style={{ width: "100%", marginBottom: 16 }}>
       <DropdownHeader
         onPress={toggleDropdown}
         heading={props.heading}
         isCollapsed={isCollapsed}
       />
-
       <Collapsible collapsed={isCollapsed} containerStyle={{ borderRadius: 0 }}>
-        <View style={{ flex: 1, maxHeight: 400 }}>
+        <View style={{ flex: 1 }}>
           <ChannelList
             filters={{
               type: "team",
@@ -113,7 +117,7 @@ const Dropdown = (props) => {
               navigation.navigate("PlacesChat", { channel });
             }}
           />
-          <JoinANewPlace />
+          <JoinANewPlace location={props.heading} />
         </View>
       </Collapsible>
     </View>
@@ -123,6 +127,14 @@ const Dropdown = (props) => {
 const HomePage = () => {
   const auth = getAuth();
   const [channelList, setChannelList] = useState([]);
+  const [showAddCitySheet, setShowAddCitySheet] = useState(false);
+  const addCitySheetRef = useRef(null);
+
+  const onAddCitySheetChange = (code) => {
+    if (code === -1) {
+      setShowAddCitySheet(false);
+    }
+  };
 
   useEffect(() => {
     const fetchChannels = async () => {
@@ -145,14 +157,59 @@ const HomePage = () => {
 
   const channelsGroupedByLocation = groupChannelsByLocation(channelList);
   return (
-    <View style={[Styles.page, { backgroundColor: Colors.light_grey }]}>
-      <Text style={Styles.groupLabelText}>Your Places</Text>
-      {Object.entries(channelsGroupedByLocation).map(([location, channels]) => {
-        return (
-          <Dropdown heading={location} channels={channels} key={location} />
-        );
-      })}
-    </View>
+    <>
+      <PlacesHeader />
+      <View
+        style={[
+          Styles.page,
+          {
+            backgroundColor: Colors.light_grey,
+            alignItems: "flex-start",
+          },
+        ]}
+      >
+        <Text style={Styles.groupLabelText}>Your Places</Text>
+        {Object.entries(channelsGroupedByLocation).map(
+          ([location, channels]) => {
+            return (
+              <Dropdown heading={location} channels={channels} key={location} />
+            );
+          },
+        )}
+        <TouchableOpacity
+          onPress={() => setShowAddCitySheet(true)}
+          style={styles.addACity}
+        >
+          <Text style={styles.addACityText}>{`+ ${terms["add_a_city"]}`}</Text>
+        </TouchableOpacity>
+        {showAddCitySheet && (
+          <BottomSheet
+            ref={addCitySheetRef}
+            snapPoints={["62%"]}
+            enablePanDownToClose
+            style={{ flex: 1 }}
+            onChange={onAddCitySheetChange}
+          >
+            <AddCityForm />
+          </BottomSheet>
+        )}
+      </View>
+    </>
   );
 };
+
 export default HomePage;
+
+const styles = StyleSheet.create({
+  addACity: {
+    borderWidth: 2,
+    padding: 8,
+    borderRadius: 6,
+    borderColor: Colors.dark_grey,
+  },
+  addACityText: {
+    color: Colors.dark_grey,
+    fontSize: 14,
+    fontWeight: "600",
+  },
+});

@@ -1,22 +1,26 @@
-import _Button from "./_Button";
-import _Input from "./_Input";
-import _Header from "./_Header";
-import _Divider from "./_Divider";
-import _Dropdown from "./_Dropdown";
-
-import Styles from "../styles/Styles";
-import TERMS from "../../settings/Terms";
-import { useNavigation } from "@react-navigation/native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import PhoneInput from "react-native-phone-input";
-import { KeyboardAvoidingView, Platform, Text, View } from "react-native";
-import { useRef, useState } from "react";
-import Colors from "../../settings/Colors";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { Button } from "react-native";
-import { doc, setDoc } from "firebase/firestore";
+import { useNavigation } from "@react-navigation/native";
 import { getAuth } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { useRef, useState } from "react";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  Text,
+  View,
+  Button,
+  TextInput,
+} from "react-native";
+import PhoneInput from "react-native-phone-input";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+import _Button from "./_Button";
+import _Dropdown from "./_Dropdown";
+import _Input from "./_Input";
 import { db } from "../../firebaseConfig";
+import Colors from "../../settings/Colors";
+import TERMS from "../../settings/Terms";
+import Styles from "../styles/Styles";
 
 const terms = TERMS["English"];
 
@@ -68,19 +72,21 @@ const Details = () => {
     <SafeAreaView style={Styles.page}>
       <KeyboardAvoidingView style={[Styles.suliContinues, Styles.page]}>
         <_Input
-          labelText={"First Name"}
-          borderColor={"primary1_100"}
+          labelText="First Name"
+          borderColor="primary1_100"
           style={Styles.signUpInput}
           onChangeText={setFirstName}
         />
         <_Input
-          labelText={"Last Name"}
-          borderColor={"primary1_100"}
+          labelText="Last Name"
+          borderColor="primary1_100"
           style={Styles.signUpInput}
           onChangeText={setLastName}
         />
         <View style={Styles.signUpInput}>
-          <Text style={[Styles.inputLabel]}>{"Phone Number"}</Text>
+          <Text style={[Styles.d1Box, Styles.inputLabel]}>
+            {"Phone Number"}
+          </Text>
           <View
             style={[
               Styles.d2Box,
@@ -97,6 +103,10 @@ const Details = () => {
               initialCountry="us"
               ref={phoneRef}
               onChangePhoneNumber={setPhoneNumber}
+              autoFormat
+              textProps={{
+                enterKeyHint: "done",
+              }}
             />
           </View>
         </View>
@@ -140,10 +150,6 @@ const Details = () => {
         <_Button
           text={terms["0017"]}
           action={handleSubmitDetails}
-          color={disabled ? "primary1_030" : "primary1_100"}
-          borderColor={disabled ? "light_grey" : "primary1_100"}
-          textColor="white_100"
-          underline={false}
           disabled={disabled}
         />
       </KeyboardAvoidingView>

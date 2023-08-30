@@ -1,11 +1,12 @@
 import { StyleSheet } from "react-native";
+
+import COLORS from "../../settings/Colors";
 import {
   WIDTH,
   HEIGHT,
   LOGOWIDTH,
   LOGOHEIGHT,
 } from "../../settings/Dimensions";
-import COLORS from "../../settings/Colors";
 
 const ELEMENT_WIDTH = 0.87 * WIDTH;
 const ELEMENT_HEIGHT = 0.071 * HEIGHT;
@@ -262,5 +263,11 @@ export default new StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: COLORS.gray1_100,
     alignItems: "center",
+  },
+  textButton: {
+    textDecorationLine: "underline",
+    color: COLORS.primary1_100,
+    fontSize: 16,
+    marginTop: 24,
   },
 });

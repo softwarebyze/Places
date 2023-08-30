@@ -1,13 +1,6 @@
-import _Header from "../elements/_Header";
-import TERMS from "../../settings/Terms";
-import _Input from "../elements/_Input";
-import _Divider from "../elements/_Divider";
-import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import _Button from "../elements/_Button";
-import STYLES from "../styles/Styles";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useState } from "react";
 import {
   ActivityIndicator,
   View,
@@ -16,7 +9,15 @@ import {
   Text,
   Pressable,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { StreamChat } from "stream-chat";
+
+import TERMS from "../../settings/Terms";
+import _Button from "../elements/_Button";
+import _Divider from "../elements/_Divider";
+import _Header from "../elements/_Header";
+import _Input from "../elements/_Input";
+import STYLES from "../styles/Styles";
 
 const terms = TERMS["English"];
 
@@ -70,7 +71,7 @@ const SignUpPage = () => {
         navigator.replace("Details");
       }
     } catch (error) {
-      if (error.code == "auth/email-already-in-use") {
+      if (error.code === "auth/email-already-in-use") {
         setModalVisible(true);
       }
     } finally {
@@ -106,7 +107,7 @@ const SignUpPage = () => {
         }
       />
       <_Input
-        secureTextEntry={true}
+        secureTextEntry
         labelText={terms["0007"]}
         subtextText={terms["your_password_must_be_at_least_6_characters"]}
         onFocus={() => setPasswordFocusState(true)}
@@ -128,8 +129,8 @@ const SignUpPage = () => {
         }
       />
       <_Input
-        secureTextEntry={true}
-        labelText={"Confirm Password"}
+        secureTextEntry
+        labelText="Confirm Password"
         onFocus={() => setConfirmPasswordFocusState(true)}
         onBlur={() => setConfirmPasswordFocusState(false)}
         onChangeText={setConfirmPasswordTextState}
@@ -154,42 +155,32 @@ const SignUpPage = () => {
             // else -> Details
             text={terms["0008"]}
             action={handleSignUp}
-            color={canContinue ? "primary1_100" : "primary1_030"}
-            borderColor={canContinue ? "primary1_100" : "primary1_030"}
-            textColor="white_100"
             disabled={!canContinue}
           />
           <_Divider text="or" color="gray1_100" />
           <_Button
             text={terms["0011"]}
             action={() => navigator.replace("HomeTabs")}
-            color="primary1_100"
-            borderColor="primary1_100"
-            textColor="white_100"
             style={{ marginBottom: 20 }}
           />
           <_Button
+            type="secondary"
             text={terms["0012"]}
             action={() => alert("Facebook Not Yet Implemented")}
-            color="white_100"
-            borderColor="primary1_100"
-            textColor="primary1_100"
           />
-          <_Button
-            text={"Already have an account?"}
-            action={() => navigator.replace("Login")}
-            color="white_100"
-            borderColor="white_100"
-            textColor="primary1_100"
-            underline={true}
-          />
+          <Text
+            style={STYLES.textButton}
+            onPress={() => navigator.replace("Login")}
+          >
+            {terms["already_have_an_account"]}
+          </Text>
         </>
       )}
 
       <View style={styles.centeredView}>
         <Modal
           animationType="slide"
-          transparent={true}
+          transparent
           visible={modalVisible}
           onRequestClose={() => {
             setModalVisible(!modalVisible);

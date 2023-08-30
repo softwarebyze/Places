@@ -1,43 +1,56 @@
-import { Text, View, ScrollView, Image } from "react-native";
-import { useState, useMemo, useRef } from "react";
-import _Button from "../elements/_Button";
-import Searchbar from "../elements/Searchbar";
-import NoResults from "../elements/NoResults";
-import STYLES from "../styles/Styles";
-import Colors from "../../settings/Colors";
-import { interests } from "../../data.js";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheet from "@gorhom/bottom-sheet";
-import SheetHeader from "../elements/SheetHeader";
-import SheetBody from "../elements/SheetBody";
+import { useRoute, useNavigation } from "@react-navigation/native";
+import { Image } from "expo-image";
+import { useState, useMemo, useRef } from "react";
+import { Text, TouchableOpacity, ScrollView, View } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-const InterestListItem = ({ interest }) => {
+import Colors from "../../settings/Colors";
+import NoResults from "../elements/NoResults";
+import Searchbar from "../elements/Searchbar";
+import SheetBody from "../elements/SheetBody";
+import SheetHeader from "../elements/SheetHeader";
+import _Button from "../elements/_Button";
+import STYLES from "../styles/Styles";
+
+const InterestListItem = ({ channel }) => {
+  const navigator = useNavigation();
   return (
-    <View style={STYLES.catPageGrid}>
+    <TouchableOpacity
+      style={STYLES.catPageGrid}
+      onPress={() =>
+        navigator.navigate("ChannelInfo", { channelInfo: channel })
+      }
+    >
       <View style={STYLES.catPageInfo}>
         <Image
-          source={{ uri: interest.image }}
+          source={{ uri: channel.data.image }}
           style={{ width: 32, height: 32 }}
         />
         <View style={STYLES.catPageMemberInfo}>
-          <Text style={STYLES.catPageLocationText}>
-            {`${interest.name}/New York City`}
-          </Text>
+          <Text
+            style={STYLES.catPageLocationText}
+          >{`${channel.data.name}`}</Text>
           <Text style={STYLES.catPageMembersText}>
-            {`${interest.members} members`}
+            {`${channel.data.member_count || 0} members`}
           </Text>
         </View>
       </View>
       <View style={STYLES.catPageArrow}>
-        <Image source={require("../../assets/interest_images/arrow.png")} />
+        <Image
+          style={{ width: 24, height: 24 }}
+          source={require("../../assets/interest_images/arrow.png")}
+        />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 const CategoryPage = () => {
+  const route = useRoute();
+  const { channels } = route.params;
   const [search, setSearch] = useState("");
-  const filteredInterests = interests.filter((interest) =>
-    interest.name.includes(search.toLowerCase()),
+  const filteredChannels = channels.filter((channel) =>
+    channel.data.name.toLowerCase().includes(search.toLowerCase()),
   );
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ["55%"], []);
@@ -55,13 +68,13 @@ const CategoryPage = () => {
             width: "100%",
           }}
         >
-          {filteredInterests.map((interest, index) => (
-            <InterestListItem interest={interest} key={index} />
+          {filteredChannels.map((channel, index) => (
+            <InterestListItem channel={channel} key={index} />
           ))}
           <View
             style={{ marginTop: 27, marginBottom: 24, alignItems: "center" }}
           >
-            {!filteredInterests.length && <NoResults />}
+            {!filteredChannels.length && <NoResults />}
             <Text
               style={{
                 color: "grey",
@@ -75,11 +88,7 @@ const CategoryPage = () => {
             <_Button
               action={() => setShowPopup(true)}
               style={{ marginTop: 23 }}
-              text={"Request a New Interest"}
-              color={"primary1_100"}
-              borderColor={"light_grey"}
-              textColor="white_100"
-              underline={false}
+              text="Request a New Interest"
             />
           </View>
         </ScrollView>
@@ -87,7 +96,7 @@ const CategoryPage = () => {
           <BottomSheet
             ref={bottomSheetRef}
             snapPoints={snapPoints}
-            enablePanDownToClose={true}
+            enablePanDownToClose
             onClose={handleClose}
           >
             <View style={{ marginHorizontal: 30 }}>
