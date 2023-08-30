@@ -6,7 +6,7 @@ import Styles from "../styles/Styles";
 
 const SheetHeader = (props) => (
   <View style={Styles.sheetHeader}>
-    <Text style={Styles.suliHeaderText}>Request New Interest</Text>
+    <Text style={Styles.suliHeaderText}>{props.sheetHeaderText}</Text>
     <TouchableOpacity onPress={props.handleClose}>
       <Octicons name="x-circle-fill" size={24} color={Colors.orange} />
     </TouchableOpacity>

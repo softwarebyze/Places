@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { View, Image, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import MapView, { Marker } from "react-native-maps";
+import CreateEventSheet from "../elements/CreateEventSheet";
 
 import { db } from "../../firebaseConfig";
 import Colors from "../../settings/Colors";
@@ -268,16 +269,10 @@ const MapsPage = () => {
         </BottomSheet>
       )}
       {showCreateEventSheet && (
-        <BottomSheet
-          ref={createEventBottomSheetRef}
-          snapPoints={["62%"]}
-          enablePanDownToClose
+        <CreateEventSheet
           style={{ flex: 1 }}
           onChange={onCreateEventBottomSheetChange}
-        >
-          <Text>Create event sheet</Text>
-          <GooglePlacesInput />
-        </BottomSheet>
+        />
       )}
     </View>
   );
