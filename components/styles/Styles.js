@@ -256,7 +256,7 @@ export default new StyleSheet.create({
     width: ELEMENT_WIDTH,
   },
   sheetHeader: {
-    height: 71,
+    height: 50,
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",

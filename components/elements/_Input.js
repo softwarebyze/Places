@@ -9,6 +9,8 @@ const _Input = (props) => {
       <Text style={[STYLES.inputLabel]}>{props.labelText}</Text>
       <TextInput
         secureTextEntry={props.secureTextEntry}
+        placeholder={props.placeholder}
+        placeholderTextColor={COLORS[props.placeholderTextColor]}
         onFocus={props.onFocus}
         onBlur={props.onBlur}
         onChangeText={props.onChangeText}
