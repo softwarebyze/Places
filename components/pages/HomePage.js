@@ -201,10 +201,30 @@ const PopularChannel = ({ channel }) => {
 
 const PopularDropdown = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
+  const [channelList, setChannelList] = useState([]);
 
   const toggleDropdown = () => {
     setIsCollapsed(!isCollapsed);
   };
+
+  useEffect(() => {
+    const fetchChannels = async () => {
+      try {
+        const filters = {
+          type: "team",
+          members: { $nin: [auth.currentUser.uid] },
+          location: { $in: ["Herzilya, Israel"] },
+        };
+        const sort = { member_count: -1 };
+        const options = { limit: 3, watch: true, state: true };
+        const channels = await client.queryChannels(filters, sort, options);
+        setChannelList(channels);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchChannels();
+  }, []);
 
   const navigation = useNavigation();
   const auth = getAuth();
@@ -227,9 +247,10 @@ const PopularDropdown = () => {
         <View style={{ flex: 1 }}>
           <ChannelList
             // channelRenderFilterFn={customChannelFilterFunction}
-            filters={filters}
-            sort={sort}
-            options={options}
+            // options={options}
+            // filters={filters}
+            // sort={sort}
+            additionalFlatListProps={{ data: channelList }}
             onSelect={(channel) => {
               navigation.navigate("PlacesChat", { channel });
             }}
