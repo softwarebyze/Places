@@ -19,14 +19,16 @@ const fetchUsersCities = async () => {
   }
 };
 
-const addUserCity = async (city, usersCities) => {
+const addUserCity = async (city) => {
   try {
     const auth = getAuth();
     const userId = auth.currentUser?.uid;
     const userRef = doc(db, "users", userId);
     if (!city) throw new Error("No city selected");
-    if (usersCities.find((userCity) => userCity.city === city))
-      throw new Error("City already added");
+    const userSnap = await getDoc(userRef);
+    if (!userSnap.exists()) throw new Error("No user found");
+    const usersCities = userSnap.data().cities || [userSnap.data().location];
+    if (usersCities.includes(city)) throw new Error("City already added");
     await updateDoc(userRef, {
       cities: arrayUnion(city),
     });

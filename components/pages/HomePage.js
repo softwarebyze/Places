@@ -124,7 +124,15 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    fetchUsersCities().then((cities) => setCities(cities));
+    const fetchAndSetUsersCities = async () => {
+      try {
+        const cities = await fetchUsersCities();
+        setCities(cities);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchAndSetUsersCities();
   }, []);
 
   return (
@@ -141,8 +149,8 @@ const HomePage = () => {
       >
         <Text style={Styles.groupLabelText}>Your Places</Text>
 
-        {cities.map(({ city, id }) => (
-          <Dropdown heading={city} key={id} />
+        {cities.map((city) => (
+          <Dropdown heading={city} key={city} />
         ))}
 
         <TouchableOpacity

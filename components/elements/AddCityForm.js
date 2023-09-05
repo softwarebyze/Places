@@ -13,7 +13,7 @@ const AddCityForm = () => {
 
   const handleAddCity = async () => {
     try {
-      addUserCity(city, usersCities);
+      await addUserCity(city);
       setCity(null);
       const cities = await fetchUsersCities();
       setUsersCities(cities);
@@ -23,7 +23,15 @@ const AddCityForm = () => {
   };
 
   useEffect(() => {
-    fetchUsersCities().then((cities) => setUsersCities(cities));
+    const fetchAndSetUsersCities = async () => {
+      try {
+        const cities = await fetchUsersCities();
+        setUsersCities(cities);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchAndSetUsersCities();
   }, []);
 
   return (
