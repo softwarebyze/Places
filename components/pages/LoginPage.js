@@ -54,11 +54,6 @@ const LoginPage = () => {
         setLoading(false);
         return;
       }
-      const userId = auth?.currentUser?.uid;
-      const res = await fetch(`https://auth-token.onrender.com/${userId}`);
-      const { token } = await res.json();
-      if (!client?.user) await client.connectUser({ id: userId }, token);
-
       return user;
     } catch (error) {
       console.log("error detected!");
@@ -105,6 +100,15 @@ const LoginPage = () => {
       return navigator.replace("ChooseInterests", {
         location: userData.location,
       });
+    const auth = getAuth();
+    const userId = auth?.currentUser?.uid;
+    const res = await fetch(`https://auth-token.onrender.com/${userId}`);
+    const { token } = await res.json();
+    if (!client?.user)
+      await client.connectUser(
+        { id: userId, name: `${userData.first_name} ${userData.last_name}` },
+        token,
+      );
     return navigator.replace("HomeTabs");
   };
 

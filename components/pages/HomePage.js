@@ -6,8 +6,9 @@ import { getAuth } from "firebase/auth";
 import { useEffect, useRef, useState } from "react";
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import Collapsible from "react-native-collapsible";
-import { StreamChat } from "stream-chat";
 import { ChannelList } from "stream-chat-expo";
+
+import { fetchUsersCities } from "../../firebase/users";
 
 import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
@@ -15,19 +16,6 @@ import AddCityForm from "../elements/AddCityForm";
 import PlacesHeader from "../elements/PlacesHeader";
 import Styles from "../styles/Styles";
 const terms = TERMS["English"];
-
-const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
-
-const groupChannelsByLocation = (channels) => {
-  return channels.reduce((acc, channel) => {
-    const location = channel.data.location;
-    if (!acc[location]) {
-      acc[location] = [];
-    }
-    acc[location].push(channel);
-    return acc;
-  }, {});
-};
 
 const DropdownHeader = (props) => (
   <TouchableOpacity
@@ -264,8 +252,7 @@ const PopularDropdown = () => {
 };
 
 const HomePage = () => {
-  const auth = getAuth();
-  const [channelList, setChannelList] = useState([]);
+  const [cities, setCities] = useState([]);
   const [showAddCitySheet, setShowAddCitySheet] = useState(false);
   const addCitySheetRef = useRef(null);
 
@@ -276,25 +263,17 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    const fetchChannels = async () => {
+    const fetchAndSetUsersCities = async () => {
       try {
-        const channels = await client.queryChannels(
-          {
-            type: "team",
-            members: { $in: [auth.currentUser.uid] },
-          },
-          {},
-          { limit: 30 },
-        );
-        setChannelList(channels);
+        const cities = await fetchUsersCities();
+        setCities(cities);
       } catch (error) {
         console.error(error);
       }
     };
-    fetchChannels();
-  }, []);
+    fetchAndSetUsersCities();
+  }, [cities]);
 
-  const channelsGroupedByLocation = groupChannelsByLocation(channelList);
   return (
     <>
       <PlacesHeader />
@@ -310,13 +289,11 @@ const HomePage = () => {
         ]}
       >
         <Text style={Styles.groupLabelText}>Your Places</Text>
-        {Object.entries(channelsGroupedByLocation).map(
-          ([location, channels]) => {
-            return (
-              <Dropdown heading={location} channels={channels} key={location} />
-            );
-          },
-        )}
+
+        {cities.map((city) => (
+          <Dropdown heading={city} key={city} />
+        ))}
+
         <TouchableOpacity
           onPress={() => setShowAddCitySheet(true)}
           style={styles.addACity}
