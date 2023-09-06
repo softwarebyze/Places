@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import Collapsible from "react-native-collapsible";
 import { ChannelList } from "stream-chat-expo";
+import { StreamChat } from "stream-chat";
 
 import { fetchUsersCities } from "../../firebase/users";
 
@@ -16,6 +17,8 @@ import AddCityForm from "../elements/AddCityForm";
 import PlacesHeader from "../elements/PlacesHeader";
 import Styles from "../styles/Styles";
 const terms = TERMS["English"];
+
+const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
 
 const DropdownHeader = (props) => (
   <TouchableOpacity
@@ -190,18 +193,31 @@ const PopularChannel = ({ channel }) => {
 const PopularDropdown = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [channelList, setChannelList] = useState([]);
-
+  const [cities, setCities] = useState([]);
   const toggleDropdown = () => {
     setIsCollapsed(!isCollapsed);
   };
 
   useEffect(() => {
+    const fetchAndSetUsersCities = async () => {
+      try {
+        const cities = await fetchUsersCities();
+        setCities(cities);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchAndSetUsersCities();
+  }, []);
+
+  useEffect(() => {
     const fetchChannels = async () => {
       try {
+        if (!cities.length) return;
         const filters = {
           type: "team",
           members: { $nin: [auth.currentUser.uid] },
-          location: { $in: ["Herzilya, Israel"] },
+          location: { $in: cities },
         };
         const sort = { member_count: -1 };
         const options = { limit: 3, watch: true, state: true };
@@ -212,18 +228,10 @@ const PopularDropdown = () => {
       }
     };
     fetchChannels();
-  }, []);
+  }, [cities]);
 
   const navigation = useNavigation();
   const auth = getAuth();
-
-  const filters = {
-    type: "team",
-    members: { $nin: [auth.currentUser.uid] },
-    location: { $in: ["Herzilya, Israel"] },
-  };
-  const sort = { member_count: -1 };
-  const options = { limit: 3 };
 
   return (
     <View style={{ width: "100%", marginBottom: 16 }}>
@@ -300,7 +308,7 @@ const HomePage = () => {
         >
           <Text style={styles.addACityText}>{`+ ${terms["add_a_city"]}`}</Text>
         </TouchableOpacity>
-        <PopularDropdown />
+        <PopularDropdown cities={cities} />
         {showAddCitySheet && (
           <BottomSheet
             ref={addCitySheetRef}
