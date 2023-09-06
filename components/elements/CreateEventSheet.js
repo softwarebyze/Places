@@ -9,9 +9,6 @@ import Styles from "../styles/Styles";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import Colors from "../../settings/Colors";
 import { AntDesign } from "@expo/vector-icons";
-import { StreamChat } from "stream-chat";
-
-const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
 
 const CreateEventSheet = () => {
   const createEventBottomSheetRef = useRef(null);
@@ -21,7 +18,6 @@ const CreateEventSheet = () => {
   const [timeOfEvent, setTimeOfEvent] = useState(new Date());
   const [showDate, setShowDate] = useState(false);
   const [showTime, setShowTime] = useState(false);
-  const tagList = [];
 
   const GooglePlacesInput = () => {
     return (
@@ -38,24 +34,6 @@ const CreateEventSheet = () => {
       />
     );
   };
-
-  useEffect(() => {
-    const fetchTags = async () => {
-      for (let i = 0; i < 3; i++) {
-        const tags = await client.queryChannels(
-          {
-            type: "team",
-          },
-          {},
-          { limit: 30, offset: 30 * i },
-        );
-        tagList.push(...tags);
-      }
-      const allTags = tagList.map((c) => c.data.interest);
-      console.log(allTags);
-    };
-    fetchTags();
-  }, []);
 
   const onChangeDateOfEvent = (eventDate, selectedDate) => {
     const currentDate = selectedDate || dateOfEvent;
@@ -109,7 +87,7 @@ const CreateEventSheet = () => {
                       justifyContent: "flex-start",
                       alignItems: "center",
                       padding: 12,
-                      height: 40,
+                      height: 50,
                       width: 160,
                     },
                   ]}
@@ -157,7 +135,7 @@ const CreateEventSheet = () => {
                     justifyContent: "flex-start",
                     alignItems: "center",
                     padding: 12,
-                    height: 40,
+                    height: 50,
                     width: 160,
                   },
                 ]}
@@ -191,23 +169,7 @@ const CreateEventSheet = () => {
             </View>
           </View>
         </View>
-        <View style={{ flexDirection: "row" }}>
-          <_Input
-            labelText="Tags"
-            borderColor="primary1_100"
-            placeholder="Tags"
-            placeholderTextColor="primary1_030"
-          />
-          <Button
-            title="Add"
-            style={{
-              borderWidth: 1,
-              borderColor: Colors.secondary_100,
-              color: Colors.secondary_100,
-              justifyContent: "center",
-            }}
-          />
-        </View>
+
         <_Input
           labelText="Description"
           borderColor="primary1_100"
@@ -216,9 +178,12 @@ const CreateEventSheet = () => {
           subtextText="0/100"
           subtextColor="primary1_030"
           subtextAlignSelf="flex-end"
+          style={{ marginTop: 30 }}
         />
-        <_Button text="Create Event" />
-        <_Button text="Cancel" type="secondary" style={{ marginTop: 15 }} />
+        <View style={{ marginTop: 60 }}>
+          <_Button text="Create Event" />
+          <_Button text="Cancel" type="secondary" style={{ marginTop: 15 }} />
+        </View>
       </View>
     </BottomSheet>
   );
