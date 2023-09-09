@@ -2,29 +2,14 @@ import { AntDesign, EvilIcons, Feather, Ionicons } from "@expo/vector-icons";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { format } from "date-fns";
 import { collection, getDocs } from "firebase/firestore";
+
 import { useEffect, useRef, useState } from "react";
 import { View, Image, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import MapView, { Marker } from "react-native-maps";
+
 import { db } from "../../firebaseConfig";
 import Colors from "../../settings/Colors";
 import CreateEventSheet from "../elements/CreateEventSheet";
-
-const GooglePlacesInput = () => {
-  return (
-    <GooglePlacesAutocomplete
-      placeholder="Search"
-      onPress={(data, details = null) => {
-        // 'details' is provided when fetchDetails = true
-        console.log(data, details);
-      }}
-      query={{
-        key: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
-        language: "en",
-      }}
-    />
-  );
-};
 
 const initialRegion = {
   latitude: 32.0853,
