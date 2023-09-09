@@ -9,7 +9,6 @@ import {
   Text,
   View,
   Button,
-  TextInput,
 } from "react-native";
 import PhoneInput from "react-native-phone-input";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -84,9 +83,7 @@ const Details = () => {
           onChangeText={setLastName}
         />
         <View style={Styles.signUpInput}>
-          <Text style={[Styles.d1Box, Styles.inputLabel]}>
-            {"Phone Number"}
-          </Text>
+          <Text style={[Styles.d1Box, Styles.inputLabel]}>"Phone Number"</Text>
           <View
             style={[
               Styles.d2Box,
@@ -117,7 +114,7 @@ const Details = () => {
           onSelect={setGender}
         />
         <View style={Styles.signUpInput}>
-          <Text style={[Styles.inputLabel]}>{"Date of Birth"}</Text>
+          <Text style={[Styles.inputLabel]}>"Date of Birth"</Text>
           <View
             style={[
               Styles.d2Box,

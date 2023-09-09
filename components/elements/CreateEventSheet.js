@@ -1,14 +1,13 @@
+import { AntDesign } from "@expo/vector-icons";
 import BottomSheet from "@gorhom/bottom-sheet";
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Button, View, Text } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import React, { useMemo, useRef, useState } from "react";
+import { Button, View, Text, Platform } from "react-native";
 import SheetHeader from "./SheetHeader";
 import _Input from "./_Input";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import _Button from "./_Button";
 import Styles from "../styles/Styles";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import Colors from "../../settings/Colors";
-import { AntDesign } from "@expo/vector-icons";
 
 const CreateEventSheet = () => {
   const createEventBottomSheetRef = useRef(null);
@@ -18,22 +17,6 @@ const CreateEventSheet = () => {
   const [timeOfEvent, setTimeOfEvent] = useState(new Date());
   const [showDate, setShowDate] = useState(false);
   const [showTime, setShowTime] = useState(false);
-
-  const GooglePlacesInput = () => {
-    return (
-      <GooglePlacesAutocomplete
-        placeholder="Search"
-        onPress={(data, details = null) => {
-          // 'details' is provided when fetchDetails = true
-          console.log(data, details);
-        }}
-        query={{
-          key: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
-          language: "en",
-        }}
-      />
-    );
-  };
 
   const onChangeDateOfEvent = (eventDate, selectedDate) => {
     const currentDate = selectedDate || dateOfEvent;
@@ -75,7 +58,7 @@ const CreateEventSheet = () => {
           <View>
             <View>
               <View style={Styles.signUpInput}>
-                <Text style={[Styles.inputLabel]}>{"Date"}</Text>
+                <Text style={[Styles.inputLabel]}>"Date"</Text>
                 <View
                   style={[
                     Styles.d2Box,
@@ -106,7 +89,7 @@ const CreateEventSheet = () => {
                       value={dateOfEvent}
                       onChange={onChangeDateOfEvent}
                     />
-                  ) : showDatePicker ? (
+                  ) : showDate ? (
                     <DateTimePicker
                       value={dateOfEvent}
                       onChange={onChangeDateOfEvent}
@@ -123,7 +106,7 @@ const CreateEventSheet = () => {
           </View>
           <View>
             <View style={Styles.signUpInput}>
-              <Text style={[Styles.inputLabel]}>{"Time"}</Text>
+              <Text style={[Styles.inputLabel]}>"Time"</Text>
               <View
                 style={[
                   Styles.d2Box,
@@ -155,7 +138,7 @@ const CreateEventSheet = () => {
                     value={timeOfEvent}
                     onChange={onChangeTimeOfEvent}
                   />
-                ) : showDatePicker ? (
+                ) : showTime ? (
                   <DateTimePicker
                     mode="time"
                     value={timeOfEvent}
