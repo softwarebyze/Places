@@ -151,11 +151,13 @@ const CreateEventSheet = () => {
           where the date picker won't hide */}
                 {Platform.OS === "ios" ? (
                   <DateTimePicker
+                    mode="time"
                     value={timeOfEvent}
                     onChange={onChangeTimeOfEvent}
                   />
                 ) : showDatePicker ? (
                   <DateTimePicker
+                    mode="time"
                     value={timeOfEvent}
                     onChange={onChangeTimeOfEvent}
                   />

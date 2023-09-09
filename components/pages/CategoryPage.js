@@ -101,7 +101,10 @@ const CategoryPage = () => {
           >
             <View style={{ marginHorizontal: 30 }}>
               <View style={STYLES.sheetHeader}>
-                <SheetHeader handleClose={handleClose} />
+                <SheetHeader
+                  handleClose={handleClose}
+                  sheetHeaderText="Request New Interest"
+                />
               </View>
               <SheetBody search={search} />
             </View>
