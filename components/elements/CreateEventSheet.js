@@ -1,15 +1,14 @@
 import { AntDesign } from "@expo/vector-icons";
 import BottomSheet from "@gorhom/bottom-sheet";
 import DateTimePicker from "@react-native-community/datetimepicker";
-
 import React, { useMemo, useRef, useState } from "react";
 import { Button, View, Text, Platform } from "react-native";
 
 import SheetHeader from "./SheetHeader";
 import _Button from "./_Button";
 import _Input from "./_Input";
-import Styles from "../styles/Styles";
 import Colors from "../../settings/Colors";
+import Styles from "../styles/Styles";
 
 const CreateEventSheet = () => {
   const createEventBottomSheetRef = useRef(null);
