@@ -111,7 +111,6 @@ export default new StyleSheet.create({
   inputSubtext: {
     fontSize: 13,
     fontWeight: "400",
-    lineHeight: 10.8,
   },
   button: {
     flexDirection: "row",
