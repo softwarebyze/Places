@@ -256,10 +256,7 @@ const MapsPage = () => {
         </BottomSheet>
       )}
       {showCreateEventSheet && (
-        <CreateEventSheet
-          style={{ flex: 1 }}
-          onChange={onCreateEventBottomSheetChange}
-        />
+        <CreateEventSheet onChange={onCreateEventBottomSheetChange} />
       )}
     </View>
   );
