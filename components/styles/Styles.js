@@ -83,11 +83,6 @@ export default new StyleSheet.create({
     fontWeight: "200",
     lineHeight: 28.8,
   },
-  suliMain: {
-    backgroundColor: COLORS.white_100,
-    flexDirection: "column",
-    alignItems: "center",
-  },
   suliInputs: {
     backgroundColor: COLORS.white_100,
     flexDirection: "column",
