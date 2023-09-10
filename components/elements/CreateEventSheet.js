@@ -10,7 +10,7 @@ import _Input from "./_Input";
 import Colors from "../../settings/Colors";
 import Styles from "../styles/Styles";
 
-const CreateEventSheet = () => {
+const CreateEventSheet = (props) => {
   const createEventBottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ["96%"], []);
   const headerText = "Details";
@@ -34,6 +34,8 @@ const CreateEventSheet = () => {
       ref={createEventBottomSheetRef}
       snapPoints={snapPoints}
       enablePanDownToClose
+      onClose={props.onClose}
+      onChange={props.onChange}
     >
       <View style={[Styles.page, { gap: 15 }]}>
         <SheetHeader sheetHeaderText={headerText} />

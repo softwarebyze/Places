@@ -209,6 +209,10 @@ const MapsPage = () => {
     }
   };
 
+  const handleClose = () => {
+    setShowCreateEventSheet(false);
+  };
+
   return (
     <View style={styles.container}>
       <MapView style={styles.map} initialRegion={initialRegion}>
@@ -234,6 +238,7 @@ const MapsPage = () => {
           enablePanDownToClose
           style={{ flex: 1 }}
           onChange={onEventDetailsBottomSheetChange}
+          onClose={handleClose}
         >
           <View style={styles.markerInfoContainer}>
             <SlideUpPanel
