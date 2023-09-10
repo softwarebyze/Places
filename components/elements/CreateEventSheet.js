@@ -12,7 +12,7 @@ import Styles from "../styles/Styles";
 
 const CreateEventSheet = () => {
   const createEventBottomSheetRef = useRef(null);
-  const snapPoints = useMemo(() => ["100%"], []);
+  const snapPoints = useMemo(() => ["96%"], []);
   const headerText = "Details";
   const [dateOfEvent, setDateOfEvent] = useState(new Date());
   const [timeOfEvent, setTimeOfEvent] = useState(new Date());
@@ -35,7 +35,7 @@ const CreateEventSheet = () => {
       snapPoints={snapPoints}
       enablePanDownToClose
     >
-      <View style={Styles.page}>
+      <View style={[Styles.page, { gap: 15 }]}>
         <SheetHeader sheetHeaderText={headerText} />
 
         <_Input
@@ -102,52 +102,50 @@ const CreateEventSheet = () => {
             </View>
           </View>
           <View>
-            <View>
-              <Text style={[Styles.inputLabel]}>Time</Text>
-              <View
-                style={[
-                  Styles.d2Box,
-                  {
-                    flexDirection: "row",
-                    borderRadius: 10,
-                    fontSize: 17,
-                    borderColor: Colors.primary1_100,
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                    padding: 12,
-                    height: 50,
-                    width: 160,
-                  },
-                ]}
-              >
-                <AntDesign
-                  name="clockcircleo"
-                  size={18}
-                  style={{
-                    color: Colors.primary1_100,
-                  }}
-                />
-                {/* Added platform code because there's a bug in Android 
+            <Text style={[Styles.inputLabel]}>Time</Text>
+            <View
+              style={[
+                Styles.d2Box,
+                {
+                  flexDirection: "row",
+                  borderRadius: 10,
+                  fontSize: 17,
+                  borderColor: Colors.primary1_100,
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                  padding: 12,
+                  height: 50,
+                  width: 160,
+                },
+              ]}
+            >
+              <AntDesign
+                name="clockcircleo"
+                size={18}
+                style={{
+                  color: Colors.primary1_100,
+                }}
+              />
+              {/* Added platform code because there's a bug in Android 
           where the date picker won't hide */}
-                {Platform.OS === "ios" ? (
-                  <DateTimePicker
-                    mode="time"
-                    value={timeOfEvent}
-                    onChange={onChangeTimeOfEvent}
-                  />
-                ) : showTime ? (
-                  <DateTimePicker
-                    mode="time"
-                    value={timeOfEvent}
-                    onChange={onChangeTimeOfEvent}
-                  />
-                ) : (
-                  <Button
-                    title={timeOfEvent.toLocaleDateString()}
-                    onPress={() => setShowTime(true)}
-                  />
-                )}
-              </View>
+              {Platform.OS === "ios" ? (
+                <DateTimePicker
+                  mode="time"
+                  value={timeOfEvent}
+                  onChange={onChangeTimeOfEvent}
+                />
+              ) : showTime ? (
+                <DateTimePicker
+                  mode="time"
+                  value={timeOfEvent}
+                  onChange={onChangeTimeOfEvent}
+                />
+              ) : (
+                <Button
+                  title={timeOfEvent.toLocaleDateString()}
+                  onPress={() => setShowTime(true)}
+                />
+              )}
             </View>
           </View>
         </View>
@@ -160,10 +158,9 @@ const CreateEventSheet = () => {
           subtextText="0/100"
           subtextColor="primary1_030"
           subtextAlignSelf="flex-end"
-          style={{ marginTop: 30 }}
         />
         <_Button text="Create Event" />
-        <_Button text="Cancel" type="secondary" style={{ marginTop: 15 }} />
+        <_Button text="Cancel" type="secondary" />
       </View>
     </BottomSheet>
   );
