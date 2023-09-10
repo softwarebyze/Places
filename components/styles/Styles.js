@@ -77,18 +77,6 @@ export default new StyleSheet.create({
     fontWeight: "700",
     lineHeight: 28.8,
   },
-  temp_suliX: {
-    color: COLORS.secondary_100,
-    fontSize: 24,
-    fontWeight: "200",
-    lineHeight: 28.8,
-  },
-  suliInputs: {
-    backgroundColor: COLORS.white_100,
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "space-evenly",
-  },
   suliContinues: {
     width: WIDTH,
     backgroundColor: COLORS.white_100,
@@ -144,9 +132,6 @@ export default new StyleSheet.create({
   whiteText: {
     color: COLORS.white_100,
   },
-  categoryFullPage: {},
-  categoryPage: {},
-  categoryGrid: {},
   category: {
     alignItems: "center",
     justifyContent: "center",
