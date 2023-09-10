@@ -73,16 +73,14 @@ const Details = () => {
         <_Input
           labelText="First Name"
           borderColor="primary1_100"
-          style={Styles.signUpInput}
           onChangeText={setFirstName}
         />
         <_Input
           labelText="Last Name"
           borderColor="primary1_100"
-          style={Styles.signUpInput}
           onChangeText={setLastName}
         />
-        <View style={Styles.signUpInput}>
+        <View>
           <Text style={[Styles.d1Box, Styles.inputLabel]}>"Phone Number"</Text>
           <View
             style={[
@@ -113,7 +111,7 @@ const Details = () => {
           labelText="Gender"
           onSelect={setGender}
         />
-        <View style={Styles.signUpInput}>
+        <View>
           <Text style={[Styles.inputLabel]}>"Date of Birth"</Text>
           <View
             style={[

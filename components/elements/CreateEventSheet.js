@@ -57,56 +57,52 @@ const CreateEventSheet = () => {
           }}
         >
           <View>
-            <View>
-              <View style={Styles.signUpInput}>
-                <Text style={[Styles.inputLabel]}>Date</Text>
-                <View
-                  style={[
-                    Styles.d2Box,
-                    {
-                      flexDirection: "row",
-                      borderRadius: 10,
-                      fontSize: 17,
-                      borderColor: Colors.primary1_100,
-                      justifyContent: "flex-start",
-                      alignItems: "center",
-                      padding: 12,
-                      height: 50,
-                      width: 160,
-                    },
-                  ]}
-                >
-                  <AntDesign
-                    name="calendar"
-                    size={18}
-                    style={{
-                      color: Colors.primary1_100,
-                    }}
-                  />
-                  {/* Added platform code because there's a bug in Android 
+            <Text style={[Styles.inputLabel]}>Date</Text>
+            <View
+              style={[
+                Styles.d2Box,
+                {
+                  flexDirection: "row",
+                  borderRadius: 10,
+                  fontSize: 17,
+                  borderColor: Colors.primary1_100,
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                  padding: 12,
+                  height: 50,
+                  width: 160,
+                },
+              ]}
+            >
+              <AntDesign
+                name="calendar"
+                size={18}
+                style={{
+                  color: Colors.primary1_100,
+                }}
+              />
+              {/* Added platform code because there's a bug in Android 
           where the date picker won't hide */}
-                  {Platform.OS === "ios" ? (
-                    <DateTimePicker
-                      value={dateOfEvent}
-                      onChange={onChangeDateOfEvent}
-                    />
-                  ) : showDate ? (
-                    <DateTimePicker
-                      value={dateOfEvent}
-                      onChange={onChangeDateOfEvent}
-                    />
-                  ) : (
-                    <Button
-                      title={dateOfEvent.toLocaleDateString()}
-                      onPress={() => setShowDate(true)}
-                    />
-                  )}
-                </View>
-              </View>
+              {Platform.OS === "ios" ? (
+                <DateTimePicker
+                  value={dateOfEvent}
+                  onChange={onChangeDateOfEvent}
+                />
+              ) : showDate ? (
+                <DateTimePicker
+                  value={dateOfEvent}
+                  onChange={onChangeDateOfEvent}
+                />
+              ) : (
+                <Button
+                  title={dateOfEvent.toLocaleDateString()}
+                  onPress={() => setShowDate(true)}
+                />
+              )}
             </View>
           </View>
           <View>
-            <View style={Styles.signUpInput}>
+            <View>
               <Text style={[Styles.inputLabel]}>Time</Text>
               <View
                 style={[
@@ -166,10 +162,8 @@ const CreateEventSheet = () => {
           subtextAlignSelf="flex-end"
           style={{ marginTop: 30 }}
         />
-        <View style={{ marginTop: 60 }}>
-          <_Button text="Create Event" />
-          <_Button text="Cancel" type="secondary" style={{ marginTop: 15 }} />
-        </View>
+        <_Button text="Create Event" />
+        <_Button text="Cancel" type="secondary" style={{ marginTop: 15 }} />
       </View>
     </BottomSheet>
   );
