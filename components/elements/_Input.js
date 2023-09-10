@@ -25,16 +25,18 @@ const _Input = (props) => {
           },
         ]}
       />
-      <Text
-        style={[
-          STYLES.inputSubtext,
-          {
-            color: COLORS[props.subtextColor],
-          },
-        ]}
-      >
-        {props.subtextText}
-      </Text>
+      {props.subtextText && (
+        <Text
+          style={[
+            STYLES.inputSubtext,
+            {
+              color: COLORS[props.subtextColor],
+            },
+          ]}
+        >
+          {props.subtextText}
+        </Text>
+      )}
     </View>
   );
 };
