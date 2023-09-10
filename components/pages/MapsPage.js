@@ -2,7 +2,6 @@ import { AntDesign, EvilIcons, Feather, Ionicons } from "@expo/vector-icons";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { format } from "date-fns";
 import { collection, getDocs } from "firebase/firestore";
-
 import { useEffect, useRef, useState } from "react";
 import { View, Image, StyleSheet, Text, TouchableOpacity } from "react-native";
 import MapView, { Marker } from "react-native-maps";
