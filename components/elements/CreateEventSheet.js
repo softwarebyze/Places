@@ -59,7 +59,7 @@ const CreateEventSheet = () => {
           <View>
             <View>
               <View style={Styles.signUpInput}>
-                <Text style={[Styles.inputLabel]}>"Date"</Text>
+                <Text style={[Styles.inputLabel]}>Date</Text>
                 <View
                   style={[
                     Styles.d2Box,
@@ -107,7 +107,7 @@ const CreateEventSheet = () => {
           </View>
           <View>
             <View style={Styles.signUpInput}>
-              <Text style={[Styles.inputLabel]}>"Time"</Text>
+              <Text style={[Styles.inputLabel]}>Time</Text>
               <View
                 style={[
                   Styles.d2Box,
