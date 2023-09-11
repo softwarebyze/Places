@@ -44,7 +44,6 @@ export default new StyleSheet.create({
     fontSize: 18,
     color: "#000",
     fontWeight: "600",
-    marginVertical: 16,
   },
   sloganText: {
     fontStyle: "normal",
@@ -124,10 +123,6 @@ export default new StyleSheet.create({
   },
   startButton: {
     marginBottom: 0.02 * HEIGHT,
-  },
-  blueDropdownHeader: {
-    backgroundColor: COLORS.primary1_100,
-    borderWidth: 0,
   },
   whiteText: {
     color: COLORS.white_100,
