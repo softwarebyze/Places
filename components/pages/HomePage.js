@@ -12,11 +12,9 @@ import {
   FlatList,
 } from "react-native";
 import Collapsible from "react-native-collapsible";
-import { ChannelList } from "stream-chat-expo";
 import { StreamChat } from "stream-chat";
-
+import { ChannelList } from "stream-chat-expo";
 import { fetchUsersCities } from "../../firebase/users";
-
 import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
 import AddCityForm from "../elements/AddCityForm";
