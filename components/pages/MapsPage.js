@@ -163,6 +163,7 @@ const MapsPage = () => {
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [showCreateEventSheet, setShowCreateEventSheet] = useState(false);
   const eventDetailsBottomSheetRef = useRef(null);
+  const createEventBottomSheetRef = useRef(null);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -209,8 +210,12 @@ const MapsPage = () => {
     }
   };
 
-  const handleClose = () => {
+  const handleCloseCreateEvent = () => {
     setShowCreateEventSheet(false);
+  };
+
+  const handleCloseEventDetails = () => {
+    setSelectedMarker(null);
   };
 
   return (
@@ -238,7 +243,7 @@ const MapsPage = () => {
           enablePanDownToClose
           style={{ flex: 1 }}
           onChange={onEventDetailsBottomSheetChange}
-          onClose={handleClose}
+          onClose={handleCloseEventDetails}
         >
           <View style={styles.markerInfoContainer}>
             <SlideUpPanel
@@ -256,10 +261,15 @@ const MapsPage = () => {
         </BottomSheet>
       )}
       {showCreateEventSheet && (
-        <CreateEventSheet
+        <BottomSheet
+          ref={createEventBottomSheetRef}
+          snapPoints={["96%"]}
+          enablePanDownToClose
           onChange={onCreateEventBottomSheetChange}
-          onClose={handleClose}
-        />
+          onClose={handleCloseCreateEvent}
+        >
+          <CreateEventSheet />
+        </BottomSheet>
       )}
     </View>
   );
