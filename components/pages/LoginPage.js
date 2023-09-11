@@ -33,9 +33,9 @@ const client = StreamChat.getInstance(EXPO_PUBLIC_STREAM_API_KEY);
 const LoginPage = () => {
   const navigator = useNavigation();
   const [emailFocusState, setEmailFocusState] = useState(false);
-  const [emailTextState, setEmailTextState] = useState("");
+  const [emailTextState, setEmailTextState] = useState("zack@test.com");
   const [passwordFocusState, setPasswordFocusState] = useState(false);
-  const [passwordTextState, setPasswordTextState] = useState("");
+  const [passwordTextState, setPasswordTextState] = useState("123456");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const emailIsValid = validateEmail(emailTextState);
@@ -92,7 +92,6 @@ const LoginPage = () => {
     const user = await signIn();
     if (!user) return;
     const userData = await getUserData();
-    setLoading(false);
     if (!userData?.details_completed) return navigator.replace("Details");
     if (!userData?.location && !userData?.cities.length)
       return navigator.replace("ChooseLocation");
@@ -100,15 +99,17 @@ const LoginPage = () => {
       return navigator.replace("ChooseInterests", {
         location: userData.location,
       });
-    const auth = getAuth();
-    const userId = auth?.currentUser?.uid;
-    const res = await fetch(`https://auth-token.onrender.com/${userId}`);
-    const { token } = await res.json();
-    if (!client?.user)
+    if (!client?.user) {
+      const auth = getAuth();
+      const userId = auth?.currentUser?.uid;
+      const res = await fetch(`https://auth-token.onrender.com/${userId}`);
+      const { token } = await res.json();
       await client.connectUser(
         { id: userId, name: `${userData.first_name} ${userData.last_name}` },
         token,
       );
+    }
+    setLoading(false);
     return navigator.replace("HomeTabs");
   };
 

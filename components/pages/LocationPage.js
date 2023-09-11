@@ -45,14 +45,15 @@ const LocationPage = () => {
     const userId = auth.currentUser.uid;
     const userRef = doc(db, "users", userId);
     await setDoc(userRef, { cities: [location] }, { merge: true });
-    const userData = await getUserData();
-    const res = await fetch(`https://auth-token.onrender.com/${userId}`);
-    const { token } = await res.json();
-    if (!client?.user)
+    if (!client?.user) {
+      const userData = await getUserData();
+      const res = await fetch(`https://auth-token.onrender.com/${userId}`);
+      const { token } = await res.json();
       await client.connectUser(
         { id: userId, name: `${userData.first_name} ${userData.last_name}` },
         token,
       );
+    }
     setLoading(false);
     navigator.navigate("ChooseInterests", { location });
   };
