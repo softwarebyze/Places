@@ -4,7 +4,13 @@ import { useNavigation } from "@react-navigation/native";
 import { Image } from "expo-image";
 import { getAuth } from "firebase/auth";
 import { useEffect, useRef, useState } from "react";
-import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  FlatList,
+} from "react-native";
 import Collapsible from "react-native-collapsible";
 import { ChannelList } from "stream-chat-expo";
 import { StreamChat } from "stream-chat";
@@ -134,11 +140,8 @@ const Dropdown = (props) => {
   );
 };
 
-const JoinButton = () => (
-  <TouchableOpacity
-    // onPress={() => setShowAddCitySheet(true)}
-    style={styles.join}
-  >
+const JoinButton = ({ onSelect }) => (
+  <TouchableOpacity onPress={onSelect} style={styles.join}>
     <Text style={styles.joinText}>Join</Text>
   </TouchableOpacity>
 );
@@ -152,7 +155,7 @@ const Location = (props) => (
   </View>
 );
 
-const PopularChannel = ({ channel }) => {
+const PopularChannel = ({ channel, onSelect }) => {
   const navigator = useNavigation();
   return (
     <View
@@ -183,7 +186,7 @@ const PopularChannel = ({ channel }) => {
           }}
         >
           <Location location={channel.data.location} />
-          <JoinButton />
+          <JoinButton onSelect={onSelect} />
         </View>
       </View>
     </View>
@@ -193,42 +196,31 @@ const PopularChannel = ({ channel }) => {
 const PopularDropdown = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [channelList, setChannelList] = useState([]);
-  const [cities, setCities] = useState([]);
   const toggleDropdown = () => {
     setIsCollapsed(!isCollapsed);
   };
 
   useEffect(() => {
-    const fetchAndSetUsersCities = async () => {
-      try {
-        const cities = await fetchUsersCities();
-        setCities(cities);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchAndSetUsersCities();
-  }, []);
-
-  useEffect(() => {
     const fetchChannels = async () => {
       try {
-        if (!cities.length) return;
+        const cities = await fetchUsersCities();
         const filters = {
           type: "team",
           members: { $nin: [auth.currentUser.uid] },
           location: { $in: cities },
         };
+        console.log(filters);
         const sort = { member_count: -1 };
         const options = { limit: 3, watch: true, state: true };
         const channels = await client.queryChannels(filters, sort, options);
+        console.log(channels.length);
         setChannelList(channels);
       } catch (error) {
         console.error(error);
       }
     };
     fetchChannels();
-  }, [cities]);
+  }, []);
 
   const navigation = useNavigation();
   const auth = getAuth();
@@ -241,17 +233,16 @@ const PopularDropdown = () => {
       />
       <Collapsible collapsed={isCollapsed} containerStyle={{ borderRadius: 0 }}>
         <View style={{ flex: 1 }}>
-          <ChannelList
-            // channelRenderFilterFn={customChannelFilterFunction}
-            // options={options}
-            // filters={filters}
-            // sort={sort}
-            additionalFlatListProps={{ data: channelList }}
-            onSelect={(channel) => {
-              navigation.navigate("PlacesChat", { channel });
-            }}
-            // PreviewMessage={NumberOfMembersPreview}
-            Preview={PopularChannel}
+          <FlatList
+            data={channelList}
+            renderItem={({ item }) => (
+              <PopularChannel
+                channel={item}
+                onSelect={() => {
+                  navigation.navigate("PlacesChat", { channel: item });
+                }}
+              />
+            )}
           />
         </View>
       </Collapsible>
