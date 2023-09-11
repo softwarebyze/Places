@@ -106,12 +106,6 @@ const CreateEventSheet = (props) => {
           placeholderTextColor="primary1_030"
           onChangeText={setEventName}
         />
-        {/* <_Input
-          labelText="Location"
-          borderColor="primary1_100"
-          placeholder="Location"
-          placeholderTextColor="primary1_030"
-        /> */}
         <View
           style={{
             flexDirection: "row",
