@@ -6,9 +6,11 @@ import STYLES from "../styles/Styles";
 const _Input = (props) => {
   return (
     <View style={props.style}>
-      <Text style={[STYLES.d1Box, STYLES.inputLabel]}>{props.labelText}</Text>
+      <Text style={[STYLES.inputLabel]}>{props.labelText}</Text>
       <TextInput
         secureTextEntry={props.secureTextEntry}
+        placeholder={props.placeholder}
+        placeholderTextColor={COLORS[props.placeholderTextColor]}
         onFocus={props.onFocus}
         onBlur={props.onBlur}
         onChangeText={props.onChangeText}
@@ -23,17 +25,18 @@ const _Input = (props) => {
           },
         ]}
       />
-      <Text
-        style={[
-          STYLES.d1Box,
-          STYLES.inputSubtext,
-          {
-            color: COLORS[props.subtextColor],
-          },
-        ]}
-      >
-        {props.subtextText}
-      </Text>
+      {props.subtextText && (
+        <Text
+          style={[
+            STYLES.inputSubtext,
+            {
+              color: COLORS[props.subtextColor],
+            },
+          ]}
+        >
+          {props.subtextText}
+        </Text>
+      )}
     </View>
   );
 };

@@ -4,27 +4,11 @@ import { format } from "date-fns";
 import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useRef, useState } from "react";
 import { View, Image, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import MapView, { Marker } from "react-native-maps";
 
 import { db } from "../../firebaseConfig";
 import Colors from "../../settings/Colors";
-
-const GooglePlacesInput = () => {
-  return (
-    <GooglePlacesAutocomplete
-      placeholder="Search"
-      onPress={(data, details = null) => {
-        // 'details' is provided when fetchDetails = true
-        console.log(data, details);
-      }}
-      query={{
-        key: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
-        language: "en",
-      }}
-    />
-  );
-};
+import CreateEventSheet from "../elements/CreateEventSheet";
 
 const initialRegion = {
   latitude: 32.0853,
@@ -226,6 +210,14 @@ const MapsPage = () => {
     }
   };
 
+  const handleCloseCreateEvent = () => {
+    setShowCreateEventSheet(false);
+  };
+
+  const handleCloseEventDetails = () => {
+    setSelectedMarker(null);
+  };
+
   return (
     <View style={styles.container}>
       <MapView style={styles.map} initialRegion={initialRegion}>
@@ -251,6 +243,7 @@ const MapsPage = () => {
           enablePanDownToClose
           style={{ flex: 1 }}
           onChange={onEventDetailsBottomSheetChange}
+          onClose={handleCloseEventDetails}
         >
           <View style={styles.markerInfoContainer}>
             <SlideUpPanel
@@ -270,13 +263,12 @@ const MapsPage = () => {
       {showCreateEventSheet && (
         <BottomSheet
           ref={createEventBottomSheetRef}
-          snapPoints={["62%"]}
+          snapPoints={["96%"]}
           enablePanDownToClose
-          style={{ flex: 1 }}
           onChange={onCreateEventBottomSheetChange}
+          onClose={handleCloseCreateEvent}
         >
-          <Text>Create event sheet</Text>
-          <GooglePlacesInput />
+          <CreateEventSheet />
         </BottomSheet>
       )}
     </View>

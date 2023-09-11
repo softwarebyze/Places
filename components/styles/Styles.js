@@ -76,23 +76,6 @@ export default new StyleSheet.create({
     fontWeight: "700",
     lineHeight: 28.8,
   },
-  temp_suliX: {
-    color: COLORS.secondary_100,
-    fontSize: 24,
-    fontWeight: "200",
-    lineHeight: 28.8,
-  },
-  suliMain: {
-    backgroundColor: COLORS.white_100,
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  suliInputs: {
-    backgroundColor: COLORS.white_100,
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "space-evenly",
-  },
   suliContinues: {
     width: WIDTH,
     backgroundColor: COLORS.white_100,
@@ -110,7 +93,6 @@ export default new StyleSheet.create({
   inputSubtext: {
     fontSize: 13,
     fontWeight: "400",
-    lineHeight: 10.8,
   },
   button: {
     flexDirection: "row",
@@ -145,9 +127,6 @@ export default new StyleSheet.create({
   whiteText: {
     color: COLORS.white_100,
   },
-  categoryFullPage: {},
-  categoryPage: {},
-  categoryGrid: {},
   category: {
     alignItems: "center",
     justifyContent: "center",
@@ -251,7 +230,7 @@ export default new StyleSheet.create({
     width: ELEMENT_WIDTH,
   },
   sheetHeader: {
-    height: 71,
+    height: 50,
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
