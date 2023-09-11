@@ -256,7 +256,10 @@ const MapsPage = () => {
         </BottomSheet>
       )}
       {showCreateEventSheet && (
-        <CreateEventSheet onChange={onCreateEventBottomSheetChange} />
+        <CreateEventSheet
+          onChange={onCreateEventBottomSheetChange}
+          onClose={handleClose}
+        />
       )}
     </View>
   );
