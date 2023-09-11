@@ -3,12 +3,42 @@ import BottomSheet from "@gorhom/bottom-sheet";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { useMemo, useRef, useState } from "react";
 import { Button, View, Text, Platform } from "react-native";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
 import SheetHeader from "./SheetHeader";
 import _Button from "./_Button";
 import _Input from "./_Input";
 import Colors from "../../settings/Colors";
 import Styles from "../styles/Styles";
+
+const GooglePlacesInput = (props) => {
+  return (
+    <GooglePlacesAutocomplete
+      styles={{
+        listView: {
+          marginTop: 40, // keeps the results from overlapping the input
+        },
+      }}
+      placeholder="Location"
+      onPress={(data, details = null) => {
+        // 'details' is provided when fetchDetails = true
+        console.log(data, details);
+        props.onPress(data, details);
+      }}
+      query={{
+        key: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
+        language: "en",
+      }}
+      // currentLocation // requires setup, then adds 'Current location' button at the top of the places list
+      textInputProps={{
+        InputComp: _Input,
+        labelText: "Location",
+        borderColor: "primary1_100",
+        placeholderTextColor: "primary1_030",
+      }}
+    />
+  );
+};
 
 const CreateEventSheet = (props) => {
   const createEventBottomSheetRef = useRef(null);
@@ -18,6 +48,21 @@ const CreateEventSheet = (props) => {
   const [timeOfEvent, setTimeOfEvent] = useState(new Date());
   const [showDate, setShowDate] = useState(false);
   const [showTime, setShowTime] = useState(false);
+  const [eventName, setEventName] = useState("");
+  const [eventLocation, setEventLocation] = useState("");
+  const [eventCity, setEventCity] = useState("");
+  const [eventState, setEventState] = useState("");
+  const [eventDescription, setEventDescription] = useState("");
+
+  const event = {
+    title: eventName,
+    address: eventLocation,
+    date: dateOfEvent,
+    time: timeOfEvent,
+    city: eventCity,
+    state: eventState,
+    description: eventDescription,
+  };
 
   const onChangeDateOfEvent = (eventDate, selectedDate) => {
     const currentDate = selectedDate || dateOfEvent;
@@ -29,6 +74,20 @@ const CreateEventSheet = (props) => {
     setShowTime(false);
     setTimeOfEvent(currentTime);
   };
+
+  const onPressLocation = (data, details = null) => {
+    console.log({ data, details });
+    setEventLocation(data.description);
+    setEventCity(data.terms[2]);
+    setEventState(data.terms[3]);
+  };
+
+  const handleCreateEvent = () => {
+    console.log("handleCreateEvent");
+    console.log(event);
+    props.onClose();
+  };
+
   return (
     <BottomSheet
       ref={createEventBottomSheetRef}
@@ -45,13 +104,23 @@ const CreateEventSheet = (props) => {
           borderColor="primary1_100"
           placeholder="Event name"
           placeholderTextColor="primary1_030"
+          onChangeText={setEventName}
         />
-        <_Input
+        {/* <_Input
           labelText="Location"
           borderColor="primary1_100"
           placeholder="Location"
           placeholderTextColor="primary1_030"
-        />
+        /> */}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginBottom: 30,
+          }}
+        >
+          <GooglePlacesInput onPress={onPressLocation} />
+        </View>
         <View
           style={{
             gap: 15,
@@ -157,11 +226,12 @@ const CreateEventSheet = (props) => {
           borderColor="primary1_100"
           placeholder="Description"
           placeholderTextColor="primary1_030"
-          subtextText="0/100"
+          subtextText={`${eventDescription.length}/100`}
           subtextColor="primary1_030"
           subtextAlignSelf="flex-end"
+          onChangeText={setEventDescription}
         />
-        <_Button text="Create Event" />
+        <_Button text="Create Event" action={handleCreateEvent} />
         <_Button text="Cancel" type="secondary" />
       </View>
     </BottomSheet>
