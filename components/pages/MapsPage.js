@@ -268,7 +268,7 @@ const MapsPage = () => {
           onChange={onCreateEventBottomSheetChange}
           onClose={handleCloseCreateEvent}
         >
-          <CreateEventSheet />
+          <CreateEventSheet onClose={handleCloseCreateEvent} />
         </BottomSheet>
       )}
     </View>
