@@ -6,7 +6,7 @@ import { Text, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StreamChat } from "stream-chat";
 
-import { db } from "../../firebaseConfig";
+import { db, getStreamUserToken } from "../../firebaseConfig";
 import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
 import CitiesDropdown from "../elements/CitiesDropdown";
@@ -47,8 +47,8 @@ const LocationPage = () => {
     await setDoc(userRef, { cities: [location] }, { merge: true });
     if (!client?.user) {
       const userData = await getUserData();
-      const res = await fetch(`https://auth-token.onrender.com/${userId}`);
-      const { token } = await res.json();
+      const tokenResponse = await getStreamUserToken();
+      const token = tokenResponse.data.toString();
       await client.connectUser(
         { id: userId, name: `${userData.first_name} ${userData.last_name}` },
         token,
