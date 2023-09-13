@@ -93,7 +93,8 @@ const JoinPlacePage = () => {
       setSports(sportsChannelsData);
       const buyAndSellChannelsData = await queryCategoryChannels("Buy/Sell");
       setBuyAndSell(buyAndSellChannelsData);
-      const donationsChannelsData = await queryCategoryChannels("Donations");
+      // const donationsChannelsData = await queryCategoryChannels("Donations");
+      const donationsChannelsData = await queryCategoryChannels("Giving Away");
       setDonations(donationsChannelsData);
       const hobbiesChannelsData = await queryCategoryChannels("Hobbies");
       setHobbies(hobbiesChannelsData);
