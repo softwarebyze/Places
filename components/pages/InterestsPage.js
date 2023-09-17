@@ -147,6 +147,15 @@ const InterestsPage = () => {
 
   return (
     <View style={[STYLES.page, { backgroundColor: Colors.light_grey }]}>
+      <Text
+        style={[
+          STYLES.tagNotSelectedText,
+          { textAlign: "center", marginTop: 20 },
+        ]}
+      >
+        Select at least {REQUIRED_INTERESTS} interests and we will add you the
+        the chat (places) for the location you provided in the previous step.
+      </Text>
       <ScrollView>
         <View style={{ marginBottom: 20 }}>
           <View>
