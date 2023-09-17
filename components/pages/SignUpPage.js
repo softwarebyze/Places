@@ -142,6 +142,7 @@ const SignUpPage = () => {
       ) : (
         <>
           <_Button
+            style={{ marginTop: 30 }}
             // continue ->
             // if firebase has your first name -> "This email is already in use."
             // else -> Details
