@@ -172,6 +172,7 @@ const LoginPage = () => {
       ) : (
         <>
           <_Button
+            style={{ marginTop: 30 }}
             text={terms["0008"]}
             action={handleSignInFlow}
             disabled={!canContinue}
