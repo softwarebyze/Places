@@ -48,7 +48,7 @@ const AddCityForm = () => {
         <CitiesDropdown onSelect={setCity} />
         <_Button action={handleAddCity} text="Add City" disabled={!city} />
       </View>
-      <Text style={Styles.groupLabelText}>Your Cities</Text>
+      {/* <Text style={Styles.groupLabelText}>Your Cities</Text>
       <View
         style={{
           display: "flex",
@@ -64,7 +64,7 @@ const AddCityForm = () => {
             <Text style={styles.usersCityButtonText}>{city}</Text>
           </View>
         ))}
-      </View>
+      </View> */}
     </View>
   );
 };
