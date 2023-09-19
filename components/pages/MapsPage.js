@@ -136,18 +136,31 @@ const SlideUpPanel = ({
 };
 
 const FloatingPlusButton = (props) => (
-  <Ionicons
-    name="add-circle"
-    size={58}
-    backgroundColor="white"
-    color={Colors.orange}
+  <View
     style={{
+      backgroundColor: "white",
       position: "absolute",
-      bottom: 26,
-      right: 26,
+      height: 22,
+      width: 22,
+      bottom: 36,
+      right: 18,
     }}
-    onPress={props.onPress}
-  />
+  >
+    <Ionicons
+      name="add-circle"
+      size={58}
+      color={Colors.orange}
+      style={{
+        position: "absolute",
+        top: -20,
+        left: -16,
+        height: 60,
+        width: 60,
+        alignSelf: "center",
+      }}
+      onPress={props.onPress}
+    />
+  </View>
 );
 
 const convertTimestampToDateAndTime = (timestamp) => {
