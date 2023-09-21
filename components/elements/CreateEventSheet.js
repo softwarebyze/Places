@@ -3,7 +3,13 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { useEffect, useState } from "react";
 import { Button, View, Text, Platform } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import { doc, setDoc, addDoc, GeoPoint, Timestamp } from "firebase/firestore";
+import {
+  doc,
+  addDoc,
+  GeoPoint,
+  Timestamp,
+  collection,
+} from "firebase/firestore";
 
 import { db } from "../../firebaseConfig";
 
@@ -111,7 +117,7 @@ const CreateEventSheet = (props) => {
 
   const handleCreateEvent = async () => {
     try {
-      const eventRef = await doc(db, "events");
+      const eventRef = await collection(db, "events");
       await addDoc(eventRef, event);
 
       console.log(event);
