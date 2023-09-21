@@ -1,9 +1,9 @@
 import { AntDesign } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, View, Text, Platform } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import { doc, setDoc, GeoPoint } from "firebase/firestore";
+import { doc, setDoc, addDoc, GeoPoint, Timestamp } from "firebase/firestore";
 
 import { db } from "../../firebaseConfig";
 
@@ -56,20 +56,43 @@ const CreateEventSheet = (props) => {
     title: eventName,
     address: eventAddress,
     location: eventLocation,
-    date: dateOfEvent,
-    time: timeOfEvent,
+    dateTime: Timestamp.fromDate(dateOfEvent),
     city: eventCity,
     state: eventState,
     description: eventDescription,
   };
 
+  useEffect(() => {
+    console.log(event);
+  }, [
+    dateOfEvent,
+    timeOfEvent,
+    eventName,
+    eventLocation,
+    eventAddress,
+    eventCity,
+    eventState,
+    eventDescription,
+  ]);
+
   const onChangeDateOfEvent = (eventDate, selectedDate) => {
     const currentDate = selectedDate || dateOfEvent;
     setShowDate(false);
-    setDateOfEvent(currentDate);
+    setDateOfEvent(() => {
+      const newDate = new Date(currentDate);
+      newDate.setHours(timeOfEvent.getHours());
+      newDate.setMinutes(timeOfEvent.getMinutes());
+      return newDate;
+    });
   };
   const onChangeTimeOfEvent = (eventTime, selectedTime) => {
     const currentTime = selectedTime || timeOfEvent;
+    setDateOfEvent((prevDate) => {
+      const newDate = new Date(prevDate);
+      newDate.setHours(currentTime.getHours());
+      newDate.setMinutes(currentTime.getMinutes());
+      return newDate;
+    });
     setShowTime(false);
     setTimeOfEvent(currentTime);
   };
@@ -89,7 +112,7 @@ const CreateEventSheet = (props) => {
   const handleCreateEvent = async () => {
     try {
       const eventRef = await doc(db, "events");
-      await setDoc(eventRef, event);
+      await addDoc(eventRef, event);
 
       console.log(event);
       props.onClose();
