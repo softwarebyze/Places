@@ -3,6 +3,9 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { useState } from "react";
 import { Button, View, Text, Platform } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { doc, setDoc, GeoPoint } from "firebase/firestore";
+
+import { db } from "../../firebaseConfig";
 
 import SheetHeader from "./SheetHeader";
 import _Button from "./_Button";
@@ -18,12 +21,9 @@ const GooglePlacesInput = (props) => {
           marginTop: 40, // keeps the results from overlapping the input
         },
       }}
+      fetchDetails={true}
       placeholder="Location"
-      onPress={(data, details = null) => {
-        // 'details' is provided when fetchDetails = true
-        console.log(data, details);
-        props.onPress(data, details);
-      }}
+      onPress={props.onPress}
       query={{
         key: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
         language: "en",
@@ -47,13 +47,15 @@ const CreateEventSheet = (props) => {
   const [showTime, setShowTime] = useState(false);
   const [eventName, setEventName] = useState("");
   const [eventLocation, setEventLocation] = useState("");
+  const [eventAddress, setEventAddress] = useState("");
   const [eventCity, setEventCity] = useState("");
   const [eventState, setEventState] = useState("");
   const [eventDescription, setEventDescription] = useState("");
 
   const event = {
     title: eventName,
-    address: eventLocation,
+    address: eventAddress,
+    location: eventLocation,
     date: dateOfEvent,
     time: timeOfEvent,
     city: eventCity,
@@ -73,16 +75,27 @@ const CreateEventSheet = (props) => {
   };
 
   const onPressLocation = (data, details = null) => {
-    console.log({ data, details });
-    setEventLocation(data.description);
-    setEventCity(data.terms[2]);
-    setEventState(data.terms[3]);
+    // console.log({ data, details });
+    console.log(data.terms);
+    setEventAddress(details.name);
+    setEventLocation(() => {
+      const { lat, lng } = details.geometry.location;
+      return new GeoPoint(lat, lng);
+    });
+    setEventCity(data.terms[2].value);
+    setEventState(data.terms[3].value);
   };
 
-  const handleCreateEvent = () => {
-    console.log("handleCreateEvent");
-    console.log(event);
-    props.onClose();
+  const handleCreateEvent = async () => {
+    try {
+      const eventRef = await doc(db, "events");
+      await setDoc(eventRef, event);
+
+      console.log(event);
+      props.onClose();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
