@@ -1,9 +1,10 @@
-import { AntDesign, EvilIcons, Feather, Ionicons } from "@expo/vector-icons";
+import { AntDesign, EvilIcons, Feather } from "@expo/vector-icons";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { format } from "date-fns";
 import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useRef, useState } from "react";
-import { View, Image, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { Image } from "expo-image";
 import MapView, { Marker } from "react-native-maps";
 
 import { db } from "../../firebaseConfig";
@@ -136,31 +137,12 @@ const SlideUpPanel = ({
 };
 
 const FloatingPlusButton = (props) => (
-  <View
-    style={{
-      backgroundColor: "white",
-      position: "absolute",
-      height: 22,
-      width: 22,
-      bottom: 36,
-      right: 18,
-    }}
-  >
-    <Ionicons
-      name="add-circle"
-      size={58}
-      color={Colors.orange}
-      style={{
-        position: "absolute",
-        top: -20,
-        left: -16,
-        height: 60,
-        width: 60,
-        alignSelf: "center",
-      }}
-      onPress={props.onPress}
-    />
-  </View>
+  <Image
+    width={64}
+    height={64}
+    source={require("../../assets/add-icon.svg")}
+    style={{ position: "absolute", bottom: 26, right: 26 }}
+  />
 );
 
 const convertTimestampToDateAndTime = (timestamp) => {
@@ -240,15 +222,21 @@ const MapsPage = () => {
             coordinate={marker.location}
             onPress={() => handleMarkerPress(marker)}
           >
-            <Image source={require("../../assets/marker.png")} />
+            <Image
+              source={require("../../assets/marker.png")}
+              width={33}
+              height={60}
+            />
           </Marker>
         ))}
       </MapView>
-      <FloatingPlusButton
+      <TouchableOpacity
         onPress={() => {
           setShowCreateEventSheet(true);
         }}
-      />
+      >
+        <FloatingPlusButton />
+      </TouchableOpacity>
       {selectedMarker && (
         <BottomSheet
           ref={eventDetailsBottomSheetRef}
