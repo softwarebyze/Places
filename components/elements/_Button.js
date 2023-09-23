@@ -1,6 +1,7 @@
 import { Text, TouchableOpacity } from "react-native";
-import STYLES from "../styles/Styles";
+
 import COLORS from "../../settings/Colors";
+import STYLES from "../styles/Styles";
 
 const _Button = (props) => {
   const type = props.type || "primary";

@@ -1,8 +1,9 @@
-import PlacesChatPage from "../pages/PlacesChatPage";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StreamChat } from "stream-chat";
 import { Chat } from "stream-chat-expo";
+
 import HomePage from "../pages/HomePage";
+import PlacesChatPage from "../pages/PlacesChatPage";
 import ThreadsPage from "../pages/ThreadsPage";
 
 const Stack = createNativeStackNavigator();

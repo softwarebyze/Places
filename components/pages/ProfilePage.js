@@ -1,10 +1,11 @@
-import { View, Text } from "react-native";
-import _Button from "../elements/_Button";
-import TERMS from "../../settings/Terms";
-import STYLES from "../styles/Styles";
 import { useNavigation } from "@react-navigation/native";
 import { getAuth, signOut } from "firebase/auth";
+import { View, Text } from "react-native";
 import { StreamChat } from "stream-chat";
+
+import TERMS from "../../settings/Terms";
+import _Button from "../elements/_Button";
+import STYLES from "../styles/Styles";
 
 const terms = TERMS["English"];
 const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);

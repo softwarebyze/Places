@@ -1,11 +1,12 @@
-import { View, Text } from "react-native";
-import { useRoute } from "@react-navigation/native";
-import _Button from "../elements/_Button";
-import _Header from "../elements/_Header";
-import Styles from "../styles/Styles";
+import { useRoute, useNavigation } from "@react-navigation/native";
 import { getAuth } from "firebase/auth";
+import { View, Text } from "react-native";
+
+import _Button from "../elements/_Button";
+import Styles from "../styles/Styles";
 
 const ChannelInfoPage = () => {
+  const navigator = useNavigation();
   const route = useRoute();
   const { channelInfo } = route.params;
 
@@ -13,6 +14,8 @@ const ChannelInfoPage = () => {
     const auth = getAuth();
     await channelInfo.addMembers([auth.currentUser.uid]);
     console.log("added member");
+    navigator.navigate("PlacesChat", { channel: channelInfo });
+    console.log(`you are entering ${channelInfo.data.name}'s chat!`);
   };
   return (
     <View style={Styles.page}>
@@ -42,7 +45,7 @@ const ChannelInfoPage = () => {
             width: 330,
             marginLeft: 30,
           }}
-          text={"Join"}
+          text="Join"
         />
       </View>
     </View>

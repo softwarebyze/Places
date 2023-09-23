@@ -1,19 +1,19 @@
-import { ActivityIndicator } from "react-native";
-import _Header from "../elements/_Header";
-import STYLES from "../styles/Styles";
-import TERMS from "../../settings/Terms";
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
-import _Button from "../elements/_Button";
-import _Input from "../elements/_Input";
-import _Divider from "../elements/_Divider";
-import Colors from "../../settings/Colors";
-import { Text } from "react-native";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { StreamChat } from "stream-chat";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../firebaseConfig";
+import { useState } from "react";
+import { Text, ActivityIndicator } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StreamChat } from "stream-chat";
+
+import { db, getStreamUserToken } from "../../firebaseConfig";
+import Colors from "../../settings/Colors";
+import TERMS from "../../settings/Terms";
+import _Button from "../elements/_Button";
+import _Divider from "../elements/_Divider";
+import _Header from "../elements/_Header";
+import _Input from "../elements/_Input";
+import STYLES from "../styles/Styles";
 
 const terms = TERMS["English"];
 
@@ -33,9 +33,9 @@ const client = StreamChat.getInstance(EXPO_PUBLIC_STREAM_API_KEY);
 const LoginPage = () => {
   const navigator = useNavigation();
   const [emailFocusState, setEmailFocusState] = useState(false);
-  const [emailTextState, setEmailTextState] = useState("");
+  const [emailTextState, setEmailTextState] = useState("zack@test.com");
   const [passwordFocusState, setPasswordFocusState] = useState(false);
-  const [passwordTextState, setPasswordTextState] = useState("");
+  const [passwordTextState, setPasswordTextState] = useState("123456");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const emailIsValid = validateEmail(emailTextState);
@@ -54,11 +54,6 @@ const LoginPage = () => {
         setLoading(false);
         return;
       }
-      const userId = auth?.currentUser?.uid;
-      const res = await fetch(`https://auth-token.onrender.com/${userId}`);
-      const { token } = await res.json();
-      await client.connectUser({ id: userId }, token);
-
       return user;
     } catch (error) {
       console.log("error detected!");
@@ -97,13 +92,25 @@ const LoginPage = () => {
     const user = await signIn();
     if (!user) return;
     const userData = await getUserData();
-    setLoading(false);
     if (!userData?.details_completed) return navigator.replace("Details");
-    if (!userData?.location) return navigator.replace("ChooseLocation");
+    if (!userData?.location && !userData?.cities.length)
+      return navigator.replace("ChooseLocation");
     if (!userData?.interests)
       return navigator.replace("ChooseInterests", {
         location: userData.location,
       });
+    if (!client?.user) {
+      const auth = getAuth();
+      const userId = auth?.currentUser?.uid;
+      const tokenResponse = await getStreamUserToken();
+      const token = tokenResponse.data.toString();
+      if (!token) return;
+      await client.connectUser(
+        { id: userId, name: `${userData.first_name} ${userData.last_name}` },
+        token,
+      );
+    }
+    setLoading(false);
     return navigator.replace("HomeTabs");
   };
 
@@ -135,7 +142,7 @@ const LoginPage = () => {
         }
       />
       <_Input
-        secureTextEntry={true}
+        secureTextEntry
         labelText={terms["0007"]}
         subtextText={terms["0015"]}
         onFocus={() => setPasswordFocusState(true)}
@@ -165,6 +172,7 @@ const LoginPage = () => {
       ) : (
         <>
           <_Button
+            style={{ marginTop: 30 }}
             text={terms["0008"]}
             action={handleSignInFlow}
             disabled={!canContinue}

@@ -1,5 +1,5 @@
-import React from "react";
 import { useRoute } from "@react-navigation/native";
+import React from "react";
 import { Channel, Thread } from "stream-chat-expo";
 
 const ThreadsPage = () => {

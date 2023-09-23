@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFunctions, httpsCallable } from "firebase/functions";
 import { getFirestore } from "firebase/firestore";
+import { getFunctions, httpsCallable } from "firebase/functions";
 
 // Initialize Firebase
 const firebaseConfig = {
@@ -16,13 +16,17 @@ const firebaseConfig = {
 // Initialize Firebase app
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-export const functions = getFunctions(app);
 // Initialize Cloud Firestore and get a reference to the service
 export const db = getFirestore(app);
-// export const getStreamUserToken = httpsCallable(
+const functions = getFunctions(app, "us-east1");
+export const getStreamUserToken = httpsCallable(
+  functions,
+  "ext-auth-chat-getStreamUserToken",
+);
+// export const revokeStreamUserToken = httpsCallable(
 //   functions,
-//   "ext-auth-chat-getStreamUserToken",
-// );
+//   "ext-auth-chat-revokeStreamUserToken",
+// ); // not sure if we should be using this
 onAuthStateChanged(auth, (user) => {
   console.log("onAuthStateChanged", user);
 });

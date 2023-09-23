@@ -1,16 +1,17 @@
-import { Text, TouchableOpacity, ScrollView, View } from "react-native";
+import BottomSheet from "@gorhom/bottom-sheet";
+import { useRoute, useNavigation } from "@react-navigation/native";
 import { Image } from "expo-image";
 import { useState, useMemo, useRef } from "react";
-import _Button from "../elements/_Button";
-import Searchbar from "../elements/Searchbar";
-import NoResults from "../elements/NoResults";
-import STYLES from "../styles/Styles";
-import Colors from "../../settings/Colors";
+import { Text, TouchableOpacity, ScrollView, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import BottomSheet from "@gorhom/bottom-sheet";
-import SheetHeader from "../elements/SheetHeader";
+
+import Colors from "../../settings/Colors";
+import NoResults from "../elements/NoResults";
+import Searchbar from "../elements/Searchbar";
 import SheetBody from "../elements/SheetBody";
-import { useRoute, useNavigation } from "@react-navigation/native";
+import SheetHeader from "../elements/SheetHeader";
+import _Button from "../elements/_Button";
+import STYLES from "../styles/Styles";
 
 const InterestListItem = ({ channel }) => {
   const navigator = useNavigation();
@@ -87,7 +88,7 @@ const CategoryPage = () => {
             <_Button
               action={() => setShowPopup(true)}
               style={{ marginTop: 23 }}
-              text={"Request a New Interest"}
+              text="Request a New Interest"
             />
           </View>
         </ScrollView>
@@ -95,13 +96,14 @@ const CategoryPage = () => {
           <BottomSheet
             ref={bottomSheetRef}
             snapPoints={snapPoints}
-            enablePanDownToClose={true}
+            enablePanDownToClose
             onClose={handleClose}
           >
             <View style={{ marginHorizontal: 30 }}>
-              <View style={STYLES.sheetHeader}>
-                <SheetHeader handleClose={handleClose} />
-              </View>
+              <SheetHeader
+                handleClose={handleClose}
+                sheetHeaderText="Request New Interest"
+              />
               <SheetBody search={search} />
             </View>
           </BottomSheet>

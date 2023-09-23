@@ -1,33 +1,14 @@
-import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
-import MapView, { Marker } from "react-native-maps";
-import { View } from "react-native";
-import { useEffect, useRef, useState } from "react";
-import Colors from "../../settings/Colors";
-import { AntDesign } from "@expo/vector-icons";
-import { EvilIcons } from "@expo/vector-icons";
-import { Feather } from "@expo/vector-icons";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../firebaseConfig";
-import { format } from "date-fns";
-import { Ionicons } from "@expo/vector-icons";
+import { AntDesign, EvilIcons, Feather, Ionicons } from "@expo/vector-icons";
 import BottomSheet from "@gorhom/bottom-sheet";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { format } from "date-fns";
+import { collection, getDocs } from "firebase/firestore";
+import { useEffect, useRef, useState } from "react";
+import { View, Image, StyleSheet, Text, TouchableOpacity } from "react-native";
+import MapView, { Marker } from "react-native-maps";
 
-const GooglePlacesInput = () => {
-  return (
-    <GooglePlacesAutocomplete
-      placeholder="Search"
-      onPress={(data, details = null) => {
-        // 'details' is provided when fetchDetails = true
-        console.log(data, details);
-      }}
-      query={{
-        key: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
-        language: "en",
-      }}
-    />
-  );
-};
+import { db } from "../../firebaseConfig";
+import Colors from "../../settings/Colors";
+import CreateEventSheet from "../elements/CreateEventSheet";
 
 const initialRegion = {
   latitude: 32.0853,
@@ -229,6 +210,14 @@ const MapsPage = () => {
     }
   };
 
+  const handleCloseCreateEvent = () => {
+    setShowCreateEventSheet(false);
+  };
+
+  const handleCloseEventDetails = () => {
+    setSelectedMarker(null);
+  };
+
   return (
     <View style={styles.container}>
       <MapView style={styles.map} initialRegion={initialRegion}>
@@ -251,9 +240,10 @@ const MapsPage = () => {
         <BottomSheet
           ref={eventDetailsBottomSheetRef}
           snapPoints={["62%"]}
-          enablePanDownToClose={true}
+          enablePanDownToClose
           style={{ flex: 1 }}
           onChange={onEventDetailsBottomSheetChange}
+          onClose={handleCloseEventDetails}
         >
           <View style={styles.markerInfoContainer}>
             <SlideUpPanel
@@ -273,13 +263,12 @@ const MapsPage = () => {
       {showCreateEventSheet && (
         <BottomSheet
           ref={createEventBottomSheetRef}
-          snapPoints={["62%"]}
-          enablePanDownToClose={true}
-          style={{ flex: 1 }}
+          snapPoints={["96%"]}
+          enablePanDownToClose
           onChange={onCreateEventBottomSheetChange}
+          onClose={handleCloseCreateEvent}
         >
-          <Text>Create event sheet</Text>
-          <GooglePlacesInput />
+          <CreateEventSheet onClose={handleCloseCreateEvent} />
         </BottomSheet>
       )}
     </View>

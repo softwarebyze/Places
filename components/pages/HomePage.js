@@ -1,31 +1,29 @@
-import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
-import TERMS from "../../settings/Terms";
-const terms = TERMS["English"];
-import _Button from "../elements/_Button";
+import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
+import BottomSheet from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
-import Styles from "../styles/Styles";
-import Collapsible from "react-native-collapsible";
+import { Image } from "expo-image";
+import { getAuth } from "firebase/auth";
 import { useEffect, useRef, useState } from "react";
-import { Ionicons } from "@expo/vector-icons";
-import Colors from "../../settings/Colors";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  FlatList,
+} from "react-native";
+import Collapsible from "react-native-collapsible";
 import { StreamChat } from "stream-chat";
 import { ChannelList } from "stream-chat-expo";
-import { getAuth } from "firebase/auth";
-import BottomSheet from "@gorhom/bottom-sheet";
-import CitiesDropdown from "../elements/CitiesDropdown";
+
+import { fetchUsersCities } from "../../firebase/users";
+import Colors from "../../settings/Colors";
+import TERMS from "../../settings/Terms";
+import AddCityForm from "../elements/AddCityForm";
+import PlacesHeader from "../elements/PlacesHeader";
+import Styles from "../styles/Styles";
+const terms = TERMS["English"];
 
 const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
-
-const groupChannelsByLocation = (channels) => {
-  return channels.reduce((acc, channel) => {
-    const location = channel.data.location;
-    if (!acc[location]) {
-      acc[location] = [];
-    }
-    acc[location].push(channel);
-    return acc;
-  }, {});
-};
 
 const DropdownHeader = (props) => (
   <TouchableOpacity
@@ -40,14 +38,32 @@ const DropdownHeader = (props) => (
     }}
     onPress={props.onPress}
   >
-    <Text
-      style={[
-        Styles.whiteText,
-        Styles.blueDropdownHeader,
-        { fontWeight: "bold" },
-      ]}
-    >
+    <Text style={[Styles.whiteText, { fontWeight: "bold" }]}>
       {props.heading}
+    </Text>
+    {props.isCollapsed ? (
+      <Ionicons name="chevron-down-outline" size={24} color="white" />
+    ) : (
+      <Ionicons name="chevron-up-outline" size={24} color="white" />
+    )}
+  </TouchableOpacity>
+);
+
+const PopularDropdownHeader = (props) => (
+  <TouchableOpacity
+    style={{
+      backgroundColor: Colors.orange,
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      paddingHorizontal: 16,
+      paddingVertical: 12,
+      borderRadius: 6,
+    }}
+    onPress={props.onPress}
+  >
+    <Text style={[Styles.whiteText, { fontWeight: "bold" }]}>
+      Popular In Your Cities
     </Text>
     {props.isCollapsed ? (
       <Ionicons name="chevron-down-outline" size={24} color="white" />
@@ -98,14 +114,14 @@ const Dropdown = (props) => {
   const auth = getAuth();
 
   return (
-    <View style={{ width: "100%", marginBottom: 16 }}>
+    <View style={{ width: "100%" }}>
       <DropdownHeader
         onPress={toggleDropdown}
         heading={props.heading}
         isCollapsed={isCollapsed}
       />
       <Collapsible collapsed={isCollapsed} containerStyle={{ borderRadius: 0 }}>
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, maxHeight: 350 }}>
           <ChannelList
             filters={{
               type: "team",
@@ -123,19 +139,118 @@ const Dropdown = (props) => {
   );
 };
 
-const AddCityForm = () => {
-  const [city, setCity] = useState(null);
+const JoinButton = ({ onSelect }) => (
+  <TouchableOpacity onPress={onSelect} style={styles.join}>
+    <Text style={styles.joinText}>Join</Text>
+  </TouchableOpacity>
+);
+
+const Location = (props) => (
+  <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+    <FontAwesome5 name="map-pin" size={11} color="grey" />
+    <Text style={{ color: Colors.dark_grey }}>
+      {props.location.split(",")[0]}
+    </Text>
+  </View>
+);
+
+const PopularChannel = ({ channel, onSelect }) => {
+  const navigator = useNavigation();
   return (
-    <View>
-      <Text>Add a City</Text>
-      <CitiesDropdown onSelect={setCity} />
+    <View
+      style={{ padding: 8 }}
+      onPress={() =>
+        navigator.navigate("ChannelInfo", { channelInfo: channel })
+      }
+    >
+      <View style={{ flexDirection: "row" }}>
+        <Image
+          source={{ uri: channel.data.image }}
+          style={{ width: 32, height: 32 }}
+        />
+        <View style={Styles.catPageMemberInfo}>
+          <Text
+            style={Styles.catPageLocationText}
+          >{`${channel.data.interest}`}</Text>
+          <Text style={Styles.catPageMembersText}>
+            {`${channel.data.member_count || 0} members`}
+          </Text>
+        </View>
+        <View
+          style={{
+            marginLeft: "auto",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 8,
+          }}
+        >
+          <Location location={channel.data.location} />
+          <JoinButton onSelect={onSelect} />
+        </View>
+      </View>
+    </View>
+  );
+};
+
+const PopularDropdown = () => {
+  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [channelList, setChannelList] = useState([]);
+  const toggleDropdown = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
+  useEffect(() => {
+    const fetchChannels = async () => {
+      try {
+        const cities = await fetchUsersCities();
+        const filters = {
+          type: "team",
+          members: { $nin: [auth.currentUser.uid] },
+          location: { $in: cities },
+        };
+        console.log(filters);
+        const sort = { member_count: -1 };
+        const options = { limit: 3, watch: true, state: true };
+        const channels = await client.queryChannels(filters, sort, options);
+        console.log(channels.length);
+        setChannelList(channels);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchChannels();
+  }, []);
+
+  const navigation = useNavigation();
+  const auth = getAuth();
+
+  return (
+    <View style={{ width: "100%", marginBottom: 16 }}>
+      <PopularDropdownHeader
+        onPress={toggleDropdown}
+        isCollapsed={isCollapsed}
+      />
+      <Collapsible collapsed={isCollapsed} containerStyle={{ borderRadius: 0 }}>
+        <View style={{ flex: 1 }}>
+          <FlatList
+            data={channelList}
+            renderItem={({ item }) => (
+              <PopularChannel
+                channel={item}
+                onSelect={() => {
+                  navigation.navigate("PlacesChat", { channel: item });
+                }}
+              />
+            )}
+          />
+        </View>
+      </Collapsible>
     </View>
   );
 };
 
 const HomePage = () => {
-  const auth = getAuth();
-  const [channelList, setChannelList] = useState([]);
+  const [cities, setCities] = useState([]);
   const [showAddCitySheet, setShowAddCitySheet] = useState(false);
   const addCitySheetRef = useRef(null);
 
@@ -146,59 +261,57 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    const fetchChannels = async () => {
+    const fetchAndSetUsersCities = async () => {
       try {
-        const channels = await client.queryChannels(
-          {
-            type: "team",
-            members: { $in: [auth.currentUser.uid] },
-          },
-          {},
-          { limit: 30 },
-        );
-        setChannelList(channels);
+        const cities = await fetchUsersCities();
+        setCities(cities);
       } catch (error) {
         console.error(error);
       }
     };
-    fetchChannels();
-  }, []);
+    fetchAndSetUsersCities();
+  }, [cities]);
 
-  const channelsGroupedByLocation = groupChannelsByLocation(channelList);
   return (
-    <View
-      style={[
-        Styles.page,
-        {
-          backgroundColor: Colors.light_grey,
-          alignItems: "flex-start",
-        },
-      ]}
-    >
-      <Text style={Styles.groupLabelText}>Your Places</Text>
-      {Object.entries(channelsGroupedByLocation).map(([location, channels]) => {
-        return (
-          <Dropdown heading={location} channels={channels} key={location} />
-        );
-      })}
-      <TouchableOpacity
-        onPress={() => setShowAddCitySheet(true)}
-        style={styles.addACity}
+    <>
+      <PlacesHeader />
+      <View
+        style={[
+          Styles.page,
+          {
+            backgroundColor: Colors.light_grey,
+            alignItems: "flex-start",
+            gap: 16,
+            marginTop: 16,
+          },
+        ]}
       >
-        <Text style={styles.addACityText}>{`+ ${terms["add_a_city"]}`}</Text>
-      </TouchableOpacity>
-      {showAddCitySheet && (
-        <BottomSheet
-          ref={addCitySheetRef}
-          snapPoints={["62%"]}
-          enablePanDownToClose={true}
-          style={{ flex: 1 }}
-          onChange={onAddCitySheetChange}
+        <Text style={Styles.groupLabelText}>Your Places</Text>
+
+        {cities.map((city) => (
+          <Dropdown heading={city} key={city} />
+        ))}
+
+        <TouchableOpacity
+          onPress={() => setShowAddCitySheet(true)}
+          style={styles.addACity}
         >
-          <AddCityForm />
-        </BottomSheet>
-      )}
-    </View>
+          <Text style={styles.addACityText}>{`+ ${terms["add_a_city"]}`}</Text>
+        </TouchableOpacity>
+        <PopularDropdown cities={cities} />
+        {showAddCitySheet && (
+          <BottomSheet
+            ref={addCitySheetRef}
+            snapPoints={["62%"]}
+            enablePanDownToClose
+            style={{ flex: 1 }}
+            onChange={onAddCitySheetChange}
+          >
+            <AddCityForm />
+          </BottomSheet>
+        )}
+      </View>
+    </>
   );
 };
 
@@ -213,6 +326,17 @@ const styles = StyleSheet.create({
   },
   addACityText: {
     color: Colors.dark_grey,
+    fontSize: 14,
+    fontWeight: "600",
+  },
+  join: {
+    borderWidth: 2,
+    padding: 8,
+    borderRadius: 6,
+    borderColor: Colors.orange,
+  },
+  joinText: {
+    color: Colors.orange,
     fontSize: 14,
     fontWeight: "600",
   },

@@ -1,13 +1,6 @@
-import _Header from "../elements/_Header";
-import TERMS from "../../settings/Terms";
-import _Input from "../elements/_Input";
-import _Divider from "../elements/_Divider";
-import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import _Button from "../elements/_Button";
-import STYLES from "../styles/Styles";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useState } from "react";
 import {
   ActivityIndicator,
   View,
@@ -16,8 +9,14 @@ import {
   Text,
   Pressable,
 } from "react-native";
-import { StreamChat } from "stream-chat";
-import Colors from "../../settings/Colors";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+import TERMS from "../../settings/Terms";
+import _Button from "../elements/_Button";
+import _Divider from "../elements/_Divider";
+import _Header from "../elements/_Header";
+import _Input from "../elements/_Input";
+import STYLES from "../styles/Styles";
 
 const terms = TERMS["English"];
 
@@ -60,18 +59,11 @@ const SignUpPage = () => {
         passwordTextState,
       );
       if (user) {
-        const userId = auth.currentUser.uid;
-        const res = await fetch(`https://auth-token.onrender.com/${userId}`);
-        const { token } = await res.json();
-        const client = StreamChat.getInstance(
-          process.env.EXPO_PUBLIC_STREAM_API_KEY,
-        );
-        await client.connectUser({ id: userId }, token);
         setLoading(false);
         navigator.replace("Details");
       }
     } catch (error) {
-      if (error.code == "auth/email-already-in-use") {
+      if (error.code === "auth/email-already-in-use") {
         setModalVisible(true);
       }
     } finally {
@@ -107,7 +99,7 @@ const SignUpPage = () => {
         }
       />
       <_Input
-        secureTextEntry={true}
+        secureTextEntry
         labelText={terms["0007"]}
         subtextText={terms["your_password_must_be_at_least_6_characters"]}
         onFocus={() => setPasswordFocusState(true)}
@@ -129,8 +121,8 @@ const SignUpPage = () => {
         }
       />
       <_Input
-        secureTextEntry={true}
-        labelText={"Confirm Password"}
+        secureTextEntry
+        labelText="Confirm Password"
         onFocus={() => setConfirmPasswordFocusState(true)}
         onBlur={() => setConfirmPasswordFocusState(false)}
         onChangeText={setConfirmPasswordTextState}
@@ -150,6 +142,7 @@ const SignUpPage = () => {
       ) : (
         <>
           <_Button
+            style={{ marginTop: 30 }}
             // continue ->
             // if firebase has your first name -> "This email is already in use."
             // else -> Details
@@ -180,7 +173,7 @@ const SignUpPage = () => {
       <View style={styles.centeredView}>
         <Modal
           animationType="slide"
-          transparent={true}
+          transparent
           visible={modalVisible}
           onRequestClose={() => {
             setModalVisible(!modalVisible);

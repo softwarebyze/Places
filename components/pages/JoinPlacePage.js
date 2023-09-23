@@ -1,16 +1,12 @@
-import { TouchableOpacity, View } from "react-native";
-import { Image } from "expo-image";
-import _Button from "../elements/_Button";
-import _Input from "../elements/_Input";
-import _Header from "../elements/_Header";
-import _Divider from "../elements/_Divider";
-import STYLES from "../styles/Styles";
-import TERMS from "../../settings/Terms";
-import { Text } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import Colors from "../../settings/Colors";
+import { Image } from "expo-image";
 import { useEffect, useState } from "react";
+import { TouchableOpacity, View, Text } from "react-native";
 import { StreamChat } from "stream-chat";
+
+import Colors from "../../settings/Colors";
+import TERMS from "../../settings/Terms";
+import STYLES from "../styles/Styles";
 
 const terms = TERMS["English"];
 const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
@@ -80,8 +76,8 @@ const JoinPlacePage = () => {
       const newCategoryChannels = await client.queryChannels(
         {
           type: "team",
-          category: category,
-          location: location,
+          category,
+          location,
         },
         {},
         { limit: 30, offset: 30 * i },

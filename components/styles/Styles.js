@@ -1,12 +1,12 @@
 import { StyleSheet } from "react-native";
+
+import COLORS from "../../settings/Colors";
 import {
   WIDTH,
   HEIGHT,
   LOGOWIDTH,
   LOGOHEIGHT,
 } from "../../settings/Dimensions";
-import COLORS from "../../settings/Colors";
-import Colors from "../../settings/Colors";
 
 const ELEMENT_WIDTH = 0.87 * WIDTH;
 const ELEMENT_HEIGHT = 0.071 * HEIGHT;
@@ -44,7 +44,6 @@ export default new StyleSheet.create({
     fontSize: 18,
     color: "#000",
     fontWeight: "600",
-    marginVertical: 16,
   },
   sloganText: {
     fontStyle: "normal",
@@ -77,23 +76,6 @@ export default new StyleSheet.create({
     fontWeight: "700",
     lineHeight: 28.8,
   },
-  temp_suliX: {
-    color: COLORS.secondary_100,
-    fontSize: 24,
-    fontWeight: "200",
-    lineHeight: 28.8,
-  },
-  suliMain: {
-    backgroundColor: COLORS.white_100,
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  suliInputs: {
-    backgroundColor: COLORS.white_100,
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "space-evenly",
-  },
   suliContinues: {
     width: WIDTH,
     backgroundColor: COLORS.white_100,
@@ -111,7 +93,6 @@ export default new StyleSheet.create({
   inputSubtext: {
     fontSize: 13,
     fontWeight: "400",
-    lineHeight: 10.8,
   },
   button: {
     flexDirection: "row",
@@ -143,16 +124,9 @@ export default new StyleSheet.create({
   startButton: {
     marginBottom: 0.02 * HEIGHT,
   },
-  blueDropdownHeader: {
-    backgroundColor: COLORS.primary1_100,
-    borderWidth: 0,
-  },
   whiteText: {
     color: COLORS.white_100,
   },
-  categoryFullPage: {},
-  categoryPage: {},
-  categoryGrid: {},
   category: {
     alignItems: "center",
     justifyContent: "center",
@@ -210,12 +184,12 @@ export default new StyleSheet.create({
   },
   tagNotSelectedText: {
     color: COLORS.dark_grey,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "600",
   },
   tagSelectedText: {
     color: COLORS.white_100,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "600",
   },
   categoryText: {
@@ -256,7 +230,7 @@ export default new StyleSheet.create({
     width: ELEMENT_WIDTH,
   },
   sheetHeader: {
-    height: 71,
+    height: 50,
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -266,7 +240,7 @@ export default new StyleSheet.create({
   },
   textButton: {
     textDecorationLine: "underline",
-    color: Colors.primary1_100,
+    color: COLORS.primary1_100,
     fontSize: 16,
     marginTop: 24,
   },

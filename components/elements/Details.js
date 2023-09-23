@@ -1,22 +1,26 @@
-import _Button from "./_Button";
-import _Input from "./_Input";
-import _Header from "./_Header";
-import _Divider from "./_Divider";
-import _Dropdown from "./_Dropdown";
-
-import Styles from "../styles/Styles";
-import TERMS from "../../settings/Terms";
-import { useNavigation } from "@react-navigation/native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import PhoneInput from "react-native-phone-input";
-import { KeyboardAvoidingView, Platform, Text, View } from "react-native";
-import { useRef, useState } from "react";
-import Colors from "../../settings/Colors";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { Button } from "react-native";
-import { doc, setDoc } from "firebase/firestore";
+import { useNavigation } from "@react-navigation/native";
 import { getAuth } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { useRef, useState } from "react";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  Text,
+  View,
+  Button,
+  ActivityIndicator,
+} from "react-native";
+import PhoneInput from "react-native-phone-input";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+import _Button from "./_Button";
+import _Dropdown from "./_Dropdown";
+import _Input from "./_Input";
 import { db } from "../../firebaseConfig";
+import Colors from "../../settings/Colors";
+import TERMS from "../../settings/Terms";
+import Styles from "../styles/Styles";
 
 const terms = TERMS["English"];
 
@@ -28,6 +32,7 @@ const Details = () => {
   const [dateOfBirth, setDateOfBirth] = useState(new Date(0));
   const [showDatePicker, setShowDatePicker] = useState(false);
   const phoneRef = useRef();
+  const [loading, setLoading] = useState(false);
 
   const completed = firstName.length && lastName.length && gender.length;
   const disabled = !completed;
@@ -45,6 +50,7 @@ const Details = () => {
   ];
 
   const handleSubmitDetails = async () => {
+    setLoading(true);
     const auth = getAuth();
     const userId = auth.currentUser.uid;
     const userRef = doc(db, "users", userId);
@@ -61,6 +67,7 @@ const Details = () => {
       { merge: true },
     );
     navigator.navigate("ChooseLocation");
+    setLoading(false);
   };
 
   const navigator = useNavigation();
@@ -68,21 +75,17 @@ const Details = () => {
     <SafeAreaView style={Styles.page}>
       <KeyboardAvoidingView style={[Styles.suliContinues, Styles.page]}>
         <_Input
-          labelText={"First Name"}
-          borderColor={"primary1_100"}
-          style={Styles.signUpInput}
+          labelText="First Name"
+          borderColor="primary1_100"
           onChangeText={setFirstName}
         />
         <_Input
-          labelText={"Last Name"}
-          borderColor={"primary1_100"}
-          style={Styles.signUpInput}
+          labelText="Last Name"
+          borderColor="primary1_100"
           onChangeText={setLastName}
         />
-        <View style={Styles.signUpInput}>
-          <Text style={[Styles.d1Box, Styles.inputLabel]}>
-            {"Phone Number"}
-          </Text>
+        <View>
+          <Text style={[Styles.d1Box, Styles.inputLabel]}>Phone Number</Text>
           <View
             style={[
               Styles.d2Box,
@@ -99,6 +102,10 @@ const Details = () => {
               initialCountry="us"
               ref={phoneRef}
               onChangePhoneNumber={setPhoneNumber}
+              autoFormat
+              textProps={{
+                enterKeyHint: "done",
+              }}
             />
           </View>
         </View>
@@ -108,10 +115,8 @@ const Details = () => {
           labelText="Gender"
           onSelect={setGender}
         />
-        <View style={Styles.signUpInput}>
-          <Text style={[Styles.d1Box, Styles.inputLabel]}>
-            {"Date of Birth"}
-          </Text>
+        <View>
+          <Text style={[Styles.inputLabel]}>Date of Birth</Text>
           <View
             style={[
               Styles.d2Box,
@@ -141,11 +146,15 @@ const Details = () => {
             )}
           </View>
         </View>
-        <_Button
-          text={terms["0017"]}
-          action={handleSubmitDetails}
-          disabled={disabled}
-        />
+        {loading ? (
+          <ActivityIndicator />
+        ) : (
+          <_Button
+            text={terms["0017"]}
+            action={handleSubmitDetails}
+            disabled={disabled}
+          />
+        )}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
