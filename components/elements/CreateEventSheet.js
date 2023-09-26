@@ -66,20 +66,21 @@ const CreateEventSheet = (props) => {
     city: eventCity,
     state: eventState,
     description: eventDescription,
+    // unable to include zip code due to inconsintencies in Google Places API response
   };
 
-  useEffect(() => {
-    console.log(event);
-  }, [
-    dateOfEvent,
-    timeOfEvent,
-    eventName,
-    eventLocation,
-    eventAddress,
-    eventCity,
-    eventState,
-    eventDescription,
-  ]);
+  // useEffect(() => {
+  //   console.log(event);
+  // }, [
+  //   dateOfEvent,
+  //   timeOfEvent,
+  //   eventName,
+  //   eventLocation,
+  //   eventAddress,
+  //   eventCity,
+  //   eventState,
+  //   eventDescription,
+  // ]);
 
   const onChangeDateOfEvent = (eventDate, selectedDate) => {
     const currentDate = selectedDate || dateOfEvent;
@@ -104,8 +105,6 @@ const CreateEventSheet = (props) => {
   };
 
   const onPressLocation = (data, details = null) => {
-    // console.log({ data, details });
-    console.log(data.terms);
     setEventAddress(details.name);
     setEventLocation(() => {
       const { lat, lng } = details.geometry.location;
@@ -119,8 +118,6 @@ const CreateEventSheet = (props) => {
     try {
       const eventRef = await collection(db, "events");
       await addDoc(eventRef, event);
-
-      console.log(event);
       props.onClose();
     } catch (error) {
       console.error(error);
