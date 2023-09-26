@@ -8,9 +8,9 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import SheetHeader from "./SheetHeader";
 import _Button from "./_Button";
 import _Input from "./_Input";
+import { db } from "../../firebaseConfig";
 import Colors from "../../settings/Colors";
 import Styles from "../styles/Styles";
-import { db } from "../../firebaseConfig";
 
 const GooglePlacesInput = (props) => {
   return (
