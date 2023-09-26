@@ -1,23 +1,17 @@
 import { AntDesign } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import React, { useEffect, useState } from "react";
+import { addDoc, GeoPoint, Timestamp, collection } from "firebase/firestore";
+import React, { useState } from "react";
 import { Button, View, Text, Platform } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import {
-  doc,
-  addDoc,
-  GeoPoint,
-  Timestamp,
-  collection,
-} from "firebase/firestore";
-
-import { db } from "../../firebaseConfig";
 
 import SheetHeader from "./SheetHeader";
 import _Button from "./_Button";
 import _Input from "./_Input";
 import Colors from "../../settings/Colors";
 import Styles from "../styles/Styles";
+
+import { db } from "../../firebaseConfig";
 
 const GooglePlacesInput = (props) => {
   return (
@@ -27,7 +21,7 @@ const GooglePlacesInput = (props) => {
           marginTop: 40, // keeps the results from overlapping the input
         },
       }}
-      fetchDetails={true}
+      fetchDetails
       placeholder="Location"
       onPress={props.onPress}
       query={{
@@ -68,19 +62,6 @@ const CreateEventSheet = (props) => {
     description: eventDescription,
     // unable to include zip code due to inconsintencies in Google Places API response
   };
-
-  // useEffect(() => {
-  //   console.log(event);
-  // }, [
-  //   dateOfEvent,
-  //   timeOfEvent,
-  //   eventName,
-  //   eventLocation,
-  //   eventAddress,
-  //   eventCity,
-  //   eventState,
-  //   eventDescription,
-  // ]);
 
   const onChangeDateOfEvent = (eventDate, selectedDate) => {
     const currentDate = selectedDate || dateOfEvent;
