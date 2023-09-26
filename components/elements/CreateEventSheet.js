@@ -10,7 +10,6 @@ import _Button from "./_Button";
 import _Input from "./_Input";
 import Colors from "../../settings/Colors";
 import Styles from "../styles/Styles";
-
 import { db } from "../../firebaseConfig";
 
 const GooglePlacesInput = (props) => {
