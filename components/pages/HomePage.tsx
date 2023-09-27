@@ -209,9 +209,12 @@ const PopularDropdown = () => {
           location: { $in: cities },
         };
         console.log(filters);
-        const sort = { member_count: -1 };
         const options = { limit: 3, watch: true, state: true };
-        const channels = await client.queryChannels(filters, sort, options);
+        const channels = await client.queryChannels(
+          filters,
+          { member_count: -1 },
+          options,
+        );
         console.log(channels.length);
         setChannelList(channels);
       } catch (error) {
