@@ -1,5 +1,4 @@
-import { useRoute, useNavigation } from "@react-navigation/native";
-import { getAuth } from "firebase/auth";
+import { useRoute, useRouter } from 'expo-router'import { getAuth } from "firebase/auth";
 import { View, Text } from "react-native";
 
 import _Button from "@/elements/_Button";

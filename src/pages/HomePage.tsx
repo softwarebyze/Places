@@ -1,7 +1,6 @@
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import BottomSheet from "@gorhom/bottom-sheet";
-import { useNavigation } from "@react-navigation/native";
-import { Image } from "expo-image";
+import { useRouter } from 'expo-router'import { Image } from "expo-image";
 import { getAuth } from "firebase/auth";
 import { useEffect, useRef, useState } from "react";
 import {

@@ -1,5 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
-import { View, Text } from "react-native";
+import { useRouter } from 'expo-router'import { View, Text } from "react-native";
 
 import _Button from "@/elements/_Button";
 import _Logo from "@/elements/_Logo";

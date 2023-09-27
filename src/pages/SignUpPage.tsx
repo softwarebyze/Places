@@ -1,5 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { useRouter } from 'expo-router'import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { useState } from "react";
 import {
   ActivityIndicator,

@@ -1,5 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
-import { getAuth } from "firebase/auth";
+import { useRouter } from 'expo-router'import { getAuth } from "firebase/auth";
 import React from "react";
 import { View } from "react-native";
 import { ChannelList } from "stream-chat-expo";

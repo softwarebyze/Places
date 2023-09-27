@@ -1,6 +1,5 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { useNavigation } from "@react-navigation/native";
-import { getAuth } from "firebase/auth";
+import { useRouter } from 'expo-router'import { getAuth } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useRef, useState } from "react";
 import {
@@ -65,11 +64,11 @@ const Details = () => {
       },
       { merge: true },
     );
-    navigator.navigate("ChooseLocation");
+    router.navigate("ChooseLocation");
     setLoading(false);
   };
 
-  const navigator = useNavigation();
+  const router = useRouter();
   return (
     <KeyboardAvoidingView style={[Styles.suliContinues, Styles.page]}>
       <_Input

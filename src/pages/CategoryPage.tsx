@@ -1,6 +1,6 @@
 import BottomSheet from "@gorhom/bottom-sheet";
-import { useRoute, useNavigation } from "@react-navigation/native";
 import { Image } from "expo-image";
+import { useRouter } from "expo-router";
 import { useState, useMemo, useRef } from "react";
 import { Text, TouchableOpacity, ScrollView, View } from "react-native";
 
@@ -13,13 +13,11 @@ import Colors from "@/settings/Colors";
 import STYLES from "@/styles/Styles";
 
 const InterestListItem = ({ channel }) => {
-  const navigator = useNavigation();
+  const router = useRouter();
   return (
     <TouchableOpacity
       style={STYLES.catPageGrid}
-      onPress={() =>
-        navigator.navigate("ChannelInfo", { channelInfo: channel })
-      }
+      onPress={() => router.push("/channel-info/", { channelInfo: channel })}
     >
       <View style={STYLES.catPageInfo}>
         <Image
