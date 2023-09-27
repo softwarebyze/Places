@@ -120,7 +120,7 @@ const Dropdown = (props) => {
         heading={props.heading}
         isCollapsed={isCollapsed}
       />
-      <Collapsible collapsed={isCollapsed} containerStyle={{ borderRadius: 0 }}>
+      <Collapsible collapsed={isCollapsed}>
         <View style={{ flex: 1, maxHeight: 350 }}>
           <ChannelList
             filters={{
@@ -230,7 +230,7 @@ const PopularDropdown = () => {
         onPress={toggleDropdown}
         isCollapsed={isCollapsed}
       />
-      <Collapsible collapsed={isCollapsed} containerStyle={{ borderRadius: 0 }}>
+      <Collapsible collapsed={isCollapsed}>
         <View style={{ flex: 1 }}>
           <FlatList
             data={channelList}
