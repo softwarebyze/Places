@@ -301,7 +301,7 @@ const HomePage = () => {
         >
           <Text style={styles.addACityText}>{`+ ${terms["add_a_city"]}`}</Text>
         </TouchableOpacity>
-        <PopularDropdown cities={cities} />
+        <PopularDropdown />
         {showAddCitySheet && (
           <BottomSheet
             ref={addCitySheetRef}
