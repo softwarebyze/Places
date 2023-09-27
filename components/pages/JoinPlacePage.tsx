@@ -50,9 +50,6 @@ const CategoryCard = (props) => {
         navigator.navigate("Category", { channels: props.channels })
       }
       style={STYLES.category}
-      color="primary1_100"
-      borderColor="primary1_100"
-      textColor="white_100"
     >
       {props.image}
       <Text style={STYLES.categoryText}>{props.category}</Text>
