@@ -9,7 +9,6 @@ import {
   Text,
   Pressable,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import _Button from "@/elements/_Button";
 import _Divider from "@/elements/_Divider";
@@ -64,7 +63,7 @@ const SignUpPage = () => {
   };
 
   return (
-    <SafeAreaView style={STYLES.page}>
+    <View style={STYLES.page}>
       <_Header
         text={terms["0005"]}
         action={() => navigator.navigate("Start")}
@@ -194,7 +193,7 @@ const SignUpPage = () => {
           <Text style={styles.textStyle_2}>Account already made</Text>
         </Pressable> */}
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { useState } from "react";
-import { Text, ActivityIndicator } from "react-native";
+import { Text, ActivityIndicator, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StreamChat } from "stream-chat";
 
@@ -107,7 +107,7 @@ const LoginPage = () => {
   };
 
   return (
-    <SafeAreaView style={STYLES.page}>
+    <View style={STYLES.page}>
       <_Header
         text={terms["0016"]}
         action={() => navigator.navigate("Start")}
@@ -190,7 +190,7 @@ const LoginPage = () => {
           </Text>
         </>
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 

@@ -2,8 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { getAuth } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useState } from "react";
-import { Text, ActivityIndicator } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Text, ActivityIndicator, View } from "react-native";
 import { StreamChat } from "stream-chat";
 
 import CitiesDropdown from "@/elements/CitiesDropdown";
@@ -59,7 +58,7 @@ const LocationPage = () => {
   };
 
   return (
-    <SafeAreaView style={[STYLES.page, { backgroundColor: Colors.light_grey }]}>
+    <View style={[STYLES.page, { backgroundColor: Colors.light_grey }]}>
       <Text style={[STYLES.descriptionText, { marginHorizontal: 30 }]}>
         {terms["0020"]}
       </Text>
@@ -73,7 +72,7 @@ const LocationPage = () => {
           disabled={disabled}
         />
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 export default LocationPage;

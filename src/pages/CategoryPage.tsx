@@ -3,7 +3,6 @@ import { useRoute, useNavigation } from "@react-navigation/native";
 import { Image } from "expo-image";
 import { useState, useMemo, useRef } from "react";
 import { Text, TouchableOpacity, ScrollView, View } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import NoResults from "@/elements/NoResults";
 import Searchbar from "@/elements/Searchbar";
@@ -59,57 +58,53 @@ const CategoryPage = () => {
     setShowPopup(false);
   };
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <View style={{ flex: 1, alignItems: "center" }}>
-        <Searchbar onChange={setSearch} />
-        <ScrollView
-          style={{
-            backgroundColor: Colors.light_grey,
-            width: "100%",
-          }}
+    <View style={{ flex: 1, alignItems: "center" }}>
+      <Searchbar onChange={setSearch} />
+      <ScrollView
+        style={{
+          backgroundColor: Colors.light_grey,
+          width: "100%",
+        }}
+      >
+        {filteredChannels.map((channel, index) => (
+          <InterestListItem channel={channel} key={index} />
+        ))}
+        <View style={{ marginTop: 27, marginBottom: 24, alignItems: "center" }}>
+          {!filteredChannels.length && <NoResults />}
+          <Text
+            style={{
+              color: "grey",
+              textAlign: "center",
+              marginHorizontal: 15,
+            }}
+          >
+            Not seeing one of your interests? Submit a request and we will add
+            it to the list.
+          </Text>
+          <_Button
+            action={() => setShowPopup(true)}
+            style={{ marginTop: 23 }}
+            text="Request a New Interest"
+          />
+        </View>
+      </ScrollView>
+      {showPopup && (
+        <BottomSheet
+          ref={bottomSheetRef}
+          snapPoints={snapPoints}
+          enablePanDownToClose
+          onClose={handleClose}
         >
-          {filteredChannels.map((channel, index) => (
-            <InterestListItem channel={channel} key={index} />
-          ))}
-          <View
-            style={{ marginTop: 27, marginBottom: 24, alignItems: "center" }}
-          >
-            {!filteredChannels.length && <NoResults />}
-            <Text
-              style={{
-                color: "grey",
-                textAlign: "center",
-                marginHorizontal: 15,
-              }}
-            >
-              Not seeing one of your interests? Submit a request and we will add
-              it to the list.
-            </Text>
-            <_Button
-              action={() => setShowPopup(true)}
-              style={{ marginTop: 23 }}
-              text="Request a New Interest"
+          <View style={{ marginHorizontal: 30 }}>
+            <SheetHeader
+              handleClose={handleClose}
+              sheetHeaderText="Request New Interest"
             />
+            <SheetBody search={search} />
           </View>
-        </ScrollView>
-        {showPopup && (
-          <BottomSheet
-            ref={bottomSheetRef}
-            snapPoints={snapPoints}
-            enablePanDownToClose
-            onClose={handleClose}
-          >
-            <View style={{ marginHorizontal: 30 }}>
-              <SheetHeader
-                handleClose={handleClose}
-                sheetHeaderText="Request New Interest"
-              />
-              <SheetBody search={search} />
-            </View>
-          </BottomSheet>
-        )}
-      </View>
-    </GestureHandlerRootView>
+        </BottomSheet>
+      )}
+    </View>
   );
 };
 export default CategoryPage;

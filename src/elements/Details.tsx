@@ -12,7 +12,6 @@ import {
   ActivityIndicator,
 } from "react-native";
 import PhoneInput from "react-native-phone-input";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import _Button from "@/elements/_Button";
 import _Dropdown from "@/elements/_Dropdown";
@@ -72,91 +71,89 @@ const Details = () => {
 
   const navigator = useNavigation();
   return (
-    <SafeAreaView style={Styles.page}>
-      <KeyboardAvoidingView style={[Styles.suliContinues, Styles.page]}>
-        <_Input
-          labelText="First Name"
-          borderColor="primary1_100"
-          onChangeText={setFirstName}
-        />
-        <_Input
-          labelText="Last Name"
-          borderColor="primary1_100"
-          onChangeText={setLastName}
-        />
-        <View>
-          <Text style={[Styles.d1Box, Styles.inputLabel]}>Phone Number</Text>
-          <View
-            style={[
-              Styles.d2Box,
-              {
-                borderRadius: 10,
-                padding: 10,
-                fontSize: 17,
-                borderColor: Colors.primary1_100,
-                justifyContent: "center",
-              },
-            ]}
-          >
-            <PhoneInput
-              initialCountry="us"
-              ref={phoneRef}
-              onChangePhoneNumber={setPhoneNumber}
-              autoFormat
-              textProps={{
-                enterKeyHint: "done",
-              }}
-            />
-          </View>
-        </View>
-        <_Dropdown
-          label="Select an option"
-          options={genders}
-          labelText="Gender"
-          onSelect={setGender}
-        />
-        <View>
-          <Text style={[Styles.inputLabel]}>Date of Birth</Text>
-          <View
-            style={[
-              Styles.d2Box,
-              {
-                flexDirection: "row",
-                borderRadius: 10,
-                fontSize: 17,
-                borderColor: Colors.primary1_100,
-                justifyContent: "flex-start",
-                alignItems: "center",
-                padding: 12,
-                height: 70,
-              },
-            ]}
-          >
-            {/* Added platform code because there's a bug in Android 
-          where the date picker won't hide */}
-            {Platform.OS === "ios" ? (
-              <DateTimePicker value={dateOfBirth} onChange={onChangeDate} />
-            ) : showDatePicker ? (
-              <DateTimePicker value={dateOfBirth} onChange={onChangeDate} />
-            ) : (
-              <Button
-                title={dateOfBirth.toLocaleDateString()}
-                onPress={() => setShowDatePicker(true)}
-              />
-            )}
-          </View>
-        </View>
-        {loading ? (
-          <ActivityIndicator />
-        ) : (
-          <_Button
-            text={terms["0017"]}
-            action={handleSubmitDetails}
-            disabled={disabled}
+    <KeyboardAvoidingView style={[Styles.suliContinues, Styles.page]}>
+      <_Input
+        labelText="First Name"
+        borderColor="primary1_100"
+        onChangeText={setFirstName}
+      />
+      <_Input
+        labelText="Last Name"
+        borderColor="primary1_100"
+        onChangeText={setLastName}
+      />
+      <View>
+        <Text style={[Styles.d1Box, Styles.inputLabel]}>Phone Number</Text>
+        <View
+          style={[
+            Styles.d2Box,
+            {
+              borderRadius: 10,
+              padding: 10,
+              fontSize: 17,
+              borderColor: Colors.primary1_100,
+              justifyContent: "center",
+            },
+          ]}
+        >
+          <PhoneInput
+            initialCountry="us"
+            ref={phoneRef}
+            onChangePhoneNumber={setPhoneNumber}
+            autoFormat
+            textProps={{
+              enterKeyHint: "done",
+            }}
           />
-        )}
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+        </View>
+      </View>
+      <_Dropdown
+        label="Select an option"
+        options={genders}
+        labelText="Gender"
+        onSelect={setGender}
+      />
+      <View>
+        <Text style={[Styles.inputLabel]}>Date of Birth</Text>
+        <View
+          style={[
+            Styles.d2Box,
+            {
+              flexDirection: "row",
+              borderRadius: 10,
+              fontSize: 17,
+              borderColor: Colors.primary1_100,
+              justifyContent: "flex-start",
+              alignItems: "center",
+              padding: 12,
+              height: 70,
+            },
+          ]}
+        >
+          {/* Added platform code because there's a bug in Android 
+          where the date picker won't hide */}
+          {Platform.OS === "ios" ? (
+            <DateTimePicker value={dateOfBirth} onChange={onChangeDate} />
+          ) : showDatePicker ? (
+            <DateTimePicker value={dateOfBirth} onChange={onChangeDate} />
+          ) : (
+            <Button
+              title={dateOfBirth.toLocaleDateString()}
+              onPress={() => setShowDatePicker(true)}
+            />
+          )}
+        </View>
+      </View>
+      {loading ? (
+        <ActivityIndicator />
+      ) : (
+        <_Button
+          text={terms["0017"]}
+          action={handleSubmitDetails}
+          disabled={disabled}
+        />
+      )}
+    </KeyboardAvoidingView>
   );
 };
 
