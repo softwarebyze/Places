@@ -18,11 +18,9 @@ const HomeTabs = () => (
       headerShown: true,
       tabBarStyle: {
         backgroundColor: Colors.white_100,
-        color: Colors.primary1_100,
         paddingVertical: 8,
       },
       tabBarIconStyle: {
-        tintColor: Colors.orange,
         color: Colors.orange,
       },
       tabBarActiveTintColor: Colors.orange,
@@ -32,7 +30,6 @@ const HomeTabs = () => (
   >
     <Tab.Screen
       name="Home"
-      text="Home"
       component={HomeStack}
       options={{
         tabBarIcon: ({ color, size }) => (
