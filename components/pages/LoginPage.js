@@ -63,6 +63,8 @@ const LoginPage = () => {
         setError(terms["too_many_attempts_try_again_later"]);
       } else if (error.code === "auth/user-not-found") {
         setError(terms["user_not_found"]);
+      } else if (error.code === "auth/network-request-failed") {
+        setError(terms["no_internet"]);
       } else {
         throw new Error(error);
       }
