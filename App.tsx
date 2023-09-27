@@ -5,6 +5,7 @@ import { OverlayProvider } from "stream-chat-expo";
 
 import Details from "@/elements/Details";
 import HomeTabs from "@/navigation/HomeTabs";
+import StartPage from "@/pages";
 import CategoryPage from "@/pages/CategoryPage";
 import ChannelInfoPage from "@/pages/ChannelInfoPage";
 import InterestsPage from "@/pages/InterestsPage";
@@ -12,7 +13,6 @@ import JoinPlacePage from "@/pages/JoinPlacePage";
 import LocationPage from "@/pages/LocationPage";
 import LoginPage from "@/pages/LoginPage";
 import SignUpPage from "@/pages/SignUpPage";
-import StartPage from "@/pages/StartPage";
 
 const Stack = createNativeStackNavigator();
 
