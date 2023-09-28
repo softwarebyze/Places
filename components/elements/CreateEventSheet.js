@@ -1,5 +1,6 @@
 import { AntDesign } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { addDoc, GeoPoint, Timestamp, collection } from "firebase/firestore";
 import React, { useState } from "react";
 import { Button, View, Text, Platform } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
@@ -7,6 +8,7 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import SheetHeader from "./SheetHeader";
 import _Button from "./_Button";
 import _Input from "./_Input";
+import { db } from "../../firebaseConfig";
 import Colors from "../../settings/Colors";
 import Styles from "../styles/Styles";
 
@@ -18,12 +20,9 @@ const GooglePlacesInput = (props) => {
           marginTop: 40, // keeps the results from overlapping the input
         },
       }}
+      fetchDetails
       placeholder="Location"
-      onPress={(data, details = null) => {
-        // 'details' is provided when fetchDetails = true
-        console.log(data, details);
-        props.onPress(data, details);
-      }}
+      onPress={props.onPress}
       query={{
         key: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
         language: "en",
@@ -40,54 +39,73 @@ const GooglePlacesInput = (props) => {
 };
 
 const CreateEventSheet = (props) => {
-  const headerText = "Details";
   const [dateOfEvent, setDateOfEvent] = useState(new Date());
   const [timeOfEvent, setTimeOfEvent] = useState(new Date());
   const [showDate, setShowDate] = useState(false);
   const [showTime, setShowTime] = useState(false);
   const [eventName, setEventName] = useState("");
   const [eventLocation, setEventLocation] = useState("");
+  const [eventAddress, setEventAddress] = useState("");
   const [eventCity, setEventCity] = useState("");
   const [eventState, setEventState] = useState("");
   const [eventDescription, setEventDescription] = useState("");
 
   const event = {
     title: eventName,
-    address: eventLocation,
-    date: dateOfEvent,
-    time: timeOfEvent,
+    address: eventAddress,
+    location: eventLocation,
+    dateTime: Timestamp.fromDate(dateOfEvent),
     city: eventCity,
     state: eventState,
     description: eventDescription,
+    // unable to include zip code due to inconsintencies in Google Places API response
   };
 
   const onChangeDateOfEvent = (eventDate, selectedDate) => {
     const currentDate = selectedDate || dateOfEvent;
     setShowDate(false);
-    setDateOfEvent(currentDate);
+    setDateOfEvent(() => {
+      const newDate = new Date(currentDate);
+      newDate.setHours(timeOfEvent.getHours());
+      newDate.setMinutes(timeOfEvent.getMinutes());
+      return newDate;
+    });
   };
   const onChangeTimeOfEvent = (eventTime, selectedTime) => {
     const currentTime = selectedTime || timeOfEvent;
+    setDateOfEvent((prevDate) => {
+      const newDate = new Date(prevDate);
+      newDate.setHours(currentTime.getHours());
+      newDate.setMinutes(currentTime.getMinutes());
+      return newDate;
+    });
     setShowTime(false);
     setTimeOfEvent(currentTime);
   };
 
   const onPressLocation = (data, details = null) => {
-    console.log({ data, details });
-    setEventLocation(data.description);
-    setEventCity(data.terms[2]);
-    setEventState(data.terms[3]);
+    setEventAddress(details.name);
+    setEventLocation(() => {
+      const { lat, lng } = details.geometry.location;
+      return new GeoPoint(lat, lng);
+    });
+    setEventCity(data.terms[2].value);
+    setEventState(data.terms[3].value);
   };
 
-  const handleCreateEvent = () => {
-    console.log("handleCreateEvent");
-    console.log(event);
-    props.onClose();
+  const handleCreateEvent = async () => {
+    try {
+      const eventRef = await collection(db, "events");
+      await addDoc(eventRef, event);
+      props.onClose();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <View style={[Styles.page, { gap: 15 }]}>
-      <SheetHeader sheetHeaderText={headerText} />
+      <SheetHeader sheetHeaderText="Details" />
       <_Input
         labelText="Event Name"
         borderColor="primary1_100"
