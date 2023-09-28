@@ -39,7 +39,6 @@ const GooglePlacesInput = (props) => {
 };
 
 const CreateEventSheet = (props) => {
-  const headerText = "Details";
   const [dateOfEvent, setDateOfEvent] = useState(new Date());
   const [timeOfEvent, setTimeOfEvent] = useState(new Date());
   const [showDate, setShowDate] = useState(false);
@@ -106,7 +105,7 @@ const CreateEventSheet = (props) => {
 
   return (
     <View style={[Styles.page, { gap: 15 }]}>
-      <SheetHeader sheetHeaderText={headerText} />
+      <SheetHeader sheetHeaderText="Details" />
       <_Input
         labelText="Event Name"
         borderColor="primary1_100"
