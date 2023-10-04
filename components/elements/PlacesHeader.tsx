@@ -1,4 +1,5 @@
 import { Text, View } from "react-native";
+
 import Colors from "../../settings/Colors";
 
 const PlacesHeader = () => (

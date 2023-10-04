@@ -120,7 +120,7 @@ const Dropdown = (props) => {
         heading={props.heading}
         isCollapsed={isCollapsed}
       />
-      <Collapsible collapsed={isCollapsed} containerStyle={{ borderRadius: 0 }}>
+      <Collapsible collapsed={isCollapsed}>
         <View style={{ flex: 1, maxHeight: 350 }}>
           <ChannelList
             filters={{
@@ -209,9 +209,12 @@ const PopularDropdown = () => {
           location: { $in: cities },
         };
         console.log(filters);
-        const sort = { member_count: -1 };
         const options = { limit: 3, watch: true, state: true };
-        const channels = await client.queryChannels(filters, sort, options);
+        const channels = await client.queryChannels(
+          filters,
+          { member_count: -1 },
+          options,
+        );
         console.log(channels.length);
         setChannelList(channels);
       } catch (error) {
@@ -230,7 +233,7 @@ const PopularDropdown = () => {
         onPress={toggleDropdown}
         isCollapsed={isCollapsed}
       />
-      <Collapsible collapsed={isCollapsed} containerStyle={{ borderRadius: 0 }}>
+      <Collapsible collapsed={isCollapsed}>
         <View style={{ flex: 1 }}>
           <FlatList
             data={channelList}
@@ -298,7 +301,7 @@ const HomePage = () => {
         >
           <Text style={styles.addACityText}>{`+ ${terms["add_a_city"]}`}</Text>
         </TouchableOpacity>
-        <PopularDropdown cities={cities} />
+        <PopularDropdown />
         {showAddCitySheet && (
           <BottomSheet
             ref={addCitySheetRef}

@@ -178,7 +178,9 @@ const MapsPage = () => {
               latitude: eventData.location._lat,
               longitude: eventData.location._long,
             },
-            datetime: convertTimestampToDateAndTime(eventData.datetime),
+            datetime: eventData?.datetime
+              ? convertTimestampToDateAndTime(eventData.datetime)
+              : undefined,
           };
         });
         setMarkers(eventsData);

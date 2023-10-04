@@ -16,19 +16,11 @@ import _Button from "../elements/_Button";
 import _Divider from "../elements/_Divider";
 import _Header from "../elements/_Header";
 import _Input from "../elements/_Input";
+import { validateEmail } from "../helper/validateEmail";
+import { validatePassword } from "../helper/validatePassword";
 import STYLES from "../styles/Styles";
 
 const terms = TERMS["English"];
-
-const validateEmail = (email) => {
-  return email.match(
-    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-  );
-};
-
-const validatePassword = (password) => {
-  return password.length >= 6;
-};
 
 const SignUpPage = () => {
   const navigator = useNavigation();

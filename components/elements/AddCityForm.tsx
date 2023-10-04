@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import Styles from "../styles/Styles";
-import Colors from "../../settings/Colors";
+
 import CitiesDropdown from "./CitiesDropdown";
 import _Button from "./_Button";
-
 import { fetchUsersCities, addUserCity } from "../../firebase/users";
+import Colors from "../../settings/Colors";
+import Styles from "../styles/Styles";
 
 const AddCityForm = () => {
   const [city, setCity] = useState(null);
