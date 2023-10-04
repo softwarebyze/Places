@@ -1,6 +1,7 @@
 import { getAuth } from "firebase/auth";
-import { db } from "../firebaseConfig";
 import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
+
+import { db } from "../firebaseConfig";
 
 const fetchUsersCities = async () => {
   try {
