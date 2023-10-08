@@ -45,5 +45,6 @@ export default {
     user_not_found: "User not found",
     services: "Services",
     add_a_city: "Add a City",
+    no_internet: "Please check your internet connection and try again.",
   },
 };
