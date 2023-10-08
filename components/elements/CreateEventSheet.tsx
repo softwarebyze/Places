@@ -90,9 +90,7 @@ const CreateEventSheet = (props) => {
       <SheetHeader sheetHeaderText={headerText} />
       <_Input
         labelText="Event Name"
-        borderColor="primary1_100"
         placeholder="Event name"
-        placeholderTextColor="primary1_030"
         onChangeText={setEventName}
       />
       <View
@@ -206,12 +204,8 @@ const CreateEventSheet = (props) => {
 
       <_Input
         labelText="Description"
-        borderColor="primary1_100"
         placeholder="Description"
-        placeholderTextColor="primary1_030"
         subtextText={`${eventDescription.length}/100`}
-        subtextColor="primary1_030"
-        subtextAlignSelf="flex-end"
         onChangeText={setEventDescription}
       />
       <_Button text="Create Event" action={handleCreateEvent} />
