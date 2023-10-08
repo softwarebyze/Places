@@ -136,19 +136,17 @@ const SlideUpPanel = ({
   );
 };
 
-const FloatingPlusButton = (props) => (
-  <Ionicons
-    name="add-circle"
-    size={58}
-    backgroundColor="white"
-    color={Colors.orange}
+const FloatingButton = (props) => (
+  <TouchableOpacity
     style={{
       position: "absolute",
-      bottom: 26,
-      right: 26,
+      bottom: 18,
+      right: 18,
     }}
-    onPress={props.onPress}
-  />
+    {...props}
+  >
+    {props.children}
+  </TouchableOpacity>
 );
 
 const convertTimestampToDateAndTime = (timestamp) => {
@@ -237,11 +235,17 @@ const MapsPage = () => {
           </Marker>
         ))}
       </MapView>
-      <FloatingPlusButton
+      <FloatingButton
         onPress={() => {
           setShowCreateEventSheet(true);
         }}
-      />
+      >
+        <Image
+          style={{ width: 70, height: 70 }}
+          source={require("../../assets/add-icon.svg")}
+        />
+      </FloatingButton>
+
       {selectedMarker && (
         <BottomSheet
           ref={eventDetailsBottomSheetRef}
