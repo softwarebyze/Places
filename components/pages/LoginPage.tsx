@@ -103,7 +103,7 @@ const LoginPage = () => {
       );
     }
     setLoading(false);
-    return navigator.replace("HomeTabs");
+    // return navigator.replace("HomeTabs");
   };
 
   return (

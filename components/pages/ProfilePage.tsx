@@ -17,7 +17,7 @@ const ProfilePage = () => {
   const logout = () => {
     signOut(auth);
     client.disconnectUser();
-    navigator.navigate("Start");
+    // navigator.navigate("Start");
   };
 
   return (
