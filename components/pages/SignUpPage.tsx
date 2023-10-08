@@ -19,31 +19,22 @@ const terms = TERMS["English"];
 const SignUpPage = () => {
   const navigator = useNavigation();
   const auth = getAuth();
-  const [emailFocusState, setEmailFocusState] = useState(false);
-  const [emailTextState, setEmailTextState] = useState("");
-  const [passwordFocusState, setPasswordFocusState] = useState(false);
-  const [passwordTextState, setPasswordTextState] = useState("");
-  const [confirmPasswordFocusState, setConfirmPasswordFocusState] =
-    useState(false);
-  const [confirmPasswordTextState, setConfirmPasswordTextState] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const passwordsMatch =
-    passwordTextState.length && passwordTextState === confirmPasswordTextState;
-  const emailIsValid = validateEmail(emailTextState);
-  const passwordIsValid = validatePassword(passwordTextState);
+  const passwordsMatch = password.length && password === confirmPassword;
+  const emailIsValid = validateEmail(email);
+  const passwordIsValid = validatePassword(password);
   const canContinue = emailIsValid && passwordIsValid && passwordsMatch;
 
   const handleSignUp = async () => {
     setLoading(true);
 
     try {
-      const user = await createUserWithEmailAndPassword(
-        auth,
-        emailTextState,
-        passwordTextState,
-      );
+      const user = await createUserWithEmailAndPassword(auth, email, password);
       if (user) {
         setLoading(false);
         navigator.replace("Details");
@@ -75,64 +66,27 @@ const SignUpPage = () => {
         action={() => navigator.navigate("Start")}
       />
       <_Input
-        labelText={terms["0006"]}
+        labelText={terms["email"]}
         subtextText={terms["0014"]}
-        onFocus={() => setEmailFocusState(true)}
-        onBlur={() => setEmailFocusState(false)}
-        onChangeText={(input) => setEmailTextState(input)}
-        borderColor={
-          emailTextState && !emailIsValid
-            ? "error_080"
-            : emailFocusState
-            ? "primary1_100"
-            : "primary1_030"
-        }
-        subtextColor={
-          emailTextState && !emailIsValid
-            ? "error_080"
-            : emailFocusState
-            ? "clear_000"
-            : "clear_000"
-        }
+        onChangeText={setEmail}
+        value={email}
+        isValid={emailIsValid}
       />
       <_Input
         secureTextEntry
-        labelText={terms["0007"]}
+        labelText={terms["password"]}
         subtextText={terms["your_password_must_be_at_least_6_characters"]}
-        onFocus={() => setPasswordFocusState(true)}
-        onBlur={() => setPasswordFocusState(false)}
-        onChangeText={(input) => setPasswordTextState(input)}
-        borderColor={
-          passwordTextState && !passwordIsValid
-            ? "error_100"
-            : passwordFocusState
-            ? "primary1_100"
-            : "primary1_030"
-        }
-        subtextColor={
-          emailTextState && !passwordIsValid
-            ? "primary1_030"
-            : passwordFocusState
-            ? "primary1_030"
-            : "clear_000"
-        }
+        onChangeText={setPassword}
+        value={password}
+        isValid={passwordIsValid}
       />
       <_Input
         secureTextEntry
         labelText="Confirm Password"
-        onFocus={() => setConfirmPasswordFocusState(true)}
-        onBlur={() => setConfirmPasswordFocusState(false)}
-        onChangeText={setConfirmPasswordTextState}
-        borderColor={
-          confirmPasswordFocusState ? "primary1_100" : "primary1_030"
-        }
-        subtextColor={
-          emailTextState
-            ? "primary1_030"
-            : passwordFocusState
-            ? "primary1_030"
-            : "clear_000"
-        }
+        onChangeText={setConfirmPassword}
+        value={confirmPassword}
+        isValid={passwordsMatch}
+        subtextText={terms.passwords_must_match}
       />
       {loading ? (
         <ActivityIndicator />
