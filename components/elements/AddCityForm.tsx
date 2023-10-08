@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import Styles from "../styles/Styles";
-import Colors from "../../settings/Colors";
+
 import CitiesDropdown from "./CitiesDropdown";
 import _Button from "./_Button";
-
 import { fetchUsersCities, addUserCity } from "../../firebase/users";
+import Colors from "../../settings/Colors";
+import Styles from "../styles/Styles";
 
 const AddCityForm = () => {
   const [city, setCity] = useState(null);
@@ -48,7 +48,7 @@ const AddCityForm = () => {
         <CitiesDropdown onSelect={setCity} />
         <_Button action={handleAddCity} text="Add City" disabled={!city} />
       </View>
-      <Text style={Styles.groupLabelText}>Your Cities</Text>
+      {/* <Text style={Styles.groupLabelText}>Your Cities</Text>
       <View
         style={{
           display: "flex",
@@ -64,7 +64,7 @@ const AddCityForm = () => {
             <Text style={styles.usersCityButtonText}>{city}</Text>
           </View>
         ))}
-      </View>
+      </View> */}
     </View>
   );
 };

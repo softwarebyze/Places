@@ -12,7 +12,7 @@ const ELEMENT_WIDTH = 0.87 * WIDTH;
 const ELEMENT_HEIGHT = 0.071 * HEIGHT;
 const SULI_HEADER_HEIGHT = 0.06 * HEIGHT;
 
-export default new StyleSheet.create({
+export default StyleSheet.create({
   spaceEvenly: {
     justifyContent: "space-evenly",
   },
@@ -184,12 +184,12 @@ export default new StyleSheet.create({
   },
   tagNotSelectedText: {
     color: COLORS.dark_grey,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "600",
   },
   tagSelectedText: {
     color: COLORS.white_100,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "600",
   },
   categoryText: {

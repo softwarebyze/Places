@@ -1,9 +1,10 @@
-import { AntDesign, EvilIcons, Feather, Ionicons } from "@expo/vector-icons";
+import { AntDesign, EvilIcons, Feather } from "@expo/vector-icons";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { format } from "date-fns";
+import { Image } from "expo-image";
 import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useRef, useState } from "react";
-import { View, Image, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 
 import { db } from "../../firebaseConfig";
@@ -135,19 +136,17 @@ const SlideUpPanel = ({
   );
 };
 
-const FloatingPlusButton = (props) => (
-  <Ionicons
-    name="add-circle"
-    size={58}
-    backgroundColor="white"
-    color={Colors.orange}
+const FloatingButton = (props) => (
+  <TouchableOpacity
     style={{
       position: "absolute",
-      bottom: 26,
-      right: 26,
+      bottom: 18,
+      right: 18,
     }}
-    onPress={props.onPress}
-  />
+    {...props}
+  >
+    {props.children}
+  </TouchableOpacity>
 );
 
 const convertTimestampToDateAndTime = (timestamp) => {
@@ -178,7 +177,9 @@ const MapsPage = () => {
               latitude: eventData.location._lat,
               longitude: eventData.location._long,
             },
-            datetime: convertTimestampToDateAndTime(eventData.datetime),
+            datetime: eventData?.datetime
+              ? convertTimestampToDateAndTime(eventData.datetime)
+              : undefined,
           };
         });
         setMarkers(eventsData);
@@ -227,15 +228,24 @@ const MapsPage = () => {
             coordinate={marker.location}
             onPress={() => handleMarkerPress(marker)}
           >
-            <Image source={require("../../assets/marker.png")} />
+            <Image
+              style={{ width: 32, height: 38 }}
+              source={require("../../assets/marker.svg")}
+            />
           </Marker>
         ))}
       </MapView>
-      <FloatingPlusButton
+      <FloatingButton
         onPress={() => {
           setShowCreateEventSheet(true);
         }}
-      />
+      >
+        <Image
+          style={{ width: 70, height: 70 }}
+          source={require("../../assets/add-icon.svg")}
+        />
+      </FloatingButton>
+
       {selectedMarker && (
         <BottomSheet
           ref={eventDetailsBottomSheetRef}

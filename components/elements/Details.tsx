@@ -9,6 +9,7 @@ import {
   Text,
   View,
   Button,
+  ActivityIndicator,
 } from "react-native";
 import PhoneInput from "react-native-phone-input";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -31,6 +32,7 @@ const Details = () => {
   const [dateOfBirth, setDateOfBirth] = useState(new Date(0));
   const [showDatePicker, setShowDatePicker] = useState(false);
   const phoneRef = useRef();
+  const [loading, setLoading] = useState(false);
 
   const completed = firstName.length && lastName.length && gender.length;
   const disabled = !completed;
@@ -48,6 +50,7 @@ const Details = () => {
   ];
 
   const handleSubmitDetails = async () => {
+    setLoading(true);
     const auth = getAuth();
     const userId = auth.currentUser.uid;
     const userRef = doc(db, "users", userId);
@@ -64,6 +67,7 @@ const Details = () => {
       { merge: true },
     );
     navigator.navigate("ChooseLocation");
+    setLoading(false);
   };
 
   const navigator = useNavigation();
@@ -142,11 +146,15 @@ const Details = () => {
             )}
           </View>
         </View>
-        <_Button
-          text={terms["0017"]}
-          action={handleSubmitDetails}
-          disabled={disabled}
-        />
+        {loading ? (
+          <ActivityIndicator />
+        ) : (
+          <_Button
+            text={terms["0017"]}
+            action={handleSubmitDetails}
+            disabled={disabled}
+          />
+        )}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

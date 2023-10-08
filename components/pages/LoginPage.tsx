@@ -6,26 +6,18 @@ import { Text, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StreamChat } from "stream-chat";
 
-import { db } from "../../firebaseConfig";
+import { db, getStreamUserToken } from "../../firebaseConfig";
 import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
 import _Button from "../elements/_Button";
 import _Divider from "../elements/_Divider";
 import _Header from "../elements/_Header";
 import _Input from "../elements/_Input";
+import { validateEmail } from "../helper/validateEmail";
+import { validatePassword } from "../helper/validatePassword";
 import STYLES from "../styles/Styles";
 
 const terms = TERMS["English"];
-
-const validateEmail = (email) => {
-  return email.match(
-    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-  );
-};
-
-const validatePassword = (password) => {
-  return password.length >= 6;
-};
 
 const { EXPO_PUBLIC_STREAM_API_KEY } = process.env;
 const client = StreamChat.getInstance(EXPO_PUBLIC_STREAM_API_KEY);
@@ -102,8 +94,9 @@ const LoginPage = () => {
     if (!client?.user) {
       const auth = getAuth();
       const userId = auth?.currentUser?.uid;
-      const res = await fetch(`https://auth-token.onrender.com/${userId}`);
-      const { token } = await res.json();
+      const tokenResponse = await getStreamUserToken();
+      const token = tokenResponse.data.toString();
+      if (!token) return;
       await client.connectUser(
         { id: userId, name: `${userData.first_name} ${userData.last_name}` },
         token,
@@ -171,6 +164,7 @@ const LoginPage = () => {
       ) : (
         <>
           <_Button
+            style={{ marginTop: 30 }}
             text={terms["0008"]}
             action={handleSignInFlow}
             disabled={!canContinue}
