@@ -3,6 +3,7 @@
     "name": "Places",
     "slug": "Places",
     "version": "1.0.0",
+    "scheme": "places",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
