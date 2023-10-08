@@ -1,9 +1,10 @@
 import { AntDesign, EvilIcons, Feather, Ionicons } from "@expo/vector-icons";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { format } from "date-fns";
+import { Image } from "expo-image";
 import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useRef, useState } from "react";
-import { View, Image, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 
 import { db } from "../../firebaseConfig";
@@ -229,7 +230,10 @@ const MapsPage = () => {
             coordinate={marker.location}
             onPress={() => handleMarkerPress(marker)}
           >
-            <Image source={require("../../assets/marker.png")} />
+            <Image
+              style={{ width: 32, height: 38 }}
+              source={require("../../assets/marker.svg")}
+            />
           </Marker>
         ))}
       </MapView>
