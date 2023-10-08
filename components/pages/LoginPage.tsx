@@ -115,7 +115,7 @@ const LoginPage = () => {
         action={() => navigator.navigate("Start")}
       />
       <_Input
-        labelText={terms["0006"]}
+        labelText={terms["email"]}
         subtextText={terms["0014"]}
         onFocus={() => setEmailFocusState(true)}
         onBlur={() => setEmailFocusState(false)}

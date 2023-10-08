@@ -5,7 +5,7 @@ export default {
     "0003": "Create an account",
     already_have_an_account: "Already have an account?",
     "0005": "Sign up",
-    "0006": "Email",
+    email: "Email",
     "0007": "Password",
     "0008": "Continue",
     "0009": "Or",
