@@ -51,7 +51,7 @@ const HomeTabs = () => (
         ),
       }}
     /> */}
-    <Tab.Screen
+    {/* <Tab.Screen
       name="Maps"
       component={MapsPage}
       options={{
@@ -63,7 +63,7 @@ const HomeTabs = () => (
           />
         ),
       }}
-    />
+    /> */}
     <Tab.Screen
       name="Profile"
       component={ProfilePage}
