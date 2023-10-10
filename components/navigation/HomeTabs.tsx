@@ -2,7 +2,7 @@ import { Foundation, MaterialCommunityIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import HomeStack from "./HomeStack";
-import NeighborsStack from "./NeighborsStack";
+// import NeighborsStack from "./NeighborsStack";
 import Colors from "../../settings/Colors";
 import MapsPage from "../pages/MapsPage";
 import ProfilePage from "../pages/ProfilePage";
@@ -38,7 +38,7 @@ const HomeTabs = () => (
         headerShown: false,
       }}
     />
-    <Tab.Screen
+    {/* <Tab.Screen
       name="Neighbors"
       component={NeighborsStack}
       options={{
@@ -50,7 +50,7 @@ const HomeTabs = () => (
           />
         ),
       }}
-    />
+    /> */}
     <Tab.Screen
       name="Maps"
       component={MapsPage}
