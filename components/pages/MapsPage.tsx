@@ -1,13 +1,11 @@
 import { AntDesign, EvilIcons, Feather } from "@expo/vector-icons";
 import BottomSheet from "@gorhom/bottom-sheet";
-import { format } from "date-fns";
 import { Image } from "expo-image";
-import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useRef, useState } from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 
-import { db } from "../../firebaseConfig";
+import { getEvents } from "../../firebase/events";
 import Colors from "../../settings/Colors";
 import CreateEventSheet from "../elements/CreateEventSheet";
 
@@ -158,26 +156,8 @@ const MapsPage = () => {
 
   useEffect(() => {
     const fetchEvents = async () => {
-      try {
-        const eventsCollection = collection(db, "events");
-        const eventsSnapshot = await getDocs(eventsCollection);
-        const eventsData = eventsSnapshot.docs.map((doc) => {
-          const eventData = doc.data();
-          return {
-            ...eventData,
-            location: {
-              latitude: eventData.location._lat,
-              longitude: eventData.location._long,
-            },
-            datetime: eventData?.datetime
-              ? convertTimestampToDateAndTime(eventData.datetime)
-              : undefined,
-          };
-        });
-        setMarkers(eventsData);
-      } catch (error) {
-        console.error("Error fetching events:", error);
-      }
+      const events = await getEvents();
+      setMarkers(events);
     };
 
     fetchEvents();
