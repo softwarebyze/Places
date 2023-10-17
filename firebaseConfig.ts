@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { initializeApp } from "firebase/app";
 import { getAuth, initializeAuth, onAuthStateChanged } from "firebase/auth";
 import { getReactNativePersistence } from "firebase/auth/react-native";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, initializeFirestore } from "firebase/firestore";
 import { getFunctions, httpsCallable } from "firebase/functions";
 
 // Initialize Firebase
@@ -23,7 +23,9 @@ initializeAuth(app, {
 });
 export const auth = getAuth(app);
 // Initialize Cloud Firestore and get a reference to the service
-export const db = getFirestore(app);
+export const db = initializeFirestore(app, {
+  experimentalForceLongPolling: true,
+});
 const functions = getFunctions(app, "us-east1");
 export const getStreamUserToken = httpsCallable(
   functions,

@@ -24,24 +24,18 @@ const client = StreamChat.getInstance(EXPO_PUBLIC_STREAM_API_KEY);
 
 const LoginPage = () => {
   const navigator = useNavigation();
-  const [emailFocusState, setEmailFocusState] = useState(false);
-  const [emailTextState, setEmailTextState] = useState("zack@test.com");
-  const [passwordFocusState, setPasswordFocusState] = useState(false);
-  const [passwordTextState, setPasswordTextState] = useState("123456");
+  const [email, setEmail] = useState("zack@test.com");
+  const [password, setPassword] = useState("123456");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const emailIsValid = validateEmail(emailTextState);
-  const passwordIsValid = validatePassword(passwordTextState);
+  const emailIsValid = validateEmail(email);
+  const passwordIsValid = validatePassword(password);
   const canContinue = emailIsValid && passwordIsValid;
 
   const signIn = async () => {
     const auth = getAuth();
     try {
-      const user = await signInWithEmailAndPassword(
-        auth,
-        emailTextState,
-        passwordTextState,
-      );
+      const user = await signInWithEmailAndPassword(auth, email, password);
       if (!user) {
         setLoading(false);
         return;
@@ -55,6 +49,8 @@ const LoginPage = () => {
         setError(terms["too_many_attempts_try_again_later"]);
       } else if (error.code === "auth/user-not-found") {
         setError(terms["user_not_found"]);
+      } else if (error.code === "auth/network-request-failed") {
+        setError(terms["no_internet"]);
       } else {
         throw new Error(error);
       }
@@ -113,47 +109,19 @@ const LoginPage = () => {
         action={() => navigator.navigate("Start")}
       />
       <_Input
-        labelText={terms["0006"]}
+        labelText={terms["email"]}
         subtextText={terms["0014"]}
-        onFocus={() => setEmailFocusState(true)}
-        onBlur={() => setEmailFocusState(false)}
-        onChangeText={(input) => setEmailTextState(input)}
-        borderColor={
-          emailTextState && !emailIsValid
-            ? "error_080"
-            : emailFocusState
-            ? "primary1_100"
-            : "primary1_030"
-        }
-        subtextColor={
-          emailTextState && !emailIsValid
-            ? "error_080"
-            : emailFocusState
-            ? "clear_000"
-            : "clear_000"
-        }
+        onChangeText={setEmail}
+        value={email}
+        isValid={emailIsValid}
       />
       <_Input
         secureTextEntry
-        labelText={terms["0007"]}
+        labelText={terms["password"]}
         subtextText={terms["0015"]}
-        onFocus={() => setPasswordFocusState(true)}
-        onBlur={() => setPasswordFocusState(false)}
-        onChangeText={(input) => setPasswordTextState(input)}
-        borderColor={
-          passwordTextState && !passwordIsValid
-            ? "error_100"
-            : passwordFocusState
-            ? "primary1_100"
-            : "primary1_030"
-        }
-        subtextColor={
-          emailTextState && !passwordIsValid
-            ? "primary1_030"
-            : passwordFocusState
-            ? "primary1_030"
-            : "clear_000"
-        }
+        onChangeText={setPassword}
+        isValid={passwordIsValid}
+        value={password}
       />
 
       {error.length ? (

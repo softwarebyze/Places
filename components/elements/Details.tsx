@@ -74,16 +74,8 @@ const Details = () => {
   return (
     <SafeAreaView style={Styles.page}>
       <KeyboardAvoidingView style={[Styles.suliContinues, Styles.page]}>
-        <_Input
-          labelText="First Name"
-          borderColor="primary1_100"
-          onChangeText={setFirstName}
-        />
-        <_Input
-          labelText="Last Name"
-          borderColor="primary1_100"
-          onChangeText={setLastName}
-        />
+        <_Input labelText="First Name" onChangeText={setFirstName} />
+        <_Input labelText="Last Name" onChangeText={setLastName} />
         <View>
           <Text style={[Styles.d1Box, Styles.inputLabel]}>Phone Number</Text>
           <View

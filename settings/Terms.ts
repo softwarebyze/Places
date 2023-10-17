@@ -5,8 +5,8 @@ export default {
     "0003": "Create an account",
     already_have_an_account: "Already have an account?",
     "0005": "Sign up",
-    "0006": "Email",
-    "0007": "Password",
+    email: "Email",
+    password: "Password",
     "0008": "Continue",
     "0009": "Or",
     "0010": "Continue with Apple",
@@ -45,5 +45,7 @@ export default {
     user_not_found: "User not found",
     services: "Services",
     add_a_city: "Add a City",
+    no_internet: "Please check your internet connection and try again.",
+    passwords_must_match: "Passwords must match",
   },
 };
