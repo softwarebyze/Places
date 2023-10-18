@@ -1,7 +1,5 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useNavigation } from "@react-navigation/native";
-import { getAuth } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
 import { useRef, useState } from "react";
 import {
   KeyboardAvoidingView,
@@ -17,7 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import _Button from "./_Button";
 import _Dropdown from "./_Dropdown";
 import _Input from "./_Input";
-import { db } from "../../firebaseConfig";
+import { updateUserDetails } from "../../firebase/users";
 import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
 import Styles from "../styles/Styles";
@@ -48,24 +46,15 @@ const Details = () => {
     { label: "Female", value: "Female" },
     { label: "Other", value: "Other" },
   ];
-
   const handleSubmitDetails = async () => {
     setLoading(true);
-    const auth = getAuth();
-    const userId = auth.currentUser.uid;
-    const userRef = doc(db, "users", userId);
-    await setDoc(
-      userRef,
-      {
-        first_name: firstName,
-        last_name: lastName,
-        phone: phoneNumber,
-        gender,
-        details_completed: true,
-        birth_date: dateOfBirth,
-      },
-      { merge: true },
-    );
+    updateUserDetails({
+      firstName,
+      lastName,
+      gender,
+      phoneNumber,
+      dateOfBirth,
+    });
     navigator.navigate("ChooseLocation");
     setLoading(false);
   };
@@ -77,14 +66,13 @@ const Details = () => {
         <_Input labelText="First Name" onChangeText={setFirstName} />
         <_Input labelText="Last Name" onChangeText={setLastName} />
         <View>
-          <Text style={[Styles.d1Box, Styles.inputLabel]}>Phone Number</Text>
+          <Text style={[Styles.inputLabel]}>Phone Number</Text>
           <View
             style={[
               Styles.d2Box,
               {
                 borderRadius: 10,
                 padding: 10,
-                fontSize: 17,
                 borderColor: Colors.primary1_100,
                 justifyContent: "center",
               },
@@ -115,7 +103,6 @@ const Details = () => {
               {
                 flexDirection: "row",
                 borderRadius: 10,
-                fontSize: 17,
                 borderColor: Colors.primary1_100,
                 justifyContent: "flex-start",
                 alignItems: "center",

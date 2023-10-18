@@ -1,5 +1,5 @@
 import { getAuth } from "firebase/auth";
-import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
+import { doc, getDoc, updateDoc, arrayUnion, setDoc } from "firebase/firestore";
 
 import { db } from "../firebaseConfig";
 
@@ -38,4 +38,45 @@ const addUserCity = async (city) => {
   }
 };
 
-export { fetchUsersCities, addUserCity };
+const fetchUserDetails = async () => {
+  try {
+    const auth = getAuth();
+    const userId = auth.currentUser?.uid;
+    if (!userId) return null;
+    const userRef = doc(db, "users", userId);
+    const userSnap = await getDoc(userRef);
+    if (userSnap.exists()) {
+      return userSnap.data();
+    } else {
+      throw new Error("No user found");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const updateUserDetails = async ({
+  firstName,
+  lastName,
+  phoneNumber,
+  gender,
+  dateOfBirth,
+}) => {
+  const auth = getAuth();
+  const userId = auth.currentUser.uid;
+  const userRef = doc(db, "users", userId);
+  await setDoc(
+    userRef,
+    {
+      first_name: firstName,
+      last_name: lastName,
+      phone: phoneNumber,
+      gender,
+      details_completed: true,
+      birth_date: dateOfBirth,
+    },
+    { merge: true },
+  );
+};
+
+export { fetchUsersCities, addUserCity, fetchUserDetails, updateUserDetails };

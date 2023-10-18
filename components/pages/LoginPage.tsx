@@ -16,6 +16,7 @@ import _Input from "../elements/_Input";
 import { validateEmail } from "../helper/validateEmail";
 import { validatePassword } from "../helper/validatePassword";
 import STYLES from "../styles/Styles";
+import { fetchUserDetails } from "../../firebase/users";
 
 const terms = TERMS["English"];
 
@@ -59,27 +60,11 @@ const LoginPage = () => {
     }
   };
 
-  const getUserData = async () => {
-    const auth = getAuth();
-    const userId = auth.currentUser?.uid;
-    if (!userId) throw new Error("No user ID found!");
-
-    const userRef = doc(db, "users", userId);
-    const userSnap = await getDoc(userRef);
-
-    if (userSnap.exists()) {
-      return userSnap.data();
-    } else {
-      console.log("No data for user!");
-      return null;
-    }
-  };
-
   const handleSignInFlow = async () => {
     setLoading(true);
     const user = await signIn();
     if (!user) return;
-    const userData = await getUserData();
+    const userData = await fetchUserDetails();
     if (!userData?.details_completed) return navigator.replace("Details");
     if (!userData?.location && !userData?.cities.length)
       return navigator.replace("ChooseLocation");

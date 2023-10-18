@@ -12,6 +12,7 @@ import TERMS from "../../settings/Terms";
 import CitiesDropdown from "../elements/CitiesDropdown";
 import _Button from "../elements/_Button";
 import STYLES from "../styles/Styles";
+import { fetchUserDetails } from "../../firebase/users";
 const terms = TERMS["English"];
 
 const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
@@ -23,22 +24,6 @@ const LocationPage = () => {
 
   const disabled = location.length === 0;
 
-  const getUserData = async () => {
-    const auth = getAuth();
-    const userId = auth.currentUser?.uid;
-    if (!userId) throw new Error("No user ID found!");
-
-    const userRef = doc(db, "users", userId);
-    const userSnap = await getDoc(userRef);
-
-    if (userSnap.exists()) {
-      return userSnap.data();
-    } else {
-      console.log("No data for user!");
-      return null;
-    }
-  };
-
   const handleSubmitLocation = async () => {
     setLoading(true);
     const auth = getAuth();
@@ -46,7 +31,7 @@ const LocationPage = () => {
     const userRef = doc(db, "users", userId);
     await setDoc(userRef, { cities: [location] }, { merge: true });
     if (!client?.user) {
-      const userData = await getUserData();
+      const userData = await fetchUserDetails();
       const tokenResponse = await getStreamUserToken();
       const token = tokenResponse.data.toString();
       await client.connectUser(
