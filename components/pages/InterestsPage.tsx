@@ -15,11 +15,12 @@ import { StreamChat } from "stream-chat";
 import { db } from "../../firebaseConfig";
 import Colors from "../../settings/Colors";
 import _Button from "../elements/_Button";
+import { InterestsPageProps } from "../navigation/types";
 import STYLES from "../styles/Styles";
 
 const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
 
-const groupChannelsByCategory = (channelsData) => {
+const groupChannelsByCategory = (channelsData: any[]) => {
   return channelsData.reduce((acc, channel) => {
     const category = channel.category;
     if (!acc[category]) {
@@ -65,8 +66,8 @@ export const InterestTag = (props) => {
 };
 
 const InterestsPage = () => {
-  const navigator = useNavigation();
-  const route = useRoute();
+  const navigator = useNavigation<InterestsPageProps["navigation"]>();
+  const route = useRoute<InterestsPageProps["route"]>();
   const REQUIRED_INTERESTS = 5;
   const [userInterests, setUserInterests] = useState([]);
   const [channelList, setChannelList] = useState([]);
@@ -156,7 +157,7 @@ const InterestsPage = () => {
         <View style={{ marginBottom: 20 }}>
           <View>
             {Object.entries(channelsGroupedByCategory).map(
-              ([category, channels]) => {
+              ([category, channels]: [string, any[]]) => {
                 return (
                   <View key={category}>
                     <Text

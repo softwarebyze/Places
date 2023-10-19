@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   FlatList,
+  ActivityIndicator,
 } from "react-native";
 import Collapsible from "react-native-collapsible";
 import { StreamChat } from "stream-chat";
@@ -20,6 +21,7 @@ import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
 import AddCityForm from "../elements/AddCityForm";
 import PlacesHeader from "../elements/PlacesHeader";
+import { HomePageProps } from "../navigation/types";
 import Styles from "../styles/Styles";
 const terms = TERMS["English"];
 
@@ -74,11 +76,14 @@ const PopularDropdownHeader = (props) => (
 );
 
 const JoinANewPlace = (props) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<HomePageProps["navigation"]>();
   return (
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate("JoinPlace", { location: props.location })
+        navigation.navigate("JoinPlaceStack", {
+          screen: "JoinPlace",
+          params: { location: props.location },
+        })
       }
       style={{
         backgroundColor: Colors.white_100,
@@ -110,7 +115,7 @@ const Dropdown = (props) => {
     setIsCollapsed(!isCollapsed);
   };
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<HomePageProps["navigation"]>();
   const auth = getAuth();
 
   return (
@@ -155,12 +160,12 @@ const Location = (props) => (
 );
 
 const PopularChannel = ({ channel, onSelect }) => {
-  const navigator = useNavigation();
+  const navigation = useNavigation<HomePageProps["navigation"]>();
   return (
-    <View
+    <TouchableOpacity
       style={{ padding: 8 }}
       onPress={() =>
-        navigator.navigate("ChannelInfo", { channelInfo: channel })
+        navigation.navigate("ChannelInfo", { channelInfo: channel })
       }
     >
       <View style={{ flexDirection: "row" }}>
@@ -188,7 +193,7 @@ const PopularChannel = ({ channel, onSelect }) => {
           <JoinButton onSelect={onSelect} />
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -224,7 +229,7 @@ const PopularDropdown = () => {
     fetchChannels();
   }, []);
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<HomePageProps["navigation"]>();
   const auth = getAuth();
 
   return (
@@ -256,6 +261,7 @@ const HomePage = () => {
   const [cities, setCities] = useState([]);
   const [showAddCitySheet, setShowAddCitySheet] = useState(false);
   const addCitySheetRef = useRef(null);
+  const [loadingStatus, setLoadingStatus] = useState<string | null>(null);
 
   const onAddCitySheetChange = (code) => {
     if (code === -1) {
@@ -266,10 +272,13 @@ const HomePage = () => {
   useEffect(() => {
     const fetchAndSetUsersCities = async () => {
       try {
+        setLoadingStatus("Fetching cities");
         const cities = await fetchUsersCities();
         setCities(cities);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoadingStatus(null);
       }
     };
     fetchAndSetUsersCities();
@@ -290,6 +299,21 @@ const HomePage = () => {
         ]}
       >
         <Text style={Styles.groupLabelText}>Your Places</Text>
+
+        {loadingStatus ? (
+          <View
+            style={{
+              flexDirection: "row",
+              alignSelf: "flex-end",
+              alignContent: "center",
+            }}
+          >
+            <ActivityIndicator />
+            <Text style={{ alignSelf: "flex-end" }}>
+              {`${loadingStatus} ...`}
+            </Text>
+          </View>
+        ) : null}
 
         {cities.map((city) => (
           <Dropdown heading={city} key={city} />

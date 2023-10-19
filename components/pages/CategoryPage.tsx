@@ -11,6 +11,7 @@ import Searchbar from "../elements/Searchbar";
 import SheetBody from "../elements/SheetBody";
 import SheetHeader from "../elements/SheetHeader";
 import _Button from "../elements/_Button";
+import { CategoryPageProps } from "../navigation/types";
 import STYLES from "../styles/Styles";
 
 const InterestListItem = ({ channel }) => {
@@ -19,7 +20,10 @@ const InterestListItem = ({ channel }) => {
     <TouchableOpacity
       style={STYLES.catPageGrid}
       onPress={() =>
-        navigator.navigate("ChannelInfo", { channelInfo: channel })
+        navigator.navigate("JoinPlaceStack", {
+          screen: "ChannelInfo",
+          params: { channelInfo: channel },
+        })
       }
     >
       <View style={STYLES.catPageInfo}>
@@ -46,7 +50,7 @@ const InterestListItem = ({ channel }) => {
   );
 };
 const CategoryPage = () => {
-  const route = useRoute();
+  const route = useRoute<CategoryPageProps["route"]>();
   const { channels } = route.params;
   const [search, setSearch] = useState("");
   const filteredChannels = channels.filter((channel) =>

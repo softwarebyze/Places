@@ -8,7 +8,8 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "prepare": "husky install",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "maestro test test/"
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^4",
@@ -41,6 +42,7 @@
     "react-native-safe-area-context": "4.6.3",
     "react-native-screens": "~3.22.0",
     "react-native-svg": "13.9.0",
+    "stream-chat": "^8.13.0",
     "stream-chat-expo": "^5.15.2"
   },
   "devDependencies": {
