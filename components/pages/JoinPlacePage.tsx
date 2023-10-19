@@ -6,6 +6,7 @@ import { StreamChat } from "stream-chat";
 
 import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
+import { JoinPlacePageProps } from "../navigation/types";
 import STYLES from "../styles/Styles";
 
 const terms = TERMS["English"];
@@ -43,14 +44,8 @@ const ServicesImage = () => (
 );
 
 const CategoryCard = (props) => {
-  const navigator = useNavigation();
   return (
-    <TouchableOpacity
-      onPress={() =>
-        navigator.navigate("Category", { channels: props.channels })
-      }
-      style={STYLES.category}
-    >
+    <TouchableOpacity onPress={props.onPress} style={STYLES.category}>
       {props.image}
       <Text style={STYLES.categoryText}>{props.category}</Text>
     </TouchableOpacity>
@@ -58,7 +53,8 @@ const CategoryCard = (props) => {
 };
 
 const JoinPlacePage = () => {
-  const route = useRoute();
+  const route = useRoute<JoinPlacePageProps["route"]>();
+  const navigator = useNavigation<JoinPlacePageProps["navigation"]>();
   const { location } = route.params;
 
   const [sports, setSports] = useState([]);
@@ -121,6 +117,9 @@ const JoinPlacePage = () => {
       >
         {categories.map((category) => (
           <CategoryCard
+            onPress={navigator.navigate("Category", {
+              channels: category.channels,
+            })}
             key={category.category}
             channels={category.channels}
             image={category.image}

@@ -7,9 +7,11 @@ import {
   OverlayProvider,
 } from "stream-chat-expo";
 
+import { PlacesChatPageProps } from "../navigation/types";
+
 const PlacesChatPage = () => {
-  const route = useRoute();
-  const navigator = useNavigation();
+  const route = useRoute<PlacesChatPageProps["route"]>();
+  const navigator = useNavigation<PlacesChatPageProps["navigation"]>();
   const { channel } = route.params;
   return (
     <OverlayProvider>

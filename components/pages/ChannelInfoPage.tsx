@@ -3,18 +3,19 @@ import { getAuth } from "firebase/auth";
 import { View, Text } from "react-native";
 
 import _Button from "../elements/_Button";
+import { ChannelInfoPageProps } from "../navigation/types";
 import Styles from "../styles/Styles";
 
 const ChannelInfoPage = () => {
-  const navigator = useNavigation();
-  const route = useRoute();
+  const navigation = useNavigation<ChannelInfoPageProps["navigation"]>();
+  const route = useRoute<ChannelInfoPageProps["route"]>();
   const { channelInfo } = route.params;
 
   const addChannel = async () => {
     const auth = getAuth();
     await channelInfo.addMembers([auth.currentUser.uid]);
     console.log("added member");
-    navigator.navigate("PlacesChat", { channel: channelInfo });
+    navigation.navigate("PlacesChat", { channel: channelInfo });
     console.log(`you are entering ${channelInfo.data.name}'s chat!`);
   };
   return (

@@ -1,0 +1,13 @@
+appId: com.placesdev.places
+---
+- tapOn: "Create an account"
+- tapOn:
+    point: "50%,30%"
+- inputText: "example@example.com"
+- tapOn:
+    point: "50%,40%"
+- inputText: "example"
+- tapOn:
+    point: "50%,49%"
+- inputText: "example"
+- tapOn: "Continue"

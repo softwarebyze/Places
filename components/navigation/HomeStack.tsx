@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StreamChat } from "stream-chat";
 import { Chat } from "stream-chat-expo";
 
+import ChannelInfoPage from "../pages/ChannelInfoPage";
 import HomePage from "../pages/HomePage";
 import PlacesChatPage from "../pages/PlacesChatPage";
 import ThreadsPage from "../pages/ThreadsPage";
@@ -32,6 +33,11 @@ const HomeStack = () => (
         options={{
           title: null, // to be changed to chat name
         }}
+      />
+      <Stack.Screen
+        name="ChannelInfo"
+        component={ChannelInfoPage}
+        options={{ headerShown: true }}
       />
     </Stack.Navigator>
   </Chat>

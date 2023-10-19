@@ -5,6 +5,10 @@ import { OverlayProvider } from "stream-chat-expo";
 
 import Details from "./components/elements/Details";
 import HomeTabs from "./components/navigation/HomeTabs";
+import {
+  JoinPlaceStackParamList,
+  RootStackParamList,
+} from "./components/navigation/types";
 import CategoryPage from "./components/pages/CategoryPage";
 import ChannelInfoPage from "./components/pages/ChannelInfoPage";
 import InterestsPage from "./components/pages/InterestsPage";
@@ -14,33 +18,55 @@ import LoginPage from "./components/pages/LoginPage";
 import SignUpPage from "./components/pages/SignUpPage";
 import StartPage from "./components/pages/StartPage";
 
-const Stack = createNativeStackNavigator();
+const JoinPlaceStackNavigator =
+  createNativeStackNavigator<JoinPlaceStackParamList>();
+const JoinPlaceStack = () => (
+  <>
+    <JoinPlaceStackNavigator.Screen
+      name="JoinPlace"
+      component={JoinPlacePage}
+      options={{ headerShown: true, headerTitle: "Join a Place" }}
+    />
+    <JoinPlaceStackNavigator.Screen
+      name="Category"
+      component={CategoryPage}
+      options={{ headerShown: true }}
+    />
+    <JoinPlaceStackNavigator.Screen
+      name="ChannelInfo"
+      component={ChannelInfoPage}
+      options={{ headerShown: true }}
+    />
+  </>
+);
+
+const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 const App = () => (
   <GestureHandlerRootView style={{ flex: 1 }}>
     <NavigationContainer>
       <OverlayProvider>
-        <Stack.Navigator
+        <RootStack.Navigator
           screenOptions={{
             headerShown: false,
             headerTintColor: "rgba(28, 27, 31, 1)",
           }}
         >
           {/* Start */}
-          <Stack.Screen name="Start" component={StartPage} />
+          <RootStack.Screen name="Start" component={StartPage} />
           {/* Auth Modals */}
-          <Stack.Group screenOptions={{ presentation: "modal" }}>
-            <Stack.Screen name="Login" component={LoginPage} />
-            <Stack.Screen name="Signup" component={SignUpPage} />
-          </Stack.Group>
+          <RootStack.Group screenOptions={{ presentation: "modal" }}>
+            <RootStack.Screen name="Login" component={LoginPage} />
+            <RootStack.Screen name="Signup" component={SignUpPage} />
+          </RootStack.Group>
           {/* Onboarding */}
-          <Stack.Group>
-            <Stack.Screen
+          <RootStack.Group>
+            <RootStack.Screen
               name="Details"
               component={Details}
               options={{ headerShown: true }}
             />
-            <Stack.Screen
+            <RootStack.Screen
               name="ChooseLocation"
               component={LocationPage}
               options={{
@@ -48,33 +74,22 @@ const App = () => (
                 headerTitle: "Choose a Location",
               }}
             />
-            <Stack.Screen
+            <RootStack.Screen
               name="ChooseInterests"
               component={InterestsPage}
               options={{ headerShown: true, headerTitle: "Interests" }}
             />
-          </Stack.Group>
+          </RootStack.Group>
           {/* All the 4 tabs of the main app */}
-          <Stack.Screen name="HomeTabs" component={HomeTabs} />
+          <RootStack.Screen name="HomeTabs" component={HomeTabs} />
           {/* Join a Place flow */}
-          <Stack.Group>
-            <Stack.Screen
-              name="JoinPlace"
-              component={JoinPlacePage}
-              options={{ headerShown: true, headerTitle: "Join a Place" }}
+          <RootStack.Group>
+            <RootStack.Screen
+              name="JoinPlaceStack"
+              component={JoinPlaceStack}
             />
-            <Stack.Screen
-              name="Category"
-              component={CategoryPage}
-              options={{ headerShown: true }}
-            />
-            <Stack.Screen
-              name="ChannelInfo"
-              component={ChannelInfoPage}
-              options={{ headerShown: true }}
-            />
-          </Stack.Group>
-        </Stack.Navigator>
+          </RootStack.Group>
+        </RootStack.Navigator>
       </OverlayProvider>
     </NavigationContainer>
   </GestureHandlerRootView>

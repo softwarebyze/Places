@@ -77,14 +77,13 @@ const Details = () => {
         <_Input labelText="First Name" onChangeText={setFirstName} />
         <_Input labelText="Last Name" onChangeText={setLastName} />
         <View>
-          <Text style={[Styles.d1Box, Styles.inputLabel]}>Phone Number</Text>
+          <Text style={Styles.inputLabel}>Phone Number</Text>
           <View
             style={[
               Styles.d2Box,
               {
                 borderRadius: 10,
                 padding: 10,
-                fontSize: 17,
                 borderColor: Colors.primary1_100,
                 justifyContent: "center",
               },
@@ -115,7 +114,6 @@ const Details = () => {
               {
                 flexDirection: "row",
                 borderRadius: 10,
-                fontSize: 17,
                 borderColor: Colors.primary1_100,
                 justifyContent: "flex-start",
                 alignItems: "center",
