@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "Places",
+    "scheme": "places",
     "slug": "Places",
     "version": "1.0.0",
     "orientation": "portrait",
