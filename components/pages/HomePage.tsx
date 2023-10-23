@@ -282,7 +282,7 @@ const HomePage = () => {
       }
     };
     fetchAndSetUsersCities();
-  }, [cities]);
+  }, []);
 
   return (
     <>
