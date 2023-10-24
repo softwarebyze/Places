@@ -10,15 +10,13 @@ import {
   ScrollView,
   ActivityIndicator,
 } from "react-native";
-import { StreamChat } from "stream-chat";
+import { useChatContext } from "stream-chat-expo";
 
 import { db } from "../../firebaseConfig";
 import Colors from "../../settings/Colors";
 import _Button from "../elements/_Button";
 import { InterestsPageProps } from "../navigation/types";
 import STYLES from "../styles/Styles";
-
-const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
 
 const groupChannelsByCategory = (channelsData: any[]) => {
   return channelsData.reduce((acc, channel) => {
@@ -72,6 +70,7 @@ const InterestsPage = () => {
   const [userInterests, setUserInterests] = useState([]);
   const [channelList, setChannelList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { client } = useChatContext();
 
   const disabled = userInterests.length < REQUIRED_INTERESTS;
 

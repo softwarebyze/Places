@@ -2,7 +2,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { Image } from "expo-image";
 import { useEffect, useState } from "react";
 import { TouchableOpacity, View, Text } from "react-native";
-import { StreamChat } from "stream-chat";
+import { useChatContext } from "stream-chat-expo";
 
 import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
@@ -10,7 +10,6 @@ import { JoinPlacePageProps } from "../navigation/types";
 import STYLES from "../styles/Styles";
 
 const terms = TERMS["English"];
-const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
 
 const SportsImage = () => (
   <Image
@@ -55,6 +54,7 @@ const CategoryCard = (props) => {
 const JoinPlacePage = () => {
   const route = useRoute<JoinPlacePageProps["route"]>();
   const navigator = useNavigation<JoinPlacePageProps["navigation"]>();
+  const { client } = useChatContext();
   const { location } = route.params;
 
   const [sports, setSports] = useState([]);

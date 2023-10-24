@@ -13,8 +13,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import Collapsible from "react-native-collapsible";
-import { StreamChat } from "stream-chat";
-import { ChannelList } from "stream-chat-expo";
+import { ChannelList, useChatContext } from "stream-chat-expo";
 
 import { fetchUsersCities } from "../../firebase/users";
 import Colors from "../../settings/Colors";
@@ -24,8 +23,6 @@ import PlacesHeader from "../elements/PlacesHeader";
 import { HomePageProps } from "../navigation/types";
 import Styles from "../styles/Styles";
 const terms = TERMS["English"];
-
-const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
 
 const DropdownHeader = (props) => (
   <TouchableOpacity
@@ -117,6 +114,7 @@ const Dropdown = (props) => {
 
   const navigation = useNavigation<HomePageProps["navigation"]>();
   const auth = getAuth();
+  const { setActiveChannel } = useChatContext();
 
   return (
     <View style={{ width: "100%" }}>
@@ -134,7 +132,8 @@ const Dropdown = (props) => {
               location: { $in: [props.heading] },
             }}
             onSelect={(channel) => {
-              navigation.navigate("PlacesChat", { channel });
+              setActiveChannel(channel);
+              navigation.navigate("PlacesChat");
             }}
           />
           <JoinANewPlace location={props.heading} />
@@ -204,6 +203,10 @@ const PopularDropdown = () => {
     setIsCollapsed(!isCollapsed);
   };
 
+  const { client, setActiveChannel } = useChatContext();
+  const navigation = useNavigation<HomePageProps["navigation"]>();
+  const auth = getAuth();
+
   useEffect(() => {
     const fetchChannels = async () => {
       try {
@@ -229,9 +232,6 @@ const PopularDropdown = () => {
     fetchChannels();
   }, []);
 
-  const navigation = useNavigation<HomePageProps["navigation"]>();
-  const auth = getAuth();
-
   return (
     <View style={{ width: "100%", marginBottom: 16 }}>
       <PopularDropdownHeader
@@ -246,7 +246,8 @@ const PopularDropdown = () => {
               <PopularChannel
                 channel={item}
                 onSelect={() => {
-                  navigation.navigate("PlacesChat", { channel: item });
+                  setActiveChannel(item);
+                  navigation.navigate("PlacesChat");
                 }}
               />
             )}
@@ -282,7 +283,7 @@ const HomePage = () => {
       }
     };
     fetchAndSetUsersCities();
-  }, [cities]);
+  }, []);
 
   return (
     <>

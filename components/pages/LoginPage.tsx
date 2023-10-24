@@ -87,25 +87,6 @@ const LoginPage = () => {
       return navigator.replace("ChooseInterests", {
         location: userData.location,
       });
-    setLoadingStatus("Checking if user is connected to stream?");
-    console.log(
-      "Checking if user is connected to stream? client?.user: ",
-      client?.user,
-    );
-    if (!client?.user) {
-      setLoadingStatus("User hasnt connected. getting user id");
-      const auth = getAuth();
-      const userId = auth?.currentUser?.uid;
-      setLoadingStatus("Getting stream user token");
-      const tokenResponse = await getStreamUserToken();
-      const token = tokenResponse.data.toString();
-      if (!token) return;
-      setLoadingStatus("Connecting user to stream");
-      await client.connectUser(
-        { id: userId, name: `${userData.first_name} ${userData.last_name}` },
-        token,
-      );
-    }
     setLoading(false);
     setLoadingStatus("nothing");
     return navigator.replace("HomeTabs");
