@@ -1,5 +1,7 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { initializeApp } from "firebase/app";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, initializeAuth, onAuthStateChanged } from "firebase/auth";
+import { getReactNativePersistence } from "firebase/auth/react-native";
 import { initializeFirestore } from "firebase/firestore";
 import { getFunctions, httpsCallable } from "firebase/functions";
 
@@ -15,6 +17,10 @@ const firebaseConfig = {
 
 // Initialize Firebase app
 export const app = initializeApp(firebaseConfig);
+// persist auth state
+initializeAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorage),
+});
 export const auth = getAuth(app);
 // Initialize Cloud Firestore and get a reference to the service
 export const db = initializeFirestore(app, {

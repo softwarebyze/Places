@@ -43,7 +43,8 @@
     "react-native-screens": "~3.22.0",
     "react-native-svg": "13.9.0",
     "stream-chat": "^8.13.0",
-    "stream-chat-expo": "^5.15.2"
+    "stream-chat-expo": "^5.15.2",
+    "@react-native-async-storage/async-storage": "1.18.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
