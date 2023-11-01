@@ -1,5 +1,5 @@
-import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
+import auth from "@react-native-firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { Text, ActivityIndicator, View } from "react-native";
@@ -25,8 +25,8 @@ const client = StreamChat.getInstance(EXPO_PUBLIC_STREAM_API_KEY);
 
 const LoginPage = () => {
   const navigator = useNavigation<LoginPageProps["navigation"]>();
-  const [email, setEmail] = useState("zack@test.com");
-  const [password, setPassword] = useState("123456");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const emailIsValid = validateEmail(email);
@@ -55,27 +55,14 @@ const LoginPage = () => {
 
   const getUserData = async () => {
     const userId = auth().currentUser?.uid;
-    console.log({ userId });
     if (!userId) throw new Error("No user ID found!");
-    const a = firestore()?.collection("users");
-    console.log({ a });
-    const b = a?.doc?.(userId);
-    console.log({ b });
-    const userSnap = await b?.get?.();
-    console.log({ userSnap });
-    const data = userSnap.data();
-    console.log({ data });
-    // console.log(userSnap);
-    // console.log(userSnap.data());
-    // // const userRef = doc(db, "users", userId);
-    // // const userSnap = await getDoc(userRef);
-
-    // if (userSnap?.exists) {
-    //   return userSnap.data();
-    // } else {
-    //   console.log("No data for user!");
-    //   return null;
-    // }
+    const userSnap = await firestore().collection("users").doc(userId).get();
+    if (userSnap?.exists) {
+      return userSnap.data();
+    } else {
+      console.log("No data for user!");
+      return null;
+    }
   };
 
   const handleSignInFlow = async () => {
