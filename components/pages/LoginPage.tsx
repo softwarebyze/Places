@@ -1,12 +1,12 @@
+import auth from "@react-native-firebase/auth";
+import firestore from "@react-native-firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
 import { useState } from "react";
 import { Text, ActivityIndicator, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StreamChat } from "stream-chat";
 
-import { db, getStreamUserToken } from "../../firebaseConfig";
+import { getStreamUserToken } from "../../firebaseConfig";
 import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
 import _Button from "../elements/_Button";
@@ -25,8 +25,8 @@ const client = StreamChat.getInstance(EXPO_PUBLIC_STREAM_API_KEY);
 
 const LoginPage = () => {
   const navigator = useNavigation<LoginPageProps["navigation"]>();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("zack@test.com");
+  const [password, setPassword] = useState("123456");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const emailIsValid = validateEmail(email);
@@ -35,9 +35,8 @@ const LoginPage = () => {
   const [loadingStatus, setLoadingStatus] = useState("nothing");
 
   const signIn = async () => {
-    const auth = getAuth();
     try {
-      return await signInWithEmailAndPassword(auth, email, password);
+      return await auth().signInWithEmailAndPassword(email, password);
     } catch (error) {
       console.log("error detected!");
       if (error.code === "auth/wrong-password") {
@@ -55,19 +54,28 @@ const LoginPage = () => {
   };
 
   const getUserData = async () => {
-    const auth = getAuth();
-    const userId = auth.currentUser?.uid;
+    const userId = auth().currentUser?.uid;
+    console.log({ userId });
     if (!userId) throw new Error("No user ID found!");
+    const a = firestore()?.collection("users");
+    console.log({ a });
+    const b = a?.doc?.(userId);
+    console.log({ b });
+    const userSnap = await b?.get?.();
+    console.log({ userSnap });
+    const data = userSnap.data();
+    console.log({ data });
+    // console.log(userSnap);
+    // console.log(userSnap.data());
+    // // const userRef = doc(db, "users", userId);
+    // // const userSnap = await getDoc(userRef);
 
-    const userRef = doc(db, "users", userId);
-    const userSnap = await getDoc(userRef);
-
-    if (userSnap.exists()) {
-      return userSnap.data();
-    } else {
-      console.log("No data for user!");
-      return null;
-    }
+    // if (userSnap?.exists) {
+    //   return userSnap.data();
+    // } else {
+    //   console.log("No data for user!");
+    //   return null;
+    // }
   };
 
   const handleSignInFlow = async () => {
@@ -94,8 +102,7 @@ const LoginPage = () => {
     );
     if (!client?.user) {
       setLoadingStatus("User hasnt connected. getting user id");
-      const auth = getAuth();
-      const userId = auth?.currentUser?.uid;
+      const userId = auth()?.currentUser?.uid;
       setLoadingStatus("Getting stream user token");
       const tokenResponse = await getStreamUserToken();
       const token = tokenResponse.data.toString();

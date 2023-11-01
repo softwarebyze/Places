@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { getAuth } from "firebase/auth";
+import auth from "@react-native-firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useState } from "react";
 import { Text, ActivityIndicator } from "react-native";
@@ -24,8 +24,7 @@ const LocationPage = () => {
   const disabled = location.length === 0;
 
   const getUserData = async () => {
-    const auth = getAuth();
-    const userId = auth.currentUser?.uid;
+    const userId = auth().currentUser?.uid;
     if (!userId) throw new Error("No user ID found!");
 
     const userRef = doc(db, "users", userId);
@@ -41,8 +40,7 @@ const LocationPage = () => {
 
   const handleSubmitLocation = async () => {
     setLoading(true);
-    const auth = getAuth();
-    const userId = auth.currentUser.uid;
+    const userId = auth().currentUser.uid;
     const userRef = doc(db, "users", userId);
     await setDoc(userRef, { cities: [location] }, { merge: true });
     if (!client?.user) {

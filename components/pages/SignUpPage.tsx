@@ -1,5 +1,5 @@
+import auth from "@react-native-firebase/auth";
 import { useNavigation } from "@react-navigation/native";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { useState } from "react";
 import { ActivityIndicator, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -18,7 +18,6 @@ const terms = TERMS["English"];
 
 const SignUpPage = () => {
   const navigator = useNavigation();
-  const auth = getAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -34,7 +33,7 @@ const SignUpPage = () => {
     setLoading(true);
 
     try {
-      const user = await createUserWithEmailAndPassword(auth, email, password);
+      const user = await auth().createUserWithEmailAndPassword(email, password);
       if (user) {
         setLoading(false);
         navigator.replace("Details");

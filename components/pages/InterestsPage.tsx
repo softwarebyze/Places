@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { getAuth } from "firebase/auth";
+import auth from "@react-native-firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import {
@@ -134,8 +134,7 @@ const InterestsPage = () => {
   };
   const handleSubmitInterests = async () => {
     setLoading(true);
-    const auth = getAuth();
-    const userId = auth.currentUser.uid;
+    const userId = auth().currentUser.uid;
     const userRef = doc(db, "users", userId);
     const interests = userInterests.map((interest) => interest.name);
     await setDoc(userRef, { interests }, { merge: true });

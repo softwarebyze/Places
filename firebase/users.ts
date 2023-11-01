@@ -1,12 +1,11 @@
-import { getAuth } from "firebase/auth";
+import auth from "@react-native-firebase/auth";
 import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 
 import { db } from "../firebaseConfig";
 
 const fetchUsersCities = async () => {
   try {
-    const auth = getAuth();
-    const userId = auth.currentUser?.uid;
+    const userId = auth().currentUser?.uid;
     const userRef = doc(db, "users", userId);
     const userSnap = await getDoc(userRef);
     if (userSnap.exists()) {
@@ -22,8 +21,7 @@ const fetchUsersCities = async () => {
 
 const addUserCity = async (city) => {
   try {
-    const auth = getAuth();
-    const userId = auth.currentUser?.uid;
+    const userId = auth().currentUser?.uid;
     const userRef = doc(db, "users", userId);
     if (!city) throw new Error("No city selected");
     const userSnap = await getDoc(userRef);

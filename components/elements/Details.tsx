@@ -1,6 +1,6 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
+import auth from "@react-native-firebase/auth";
 import { useNavigation } from "@react-navigation/native";
-import { getAuth } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useRef, useState } from "react";
 import {
@@ -51,8 +51,7 @@ const Details = () => {
 
   const handleSubmitDetails = async () => {
     setLoading(true);
-    const auth = getAuth();
-    const userId = auth.currentUser.uid;
+    const userId = auth().currentUser.uid;
     const userRef = doc(db, "users", userId);
     await setDoc(
       userRef,
