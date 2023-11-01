@@ -1,6 +1,7 @@
-import { useRoute, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { getAuth } from "firebase/auth";
 import { View, Text } from "react-native";
+import { useChatContext } from "stream-chat-expo";
 
 import _Button from "../elements/_Button";
 import { ChannelInfoPageProps } from "../navigation/types";
@@ -8,24 +9,24 @@ import Styles from "../styles/Styles";
 
 const ChannelInfoPage = () => {
   const navigation = useNavigation<ChannelInfoPageProps["navigation"]>();
-  const route = useRoute<ChannelInfoPageProps["route"]>();
-  const { channelInfo } = route.params;
+  const { channel, setActiveChannel } = useChatContext();
 
   const addChannel = async () => {
     const auth = getAuth();
-    await channelInfo.addMembers([auth.currentUser.uid]);
+    await channel.addMembers([auth.currentUser.uid]);
     console.log("added member");
-    navigation.navigate("PlacesChat", { channel: channelInfo });
-    console.log(`you are entering ${channelInfo.data.name}'s chat!`);
+    setActiveChannel(channel);
+    navigation.navigate("PlacesChat");
+    console.log(`you are entering ${channel.data.name}'s chat!`);
   };
   return (
     <View style={Styles.page}>
       <View style={{ alignItems: "center" }}>
         <Text style={{ fontWeight: "bold", fontSize: 30 }}>
-          {channelInfo.data.interest}
+          {channel.data.interest.toString()}
         </Text>
         <Text style={{ color: "gray" }}>
-          {channelInfo.data.member_count || 0} members
+          {channel.data.member_count.toString() || 0} members
         </Text>
       </View>
       <View style={{ marginTop: 50 }}>
@@ -33,7 +34,7 @@ const ChannelInfoPage = () => {
           This is the beginning of
           <Text style={{ fontWeight: "bold", color: "black" }}>
             {" "}
-            {channelInfo.data.name}{" "}
+            {channel.data.name}{" "}
           </Text>
           place
         </Text>

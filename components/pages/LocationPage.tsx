@@ -4,7 +4,7 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useState } from "react";
 import { Text, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StreamChat } from "stream-chat";
+import { useChatContext } from "stream-chat-expo";
 
 import { db, getStreamUserToken } from "../../firebaseConfig";
 import Colors from "../../settings/Colors";
@@ -14,10 +14,9 @@ import _Button from "../elements/_Button";
 import STYLES from "../styles/Styles";
 const terms = TERMS["English"];
 
-const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
-
 const LocationPage = () => {
   const navigator = useNavigation();
+  const { client } = useChatContext();
   const [location, setLocation] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -47,11 +46,13 @@ const LocationPage = () => {
     await setDoc(userRef, { cities: [location] }, { merge: true });
     if (!client?.user) {
       const userData = await getUserData();
-      const tokenResponse = await getStreamUserToken();
-      const token = tokenResponse.data.toString();
       await client.connectUser(
         { id: userId, name: `${userData.first_name} ${userData.last_name}` },
-        token,
+        async () => {
+          const tokenResponse = await getStreamUserToken();
+          const token = tokenResponse.data.toString();
+          return token;
+        },
       );
     }
     setLoading(false);
