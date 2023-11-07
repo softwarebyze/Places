@@ -43,7 +43,6 @@
     },
     "plugins": [
       "@react-native-firebase/app",
-      "./react-native-maps-plugin",
       [
         "expo-build-properties",
         {
