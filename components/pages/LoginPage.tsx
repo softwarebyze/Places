@@ -1,5 +1,5 @@
-import firestore from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
+import firestore from "@react-native-firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { Text, ActivityIndicator, View } from "react-native";
