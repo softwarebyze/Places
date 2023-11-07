@@ -1,7 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation, useRoute } from "@react-navigation/native";
 import auth from "@react-native-firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState, useEffect } from "react";
 import {
   Text,
@@ -10,9 +9,9 @@ import {
   ScrollView,
   ActivityIndicator,
 } from "react-native";
-import { StreamChat } from "stream-chat";
+import { Channel, StreamChat } from "stream-chat";
 
-import { db } from "../../firebaseConfig";
+import { saveUserDetails } from "../../firebase/users";
 import Colors from "../../settings/Colors";
 import _Button from "../elements/_Button";
 import { InterestsPageProps } from "../navigation/types";
@@ -119,7 +118,7 @@ const InterestsPage = () => {
     fetchInterests();
   }, []);
 
-  const addUserToChannels = async (userId, interests, location) => {
+  const addUserToChannels = async (userId: string, interests: Channel[]) => {
     try {
       const channels = await Promise.all(
         interests.map(async (interest) => {
@@ -135,10 +134,9 @@ const InterestsPage = () => {
   const handleSubmitInterests = async () => {
     setLoading(true);
     const userId = auth().currentUser.uid;
-    const userRef = doc(db, "users", userId);
     const interests = userInterests.map((interest) => interest.name);
-    await setDoc(userRef, { interests }, { merge: true });
-    await addUserToChannels(userId, userInterests, route.params.location);
+    await saveUserDetails({ interests });
+    await addUserToChannels(userId, userInterests);
     setLoading(false);
     navigator.navigate("HomeTabs");
   };
