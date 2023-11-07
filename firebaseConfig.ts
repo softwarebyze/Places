@@ -1,5 +1,5 @@
-import functions from "@react-native-firebase/functions";
+import firebase from "@react-native-firebase/functions";
 
-export const getStreamUserToken = functions().httpsCallable(
-  "ext-auth-chat-getStreamUserToken",
-);
+export const getStreamUserToken = firebase()
+  .app.functions("us-east1")
+  .httpsCallable("ext-auth-chat-getStreamUserToken");
