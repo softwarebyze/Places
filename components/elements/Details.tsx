@@ -1,7 +1,5 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
-import auth from "@react-native-firebase/auth";
 import { useNavigation } from "@react-navigation/native";
-import { doc, setDoc } from "firebase/firestore";
 import { useRef, useState } from "react";
 import {
   KeyboardAvoidingView,
@@ -17,7 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import _Button from "./_Button";
 import _Dropdown from "./_Dropdown";
 import _Input from "./_Input";
-import { db } from "../../firebaseConfig";
+import { saveUserDetails } from "../../firebase/users";
 import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
 import Styles from "../styles/Styles";
@@ -51,20 +49,14 @@ const Details = () => {
 
   const handleSubmitDetails = async () => {
     setLoading(true);
-    const userId = auth().currentUser.uid;
-    const userRef = doc(db, "users", userId);
-    await setDoc(
-      userRef,
-      {
-        first_name: firstName,
-        last_name: lastName,
-        phone: phoneNumber,
-        gender,
-        details_completed: true,
-        birth_date: dateOfBirth,
-      },
-      { merge: true },
-    );
+    await saveUserDetails({
+      first_name: firstName,
+      last_name: lastName,
+      phone: phoneNumber,
+      gender,
+      birth_date: dateOfBirth,
+      details_completed: true,
+    });
     navigator.navigate("ChooseLocation");
     setLoading(false);
   };

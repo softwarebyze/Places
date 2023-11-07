@@ -1,11 +1,11 @@
 import auth from "@react-native-firebase/auth";
-import firestore from "@react-native-firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { Text, ActivityIndicator, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StreamChat } from "stream-chat";
 
+import { getUserData } from "../../firebase/users";
 import { getStreamUserToken } from "../../firebaseConfig";
 import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
@@ -50,18 +50,6 @@ const LoginPage = () => {
       } else {
         throw new Error(error);
       }
-    }
-  };
-
-  const getUserData = async () => {
-    const userId = auth().currentUser?.uid;
-    if (!userId) throw new Error("No user ID found!");
-    const userSnap = await firestore().collection("users").doc(userId).get();
-    if (userSnap?.exists) {
-      return userSnap.data();
-    } else {
-      console.log("No data for user!");
-      return null;
     }
   };
 

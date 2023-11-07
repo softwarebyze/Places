@@ -36,7 +36,7 @@ const SignUpPage = () => {
       const user = await auth().createUserWithEmailAndPassword(email, password);
       if (user) {
         setLoading(false);
-        navigator.replace("Details");
+        navigator.navigate("Details");
       }
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
@@ -103,7 +103,7 @@ const SignUpPage = () => {
           <_Divider text="or" color="gray1_100" />
           <_Button
             text={terms["0011"]}
-            action={() => navigator.replace("HomeTabs")}
+            action={() => navigator.navigate("HomeTabs")}
             style={{ marginBottom: 20 }}
           />
           <_Button
@@ -113,7 +113,7 @@ const SignUpPage = () => {
           />
           <Text
             style={STYLES.textButton}
-            onPress={() => navigator.replace("Login")}
+            onPress={() => navigator.navigate("Login")}
           >
             {terms["already_have_an_account"]}
           </Text>
