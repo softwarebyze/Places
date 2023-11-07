@@ -1,14 +1,11 @@
 import auth from "@react-native-firebase/auth";
-import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
-
-import { db } from "../firebaseConfig";
+import firestore from "@react-native-firebase/firestore";
 
 const fetchUsersCities = async () => {
   try {
     const userId = auth().currentUser?.uid;
-    const userRef = doc(db, "users", userId);
-    const userSnap = await getDoc(userRef);
-    if (userSnap.exists()) {
+    const userSnap = await firestore().collection("users").doc(userId).get();
+    if (userSnap.exists) {
       const cities = userSnap.data().cities || [userSnap.data().location];
       return cities;
     } else {
@@ -19,18 +16,14 @@ const fetchUsersCities = async () => {
   }
 };
 
-const addUserCity = async (city) => {
+const addUserCity = async (city: string) => {
   try {
     const userId = auth().currentUser?.uid;
-    const userRef = doc(db, "users", userId);
-    if (!city) throw new Error("No city selected");
-    const userSnap = await getDoc(userRef);
-    if (!userSnap.exists()) throw new Error("No user found");
-    const usersCities = userSnap.data().cities || [userSnap.data().location];
-    if (usersCities.includes(city)) throw new Error("City already added");
-    await updateDoc(userRef, {
-      cities: arrayUnion(city),
-    });
+    return await firestore()
+      .doc(`users/${userId}`)
+      .update({
+        fcmTokens: firestore.FieldValue.arrayUnion(city),
+      });
   } catch (error) {
     console.error(error);
   }
