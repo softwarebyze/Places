@@ -1,3 +1,4 @@
+import { GoogleSigninButton } from "@react-native-google-signin/google-signin";
 import { useNavigation } from "@react-navigation/native";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
@@ -6,6 +7,7 @@ import { Text, ActivityIndicator, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StreamChat } from "stream-chat";
 
+import { signInWithGoogle } from "../../firebase/signInWithGoogle";
 import { db, getStreamUserToken } from "../../firebaseConfig";
 import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
@@ -156,12 +158,18 @@ const LoginPage = () => {
           disabled={!canContinue}
         />
         <_Divider text="or" color="gray1_100" />
-        <_Button
+        {/* <_Button
           text={terms["0011"]}
           action={() => {
             alert("Continue with Google 👀");
           }}
           style={{ marginBottom: 20 }}
+        /> */}
+        <GoogleSigninButton
+          size={GoogleSigninButton.Size.Wide}
+          color={GoogleSigninButton.Color.Dark}
+          onPress={signInWithGoogle}
+          disabled={false}
         />
         <_Button
           type="secondary"
