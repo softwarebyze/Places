@@ -2,7 +2,7 @@ import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
 import { Image } from "expo-image";
-import { getAuth } from "firebase/auth";
+import auth from "@react-native-firebase/auth";
 import { useEffect, useRef, useState } from "react";
 import {
   Text,
@@ -116,7 +116,6 @@ const Dropdown = (props) => {
   };
 
   const navigation = useNavigation<HomePageProps["navigation"]>();
-  const auth = getAuth();
 
   return (
     <View style={{ width: "100%" }}>
@@ -130,7 +129,7 @@ const Dropdown = (props) => {
           <ChannelList
             filters={{
               type: "team",
-              members: { $in: [auth.currentUser.uid] },
+              members: { $in: [auth().currentUser.uid] },
               location: { $in: [props.heading] },
             }}
             onSelect={(channel) => {
@@ -210,7 +209,7 @@ const PopularDropdown = () => {
         const cities = await fetchUsersCities();
         const filters = {
           type: "team",
-          members: { $nin: [auth.currentUser.uid] },
+          members: { $nin: [auth().currentUser.uid] },
           location: { $in: cities },
         };
         console.log(filters);
@@ -230,7 +229,6 @@ const PopularDropdown = () => {
   }, []);
 
   const navigation = useNavigation<HomePageProps["navigation"]>();
-  const auth = getAuth();
 
   return (
     <View style={{ width: "100%", marginBottom: 16 }}>
