@@ -1,14 +1,14 @@
+import auth from "@react-native-firebase/auth";
 import { GoogleSigninButton } from "@react-native-google-signin/google-signin";
 import { useNavigation } from "@react-navigation/native";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
 import { useState } from "react";
 import { Text, ActivityIndicator, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StreamChat } from "stream-chat";
 
 import { signInWithGoogle } from "../../firebase/signInWithGoogle";
-import { db, getStreamUserToken } from "../../firebaseConfig";
+import { getUserData } from "../../firebase/users";
+import { getStreamUserToken } from "../../firebaseConfig";
 import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
 import _Button from "../elements/_Button";
@@ -37,9 +37,8 @@ const LoginPage = () => {
   const [loadingStatus, setLoadingStatus] = useState("nothing");
 
   const signIn = async () => {
-    const auth = getAuth();
     try {
-      return await signInWithEmailAndPassword(auth, email, password);
+      return await auth().signInWithEmailAndPassword(email, password);
     } catch (error) {
       console.log("error detected!");
       if (error.code === "auth/wrong-password") {
@@ -53,22 +52,6 @@ const LoginPage = () => {
       } else {
         throw new Error(error);
       }
-    }
-  };
-
-  const getUserData = async () => {
-    const auth = getAuth();
-    const userId = auth.currentUser?.uid;
-    if (!userId) throw new Error("No user ID found!");
-
-    const userRef = doc(db, "users", userId);
-    const userSnap = await getDoc(userRef);
-
-    if (userSnap.exists()) {
-      return userSnap.data();
-    } else {
-      console.log("No data for user!");
-      return null;
     }
   };
 
@@ -96,8 +79,7 @@ const LoginPage = () => {
     );
     if (!client?.user) {
       setLoadingStatus("User hasnt connected. getting user id");
-      const auth = getAuth();
-      const userId = auth?.currentUser?.uid;
+      const userId = auth()?.currentUser?.uid;
       setLoadingStatus("Getting stream user token");
       const tokenResponse = await getStreamUserToken();
       const token = tokenResponse.data.toString();
