@@ -85,6 +85,4 @@ target 'Places' do
     end
   end
 
-  # Pods for test_google_signin
-  pod 'GoogleSignIn', '~> 7.0.0'
 end
