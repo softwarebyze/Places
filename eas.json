@@ -1,7 +1,7 @@
 {
   "build": {
     "development": {
-      "developmentClient": false,
+      "developmentClient": true,
       "distribution": "internal"
     },
     "preview": {
@@ -11,14 +11,6 @@
       "ios": {
         "simulator": true
       }
-    },
-    "preview2": {
-      "android": {
-        "gradleCommand": ":app:assembleRelease"
-      }
-    },
-    "preview3": {
-      "developmentClient": true
     },
     "production": {},
     "development-simulator": {
