@@ -1,3 +1,4 @@
+import auth from "@react-native-firebase/auth";
 import {
   GoogleSignin,
   statusCodes,
@@ -18,7 +19,7 @@ GoogleSignin.configure({
   profileImageSize: undefined, // [iOS] The desired height (and width) of the profile image. Defaults to 120px
 });
 
-export const signInWithGoogle = async () => {
+const googleSignIn = async () => {
   try {
     await GoogleSignin.hasPlayServices();
     return await GoogleSignin.signIn();
@@ -33,4 +34,14 @@ export const signInWithGoogle = async () => {
       // some other error happened
     }
   }
+};
+
+export const signInWithGoogle = async () => {
+  const { idToken } = await googleSignIn();
+
+  // Create a Google credential with the token
+  const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+  // Sign-in the user with the credential
+  return auth().signInWithCredential(googleCredential);
 };

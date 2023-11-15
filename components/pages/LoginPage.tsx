@@ -1,5 +1,4 @@
 import auth from "@react-native-firebase/auth";
-import { GoogleSigninButton } from "@react-native-google-signin/google-signin";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { Text, ActivityIndicator, View } from "react-native";
@@ -36,7 +35,7 @@ const LoginPage = () => {
   const canContinue = emailIsValid && passwordIsValid;
   const [loadingStatus, setLoadingStatus] = useState("nothing");
 
-  const signIn = async () => {
+  const signInWithEmailAndPassword = async () => {
     try {
       return await auth().signInWithEmailAndPassword(email, password);
     } catch (error) {
@@ -55,10 +54,15 @@ const LoginPage = () => {
     }
   };
 
-  const handleSignInFlow = async () => {
+  const handleSignInFlow = async (
+    signInMethod: "google" | "email" = "email",
+  ) => {
     setLoading(true);
     setLoadingStatus("Signing in");
-    const user = await signIn();
+    const signInHandler =
+      signInMethod === "google" ? signInWithGoogle : signInWithEmailAndPassword;
+    const user = await signInHandler();
+    console.log("user: ", user);
     if (!user) return setLoading(false);
     setLoadingStatus("Getting user data");
     const userData = await getUserData();
@@ -94,6 +98,8 @@ const LoginPage = () => {
     setLoadingStatus("nothing");
     return navigator.replace("HomeTabs");
   };
+
+  const handleSignInFlowWithGoogle = () => handleSignInFlow("google");
 
   return (
     <SafeAreaView style={STYLES.page}>
@@ -140,18 +146,10 @@ const LoginPage = () => {
           disabled={!canContinue}
         />
         <_Divider text="or" color="gray1_100" />
-        {/* <_Button
+        <_Button
           text={terms["0011"]}
-          action={() => {
-            alert("Continue with Google 👀");
-          }}
+          action={handleSignInFlowWithGoogle}
           style={{ marginBottom: 20 }}
-        /> */}
-        <GoogleSigninButton
-          size={GoogleSigninButton.Size.Wide}
-          color={GoogleSigninButton.Color.Dark}
-          onPress={signInWithGoogle}
-          disabled={false}
         />
         <_Button
           type="secondary"
