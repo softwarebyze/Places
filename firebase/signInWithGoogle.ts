@@ -6,7 +6,8 @@ import {
 /** https://github.com/react-native-google-signin/google-signin#configureoptions-void */
 GoogleSignin.configure({
   scopes: undefined, // what API you want to access on behalf of the user, default is email and profile
-  webClientId: undefined, // client ID of type WEB for your server (needed to verify user ID and offline access)
+  webClientId:
+    "1017409536489-artjcffteg6erir59nv5vn3pd7m4cbon.apps.googleusercontent.com", // client ID of type WEB for your server (needed to verify user ID and offline access)
   offlineAccess: undefined, // if you want to access Google API on behalf of the user FROM YOUR SERVER
   hostedDomain: undefined, // specifies a hosted domain restriction
   forceCodeForRefreshToken: undefined, // [Android] related to `serverAuthCode`, read the docs link below *.
