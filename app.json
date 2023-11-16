@@ -55,8 +55,5 @@
       ],
       "@react-native-google-signin/google-signin"
     ]
-  },
-  "updates": {
-    "url": "http://localhost:3000/api/manifest"
   }
 }
