@@ -38,6 +38,16 @@ export type LoginPageProps = NativeStackScreenProps<
   "Login"
 >;
 
+export type SignupPageProps = NativeStackScreenProps<
+  RootStackParamList,
+  "Signup"
+>;
+
+export type DetailsPageProps = NativeStackScreenProps<
+  RootStackParamList,
+  "Details"
+>;
+
 export type InterestsPageProps = NativeStackScreenProps<
   RootStackParamList,
   "ChooseInterests"
@@ -57,7 +67,10 @@ export type RootStackParamList = {
   Start: undefined;
   Login: undefined;
   Signup: undefined;
-  Details: undefined;
+  Details: {
+    firstName?: string;
+    lastName?: string;
+  };
   ChooseLocation: undefined;
   ChooseInterests: { location: string };
   HomeTabs: NavigatorScreenParams<HomeTabParamList>;

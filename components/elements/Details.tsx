@@ -1,5 +1,5 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useRef, useState } from "react";
 import {
   KeyboardAvoidingView,
@@ -18,13 +18,18 @@ import _Input from "./_Input";
 import { saveUserDetails } from "../../firebase/users";
 import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
+import { DetailsPageProps } from "../navigation/types";
 import Styles from "../styles/Styles";
 
 const terms = TERMS["English"];
 
 const Details = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const router = useRoute<DetailsPageProps["route"]>();
+  console.log("router.params: ", router.params);
+  const { firstName: firstNameProp, lastName: lastNameProp } = router.params;
+
+  const [firstName, setFirstName] = useState(firstNameProp);
+  const [lastName, setLastName] = useState(lastNameProp);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [gender, setGender] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState(new Date(0));
@@ -65,8 +70,16 @@ const Details = () => {
   return (
     <SafeAreaView style={Styles.page}>
       <KeyboardAvoidingView style={[Styles.suliContinues, Styles.page]}>
-        <_Input labelText="First Name" onChangeText={setFirstName} />
-        <_Input labelText="Last Name" onChangeText={setLastName} />
+        <_Input
+          labelText="First Name"
+          value={firstName}
+          onChangeText={setFirstName}
+        />
+        <_Input
+          labelText="Last Name"
+          value={lastName}
+          onChangeText={setLastName}
+        />
         <View>
           <Text style={Styles.inputLabel}>Phone Number</Text>
           <View
