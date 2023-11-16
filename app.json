@@ -13,7 +13,7 @@
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": ["**/*"],
-    "jsEngine": "jsc",
+    "jsEngine": "hermes",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.placesdev.places",
@@ -55,5 +55,8 @@
       ],
       "@react-native-google-signin/google-signin"
     ]
+  },
+  "updates": {
+    "url": "http://localhost:3000/api/manifest"
   }
 }
