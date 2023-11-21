@@ -3,7 +3,11 @@ import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { ActivityIndicator, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { StreamChat } from "stream-chat";
 
+import { signInWithGoogle } from "../../firebase/signInWithGoogle";
+import { getUserData } from "../../firebase/users";
+import { getStreamUserToken } from "../../firebaseConfig";
 import TERMS from "../../settings/Terms";
 import { ErrorModal } from "../elements/ErrorModal";
 import _Button from "../elements/_Button";
@@ -12,12 +16,16 @@ import _Header from "../elements/_Header";
 import _Input from "../elements/_Input";
 import { validateEmail } from "../helper/validateEmail";
 import { validatePassword } from "../helper/validatePassword";
+import { SignupPageProps } from "../navigation/types";
 import STYLES from "../styles/Styles";
 
 const terms = TERMS["English"];
 
+const { EXPO_PUBLIC_STREAM_API_KEY } = process.env;
+const client = StreamChat.getInstance(EXPO_PUBLIC_STREAM_API_KEY);
+
 const SignUpPage = () => {
-  const navigator = useNavigation();
+  const navigator = useNavigation<SignupPageProps["navigation"]>();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -29,15 +37,49 @@ const SignUpPage = () => {
   const passwordIsValid = validatePassword(password);
   const canContinue = emailIsValid && passwordIsValid && passwordsMatch;
 
-  const handleSignUp = async () => {
+  const signUpWithEmailAndPassword = () =>
+    auth().createUserWithEmailAndPassword(email, password);
+
+  const signUpWithGoogle = signInWithGoogle;
+
+  const handleSignUp = async (signUpMethod: "google" | "email" = "email") => {
     setLoading(true);
 
     try {
-      const user = await auth().createUserWithEmailAndPassword(email, password);
-      if (user) {
+      const signInHandler =
+        signUpMethod === "google"
+          ? signUpWithGoogle
+          : signUpWithEmailAndPassword;
+      const user = await signInHandler();
+      console.log("user: ", JSON.stringify(user));
+      if (!user) return setLoading(false);
+      const userData = await getUserData();
+
+      if (!userData?.details_completed) {
         setLoading(false);
-        navigator.navigate("Details");
+        return navigator.replace("Details", {
+          firstName: user.additionalUserInfo.profile.given_name,
+          lastName: user.additionalUserInfo.profile.family_name,
+        });
       }
+      if (!userData?.location && !userData?.cities.length)
+        return navigator.replace("ChooseLocation");
+      if (!userData?.interests)
+        return navigator.replace("ChooseInterests", {
+          location: userData.location,
+        });
+      if (!client?.user) {
+        const userId = auth()?.currentUser?.uid;
+        const tokenResponse = await getStreamUserToken();
+        const token = tokenResponse.data.toString();
+        if (!token) return;
+        await client.connectUser(
+          { id: userId, name: `${userData.first_name} ${userData.last_name}` },
+          token,
+        );
+      }
+      setLoading(false);
+      return navigator.replace("HomeTabs");
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
         setError({
@@ -57,6 +99,8 @@ const SignUpPage = () => {
       setLoading(false);
     }
   };
+
+  const handleSignUpWithGoogle = () => handleSignUp("google");
 
   return (
     <SafeAreaView style={STYLES.page}>
@@ -103,7 +147,7 @@ const SignUpPage = () => {
           <_Divider text="or" color="gray1_100" />
           <_Button
             text={terms["0011"]}
-            action={() => navigator.navigate("HomeTabs")}
+            action={handleSignUpWithGoogle}
             style={{ marginBottom: 20 }}
           />
           <_Button

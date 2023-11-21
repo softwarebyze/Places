@@ -5,6 +5,7 @@ import { Text, ActivityIndicator, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StreamChat } from "stream-chat";
 
+import { signInWithGoogle } from "../../firebase/signInWithGoogle";
 import { getUserData } from "../../firebase/users";
 import { getStreamUserToken } from "../../firebaseConfig";
 import Colors from "../../settings/Colors";
@@ -34,7 +35,7 @@ const LoginPage = () => {
   const canContinue = emailIsValid && passwordIsValid;
   const [loadingStatus, setLoadingStatus] = useState("nothing");
 
-  const signIn = async () => {
+  const signInWithEmailAndPassword = async () => {
     try {
       return await auth().signInWithEmailAndPassword(email, password);
     } catch (error) {
@@ -53,10 +54,15 @@ const LoginPage = () => {
     }
   };
 
-  const handleSignInFlow = async () => {
+  const handleSignInFlow = async (
+    signInMethod: "google" | "email" = "email",
+  ) => {
     setLoading(true);
     setLoadingStatus("Signing in");
-    const user = await signIn();
+    const signInHandler =
+      signInMethod === "google" ? signInWithGoogle : signInWithEmailAndPassword;
+    const user = await signInHandler();
+    console.log("user: ", user);
     if (!user) return setLoading(false);
     setLoadingStatus("Getting user data");
     const userData = await getUserData();
@@ -92,6 +98,8 @@ const LoginPage = () => {
     setLoadingStatus("nothing");
     return navigator.replace("HomeTabs");
   };
+
+  const handleSignInFlowWithGoogle = () => handleSignInFlow("google");
 
   return (
     <SafeAreaView style={STYLES.page}>
@@ -140,9 +148,7 @@ const LoginPage = () => {
         <_Divider text="or" color="gray1_100" />
         <_Button
           text={terms["0011"]}
-          action={() => {
-            alert("Continue with Google 👀");
-          }}
+          action={handleSignInFlowWithGoogle}
           style={{ marginBottom: 20 }}
         />
         <_Button

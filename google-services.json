@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "1017409536489",
+    "firebase_url": "https://places-e6047-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "places-e6047",
     "storage_bucket": "places-e6047.appspot.com"
   },

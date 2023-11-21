@@ -7,7 +7,7 @@ import _Logo from "../elements/_Logo";
 import STYLES from "../styles/Styles";
 const terms = TERMS["English"];
 
-const StartPage = (props) => {
+const StartPage = () => {
   const navigator = useNavigation();
   return (
     <View style={[STYLES.page, STYLES.spaceEvenly]}>

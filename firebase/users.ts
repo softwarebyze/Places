@@ -6,7 +6,9 @@ export const getUserData = async () => {
   if (!userId) throw new Error("No user ID found!");
   const userSnap = await firestore().collection("users").doc(userId).get();
   if (userSnap?.exists) {
-    return userSnap.data();
+    const userData = userSnap.data();
+    console.log("userData :", userData);
+    return userData;
   } else {
     console.log("No data for user!");
     return null;
