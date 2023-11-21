@@ -1,6 +1,10 @@
 {
   "build": {
     "development": {
+      "developmentClient": false,
+      "distribution": "internal"
+    },
+    "development-client": {
       "developmentClient": true,
       "distribution": "internal"
     },
