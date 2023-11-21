@@ -113,6 +113,7 @@ const LoginPage = () => {
         onChangeText={setEmail}
         value={email}
         isValid={emailIsValid}
+        placeholder="zack@hotmail.com"
       />
       <_Input
         secureTextEntry
@@ -121,6 +122,7 @@ const LoginPage = () => {
         onChangeText={setPassword}
         isValid={passwordIsValid}
         value={password}
+        placeholder="supersecretpassword"
       />
       <View
         style={{

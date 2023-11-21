@@ -46,6 +46,7 @@ const _Input = (props) => {
             fontSize: 17,
           },
         ]}
+        {...props}
       />
       {text && !isValid && props.subtextText && (
         <Text

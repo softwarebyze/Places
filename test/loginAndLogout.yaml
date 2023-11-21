@@ -1,15 +1,11 @@
 appId: com.placesdev.places
 ---
 - tapOn: "Already have an account?"
-- tapOn:
-    point: "50%,30%"
+- tapOn: "zack@hotmail.com"
 - inputText: "zack@test.com"
-- tapOn:
-    point: "50%,41%"
+- tapOn: "supersecretpassword"
 - inputText: "123456"
 - tapOn: "Continue"
-- tapOn:
-    point: "50%,94%"
 - tapOn: "Profile, tab, 2 of 2"
 - assertVisible: "Email: zack@test.com"
 - tapOn: "Logout"
