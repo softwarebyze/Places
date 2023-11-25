@@ -11,6 +11,7 @@ import {
   StyleSheet,
   FlatList,
   ActivityIndicator,
+  ScrollView,
 } from "react-native";
 import Collapsible from "react-native-collapsible";
 import { StreamChat } from "stream-chat";
@@ -109,7 +110,7 @@ const Dropdown = (props) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
 
   const toggleDropdown = () => {
-    setIsCollapsed(!isCollapsed);
+    setIsCollapsed((prevIsCollapsed) => !prevIsCollapsed);
   };
 
   const navigation = useNavigation<HomePageProps["navigation"]>();
@@ -282,14 +283,15 @@ const HomePage = () => {
   return (
     <>
       <PlacesHeader />
-      <View
-        style={[
+      <ScrollView
+        contentContainerStyle={[
           Styles.page,
           {
             backgroundColor: Colors.light_grey,
             alignItems: "flex-start",
             gap: 16,
             marginTop: 16,
+            flex: undefined,
           },
         ]}
       >
@@ -321,18 +323,18 @@ const HomePage = () => {
           <Text style={styles.addACityText}>{`+ ${terms["add_a_city"]}`}</Text>
         </TouchableOpacity>
         <PopularDropdown />
-        {showAddCitySheet && (
-          <BottomSheet
-            ref={addCitySheetRef}
-            snapPoints={["62%"]}
-            enablePanDownToClose
-            style={{ flex: 1 }}
-            onChange={onAddCitySheetChange}
-          >
-            <AddCityForm />
-          </BottomSheet>
-        )}
-      </View>
+      </ScrollView>
+      {showAddCitySheet && (
+        <BottomSheet
+          ref={addCitySheetRef}
+          snapPoints={["62%"]}
+          enablePanDownToClose
+          style={{ flex: 1 }}
+          onChange={onAddCitySheetChange}
+        >
+          <AddCityForm />
+        </BottomSheet>
+      )}
     </>
   );
 };
