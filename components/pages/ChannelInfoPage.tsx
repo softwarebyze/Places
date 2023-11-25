@@ -1,5 +1,5 @@
-import { useRoute, useNavigation } from "@react-navigation/native";
 import auth from "@react-native-firebase/auth";
+import { useRoute, useNavigation } from "@react-navigation/native";
 import { View, Text } from "react-native";
 
 import _Button from "../elements/_Button";

@@ -28,7 +28,7 @@ export default {
       "Select some interests and we will add you to the group chat(places) for the location you have provided in the previous step",
     "0024": "SPORTS",
     "0025": "HOBBIES",
-    "0026": "Join a new place",
+    join_a_new_place: "Join a new place",
     "0027": "+  Join a New Place",
     "0028": "Categories",
     "0029": "Sports",

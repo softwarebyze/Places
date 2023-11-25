@@ -117,9 +117,11 @@ const JoinPlacePage = () => {
       >
         {categories.map((category) => (
           <CategoryCard
-            onPress={navigator.navigate("Category", {
-              channels: category.channels,
-            })}
+            onPress={() =>
+              navigator.navigate("Category", {
+                channels: category.channels,
+              })
+            }
             key={category.category}
             channels={category.channels}
             image={category.image}
