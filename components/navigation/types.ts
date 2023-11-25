@@ -10,7 +10,8 @@ export type HomeStackParamList = {
   PlacesChat: { channel: any };
   Thread: { channel: any; thread: any };
   ChannelInfo: { channelInfo: any };
-  JoinPlaceStack: NavigatorScreenParams<JoinPlaceStackParamList>;
+  JoinPlace: { location: string };
+  Category: { channels: any[] };
 };
 
 export type HomePageProps = NativeStackScreenProps<
@@ -24,12 +25,12 @@ export type ChannelInfoPageProps = NativeStackScreenProps<
 >;
 
 export type JoinPlacePageProps = NativeStackScreenProps<
-  JoinPlaceStackParamList,
+  HomeStackParamList,
   "JoinPlace"
 >;
 
 export type CategoryPageProps = NativeStackScreenProps<
-  JoinPlaceStackParamList,
+  HomeStackParamList,
   "Category"
 >;
 
@@ -74,13 +75,6 @@ export type RootStackParamList = {
   ChooseLocation: undefined;
   ChooseInterests: { location: string };
   HomeTabs: NavigatorScreenParams<HomeTabParamList>;
-  JoinPlaceStack: NavigatorScreenParams<JoinPlaceStackParamList>;
-};
-
-export type JoinPlaceStackParamList = {
-  Category: { channels: any[] };
-  ChannelInfo: { channelInfo: any };
-  JoinPlace: { location: string };
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =

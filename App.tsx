@@ -6,40 +6,12 @@ import { OverlayProvider } from "stream-chat-expo";
 
 import Details from "./components/elements/Details";
 import HomeTabs from "./components/navigation/HomeTabs";
-import {
-  JoinPlaceStackParamList,
-  RootStackParamList,
-} from "./components/navigation/types";
-import CategoryPage from "./components/pages/CategoryPage";
-import ChannelInfoPage from "./components/pages/ChannelInfoPage";
+import { RootStackParamList } from "./components/navigation/types";
 import InterestsPage from "./components/pages/InterestsPage";
-import JoinPlacePage from "./components/pages/JoinPlacePage";
 import LocationPage from "./components/pages/LocationPage";
 import LoginPage from "./components/pages/LoginPage";
 import SignUpPage from "./components/pages/SignUpPage";
 import StartPage from "./components/pages/StartPage";
-
-const JoinPlaceStackNavigator =
-  createNativeStackNavigator<JoinPlaceStackParamList>();
-const JoinPlaceStack = () => (
-  <>
-    <JoinPlaceStackNavigator.Screen
-      name="JoinPlace"
-      component={JoinPlacePage}
-      options={{ headerShown: true, headerTitle: "Join a Place" }}
-    />
-    <JoinPlaceStackNavigator.Screen
-      name="Category"
-      component={CategoryPage}
-      options={{ headerShown: true }}
-    />
-    <JoinPlaceStackNavigator.Screen
-      name="ChannelInfo"
-      component={ChannelInfoPage}
-      options={{ headerShown: true }}
-    />
-  </>
-);
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
@@ -83,13 +55,6 @@ const App = () => (
           </RootStack.Group>
           {/* All the 4 tabs of the main app */}
           <RootStack.Screen name="HomeTabs" component={HomeTabs} />
-          {/* Join a Place flow */}
-          <RootStack.Group>
-            <RootStack.Screen
-              name="JoinPlaceStack"
-              component={JoinPlaceStack}
-            />
-          </RootStack.Group>
         </RootStack.Navigator>
       </OverlayProvider>
     </NavigationContainer>

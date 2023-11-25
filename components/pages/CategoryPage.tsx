@@ -15,15 +15,12 @@ import { CategoryPageProps } from "../navigation/types";
 import STYLES from "../styles/Styles";
 
 const InterestListItem = ({ channel }) => {
-  const navigator = useNavigation();
+  const navigator = useNavigation<CategoryPageProps["navigation"]>();
   return (
     <TouchableOpacity
       style={STYLES.catPageGrid}
       onPress={() =>
-        navigator.navigate("JoinPlaceStack", {
-          screen: "ChannelInfo",
-          params: { channelInfo: channel },
-        })
+        navigator.navigate("ChannelInfo", { channelInfo: channel })
       }
     >
       <View style={STYLES.catPageInfo}>

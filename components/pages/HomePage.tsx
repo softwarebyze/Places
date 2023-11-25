@@ -80,10 +80,7 @@ const JoinANewPlace = (props) => {
   return (
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate("JoinPlaceStack", {
-          screen: "JoinPlace",
-          params: { location: props.location },
-        })
+        navigation.navigate("JoinPlace", { location: props.location })
       }
       style={{
         backgroundColor: Colors.white_100,
