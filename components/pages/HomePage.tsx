@@ -329,7 +329,7 @@ const HomePage = () => {
           ref={addCitySheetRef}
           snapPoints={["62%"]}
           enablePanDownToClose
-          style={{ flex: 1 }}
+          style={Styles.page}
           onChange={onAddCitySheetChange}
         >
           <AddCityForm />
