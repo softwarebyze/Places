@@ -1,8 +1,8 @@
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import BottomSheet from "@gorhom/bottom-sheet";
+import auth from "@react-native-firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 import { Image } from "expo-image";
-import auth from "@react-native-firebase/auth";
 import { useEffect, useRef, useState } from "react";
 import {
   Text,
@@ -101,7 +101,7 @@ const JoinANewPlace = (props) => {
             paddingStart: 4,
           }}
         >
-          {terms["0026"]}
+          {terms["join_a_new_place"]}
         </Text>
       </View>
     </TouchableOpacity>
