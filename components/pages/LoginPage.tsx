@@ -57,6 +57,7 @@ const LoginPage = () => {
   const handleSignInFlow = async (
     signInMethod: "google" | "email" = "email",
   ) => {
+    setError("");
     setLoading(true);
     setLoadingStatus("Signing in");
     const signInHandler =
