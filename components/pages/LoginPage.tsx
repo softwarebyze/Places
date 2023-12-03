@@ -57,13 +57,18 @@ const LoginPage = () => {
   const handleSignInFlow = async (
     signInMethod: "google" | "email" = "email",
   ) => {
+    setError("");
     setLoading(true);
     setLoadingStatus("Signing in");
     const signInHandler =
       signInMethod === "google" ? signInWithGoogle : signInWithEmailAndPassword;
     const user = await signInHandler();
     console.log("user: ", user);
-    if (!user) return setLoading(false);
+    if (!user) {
+      setLoading(false);
+      setLoadingStatus("nothing");
+      return;
+    }
     setLoadingStatus("Getting user data");
     const userData = await getUserData();
     setLoadingStatus("Checking if user has completed details");

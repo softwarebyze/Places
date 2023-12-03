@@ -25,7 +25,6 @@ const terms = TERMS["English"];
 
 const Details = () => {
   const router = useRoute<DetailsPageProps["route"]>();
-  console.log("router.params: ", router.params);
   const { firstName: firstNameProp, lastName: lastNameProp } = router.params;
 
   const [firstName, setFirstName] = useState(firstNameProp);

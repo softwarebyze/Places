@@ -15,7 +15,7 @@ export const getUserData = async () => {
   }
 };
 
-const fetchUsersCities = async () => {
+export const fetchUsersCities = async () => {
   try {
     const userId = auth().currentUser?.uid;
     const userSnap = await firestore().collection("users").doc(userId).get();
@@ -30,13 +30,13 @@ const fetchUsersCities = async () => {
   }
 };
 
-const addUserCity = async (city: string) => {
+export const addUserCity = async (city: string) => {
   try {
     const userId = auth().currentUser?.uid;
     return await firestore()
       .doc(`users/${userId}`)
       .update({
-        fcmTokens: firestore.FieldValue.arrayUnion(city),
+        cities: firestore.FieldValue.arrayUnion(city),
       });
   } catch (error) {
     console.error(error);
@@ -64,5 +64,3 @@ export const saveUserDetails = async (userDetails: Partial<UserDetails>) => {
     console.error(error);
   }
 };
-
-export { fetchUsersCities, addUserCity };
