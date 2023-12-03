@@ -17,7 +17,8 @@ import Collapsible from "react-native-collapsible";
 import { StreamChat } from "stream-chat";
 import { ChannelList } from "stream-chat-expo";
 
-import { fetchUsersCities } from "../../firebase/users";
+import { cities as allCities } from "../../data/cities";
+import { addUserCity, fetchUsersCities } from "../../firebase/users";
 import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
 import AddCityForm from "../elements/AddCityForm";
@@ -259,18 +260,36 @@ const HomePage = () => {
   const addCitySheetRef = useRef(null);
   const [loadingStatus, setLoadingStatus] = useState<string | null>(null);
 
-  const onAddCitySheetChange = (code) => {
+  const noMoreCities = cities.length >= allCities.length;
+
+  const onAddCitySheetChange = (code: number) => {
     if (code === -1) {
       setShowAddCitySheet(false);
     }
   };
 
+  const handleAddCity = async (city: string) => {
+    try {
+      setLoadingStatus("Adding city");
+      await addUserCity(city);
+      const newCities = await fetchUsersCities();
+      setCities(newCities);
+      setShowAddCitySheet(false);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoadingStatus(null);
+    }
+  };
+
   useEffect(() => {
+    if (showAddCitySheet) return;
     const fetchAndSetUsersCities = async () => {
       try {
-        setLoadingStatus("Fetching cities");
-        const cities = await fetchUsersCities();
-        setCities(cities);
+        // only show loading if it's the first time fetching cities
+        if (!cities.length) setLoadingStatus("Fetching cities");
+        const newCities = await fetchUsersCities();
+        setCities(newCities);
       } catch (error) {
         console.error(error);
       } finally {
@@ -278,7 +297,7 @@ const HomePage = () => {
       }
     };
     fetchAndSetUsersCities();
-  }, []);
+  }, [showAddCitySheet]);
 
   return (
     <>
@@ -295,22 +314,31 @@ const HomePage = () => {
           },
         ]}
       >
-        <Text style={Styles.groupLabelText}>Your Places</Text>
-
-        {loadingStatus ? (
-          <View
-            style={{
-              flexDirection: "row",
-              alignSelf: "flex-end",
-              alignContent: "center",
-            }}
-          >
-            <ActivityIndicator />
-            <Text style={{ alignSelf: "flex-end" }}>
-              {`${loadingStatus} ...`}
-            </Text>
-          </View>
-        ) : null}
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 16,
+            width: "100%",
+          }}
+        >
+          <Text style={Styles.groupLabelText}>Your Places</Text>
+          {loadingStatus ? (
+            <View
+              style={{
+                flexDirection: "row",
+                alignSelf: "flex-end",
+                alignContent: "center",
+              }}
+            >
+              <ActivityIndicator />
+              <Text style={{ alignSelf: "flex-end" }}>
+                {`${loadingStatus} ...`}
+              </Text>
+            </View>
+          ) : null}
+        </View>
 
         {cities.map((city) => (
           <Dropdown heading={city} key={city} />
@@ -332,7 +360,13 @@ const HomePage = () => {
           style={Styles.page}
           onChange={onAddCitySheetChange}
         >
-          <AddCityForm />
+          {noMoreCities ? (
+            <Text style={{ color: Colors.dark_grey, fontSize: 14 }}>
+              You've added all the cities!
+            </Text>
+          ) : (
+            <AddCityForm handleAddCity={handleAddCity} currentCities={cities} />
+          )}
         </BottomSheet>
       )}
     </>

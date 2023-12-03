@@ -161,6 +161,9 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.primary1_100,
   },
+  fullWidth: {
+    width: ELEMENT_WIDTH,
+  },
   dropdownItem: {
     width: ELEMENT_WIDTH,
     padding: 16,

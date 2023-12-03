@@ -36,7 +36,7 @@ export const addUserCity = async (city: string) => {
     return await firestore()
       .doc(`users/${userId}`)
       .update({
-        fcmTokens: firestore.FieldValue.arrayUnion(city),
+        cities: firestore.FieldValue.arrayUnion(city),
       });
   } catch (error) {
     console.error(error);
