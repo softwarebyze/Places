@@ -58,8 +58,8 @@ const SignUpPage = () => {
       if (!userData?.details_completed) {
         setLoading(false);
         return navigator.replace("Details", {
-          firstName: user.additionalUserInfo.profile.given_name,
-          lastName: user.additionalUserInfo.profile.family_name,
+          firstName: user.additionalUserInfo.profile?.given_name || "",
+          lastName: user.additionalUserInfo.profile?.family_name || "",
         });
       }
       if (!userData?.location && !userData?.cities.length)
