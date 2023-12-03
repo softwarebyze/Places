@@ -44,9 +44,9 @@ const HomeStack = () => (
       <Stack.Screen
         name="PlacesChat"
         component={PlacesChatPage}
-        options={{
-          title: null, // to be changed to chat name
-        }}
+        // options={({ route }) => {return ({
+        //   headerTitle: route.params?.channel?.data.name;
+        // })}}
       />
       <Stack.Screen
         name="Thread"
