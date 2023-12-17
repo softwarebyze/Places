@@ -23,8 +23,10 @@ import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
 import AddCityForm from "../elements/AddCityForm";
 import PlacesHeader from "../elements/PlacesHeader";
+import { usePushNotifications } from "../hooks/usePushNotifications";
 import { HomePageProps } from "../navigation/types";
 import Styles from "../styles/Styles";
+
 const terms = TERMS["English"];
 
 const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
@@ -298,6 +300,8 @@ const HomePage = () => {
     };
     fetchAndSetUsersCities();
   }, [showAddCitySheet]);
+
+  usePushNotifications({ client });
 
   return (
     <>
