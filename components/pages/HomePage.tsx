@@ -301,7 +301,7 @@ const HomePage = () => {
     fetchAndSetUsersCities();
   }, [showAddCitySheet]);
 
-  usePushNotifications({ client });
+  usePushNotifications({ client, userId: auth().currentUser.uid });
 
   return (
     <>

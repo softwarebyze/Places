@@ -15,7 +15,13 @@ export const requestPermission = async () => {
   }
 };
 
-export const usePushNotifications = ({ client }: { client: StreamChat }) => {
+export const usePushNotifications = ({
+  client,
+  userId,
+}: {
+  client: StreamChat;
+  userId: string;
+}) => {
   const unsubscribeTokenRefreshListenerRef = useRef<() => void>();
 
   useEffect(() => {
@@ -42,7 +48,7 @@ export const usePushNotifications = ({ client }: { client: StreamChat }) => {
         async (newToken) => {
           await Promise.all([
             removeOldToken(),
-            client.addDevice(newToken, push_provider),
+            client.addDevice(newToken, push_provider, userId),
             AsyncStorage.setItem("@current_push_token", newToken),
           ]);
         },
