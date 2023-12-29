@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
 import TERMS from "../../settings/Terms";
 import _Button from "../elements/_Button";
@@ -13,7 +13,7 @@ const StartPage = () => {
     <View style={[STYLES.page, STYLES.spaceEvenly]}>
       <_Logo style={[STYLES.fullLogo]} />
       <View>
-        <Text style={STYLES.welcomeText}>{terms["0001"]}</Text>
+        <Text style={styles.welcomeText}>{terms["0001"]}</Text>
         <Text style={STYLES.sloganText}>{terms["0002"]}</Text>
       </View>
       <View>
@@ -32,4 +32,15 @@ const StartPage = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  welcomeText: {
+    fontStyle: "normal",
+    fontSize: 32,
+    fontWeight: "600",
+    lineHeight: 48,
+    textAlign: "center",
+  },
+});
+
 export default StartPage;

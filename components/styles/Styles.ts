@@ -32,13 +32,6 @@ export default StyleSheet.create({
     height: ELEMENT_HEIGHT,
     borderWidth: 1,
   },
-  welcomeText: {
-    fontStyle: "normal",
-    fontSize: 32,
-    fontWeight: "600",
-    lineHeight: 48,
-    textAlign: "center",
-  },
   groupLabelText: {
     alignSelf: "flex-start",
     fontSize: 18,
