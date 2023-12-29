@@ -16,31 +16,23 @@ export const getUserData = async () => {
 };
 
 export const fetchUsersCities = async () => {
-  try {
-    const userId = auth().currentUser?.uid;
-    const userSnap = await firestore().collection("users").doc(userId).get();
-    if (userSnap.exists) {
-      const cities = userSnap.data().cities || [userSnap.data().location];
-      return cities;
-    } else {
-      throw new Error("No user found");
-    }
-  } catch (error) {
-    console.error(error);
+  const userId = auth().currentUser?.uid;
+  const userSnap = await firestore().collection("users").doc(userId).get();
+  if (userSnap.exists) {
+    const cities = userSnap.data().cities || [userSnap.data().location];
+    return cities;
+  } else {
+    throw new Error("No user found");
   }
 };
 
 export const addUserCity = async (city: string) => {
-  try {
-    const userId = auth().currentUser?.uid;
-    return await firestore()
-      .doc(`users/${userId}`)
-      .update({
-        cities: firestore.FieldValue.arrayUnion(city),
-      });
-  } catch (error) {
-    console.error(error);
-  }
+  const userId = auth().currentUser?.uid;
+  return await firestore()
+    .doc(`users/${userId}`)
+    .update({
+      cities: firestore.FieldValue.arrayUnion(city),
+    });
 };
 
 type UserDetails = {

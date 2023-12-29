@@ -18,11 +18,12 @@ import { StreamChat } from "stream-chat";
 import { ChannelList } from "stream-chat-expo";
 
 import { cities as allCities } from "../../data/cities";
-import { addUserCity, fetchUsersCities } from "../../firebase/users";
 import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
 import AddCityForm from "../elements/AddCityForm";
 import PlacesHeader from "../elements/PlacesHeader";
+import { useAddCity } from "../hooks/useAddCity";
+import { useUserCities } from "../hooks/useUserCities";
 import { HomePageProps } from "../navigation/types";
 import Styles from "../styles/Styles";
 const terms = TERMS["English"];
@@ -195,7 +196,7 @@ const PopularChannel = ({ channel, onSelect }) => {
   );
 };
 
-const PopularDropdown = () => {
+const PopularDropdown = ({ cities }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [channelList, setChannelList] = useState([]);
   const toggleDropdown = () => {
@@ -205,20 +206,17 @@ const PopularDropdown = () => {
   useEffect(() => {
     const fetchChannels = async () => {
       try {
-        const cities = await fetchUsersCities();
         const filters = {
           type: "team",
           members: { $nin: [auth().currentUser.uid] },
           location: { $in: cities },
         };
-        console.log(filters);
         const options = { limit: 3, watch: true, state: true };
         const channels = await client.queryChannels(
           filters,
           { member_count: -1 },
           options,
         );
-        console.log(channels.length);
         setChannelList(channels);
       } catch (error) {
         console.error(error);
@@ -255,10 +253,10 @@ const PopularDropdown = () => {
 };
 
 const HomePage = () => {
-  const [cities, setCities] = useState([]);
   const [showAddCitySheet, setShowAddCitySheet] = useState(false);
   const addCitySheetRef = useRef(null);
-  const [loadingStatus, setLoadingStatus] = useState<string | null>(null);
+  const { data: cities } = useUserCities();
+  const { mutate: addUserCity, isPending } = useAddCity();
 
   const noMoreCities = cities.length >= allCities.length;
 
@@ -268,36 +266,10 @@ const HomePage = () => {
     }
   };
 
-  const handleAddCity = async (city: string) => {
-    try {
-      setLoadingStatus("Adding city");
-      await addUserCity(city);
-      const newCities = await fetchUsersCities();
-      setCities(newCities);
-      setShowAddCitySheet(false);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoadingStatus(null);
-    }
+  const handleAddCity = (city: string) => {
+    addUserCity(city);
+    setShowAddCitySheet(false);
   };
-
-  useEffect(() => {
-    if (showAddCitySheet) return;
-    const fetchAndSetUsersCities = async () => {
-      try {
-        // only show loading if it's the first time fetching cities
-        if (!cities.length) setLoadingStatus("Fetching cities");
-        const newCities = await fetchUsersCities();
-        setCities(newCities);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoadingStatus(null);
-      }
-    };
-    fetchAndSetUsersCities();
-  }, [showAddCitySheet]);
 
   return (
     <>
@@ -324,7 +296,7 @@ const HomePage = () => {
           }}
         >
           <Text style={Styles.groupLabelText}>Your Places</Text>
-          {loadingStatus ? (
+          {isPending && (
             <View
               style={{
                 flexDirection: "row",
@@ -333,11 +305,9 @@ const HomePage = () => {
               }}
             >
               <ActivityIndicator />
-              <Text style={{ alignSelf: "flex-end" }}>
-                {`${loadingStatus} ...`}
-              </Text>
+              <Text style={{ alignSelf: "flex-end" }}>Adding city...</Text>
             </View>
-          ) : null}
+          )}
         </View>
 
         {cities.map((city) => (
@@ -350,7 +320,7 @@ const HomePage = () => {
         >
           <Text style={styles.addACityText}>{`+ ${terms["add_a_city"]}`}</Text>
         </TouchableOpacity>
-        <PopularDropdown />
+        <PopularDropdown cities={cities} />
       </ScrollView>
       {showAddCitySheet && (
         <BottomSheet
