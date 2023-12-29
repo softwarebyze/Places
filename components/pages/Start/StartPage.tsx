@@ -1,24 +1,26 @@
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, StyleSheet } from "react-native";
 
-import TERMS from "../../settings/Terms";
-import _Button from "../elements/_Button";
-import _Logo from "../elements/_Logo";
-import STYLES from "../styles/Styles";
+import { Logo } from "./Logo";
+import TERMS from "../../../settings/Terms";
+import _Button from "../../elements/_Button";
+import STYLES from "../../styles/Styles";
 const terms = TERMS["English"];
 
 const StartPage = () => {
   const navigator = useNavigation();
   return (
     <View style={[STYLES.page, STYLES.spaceEvenly]}>
-      <_Logo style={[STYLES.fullLogo]} />
+      <Logo />
       <View>
-        <Text style={styles.welcomeText}>{terms["0001"]}</Text>
-        <Text style={STYLES.sloganText}>{terms["0002"]}</Text>
+        <Text style={styles.welcomeText}>{terms["Welcome to Places!"]}</Text>
+        <Text style={STYLES.sloganText}>
+          {terms["Discover. Meet. Belong."]}
+        </Text>
       </View>
       <View>
         <_Button
-          text={terms["0003"]}
+          text={terms["Create an account"]}
           action={() => navigator.navigate("Signup")}
           style={STYLES.startButton}
         />

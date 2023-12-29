@@ -11,7 +11,7 @@ import InterestsPage from "./components/pages/InterestsPage";
 import LocationPage from "./components/pages/LocationPage";
 import LoginPage from "./components/pages/LoginPage";
 import SignUpPage from "./components/pages/SignUpPage";
-import StartPage from "./components/pages/StartPage";
+import StartPage from "./components/pages/Start/StartPage";
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 

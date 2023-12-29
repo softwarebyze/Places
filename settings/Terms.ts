@@ -1,8 +1,8 @@
 export default {
   English: {
-    "0001": "Welcome to Places!",
-    "0002": "Discover. Meet. Belong.",
-    "0003": "Create an account",
+    "Welcome to Places!": "Welcome to Places!",
+    "Discover. Meet. Belong.": "Discover. Meet. Belong.",
+    "Create an account": "Create an account",
     already_have_an_account: "Already have an account?",
     "0005": "Sign up",
     email: "Email",

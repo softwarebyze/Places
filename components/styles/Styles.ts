@@ -1,12 +1,7 @@
 import { StyleSheet } from "react-native";
 
 import COLORS from "../../settings/Colors";
-import {
-  WIDTH,
-  HEIGHT,
-  LOGOWIDTH,
-  LOGOHEIGHT,
-} from "../../settings/Dimensions";
+import { WIDTH, HEIGHT } from "../../settings/Dimensions";
 
 const ELEMENT_WIDTH = 0.87 * WIDTH;
 const ELEMENT_HEIGHT = 0.071 * HEIGHT;
@@ -21,11 +16,6 @@ export default StyleSheet.create({
     flex: 1,
     alignItems: "center",
     paddingHorizontal: 16,
-  },
-  fullLogo: {
-    width: WIDTH / 2,
-    height: (WIDTH * LOGOHEIGHT) / LOGOWIDTH,
-    resizeMode: "contain",
   },
   d2Box: {
     width: ELEMENT_WIDTH,
