@@ -149,11 +149,6 @@ export default StyleSheet.create({
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
-  dropdownHeader: {
-    padding: 16,
-    backgroundColor: COLORS.white_100,
-    color: COLORS.dark_grey,
-  },
   dropdownHeaderActive: {
     borderBottomWidth: 0,
   },
@@ -167,7 +162,6 @@ export default StyleSheet.create({
   dropdownItem: {
     width: ELEMENT_WIDTH,
     padding: 16,
-    backgroundColor: COLORS.white_100,
   },
   backgroundWhite: {
     backgroundColor: COLORS.white_100,
