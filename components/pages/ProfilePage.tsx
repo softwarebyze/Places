@@ -4,7 +4,7 @@ import { View, Text } from "react-native";
 import { StreamChat } from "stream-chat";
 
 import TERMS from "../../settings/Terms";
-import _Button from "../elements/_Button";
+import { PButton } from "../elements/Button";
 import STYLES from "../styles/Styles";
 
 const terms = TERMS["English"];
@@ -24,7 +24,7 @@ const ProfilePage = () => {
       <Text>Display Name: {auth().currentUser.displayName}</Text>
       <Text>Email: {auth().currentUser.email}</Text>
       <Text>Client name: {client?.user.name}</Text>
-      <_Button text={terms["0034"]} action={logout} />
+      <PButton text={terms["0034"]} action={logout} />
     </View>
   );
 };

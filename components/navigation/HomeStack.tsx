@@ -12,7 +12,7 @@ import ThreadsPage from "../pages/ThreadsPage";
 const Stack = createNativeStackNavigator();
 
 const client = StreamChat.getInstance<DefaultStreamChatGenerics>(
-  process.env.EXPO_PUBLIC_STREAM_API_KEY,
+  process.env.EXPO_PUBLIC_STREAM_API_KEY || "",
 );
 
 const HomeStack = () => (
@@ -41,20 +41,8 @@ const HomeStack = () => (
         component={ChannelInfoPage}
         options={{ headerShown: true }}
       />
-      <Stack.Screen
-        name="PlacesChat"
-        component={PlacesChatPage}
-        options={{
-          title: null, // to be changed to chat name
-        }}
-      />
-      <Stack.Screen
-        name="Thread"
-        component={ThreadsPage}
-        options={{
-          title: null, // to be changed to chat name
-        }}
-      />
+      <Stack.Screen name="PlacesChat" component={PlacesChatPage} />
+      <Stack.Screen name="Thread" component={ThreadsPage} />
     </Stack.Navigator>
   </Chat>
 );

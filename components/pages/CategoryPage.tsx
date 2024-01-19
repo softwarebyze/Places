@@ -10,7 +10,7 @@ import NoResults from "../elements/NoResults";
 import Searchbar from "../elements/Searchbar";
 import SheetBody from "../elements/SheetBody";
 import SheetHeader from "../elements/SheetHeader";
-import _Button from "../elements/_Button";
+import { PButton } from "../elements/Button";
 import { CategoryPageProps } from "../navigation/types";
 import STYLES from "../styles/Styles";
 
@@ -86,7 +86,7 @@ const CategoryPage = () => {
               Not seeing one of your interests? Submit a request and we will add
               it to the list.
             </Text>
-            <_Button
+            <PButton
               action={() => setShowPopup(true)}
               style={{ marginTop: 23 }}
               text="Request a New Interest"

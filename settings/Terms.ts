@@ -12,7 +12,7 @@ export default {
     "0010": "Continue with Apple",
     "0011": "Continue with Google",
     "0012": "Continue with Facebook",
-    "0013": "Need to create an account?",
+    "Need to create an account?": "Need to create an account?",
     "0014": "Invalid email address, please check.",
     your_password_must_be_at_least_6_characters:
       "Your password must be at least 6 characters.",

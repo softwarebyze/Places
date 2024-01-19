@@ -2,22 +2,22 @@ import auth from "@react-native-firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { Text, ActivityIndicator, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { StreamChat } from "stream-chat";
 
-import { signInWithGoogle } from "../../firebase/signInWithGoogle";
-import { getUserData } from "../../firebase/users";
-import { getStreamUserToken } from "../../firebaseConfig";
-import Colors from "../../settings/Colors";
-import TERMS from "../../settings/Terms";
-import _Button from "../elements/_Button";
-import _Divider from "../elements/_Divider";
-import _Header from "../elements/_Header";
-import _Input from "../elements/_Input";
-import { validateEmail } from "../helper/validateEmail";
-import { validatePassword } from "../helper/validatePassword";
-import { LoginPageProps } from "../navigation/types";
-import STYLES from "../styles/Styles";
+import { Header } from "./Header";
+import { signInWithGoogle } from "../../../firebase/signInWithGoogle";
+import { getUserData } from "../../../firebase/users";
+import { getStreamUserToken } from "../../../firebaseConfig";
+import Colors from "../../../settings/Colors";
+import TERMS from "../../../settings/Terms";
+import { PButton } from "../../elements/Button";
+import { Input } from "../../elements/Input";
+import { ModalPage } from "../../elements/Page";
+import _Divider from "../../elements/_Divider";
+import { validateEmail } from "../../helper/validateEmail";
+import { validatePassword } from "../../helper/validatePassword";
+import { LoginPageProps } from "../../navigation/types";
+import STYLES from "../../styles/Styles";
 
 const terms = TERMS["English"];
 
@@ -26,8 +26,8 @@ const client = StreamChat.getInstance(EXPO_PUBLIC_STREAM_API_KEY);
 
 const LoginPage = () => {
   const navigator = useNavigation<LoginPageProps["navigation"]>();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("zack@test.com");
+  const [password, setPassword] = useState("123456");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const emailIsValid = validateEmail(email);
@@ -107,12 +107,9 @@ const LoginPage = () => {
   const handleSignInFlowWithGoogle = () => handleSignInFlow("google");
 
   return (
-    <SafeAreaView style={STYLES.page}>
-      <_Header
-        text={terms["0016"]}
-        action={() => navigator.navigate("Start")}
-      />
-      <_Input
+    <ModalPage>
+      <Header text={terms["0016"]} action={() => navigator.navigate("Start")} />
+      <Input
         labelText={terms["email"]}
         subtextText={terms["0014"]}
         onChangeText={setEmail}
@@ -120,7 +117,7 @@ const LoginPage = () => {
         isValid={emailIsValid}
         placeholder="zack@hotmail.com"
       />
-      <_Input
+      <Input
         secureTextEntry
         labelText={terms["password"]}
         subtextText={terms["0015"]}
@@ -145,32 +142,31 @@ const LoginPage = () => {
       {error.length ? (
         <Text style={{ color: Colors.error_100 }}>{error}</Text>
       ) : null}
-      <>
-        <_Button
-          style={{ marginTop: 30 }}
-          text={terms["0008"]}
-          action={handleSignInFlow}
-          disabled={!canContinue}
-        />
-        <_Divider text="or" color="gray1_100" />
-        <_Button
-          text={terms["0011"]}
-          action={handleSignInFlowWithGoogle}
-          style={{ marginBottom: 20 }}
-        />
-        <_Button
-          type="secondary"
-          text={terms["0012"]}
-          action={() => navigator.replace("Details")}
-        />
-        <Text
-          style={STYLES.textButton}
-          onPress={() => navigator.replace("Signup")}
-        >
-          {terms["0013"]}
-        </Text>
-      </>
-    </SafeAreaView>
+      <PButton
+        style={{ marginTop: 30 }}
+        text={terms["0008"]}
+        action={handleSignInFlow}
+        disabled={!canContinue}
+        loading={loading}
+      />
+      <_Divider text="or" color="gray1_100" />
+      <PButton
+        text={terms["0011"]}
+        action={handleSignInFlowWithGoogle}
+        style={{ marginBottom: 20 }}
+      />
+      <PButton
+        type="secondary"
+        text={terms["0012"]}
+        action={() => navigator.replace("Details")}
+      />
+      <Text
+        style={{ ...STYLES.textButton, alignSelf: "center" }}
+        onPress={() => navigator.replace("Signup")}
+      >
+        {terms["Need to create an account?"]}
+      </Text>
+    </ModalPage>
   );
 };
 

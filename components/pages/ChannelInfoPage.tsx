@@ -2,7 +2,7 @@ import auth from "@react-native-firebase/auth";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { View, Text } from "react-native";
 
-import _Button from "../elements/_Button";
+import { PButton } from "../elements/Button";
 import { ChannelInfoPageProps } from "../navigation/types";
 import Styles from "../styles/Styles";
 
@@ -36,7 +36,7 @@ const ChannelInfoPage = () => {
           </Text>
           place
         </Text>
-        <_Button
+        <PButton
           action={addChannel}
           style={{
             marginTop: 23,

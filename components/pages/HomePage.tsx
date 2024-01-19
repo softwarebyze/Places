@@ -9,9 +9,9 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
-  FlatList,
   ActivityIndicator,
   ScrollView,
+  FlatList,
 } from "react-native";
 import Collapsible from "react-native-collapsible";
 import { StreamChat } from "stream-chat";
@@ -22,10 +22,11 @@ import { addUserCity, fetchUsersCities } from "../../firebase/users";
 import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
 import AddCityForm from "../elements/AddCityForm";
+import { Page } from "../elements/Page";
 import PlacesHeader from "../elements/PlacesHeader";
 import { HomePageProps } from "../navigation/types";
 import Styles from "../styles/Styles";
-const terms = TERMS["English"];
+export const terms = TERMS["English"];
 
 const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
 
@@ -302,71 +303,79 @@ const HomePage = () => {
   return (
     <>
       <PlacesHeader />
-      <ScrollView
-        contentContainerStyle={[
-          Styles.page,
-          {
-            backgroundColor: Colors.light_grey,
-            alignItems: "flex-start",
-            gap: 16,
-            marginTop: 16,
-            flex: undefined,
-          },
-        ]}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: 16,
-            width: "100%",
-          }}
+      <Page>
+        <ScrollView
+          contentContainerStyle={[
+            {
+              backgroundColor: Colors.light_grey,
+              alignItems: "flex-start",
+              gap: 16,
+              marginTop: 16,
+              flex: undefined,
+              borderWidth: 3,
+            },
+          ]}
         >
-          <Text style={Styles.groupLabelText}>Your Places</Text>
-          {loadingStatus ? (
-            <View
-              style={{
-                flexDirection: "row",
-                alignSelf: "flex-end",
-                alignContent: "center",
-              }}
-            >
-              <ActivityIndicator />
-              <Text style={{ alignSelf: "flex-end" }}>
-                {`${loadingStatus} ...`}
-              </Text>
-            </View>
-          ) : null}
-        </View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 16,
+              width: "100%",
+            }}
+          >
+            <Text style={Styles.groupLabelText}>Your Places</Text>
+            {loadingStatus ? (
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignSelf: "flex-end",
+                  alignContent: "center",
+                }}
+              >
+                <ActivityIndicator />
+                <Text style={{ alignSelf: "flex-end" }}>
+                  {`${loadingStatus} ...`}
+                </Text>
+              </View>
+            ) : null}
+          </View>
 
-        {cities.map((city) => (
-          <Dropdown heading={city} key={city} />
-        ))}
+          {cities.map((city) => (
+            <Dropdown heading={city} key={city} />
+          ))}
 
-        <TouchableOpacity
-          onPress={() => setShowAddCitySheet(true)}
-          style={styles.addACity}
-        >
-          <Text style={styles.addACityText}>{`+ ${terms["add_a_city"]}`}</Text>
-        </TouchableOpacity>
-        <PopularDropdown />
-      </ScrollView>
+          <TouchableOpacity
+            onPress={() => setShowAddCitySheet(true)}
+            style={styles.addACity}
+          >
+            <Text
+              style={styles.addACityText}
+            >{`+ ${terms["add_a_city"]}`}</Text>
+          </TouchableOpacity>
+          <PopularDropdown />
+        </ScrollView>
+      </Page>
       {showAddCitySheet && (
         <BottomSheet
           ref={addCitySheetRef}
           snapPoints={["62%"]}
           enablePanDownToClose
-          style={Styles.page}
           onChange={onAddCitySheetChange}
         >
-          {noMoreCities ? (
-            <Text style={{ color: Colors.dark_grey, fontSize: 14 }}>
-              You've added all the cities!
-            </Text>
-          ) : (
-            <AddCityForm handleAddCity={handleAddCity} currentCities={cities} />
-          )}
+          <Page>
+            {noMoreCities ? (
+              <Text style={{ color: Colors.dark_grey, fontSize: 14 }}>
+                You've added all the cities!
+              </Text>
+            ) : (
+              <AddCityForm
+                handleAddCity={handleAddCity}
+                currentCities={cities}
+              />
+            )}
+          </Page>
         </BottomSheet>
       )}
     </>
@@ -375,7 +384,7 @@ const HomePage = () => {
 
 export default HomePage;
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   addACity: {
     borderWidth: 2,
     padding: 8,

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text } from "react-native";
 
 import CitiesDropdown from "./CitiesDropdown";
-import _Button from "./_Button";
+import { PButton } from "./Button";
 import Styles from "../styles/Styles";
 
 const AddCityForm = ({ handleAddCity, currentCities = [] }) => {
@@ -20,7 +20,7 @@ const AddCityForm = ({ handleAddCity, currentCities = [] }) => {
         }}
       >
         <CitiesDropdown onSelect={setCity} citiesToExclude={currentCities} />
-        <_Button
+        <PButton
           action={() => handleAddCity(city)}
           text="Add City"
           disabled={!city}

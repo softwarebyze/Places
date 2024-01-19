@@ -1,23 +1,23 @@
 import auth from "@react-native-firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
-import { ActivityIndicator, Text } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Text } from "react-native";
 import { StreamChat } from "stream-chat";
 
-import { signInWithGoogle } from "../../firebase/signInWithGoogle";
-import { getUserData } from "../../firebase/users";
-import { getStreamUserToken } from "../../firebaseConfig";
-import TERMS from "../../settings/Terms";
-import { ErrorModal } from "../elements/ErrorModal";
-import _Button from "../elements/_Button";
-import _Divider from "../elements/_Divider";
-import _Header from "../elements/_Header";
-import _Input from "../elements/_Input";
-import { validateEmail } from "../helper/validateEmail";
-import { validatePassword } from "../helper/validatePassword";
-import { SignupPageProps } from "../navigation/types";
-import STYLES from "../styles/Styles";
+import { Header } from "./Header";
+import { signInWithGoogle } from "../../../firebase/signInWithGoogle";
+import { getUserData } from "../../../firebase/users";
+import { getStreamUserToken } from "../../../firebaseConfig";
+import TERMS from "../../../settings/Terms";
+import { PButton } from "../../elements/Button";
+import { ErrorModal } from "../../elements/ErrorModal";
+import { Input } from "../../elements/Input";
+import { ModalPage } from "../../elements/Page";
+import _Divider from "../../elements/_Divider";
+import { validateEmail } from "../../helper/validateEmail";
+import { validatePassword } from "../../helper/validatePassword";
+import { SignupPageProps } from "../../navigation/types";
+import STYLES from "../../styles/Styles";
 
 const terms = TERMS["English"];
 
@@ -103,19 +103,16 @@ const SignUpPage = () => {
   const handleSignUpWithGoogle = () => handleSignUp("google");
 
   return (
-    <SafeAreaView style={STYLES.page}>
-      <_Header
-        text={terms["0005"]}
-        action={() => navigator.navigate("Start")}
-      />
-      <_Input
+    <ModalPage>
+      <Header text={terms["0005"]} action={() => navigator.navigate("Start")} />
+      <Input
         labelText={terms["email"]}
         subtextText={terms["0014"]}
         onChangeText={setEmail}
         value={email}
         isValid={emailIsValid}
       />
-      <_Input
+      <Input
         secureTextEntry
         labelText={terms["password"]}
         subtextText={terms["your_password_must_be_at_least_6_characters"]}
@@ -123,7 +120,7 @@ const SignUpPage = () => {
         value={password}
         isValid={passwordIsValid}
       />
-      <_Input
+      <Input
         secureTextEntry
         labelText="Confirm Password"
         onChangeText={setConfirmPassword}
@@ -131,45 +128,41 @@ const SignUpPage = () => {
         isValid={passwordsMatch}
         subtextText={terms.passwords_must_match}
       />
-      {loading ? (
-        <ActivityIndicator />
-      ) : (
-        <>
-          <_Button
-            style={{ marginTop: 30 }}
-            // continue ->
-            // if firebase has your first name -> "This email is already in use."
-            // else -> Details
-            text={terms["0008"]}
-            action={handleSignUp}
-            disabled={!canContinue}
-          />
-          <_Divider text="or" color="gray1_100" />
-          <_Button
-            text={terms["0011"]}
-            action={handleSignUpWithGoogle}
-            style={{ marginBottom: 20 }}
-          />
-          <_Button
-            type="secondary"
-            text={terms["0012"]}
-            action={() => alert("Facebook Not Yet Implemented")}
-          />
-          <Text
-            style={STYLES.textButton}
-            onPress={() => navigator.navigate("Login")}
-          >
-            {terms["already_have_an_account"]}
-          </Text>
-        </>
-      )}
+
+      <PButton
+        style={{ marginTop: 30 }}
+        // continue ->
+        // if firebase has your first name -> "This email is already in use."
+        // else -> Details
+        text={terms["0008"]}
+        action={handleSignUp}
+        disabled={!canContinue}
+        loading={loading}
+      />
+      <_Divider text="or" color="gray1_100" />
+      <PButton
+        text={terms["0011"]}
+        action={handleSignUpWithGoogle}
+        style={{ marginBottom: 20 }}
+      />
+      <PButton
+        type="secondary"
+        text={terms["0012"]}
+        action={() => alert("Facebook Not Yet Implemented")}
+      />
+      <Text
+        style={[STYLES.textButton, { alignSelf: "center" }]}
+        onPress={() => navigator.navigate("Login")}
+      >
+        {terms["already_have_an_account"]}
+      </Text>
 
       <ErrorModal
         {...error}
         visible={error?.message?.length > 0}
         onClose={() => setError(null)}
       />
-    </SafeAreaView>
+    </ModalPage>
   );
 };
 

@@ -2,7 +2,6 @@ import auth from "@react-native-firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { Text, ActivityIndicator } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { StreamChat } from "stream-chat";
 
 import { getUserData, saveUserDetails } from "../../firebase/users";
@@ -10,7 +9,8 @@ import { getStreamUserToken } from "../../firebaseConfig";
 import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
 import CitiesDropdown from "../elements/CitiesDropdown";
-import _Button from "../elements/_Button";
+import { Page } from "../elements/Page";
+import { PButton } from "../elements/Button";
 import STYLES from "../styles/Styles";
 const terms = TERMS["English"];
 
@@ -41,7 +41,7 @@ const LocationPage = () => {
   };
 
   return (
-    <SafeAreaView style={[STYLES.page, { backgroundColor: Colors.light_grey }]}>
+    <Page style={{ backgroundColor: Colors.light_grey }}>
       <Text style={[STYLES.descriptionText, { marginHorizontal: 30 }]}>
         {terms["0020"]}
       </Text>
@@ -49,13 +49,13 @@ const LocationPage = () => {
       {loading ? (
         <ActivityIndicator />
       ) : (
-        <_Button
+        <PButton
           text={terms["0008"]}
           action={handleSubmitLocation}
           disabled={disabled}
         />
       )}
-    </SafeAreaView>
+    </Page>
   );
 };
 export default LocationPage;

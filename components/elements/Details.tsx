@@ -1,20 +1,23 @@
-import DateTimePicker from "@react-native-community/datetimepicker";
+import DateTimePicker, {
+  DateTimePickerEvent,
+} from "@react-native-community/datetimepicker";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
   Text,
   View,
-  Button,
+  // Button: RNButton,
   ActivityIndicator,
 } from "react-native";
 import PhoneInput from "react-native-phone-input";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import _Button from "./_Button";
+import { PButton } from "./Button";
+import { Input, Label } from "./Input";
+import { Page, styles } from "./Page";
 import _Dropdown from "./_Dropdown";
-import _Input from "./_Input";
 import { saveUserDetails } from "../../firebase/users";
 import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
@@ -23,12 +26,19 @@ import Styles from "../styles/Styles";
 
 const terms = TERMS["English"];
 
+const genders = [
+  { label: "Male", value: "Male" },
+  { label: "Female", value: "Female" },
+  { label: "Other", value: "Other" },
+];
+
 const Details = () => {
   const router = useRoute<DetailsPageProps["route"]>();
-  const { firstName: firstNameProp, lastName: lastNameProp } = router.params;
+  // const { firstName: firstNameProp, lastName: lastNameProp } = router.params;
+  useEffect(() => console.log(router.params), [router.params]);
 
-  const [firstName, setFirstName] = useState(firstNameProp);
-  const [lastName, setLastName] = useState(lastNameProp);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [gender, setGender] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState(new Date(0));
@@ -39,17 +49,14 @@ const Details = () => {
   const completed = firstName.length && lastName.length && gender.length;
   const disabled = !completed;
 
-  const onChangeDate = (event, selectedDate) => {
+  const onChangeDate: (event: DateTimePickerEvent, date?: Date) => void = (
+    event,
+    selectedDate,
+  ) => {
     const currentDate = selectedDate || dateOfBirth;
     setShowDatePicker(false);
     setDateOfBirth(currentDate);
   };
-
-  const genders = [
-    { label: "Male", value: "Male" },
-    { label: "Female", value: "Female" },
-    { label: "Other", value: "Other" },
-  ];
 
   const handleSubmitDetails = async () => {
     setLoading(true);
@@ -67,20 +74,20 @@ const Details = () => {
 
   const navigator = useNavigation();
   return (
-    <SafeAreaView style={Styles.page}>
-      <KeyboardAvoidingView style={[Styles.suliContinues, Styles.page]}>
-        <_Input
+    <Page>
+      <KeyboardAvoidingView style={{ ...styles.page, paddingHorizontal: 0 }}>
+        <Input
           labelText="First Name"
           value={firstName}
           onChangeText={setFirstName}
         />
-        <_Input
+        <Input
           labelText="Last Name"
           value={lastName}
           onChangeText={setLastName}
         />
         <View>
-          <Text style={Styles.inputLabel}>Phone Number</Text>
+          <Label labelText="Phone Number" />
           <View
             style={[
               Styles.d2Box,
@@ -110,31 +117,40 @@ const Details = () => {
           onSelect={setGender}
         />
         <View>
-          <Text style={[Styles.inputLabel]}>Date of Birth</Text>
+          <Label labelText="Date of Birth" />
           <View
             style={[
-              Styles.d2Box,
+              // Styles.d2Box,
               {
                 flexDirection: "row",
                 borderRadius: 10,
                 borderColor: Colors.primary1_100,
-                justifyContent: "flex-start",
-                alignItems: "center",
-                padding: 12,
-                height: 70,
+                // justifyContent: "flex-start",
+                // alignItems: "center",
+                // padding: 12,
+                // height: 70,
               },
             ]}
           >
             {/* Added platform code because there's a bug in Android 
           where the date picker won't hide */}
             {Platform.OS === "ios" ? (
-              <DateTimePicker value={dateOfBirth} onChange={onChangeDate} />
+              <DateTimePicker
+                style={{
+                  borderColor: "black",
+                  borderWidth: 1,
+                  padding: 0,
+                  marginLeft: -10,
+                }}
+                value={dateOfBirth}
+                onChange={onChangeDate}
+              />
             ) : showDatePicker ? (
               <DateTimePicker value={dateOfBirth} onChange={onChangeDate} />
             ) : (
-              <Button
-                title={dateOfBirth.toLocaleDateString()}
-                onPress={() => setShowDatePicker(true)}
+              <PButton
+                text={dateOfBirth.toLocaleDateString()}
+                action={() => setShowDatePicker(true)}
               />
             )}
           </View>
@@ -142,14 +158,14 @@ const Details = () => {
         {loading ? (
           <ActivityIndicator />
         ) : (
-          <_Button
+          <PButton
             text={terms["0017"]}
             action={handleSubmitDetails}
             disabled={disabled}
           />
         )}
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </Page>
   );
 };
 

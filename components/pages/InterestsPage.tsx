@@ -13,7 +13,7 @@ import { Channel, StreamChat } from "stream-chat";
 
 import { saveUserDetails } from "../../firebase/users";
 import Colors from "../../settings/Colors";
-import _Button from "../elements/_Button";
+import { PButton } from "../elements/Button";
 import { InterestsPageProps } from "../navigation/types";
 import STYLES from "../styles/Styles";
 
@@ -192,7 +192,7 @@ const InterestsPage = () => {
       {loading ? (
         <ActivityIndicator />
       ) : (
-        <_Button
+        <PButton
           text="Continue"
           action={handleSubmitInterests}
           style={STYLES.startButton}

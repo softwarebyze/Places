@@ -3,14 +3,15 @@ import { View, Text, StyleSheet } from "react-native";
 
 import { Logo } from "./Logo";
 import TERMS from "../../../settings/Terms";
-import _Button from "../../elements/_Button";
+import { PButton } from "../../elements/Button";
+import { Page } from "../../elements/Page";
 import STYLES from "../../styles/Styles";
 const terms = TERMS["English"];
 
 const StartPage = () => {
   const navigator = useNavigation();
   return (
-    <View style={[STYLES.page, STYLES.spaceEvenly]}>
+    <Page>
       <Logo />
       <View>
         <Text style={styles.welcomeText}>{terms["Welcome to Places!"]}</Text>
@@ -18,20 +19,21 @@ const StartPage = () => {
           {terms["Discover. Meet. Belong."]}
         </Text>
       </View>
-      <View>
-        <_Button
-          text={terms["Create an account"]}
-          action={() => navigator.navigate("Signup")}
-          style={STYLES.startButton}
-        />
-        <_Button
-          type="secondary"
-          text={terms["already_have_an_account"]}
-          action={() => navigator.navigate("Login")}
-          style={STYLES.startButton}
-        />
-      </View>
-    </View>
+      {/* <View> */}
+      <PButton
+        text={terms["Create an account"]}
+        action={() => navigator.navigate("Signup")}
+        // style={STYLES.startButton}
+      />
+      {/* disabled */}
+      <PButton
+        type="secondary"
+        text={terms["already_have_an_account"]}
+        action={() => navigator.navigate("Login")}
+        // style={STYLES.startButton}
+      />
+      {/* </View> */}
+    </Page>
   );
 };
 

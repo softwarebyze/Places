@@ -5,17 +5,10 @@ import { WIDTH, HEIGHT } from "../../settings/Dimensions";
 
 const ELEMENT_WIDTH = 0.87 * WIDTH;
 const ELEMENT_HEIGHT = 0.071 * HEIGHT;
-const SULI_HEADER_HEIGHT = 0.06 * HEIGHT;
 
 export default StyleSheet.create({
-  spaceEvenly: {
-    justifyContent: "space-evenly",
-  },
-  page: {
-    backgroundColor: COLORS.white_100,
-    flex: 1,
-    alignItems: "center",
-    paddingHorizontal: 16,
+  inputPadding: {
+    paddingVertical: 20,
   },
   d2Box: {
     width: ELEMENT_WIDTH,
@@ -40,31 +33,11 @@ export default StyleSheet.create({
     fontSize: 14,
     textAlign: "center",
   },
-  suliHeader: {
-    width: WIDTH,
-    paddingLeft: 0.05 * WIDTH,
-    paddingRight: 0.05 * WIDTH,
-    height: SULI_HEADER_HEIGHT,
-    backgroundColor: COLORS.white_100,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 25,
-  },
   suliHeaderText: {
     color: COLORS.secondary_100,
     fontSize: 24,
     fontWeight: "700",
     lineHeight: 28.8,
-  },
-  suliContinues: {
-    width: WIDTH,
-    backgroundColor: COLORS.white_100,
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "space-evenly",
   },
   inputLabel: {
     color: COLORS.secondary_100,
@@ -73,15 +46,10 @@ export default StyleSheet.create({
     lineHeight: 21.6,
     alignItems: "flex-start",
   },
-  inputSubtext: {
-    fontSize: 13,
-    fontWeight: "400",
-  },
   button: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 0.05 * ELEMENT_WIDTH,
   },
   buttonText: {
     fontSize: 16,
