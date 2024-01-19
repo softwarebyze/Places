@@ -1,7 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Pressable } from "react-native";
-// import Collapsible from "react-native-collapsible";
 
 import Styles from "../styles/Styles";
 
@@ -26,8 +25,6 @@ const _Dropdown = ({ labelText, label, options, onSelect }) => {
           style={[
             Styles.blueBorder,
             Styles.dropdownItem,
-            // { color: COLORS.dark_grey },
-
             isCollapsed ? Styles.borderRadii : Styles.topBorderRadii,
             !isCollapsed && Styles.dropdownHeaderActive,
             {
