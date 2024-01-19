@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Pressable } from "react-native";
-import Collapsible from "react-native-collapsible";
+// import Collapsible from "react-native-collapsible";
 
 import Styles from "../styles/Styles";
 
@@ -25,7 +25,9 @@ const _Dropdown = ({ labelText, label, options, onSelect }) => {
         <Pressable
           style={[
             Styles.blueBorder,
-            Styles.dropdownHeader,
+            Styles.dropdownItem,
+            // { color: COLORS.dark_grey },
+
             isCollapsed ? Styles.borderRadii : Styles.topBorderRadii,
             !isCollapsed && Styles.dropdownHeaderActive,
             {
@@ -33,7 +35,7 @@ const _Dropdown = ({ labelText, label, options, onSelect }) => {
               justifyContent: "space-between",
               alignItems: "center",
             },
-            // Styles.fullWidth,
+            Styles.fullWidth,
           ]}
           onPress={toggleDropdown}
         >
@@ -44,8 +46,8 @@ const _Dropdown = ({ labelText, label, options, onSelect }) => {
             <Ionicons name="chevron-up-outline" size={24} />
           )}
         </Pressable>
-        <Collapsible collapsed={isCollapsed}>
-          <View style={[Styles.blueBorder]}>
+        {!isCollapsed && (
+          <View style={Styles.blueBorder}>
             {options.map(({ label, value }) => (
               <TouchableOpacity
                 style={Styles.dropdownItem}
@@ -60,7 +62,7 @@ const _Dropdown = ({ labelText, label, options, onSelect }) => {
               </TouchableOpacity>
             ))}
           </View>
-        </Collapsible>
+        )}
       </View>
     </View>
   );
