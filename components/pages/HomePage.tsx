@@ -13,7 +13,6 @@ import {
   ActivityIndicator,
   ScrollView,
 } from "react-native";
-import Collapsible from "react-native-collapsible";
 import { StreamChat } from "stream-chat";
 import { ChannelList } from "stream-chat-expo";
 
@@ -124,8 +123,8 @@ const Dropdown = (props) => {
         heading={props.heading}
         isCollapsed={isCollapsed}
       />
-      <Collapsible collapsed={isCollapsed}>
-        <View style={{ flex: 1, maxHeight: 350 }}>
+      {!isCollapsed && (
+        <>
           <ChannelList
             filters={{
               type: "team",
@@ -137,8 +136,8 @@ const Dropdown = (props) => {
             }}
           />
           <JoinANewPlace location={props.heading} />
-        </View>
-      </Collapsible>
+        </>
+      )}
     </View>
   );
 };
@@ -233,21 +232,19 @@ const PopularDropdown = ({ cities }) => {
         onPress={toggleDropdown}
         isCollapsed={isCollapsed}
       />
-      <Collapsible collapsed={isCollapsed}>
-        <View style={{ flex: 1 }}>
-          <FlatList
-            data={channelList}
-            renderItem={({ item }) => (
-              <PopularChannel
-                channel={item}
-                onSelect={() => {
-                  navigation.navigate("PlacesChat", { channel: item });
-                }}
-              />
-            )}
-          />
-        </View>
-      </Collapsible>
+      {!isCollapsed && (
+        <FlatList
+          data={channelList}
+          renderItem={({ item }) => (
+            <PopularChannel
+              channel={item}
+              onSelect={() => {
+                navigation.navigate("PlacesChat", { channel: item });
+              }}
+            />
+          )}
+        />
+      )}
     </View>
   );
 };
