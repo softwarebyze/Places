@@ -8,7 +8,8 @@
     "web": "expo start --web",
     "prepare": "husky install",
     "lint": "eslint .",
-    "test": "maestro test test/"
+    "test": "maestro test test/",
+    "doctor": "npx expo-doctor"
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^4",
