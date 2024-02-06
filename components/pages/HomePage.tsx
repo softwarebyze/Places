@@ -12,8 +12,9 @@ import {
   FlatList,
   ActivityIndicator,
   ScrollView,
+  GestureResponderEvent,
 } from "react-native";
-import { StreamChat } from "stream-chat";
+import { Channel, StreamChat } from "stream-chat";
 import { ChannelList } from "stream-chat-expo";
 
 import { cities as allCities } from "../../data/cities";
@@ -29,7 +30,11 @@ const terms = TERMS["English"];
 
 const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
 
-const DropdownHeader = (props) => (
+const DropdownHeader = (props: {
+  onPress: (event: GestureResponderEvent) => void;
+  heading: string;
+  isCollapsed: boolean;
+}) => (
   <TouchableOpacity
     style={{
       backgroundColor: Colors.primary1_100,
@@ -53,7 +58,10 @@ const DropdownHeader = (props) => (
   </TouchableOpacity>
 );
 
-const PopularDropdownHeader = (props) => (
+const PopularDropdownHeader = (props: {
+  onPress: (event: GestureResponderEvent) => void;
+  isCollapsed: boolean;
+}) => (
   <TouchableOpacity
     style={{
       backgroundColor: Colors.orange,
@@ -77,7 +85,7 @@ const PopularDropdownHeader = (props) => (
   </TouchableOpacity>
 );
 
-const JoinANewPlace = (props) => {
+const JoinANewPlace = (props: { location: string }) => {
   const navigation = useNavigation<HomePageProps["navigation"]>();
   return (
     <TouchableOpacity
@@ -107,7 +115,7 @@ const JoinANewPlace = (props) => {
   );
 };
 
-const Dropdown = (props) => {
+const Dropdown = (props: { heading: string }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
 
   const toggleDropdown = () => {
@@ -148,7 +156,7 @@ const JoinButton = ({ onSelect }) => (
   </TouchableOpacity>
 );
 
-const Location = (props) => (
+const Location = (props: { location: string }) => (
   <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
     <FontAwesome5 name="map-pin" size={11} color="grey" />
     <Text style={{ color: Colors.dark_grey }}>
@@ -157,43 +165,35 @@ const Location = (props) => (
   </View>
 );
 
-const PopularChannel = ({ channel, onSelect }) => {
-  const navigation = useNavigation<HomePageProps["navigation"]>();
-  return (
-    <TouchableOpacity
-      style={{ padding: 8 }}
-      onPress={() =>
-        navigation.navigate("ChannelInfo", { channelInfo: channel })
-      }
-    >
-      <View style={{ flexDirection: "row" }}>
-        <Image
-          source={{ uri: channel.data.image }}
-          style={{ width: 32, height: 32 }}
-        />
-        <View style={Styles.catPageMemberInfo}>
-          <Text
-            style={Styles.catPageLocationText}
-          >{`${channel.data.interest}`}</Text>
-          <Text style={Styles.catPageMembersText}>
-            {`${channel.data.member_count || 0} members`}
-          </Text>
-        </View>
-        <View
-          style={{
-            marginLeft: "auto",
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 8,
-          }}
-        >
-          <Location location={channel.data.location} />
-          <JoinButton onSelect={onSelect} />
-        </View>
+const PopularChannel = ({ channel, onSelect }) => (
+  <TouchableOpacity style={{ padding: 8 }} onPress={onSelect}>
+    <View style={{ flexDirection: "row" }}>
+      <Image
+        source={{ uri: channel.data.image }}
+        style={{ width: 32, height: 32 }}
+      />
+      <View style={Styles.catPageMemberInfo}>
+        <Text
+          style={Styles.catPageLocationText}
+        >{`${channel.data.interest}`}</Text>
+        <Text style={Styles.catPageMembersText}>
+          {`${channel.data.member_count || 0} members`}
+        </Text>
       </View>
-    </TouchableOpacity>
-  );
-};
+      <View
+        style={{
+          marginLeft: "auto",
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 8,
+        }}
+      >
+        <Location location={channel.data.location} />
+        <JoinButton onSelect={onSelect} />
+      </View>
+    </View>
+  </TouchableOpacity>
+);
 
 const PopularDropdown = ({ cities }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
@@ -226,6 +226,17 @@ const PopularDropdown = ({ cities }) => {
 
   const navigation = useNavigation<HomePageProps["navigation"]>();
 
+  const joinAndEnterChannel = async (channel: Channel) => {
+    const userId = auth().currentUser.uid;
+    try {
+      await channel.addMembers([userId]);
+    } catch (error) {
+      console.error(error);
+    }
+
+    navigation.navigate("PlacesChat", { channel });
+  };
+
   return (
     <View style={{ width: "100%", marginBottom: 16 }}>
       <PopularDropdownHeader
@@ -238,9 +249,7 @@ const PopularDropdown = ({ cities }) => {
           renderItem={({ item }) => (
             <PopularChannel
               channel={item}
-              onSelect={() => {
-                navigation.navigate("PlacesChat", { channel: item });
-              }}
+              onSelect={() => joinAndEnterChannel(item)}
             />
           )}
         />
