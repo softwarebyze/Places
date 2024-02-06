@@ -11,10 +11,11 @@ import Searchbar from "../elements/Searchbar";
 import SheetBody from "../elements/SheetBody";
 import SheetHeader from "../elements/SheetHeader";
 import _Button from "../elements/_Button";
+import { CategoryPageProps } from "../navigation/types";
 import STYLES from "../styles/Styles";
 
 const InterestListItem = ({ channel }) => {
-  const navigator = useNavigation();
+  const navigator = useNavigation<CategoryPageProps["navigation"]>();
   return (
     <TouchableOpacity
       style={STYLES.catPageGrid}
@@ -46,7 +47,7 @@ const InterestListItem = ({ channel }) => {
   );
 };
 const CategoryPage = () => {
-  const route = useRoute();
+  const route = useRoute<CategoryPageProps["route"]>();
   const { channels } = route.params;
   const [search, setSearch] = useState("");
   const filteredChannels = channels.filter((channel) =>

@@ -1,15 +1,25 @@
-import { getAuth } from "firebase/auth";
-import { doc, getDoc, updateDoc, arrayUnion, setDoc } from "firebase/firestore";
+import auth from "@react-native-firebase/auth";
+import firestore from "@react-native-firebase/firestore";
 
-import { db } from "../firebaseConfig";
+export const getUserData = async () => {
+  const userId = auth().currentUser?.uid;
+  if (!userId) throw new Error("No user ID found!");
+  const userSnap = await firestore().collection("users").doc(userId).get();
+  if (userSnap?.exists) {
+    const userData = userSnap.data();
+    console.log("userData :", userData);
+    return userData;
+  } else {
+    console.log("No data for user!");
+    return null;
+  }
+};
 
-const fetchUsersCities = async () => {
+export const fetchUsersCities = async () => {
   try {
-    const auth = getAuth();
-    const userId = auth.currentUser?.uid;
-    const userRef = doc(db, "users", userId);
-    const userSnap = await getDoc(userRef);
-    if (userSnap.exists()) {
+    const userId = auth().currentUser?.uid;
+    const userSnap = await firestore().collection("users").doc(userId).get();
+    if (userSnap.exists) {
       const cities = userSnap.data().cities || [userSnap.data().location];
       return cities;
     } else {
@@ -20,45 +30,37 @@ const fetchUsersCities = async () => {
   }
 };
 
-const addUserCity = async (city) => {
+export const addUserCity = async (city: string) => {
   try {
-    const auth = getAuth();
-    const userId = auth.currentUser?.uid;
-    const userRef = doc(db, "users", userId);
-    if (!city) throw new Error("No city selected");
-    const userSnap = await getDoc(userRef);
-    if (!userSnap.exists()) throw new Error("No user found");
-    const usersCities = userSnap.data().cities || [userSnap.data().location];
-    if (usersCities.includes(city)) throw new Error("City already added");
-    await updateDoc(userRef, {
-      cities: arrayUnion(city),
-    });
+    const userId = auth().currentUser?.uid;
+    return await firestore()
+      .doc(`users/${userId}`)
+      .update({
+        cities: firestore.FieldValue.arrayUnion(city),
+      });
   } catch (error) {
     console.error(error);
   }
 };
 
-const addUserDetails = async (userDetails) => {
-  const auth = getAuth();
-  const userId = auth.currentUser.uid;
-  const userRef = doc(db, "users", userId);
-  await setDoc(userRef, userDetails, { merge: true });
+type UserDetails = {
+  first_name: string;
+  last_name: string;
+  phone: string;
+  gender: string;
+  birth_date: Date;
+  details_completed: true;
+  cities: string[];
+  interests: string[];
 };
 
-const getUserData = async () => {
-  const auth = getAuth();
-  const userId = auth.currentUser?.uid;
-  if (!userId) throw new Error("No user ID found!");
-
-  const userRef = doc(db, "users", userId);
-  const userSnap = await getDoc(userRef);
-
-  if (userSnap.exists()) {
-    return userSnap.data();
-  } else {
-    console.log("No data for user!");
-    return null;
+export const saveUserDetails = async (userDetails: Partial<UserDetails>) => {
+  try {
+    const userId = auth().currentUser?.uid;
+    return await firestore()
+      .doc(`users/${userId}`)
+      .set(userDetails, { merge: true });
+  } catch (error) {
+    console.error(error);
   }
 };
-
-export { fetchUsersCities, addUserCity, addUserDetails, getUserData };

@@ -7,11 +7,11 @@ import _Logo from "../elements/_Logo";
 import STYLES from "../styles/Styles";
 const terms = TERMS["English"];
 
-const StartPage = (props) => {
+const StartPage = () => {
   const navigator = useNavigation();
   return (
     <View style={[STYLES.page, STYLES.spaceEvenly]}>
-      <_Logo style={[STYLES.fullLogo, STYLES.startFullLogo]} />
+      <_Logo style={[STYLES.fullLogo]} />
       <View>
         <Text style={STYLES.welcomeText}>{terms["0001"]}</Text>
         <Text style={STYLES.sloganText}>{terms["0002"]}</Text>

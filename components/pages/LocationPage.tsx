@@ -1,13 +1,12 @@
+import auth from "@react-native-firebase/auth";
 import { useNavigation } from "@react-navigation/native";
-import { getAuth } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
 import { useState } from "react";
 import { Text, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StreamChat } from "stream-chat";
 
-import { getUserData } from "../../firebase/users";
-import { db, getStreamUserToken } from "../../firebaseConfig";
+import { getUserData, saveUserDetails } from "../../firebase/users";
+import { getStreamUserToken } from "../../firebaseConfig";
 import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
 import CitiesDropdown from "../elements/CitiesDropdown";
@@ -26,10 +25,8 @@ const LocationPage = () => {
 
   const handleSubmitLocation = async () => {
     setLoading(true);
-    const auth = getAuth();
-    const userId = auth.currentUser.uid;
-    const userRef = doc(db, "users", userId);
-    await setDoc(userRef, { cities: [location] }, { merge: true });
+    const userId = auth().currentUser.uid;
+    await saveUserDetails({ cities: [location] });
     if (!client?.user) {
       const userData = await getUserData();
       const tokenResponse = await getStreamUserToken();
