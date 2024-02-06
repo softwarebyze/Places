@@ -194,37 +194,45 @@ const PopularChannel = ({ channel, onSelect }) => (
   </TouchableOpacity>
 );
 
+const fetchChannels = async () => {
+  try {
+    const cities = await fetchUsersCities();
+    const filters = {
+      type: "team",
+      members: { $nin: [auth().currentUser.uid] },
+      location: { $in: cities },
+    };
+    console.log(filters);
+    const options = { limit: 3, watch: true, state: true };
+    const channels = await client.queryChannels(
+      filters,
+      { member_count: -1 },
+      options,
+    );
+    console.log(channels.length);
+    return channels;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const PopularDropdown = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [channelList, setChannelList] = useState([]);
+  const [refetch, setRefetch] = useState(true);
   const toggleDropdown = () => {
     setIsCollapsed(!isCollapsed);
   };
 
   useEffect(() => {
-    const fetchChannels = async () => {
-      try {
-        const cities = await fetchUsersCities();
-        const filters = {
-          type: "team",
-          members: { $nin: [auth().currentUser.uid] },
-          location: { $in: cities },
-        };
-        console.log(filters);
-        const options = { limit: 3, watch: true, state: true };
-        const channels = await client.queryChannels(
-          filters,
-          { member_count: -1 },
-          options,
-        );
-        console.log(channels.length);
-        setChannelList(channels);
-      } catch (error) {
-        console.error(error);
-      }
+    if (!refetch) return;
+    const fetchAndSetChannels = async () => {
+      const channels = await fetchChannels();
+      setChannelList(channels);
     };
-    fetchChannels();
-  }, []);
+    fetchAndSetChannels();
+    setRefetch(false);
+  }, [refetch]);
 
   const navigation = useNavigation<HomePageProps["navigation"]>();
 
@@ -235,6 +243,8 @@ const PopularDropdown = () => {
     } catch (error) {
       console.error(error);
     }
+
+    setRefetch(true);
 
     navigation.navigate("PlacesChat", { channel });
   };
