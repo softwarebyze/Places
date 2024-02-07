@@ -130,21 +130,19 @@ const Dropdown = (props: { heading: string }) => {
         heading={props.heading}
         isCollapsed={isCollapsed}
       />
-      {!isCollapsed && (
-        <>
-          <ChannelList
-            filters={{
-              type: "team",
-              members: { $in: [auth().currentUser.uid] },
-              location: { $in: [props.heading] },
-            }}
-            onSelect={(channel) => {
-              navigation.navigate("PlacesChat", { channel });
-            }}
-          />
-          <JoinANewPlace location={props.heading} />
-        </>
-      )}
+      <View style={{ display: isCollapsed ? "none" : "flex" }}>
+        <ChannelList
+          filters={{
+            type: "team",
+            members: { $in: [auth().currentUser.uid] },
+            location: { $in: [props.heading] },
+          }}
+          onSelect={(channel) => {
+            navigation.navigate("PlacesChat", { channel });
+          }}
+        />
+        <JoinANewPlace location={props.heading} />
+      </View>
     </View>
   );
 };
@@ -255,17 +253,16 @@ const PopularDropdown = () => {
         onPress={toggleDropdown}
         isCollapsed={isCollapsed}
       />
-      {!isCollapsed && (
-        <FlatList
-          data={channelList}
-          renderItem={({ item }) => (
-            <PopularChannel
-              channel={item}
-              onSelect={() => joinAndEnterChannel(item)}
-            />
-          )}
-        />
-      )}
+      <FlatList
+        data={channelList}
+        style={{ display: isCollapsed ? "none" : "flex" }}
+        renderItem={({ item }) => (
+          <PopularChannel
+            channel={item}
+            onSelect={() => joinAndEnterChannel(item)}
+          />
+        )}
+      />
     </View>
   );
 };
