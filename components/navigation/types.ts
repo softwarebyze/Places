@@ -4,11 +4,12 @@ import type {
   NavigatorScreenParams,
 } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { Channel } from "stream-chat";
 
 export type HomeStackParamList = {
   HomePage: undefined;
-  PlacesChat: { channel: any };
-  Thread: { channel: any; thread: any };
+  PlacesChat: { channel: Channel };
+  Thread: { channel: Channel; thread: any };
   ChannelInfo: { channelInfo: any };
   JoinPlace: { location: string };
   Category: { channels: any[] };
