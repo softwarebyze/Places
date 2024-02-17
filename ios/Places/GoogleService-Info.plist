@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1017409536489-sm8q3bllui2ngu4idsep3tlh6pbpsmj2.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1017409536489-sm8q3bllui2ngu4idsep3tlh6pbpsmj2</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA3sy5QlAue92zhvItbsNYjkL0GEOHiT5k</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1017409536489</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.places</string>
+	<key>PROJECT_ID</key>
+	<string>places-e6047</string>
+	<key>STORAGE_BUCKET</key>
+	<string>places-e6047.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1017409536489:ios:6429971094335e56230b78</string>
+	<key>DATABASE_URL</key>
+	<string>https://places-e6047-default-rtdb.europe-west1.firebasedatabase.app</string>
+</dict>
+</plist>

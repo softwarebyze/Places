@@ -8,7 +8,7 @@ const NoResults = () => (
   >
     <View style={{ alignItems: "center", marginVertical: 18 }}>
       <Image source={require("../../assets/no-result-icon.png")} />
-      <Text style={{ fontWeight: 600, fontSize: 20, marginTop: 8 }}>
+      <Text style={{ fontWeight: "600", fontSize: 20, marginTop: 8 }}>
         No Results Found
       </Text>
     </View>
