@@ -1,12 +1,11 @@
-import { AntDesign, EvilIcons, Feather, Ionicons } from "@expo/vector-icons";
+import { AntDesign, EvilIcons, Feather } from "@expo/vector-icons";
 import BottomSheet from "@gorhom/bottom-sheet";
-import { format } from "date-fns";
-import { collection, getDocs } from "firebase/firestore";
+import { Image } from "expo-image";
 import { useEffect, useRef, useState } from "react";
-import { View, Image, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 
-import { db } from "../../firebaseConfig";
+import { getEvents } from "../../firebase/events";
 import Colors from "../../settings/Colors";
 import CreateEventSheet from "../elements/CreateEventSheet";
 
@@ -135,28 +134,18 @@ const SlideUpPanel = ({
   );
 };
 
-const FloatingPlusButton = (props) => (
-  <Ionicons
-    name="add-circle"
-    size={58}
-    backgroundColor="white"
-    color={Colors.orange}
+const FloatingButton = (props) => (
+  <TouchableOpacity
     style={{
       position: "absolute",
-      bottom: 26,
-      right: 26,
+      bottom: 18,
+      right: 18,
     }}
-    onPress={props.onPress}
-  />
+    {...props}
+  >
+    {props.children}
+  </TouchableOpacity>
 );
-
-const convertTimestampToDateAndTime = (timestamp) => {
-  const dateObj = new Date(timestamp.seconds * 1000);
-  return {
-    date: format(dateObj, "MM/dd/yyyy"),
-    time: format(dateObj, "h:mm a").toLocaleLowerCase(),
-  };
-};
 
 const MapsPage = () => {
   const [markers, setMarkers] = useState([]);
@@ -167,26 +156,8 @@ const MapsPage = () => {
 
   useEffect(() => {
     const fetchEvents = async () => {
-      try {
-        const eventsCollection = collection(db, "events");
-        const eventsSnapshot = await getDocs(eventsCollection);
-        const eventsData = eventsSnapshot.docs.map((doc) => {
-          const eventData = doc.data();
-          return {
-            ...eventData,
-            location: {
-              latitude: eventData.location._lat,
-              longitude: eventData.location._long,
-            },
-            datetime: eventData?.datetime
-              ? convertTimestampToDateAndTime(eventData.datetime)
-              : undefined,
-          };
-        });
-        setMarkers(eventsData);
-      } catch (error) {
-        console.error("Error fetching events:", error);
-      }
+      const events = await getEvents();
+      setMarkers(events);
     };
 
     fetchEvents();
@@ -229,15 +200,24 @@ const MapsPage = () => {
             coordinate={marker.location}
             onPress={() => handleMarkerPress(marker)}
           >
-            <Image source={require("../../assets/marker.png")} />
+            <Image
+              style={{ width: 32, height: 38 }}
+              source={require("../../assets/marker.svg")}
+            />
           </Marker>
         ))}
       </MapView>
-      <FloatingPlusButton
+      <FloatingButton
         onPress={() => {
           setShowCreateEventSheet(true);
         }}
-      />
+      >
+        <Image
+          style={{ width: 70, height: 70 }}
+          source={require("../../assets/add-icon.svg")}
+        />
+      </FloatingButton>
+
       {selectedMarker && (
         <BottomSheet
           ref={eventDetailsBottomSheetRef}

@@ -1,67 +1,106 @@
+import auth from "@react-native-firebase/auth";
 import { useNavigation } from "@react-navigation/native";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { useState } from "react";
-import {
-  ActivityIndicator,
-  View,
-  StyleSheet,
-  Modal,
-  Text,
-  Pressable,
-} from "react-native";
+import { ActivityIndicator, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { StreamChat } from "stream-chat";
 
+import { signInWithGoogle } from "../../firebase/signInWithGoogle";
+import { getUserData } from "../../firebase/users";
+import { getStreamUserToken } from "../../firebaseConfig";
 import TERMS from "../../settings/Terms";
+import { ErrorModal } from "../elements/ErrorModal";
 import _Button from "../elements/_Button";
 import _Divider from "../elements/_Divider";
 import _Header from "../elements/_Header";
 import _Input from "../elements/_Input";
 import { validateEmail } from "../helper/validateEmail";
 import { validatePassword } from "../helper/validatePassword";
+import { SignupPageProps } from "../navigation/types";
 import STYLES from "../styles/Styles";
 
 const terms = TERMS["English"];
 
-const SignUpPage = () => {
-  const navigator = useNavigation();
-  const auth = getAuth();
-  const [modalVisible, setModalVisible] = useState(false);
-  const [emailFocusState, setEmailFocusState] = useState(false);
-  const [emailTextState, setEmailTextState] = useState("");
-  const [passwordFocusState, setPasswordFocusState] = useState(false);
-  const [passwordTextState, setPasswordTextState] = useState("");
-  const [confirmPasswordFocusState, setConfirmPasswordFocusState] =
-    useState(false);
-  const [confirmPasswordTextState, setConfirmPasswordTextState] = useState("");
-  const [loading, setLoading] = useState(false);
+const { EXPO_PUBLIC_STREAM_API_KEY } = process.env;
+const client = StreamChat.getInstance(EXPO_PUBLIC_STREAM_API_KEY);
 
-  const passwordsMatch =
-    passwordTextState.length && passwordTextState === confirmPasswordTextState;
-  const emailIsValid = validateEmail(emailTextState);
-  const passwordIsValid = validatePassword(passwordTextState);
+const SignUpPage = () => {
+  const navigator = useNavigation<SignupPageProps["navigation"]>();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const passwordsMatch = password.length && password === confirmPassword;
+  const emailIsValid = validateEmail(email);
+  const passwordIsValid = validatePassword(password);
   const canContinue = emailIsValid && passwordIsValid && passwordsMatch;
 
-  const handleSignUp = async () => {
+  const signUpWithEmailAndPassword = () =>
+    auth().createUserWithEmailAndPassword(email, password);
+
+  const signUpWithGoogle = signInWithGoogle;
+
+  const handleSignUp = async (signUpMethod: "google" | "email" = "email") => {
     setLoading(true);
 
     try {
-      const user = await createUserWithEmailAndPassword(
-        auth,
-        emailTextState,
-        passwordTextState,
-      );
-      if (user) {
+      const signInHandler =
+        signUpMethod === "google"
+          ? signUpWithGoogle
+          : signUpWithEmailAndPassword;
+      const user = await signInHandler();
+      console.log("user: ", JSON.stringify(user));
+      if (!user) return setLoading(false);
+      const userData = await getUserData();
+
+      if (!userData?.details_completed) {
         setLoading(false);
-        navigator.replace("Details");
+        return navigator.replace("Details", {
+          firstName: user?.additionalUserInfo.profile?.given_name || "",
+          lastName: user?.additionalUserInfo.profile?.family_name || "",
+        });
       }
+      if (!userData?.location && !userData?.cities.length)
+        return navigator.replace("ChooseLocation");
+      if (!userData?.interests)
+        return navigator.replace("ChooseInterests", {
+          location: userData.location,
+        });
+      if (!client?.user) {
+        const userId = auth()?.currentUser?.uid;
+        const tokenResponse = await getStreamUserToken();
+        const token = tokenResponse.data.toString();
+        if (!token) return;
+        await client.connectUser(
+          { id: userId, name: `${userData.first_name} ${userData.last_name}` },
+          token,
+        );
+      }
+      setLoading(false);
+      return navigator.replace("HomeTabs");
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
-        setModalVisible(true);
+        setError({
+          title: "Account already made",
+          message:
+            "Looks like you already have a Places account, please log in to continue",
+        });
+      } else if (error.code === "auth/network-request-failed") {
+        setError({
+          title: "No connection",
+          message: terms["no_internet"],
+        });
+      } else {
+        throw new Error(error);
       }
     } finally {
       setLoading(false);
     }
   };
+
+  const handleSignUpWithGoogle = () => handleSignUp("google");
 
   return (
     <SafeAreaView style={STYLES.page}>
@@ -70,64 +109,27 @@ const SignUpPage = () => {
         action={() => navigator.navigate("Start")}
       />
       <_Input
-        labelText={terms["0006"]}
+        labelText={terms["email"]}
         subtextText={terms["0014"]}
-        onFocus={() => setEmailFocusState(true)}
-        onBlur={() => setEmailFocusState(false)}
-        onChangeText={(input) => setEmailTextState(input)}
-        borderColor={
-          emailTextState && !emailIsValid
-            ? "error_080"
-            : emailFocusState
-            ? "primary1_100"
-            : "primary1_030"
-        }
-        subtextColor={
-          emailTextState && !emailIsValid
-            ? "error_080"
-            : emailFocusState
-            ? "clear_000"
-            : "clear_000"
-        }
+        onChangeText={setEmail}
+        value={email}
+        isValid={emailIsValid}
       />
       <_Input
         secureTextEntry
-        labelText={terms["0007"]}
+        labelText={terms["password"]}
         subtextText={terms["your_password_must_be_at_least_6_characters"]}
-        onFocus={() => setPasswordFocusState(true)}
-        onBlur={() => setPasswordFocusState(false)}
-        onChangeText={(input) => setPasswordTextState(input)}
-        borderColor={
-          passwordTextState && !passwordIsValid
-            ? "error_100"
-            : passwordFocusState
-            ? "primary1_100"
-            : "primary1_030"
-        }
-        subtextColor={
-          emailTextState && !passwordIsValid
-            ? "primary1_030"
-            : passwordFocusState
-            ? "primary1_030"
-            : "clear_000"
-        }
+        onChangeText={setPassword}
+        value={password}
+        isValid={passwordIsValid}
       />
       <_Input
         secureTextEntry
         labelText="Confirm Password"
-        onFocus={() => setConfirmPasswordFocusState(true)}
-        onBlur={() => setConfirmPasswordFocusState(false)}
-        onChangeText={setConfirmPasswordTextState}
-        borderColor={
-          confirmPasswordFocusState ? "primary1_100" : "primary1_030"
-        }
-        subtextColor={
-          emailTextState
-            ? "primary1_030"
-            : passwordFocusState
-            ? "primary1_030"
-            : "clear_000"
-        }
+        onChangeText={setConfirmPassword}
+        value={confirmPassword}
+        isValid={passwordsMatch}
+        subtextText={terms.passwords_must_match}
       />
       {loading ? (
         <ActivityIndicator />
@@ -145,7 +147,7 @@ const SignUpPage = () => {
           <_Divider text="or" color="gray1_100" />
           <_Button
             text={terms["0011"]}
-            action={() => navigator.replace("HomeTabs")}
+            action={handleSignUpWithGoogle}
             style={{ marginBottom: 20 }}
           />
           <_Button
@@ -155,96 +157,20 @@ const SignUpPage = () => {
           />
           <Text
             style={STYLES.textButton}
-            onPress={() => navigator.replace("Login")}
+            onPress={() => navigator.navigate("Login")}
           >
             {terms["already_have_an_account"]}
           </Text>
         </>
       )}
 
-      <View style={styles.centeredView}>
-        <Modal
-          animationType="slide"
-          transparent
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={styles.textStyle_2}>Account already made.</Text>
-              <Text style={styles.modalText}>
-                Looks like you already have a Places account, please log in to
-                continue
-              </Text>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible(false)}
-              >
-                <Text style={styles.textStyle}>Continue</Text>
-              </Pressable>
-            </View>
-          </View>
-        </Modal>
-        {/* <Pressable
-          style={[styles.button, styles.buttonOpen]}
-          onPress={() => setModalVisible(true)}
-        >
-          <Text style={styles.textStyle_2}>Account already made</Text>
-        </Pressable> */}
-      </View>
+      <ErrorModal
+        {...error}
+        visible={error?.message?.length > 0}
+        onClose={() => setError(null)}
+      />
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
-  },
-  buttonClose: {
-    backgroundColor: "#2196F3",
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  textStyle_2: {
-    color: "black",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
-  },
-});
 
 export default SignUpPage;

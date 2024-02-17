@@ -1,7 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
+import auth from "@react-native-firebase/auth";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { getAuth } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import {
   Text,
@@ -10,16 +9,17 @@ import {
   ScrollView,
   ActivityIndicator,
 } from "react-native";
-import { StreamChat } from "stream-chat";
+import { Channel, StreamChat } from "stream-chat";
 
-import { db } from "../../firebaseConfig";
+import { saveUserDetails } from "../../firebase/users";
 import Colors from "../../settings/Colors";
 import _Button from "../elements/_Button";
+import { InterestsPageProps } from "../navigation/types";
 import STYLES from "../styles/Styles";
 
 const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
 
-const groupChannelsByCategory = (channelsData) => {
+const groupChannelsByCategory = (channelsData: any[]) => {
   return channelsData.reduce((acc, channel) => {
     const category = channel.category;
     if (!acc[category]) {
@@ -65,8 +65,8 @@ export const InterestTag = (props) => {
 };
 
 const InterestsPage = () => {
-  const navigator = useNavigation();
-  const route = useRoute();
+  const navigator = useNavigation<InterestsPageProps["navigation"]>();
+  const route = useRoute<InterestsPageProps["route"]>();
   const REQUIRED_INTERESTS = 5;
   const [userInterests, setUserInterests] = useState([]);
   const [channelList, setChannelList] = useState([]);
@@ -118,7 +118,7 @@ const InterestsPage = () => {
     fetchInterests();
   }, []);
 
-  const addUserToChannels = async (userId, interests, location) => {
+  const addUserToChannels = async (userId: string, interests: Channel[]) => {
     try {
       const channels = await Promise.all(
         interests.map(async (interest) => {
@@ -133,12 +133,10 @@ const InterestsPage = () => {
   };
   const handleSubmitInterests = async () => {
     setLoading(true);
-    const auth = getAuth();
-    const userId = auth.currentUser.uid;
-    const userRef = doc(db, "users", userId);
+    const userId = auth().currentUser.uid;
     const interests = userInterests.map((interest) => interest.name);
-    await setDoc(userRef, { interests }, { merge: true });
-    await addUserToChannels(userId, userInterests, route.params.location);
+    await saveUserDetails({ interests });
+    await addUserToChannels(userId, userInterests);
     setLoading(false);
     navigator.navigate("HomeTabs");
   };
@@ -156,7 +154,7 @@ const InterestsPage = () => {
         <View style={{ marginBottom: 20 }}>
           <View>
             {Object.entries(channelsGroupedByCategory).map(
-              ([category, channels]) => {
+              ([category, channels]: [string, any[]]) => {
                 return (
                   <View key={category}>
                     <Text

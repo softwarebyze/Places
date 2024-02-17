@@ -1,8 +1,8 @@
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import BottomSheet from "@gorhom/bottom-sheet";
+import auth from "@react-native-firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 import { Image } from "expo-image";
-import { getAuth } from "firebase/auth";
 import { useEffect, useRef, useState } from "react";
 import {
   Text,
@@ -10,22 +10,30 @@ import {
   TouchableOpacity,
   StyleSheet,
   FlatList,
+  ActivityIndicator,
+  ScrollView,
+  GestureResponderEvent,
 } from "react-native";
-import Collapsible from "react-native-collapsible";
-import { StreamChat } from "stream-chat";
+import { Channel, StreamChat } from "stream-chat";
 import { ChannelList } from "stream-chat-expo";
 
-import { fetchUsersCities } from "../../firebase/users";
+import { cities as allCities } from "../../data/cities";
+import { addUserCity, fetchUsersCities } from "../../firebase/users";
 import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
 import AddCityForm from "../elements/AddCityForm";
 import PlacesHeader from "../elements/PlacesHeader";
+import { HomePageProps } from "../navigation/types";
 import Styles from "../styles/Styles";
 const terms = TERMS["English"];
 
 const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
 
-const DropdownHeader = (props) => (
+const DropdownHeader = (props: {
+  onPress: (event: GestureResponderEvent) => void;
+  heading: string;
+  isCollapsed: boolean;
+}) => (
   <TouchableOpacity
     style={{
       backgroundColor: Colors.primary1_100,
@@ -49,7 +57,10 @@ const DropdownHeader = (props) => (
   </TouchableOpacity>
 );
 
-const PopularDropdownHeader = (props) => (
+const PopularDropdownHeader = (props: {
+  onPress: (event: GestureResponderEvent) => void;
+  isCollapsed: boolean;
+}) => (
   <TouchableOpacity
     style={{
       backgroundColor: Colors.orange,
@@ -73,8 +84,8 @@ const PopularDropdownHeader = (props) => (
   </TouchableOpacity>
 );
 
-const JoinANewPlace = (props) => {
-  const navigation = useNavigation();
+const JoinANewPlace = (props: { location: string }) => {
+  const navigation = useNavigation<HomePageProps["navigation"]>();
   return (
     <TouchableOpacity
       onPress={() =>
@@ -96,22 +107,21 @@ const JoinANewPlace = (props) => {
             paddingStart: 4,
           }}
         >
-          {terms["0026"]}
+          {terms["join_a_new_place"]}
         </Text>
       </View>
     </TouchableOpacity>
   );
 };
 
-const Dropdown = (props) => {
+const Dropdown = (props: { heading: string }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
 
   const toggleDropdown = () => {
-    setIsCollapsed(!isCollapsed);
+    setIsCollapsed((prevIsCollapsed) => !prevIsCollapsed);
   };
 
-  const navigation = useNavigation();
-  const auth = getAuth();
+  const navigation = useNavigation<HomePageProps["navigation"]>();
 
   return (
     <View style={{ width: "100%" }}>
@@ -120,12 +130,12 @@ const Dropdown = (props) => {
         heading={props.heading}
         isCollapsed={isCollapsed}
       />
-      <Collapsible collapsed={isCollapsed}>
-        <View style={{ flex: 1, maxHeight: 350 }}>
+      {!isCollapsed && (
+        <>
           <ChannelList
             filters={{
               type: "team",
-              members: { $in: [auth.currentUser.uid] },
+              members: { $in: [auth().currentUser.uid] },
               location: { $in: [props.heading] },
             }}
             onSelect={(channel) => {
@@ -133,8 +143,8 @@ const Dropdown = (props) => {
             }}
           />
           <JoinANewPlace location={props.heading} />
-        </View>
-      </Collapsible>
+        </>
+      )}
     </View>
   );
 };
@@ -145,7 +155,7 @@ const JoinButton = ({ onSelect }) => (
   </TouchableOpacity>
 );
 
-const Location = (props) => (
+const Location = (props: { location: string }) => (
   <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
     <FontAwesome5 name="map-pin" size={11} color="grey" />
     <Text style={{ color: Colors.dark_grey }}>
@@ -154,78 +164,90 @@ const Location = (props) => (
   </View>
 );
 
-const PopularChannel = ({ channel, onSelect }) => {
-  const navigator = useNavigation();
-  return (
-    <View
-      style={{ padding: 8 }}
-      onPress={() =>
-        navigator.navigate("ChannelInfo", { channelInfo: channel })
-      }
-    >
-      <View style={{ flexDirection: "row" }}>
-        <Image
-          source={{ uri: channel.data.image }}
-          style={{ width: 32, height: 32 }}
-        />
-        <View style={Styles.catPageMemberInfo}>
-          <Text
-            style={Styles.catPageLocationText}
-          >{`${channel.data.interest}`}</Text>
-          <Text style={Styles.catPageMembersText}>
-            {`${channel.data.member_count || 0} members`}
-          </Text>
-        </View>
-        <View
-          style={{
-            marginLeft: "auto",
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 8,
-          }}
-        >
-          <Location location={channel.data.location} />
-          <JoinButton onSelect={onSelect} />
-        </View>
+const PopularChannel = ({ channel, onSelect }) => (
+  <TouchableOpacity style={{ padding: 8 }} onPress={onSelect}>
+    <View style={{ flexDirection: "row" }}>
+      <Image
+        source={{ uri: channel.data.image }}
+        style={{ width: 32, height: 32 }}
+      />
+      <View style={Styles.catPageMemberInfo}>
+        <Text
+          style={Styles.catPageLocationText}
+        >{`${channel.data.interest}`}</Text>
+        <Text style={Styles.catPageMembersText}>
+          {`${channel.data.member_count || 0} members`}
+        </Text>
+      </View>
+      <View
+        style={{
+          marginLeft: "auto",
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 8,
+        }}
+      >
+        <Location location={channel.data.location} />
+        <JoinButton onSelect={onSelect} />
       </View>
     </View>
-  );
+  </TouchableOpacity>
+);
+
+const fetchChannels = async () => {
+  try {
+    const cities = await fetchUsersCities();
+    const filters = {
+      type: "team",
+      members: { $nin: [auth().currentUser.uid] },
+      location: { $in: cities },
+    };
+    console.log(filters);
+    const options = { limit: 3, watch: true, state: true };
+    const channels = await client.queryChannels(
+      filters,
+      { member_count: -1 },
+      options,
+    );
+    console.log(channels.length);
+    return channels;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const PopularDropdown = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [channelList, setChannelList] = useState([]);
+  const [refetch, setRefetch] = useState(true);
   const toggleDropdown = () => {
     setIsCollapsed(!isCollapsed);
   };
 
   useEffect(() => {
-    const fetchChannels = async () => {
-      try {
-        const cities = await fetchUsersCities();
-        const filters = {
-          type: "team",
-          members: { $nin: [auth.currentUser.uid] },
-          location: { $in: cities },
-        };
-        console.log(filters);
-        const options = { limit: 3, watch: true, state: true };
-        const channels = await client.queryChannels(
-          filters,
-          { member_count: -1 },
-          options,
-        );
-        console.log(channels.length);
-        setChannelList(channels);
-      } catch (error) {
-        console.error(error);
-      }
+    if (!refetch) return;
+    const fetchAndSetChannels = async () => {
+      const channels = await fetchChannels();
+      setChannelList(channels);
     };
-    fetchChannels();
-  }, []);
+    fetchAndSetChannels();
+    setRefetch(false);
+  }, [refetch]);
 
-  const navigation = useNavigation();
-  const auth = getAuth();
+  const navigation = useNavigation<HomePageProps["navigation"]>();
+
+  const joinAndEnterChannel = async (channel: Channel) => {
+    const userId = auth().currentUser.uid;
+    try {
+      await channel.addMembers([userId]);
+    } catch (error) {
+      console.error(error);
+    }
+
+    setRefetch(true);
+
+    navigation.navigate("PlacesChat", { channel });
+  };
 
   return (
     <View style={{ width: "100%", marginBottom: 16 }}>
@@ -233,21 +255,17 @@ const PopularDropdown = () => {
         onPress={toggleDropdown}
         isCollapsed={isCollapsed}
       />
-      <Collapsible collapsed={isCollapsed}>
-        <View style={{ flex: 1 }}>
-          <FlatList
-            data={channelList}
-            renderItem={({ item }) => (
-              <PopularChannel
-                channel={item}
-                onSelect={() => {
-                  navigation.navigate("PlacesChat", { channel: item });
-                }}
-              />
-            )}
-          />
-        </View>
-      </Collapsible>
+      {!isCollapsed && (
+        <FlatList
+          data={channelList}
+          renderItem={({ item }) => (
+            <PopularChannel
+              channel={item}
+              onSelect={() => joinAndEnterChannel(item)}
+            />
+          )}
+        />
+      )}
     </View>
   );
 };
@@ -256,40 +274,87 @@ const HomePage = () => {
   const [cities, setCities] = useState([]);
   const [showAddCitySheet, setShowAddCitySheet] = useState(false);
   const addCitySheetRef = useRef(null);
+  const [loadingStatus, setLoadingStatus] = useState<string | null>(null);
 
-  const onAddCitySheetChange = (code) => {
+  const noMoreCities = cities.length >= allCities.length;
+
+  const onAddCitySheetChange = (code: number) => {
     if (code === -1) {
       setShowAddCitySheet(false);
     }
   };
 
+  const handleAddCity = async (city: string) => {
+    try {
+      setLoadingStatus("Adding city");
+      await addUserCity(city);
+      const newCities = await fetchUsersCities();
+      setCities(newCities);
+      setShowAddCitySheet(false);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoadingStatus(null);
+    }
+  };
+
   useEffect(() => {
+    if (showAddCitySheet) return;
     const fetchAndSetUsersCities = async () => {
       try {
-        const cities = await fetchUsersCities();
-        setCities(cities);
+        // only show loading if it's the first time fetching cities
+        if (!cities.length) setLoadingStatus("Fetching cities");
+        const newCities = await fetchUsersCities();
+        setCities(newCities);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoadingStatus(null);
       }
     };
     fetchAndSetUsersCities();
-  }, [cities]);
+  }, [showAddCitySheet]);
 
   return (
     <>
       <PlacesHeader />
-      <View
-        style={[
+      <ScrollView
+        contentContainerStyle={[
           Styles.page,
           {
             backgroundColor: Colors.light_grey,
             alignItems: "flex-start",
             gap: 16,
             marginTop: 16,
+            flex: undefined,
           },
         ]}
       >
-        <Text style={Styles.groupLabelText}>Your Places</Text>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 16,
+            width: "100%",
+          }}
+        >
+          <Text style={Styles.groupLabelText}>Your Places</Text>
+          {loadingStatus ? (
+            <View
+              style={{
+                flexDirection: "row",
+                alignSelf: "flex-end",
+                alignContent: "center",
+              }}
+            >
+              <ActivityIndicator />
+              <Text style={{ alignSelf: "flex-end" }}>
+                {`${loadingStatus} ...`}
+              </Text>
+            </View>
+          ) : null}
+        </View>
 
         {cities.map((city) => (
           <Dropdown heading={city} key={city} />
@@ -302,18 +367,24 @@ const HomePage = () => {
           <Text style={styles.addACityText}>{`+ ${terms["add_a_city"]}`}</Text>
         </TouchableOpacity>
         <PopularDropdown />
-        {showAddCitySheet && (
-          <BottomSheet
-            ref={addCitySheetRef}
-            snapPoints={["62%"]}
-            enablePanDownToClose
-            style={{ flex: 1 }}
-            onChange={onAddCitySheetChange}
-          >
-            <AddCityForm />
-          </BottomSheet>
-        )}
-      </View>
+      </ScrollView>
+      {showAddCitySheet && (
+        <BottomSheet
+          ref={addCitySheetRef}
+          snapPoints={["62%"]}
+          enablePanDownToClose
+          style={Styles.page}
+          onChange={onAddCitySheetChange}
+        >
+          {noMoreCities ? (
+            <Text style={{ color: Colors.dark_grey, fontSize: 14 }}>
+              You've added all the cities!
+            </Text>
+          ) : (
+            <AddCityForm handleAddCity={handleAddCity} currentCities={cities} />
+          )}
+        </BottomSheet>
+      )}
     </>
   );
 };
