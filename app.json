@@ -20,7 +20,8 @@
       "config": {
         "googleMapsApiKey": "AIzaSyA3sy5QlAue92zhvItbsNYjkL0GEOHiT5k"
       },
-      "googleServicesFile": "./GoogleService-Info.plist"
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "runtimeVersion": "1.0.0"
     },
     "android": {
       "package": "com.places.places",
@@ -33,7 +34,10 @@
           "apiKey": "AIzaSyBQGgd3x8BYVc_Jc4CJtiK_XQMy5rr7zf8"
         }
       },
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./google-services.json",
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -54,6 +58,9 @@
         }
       ],
       "@react-native-google-signin/google-signin"
-    ]
+    ],
+    "updates": {
+      "url": "https://u.expo.dev/5b4659d0-7e6a-4071-a149-4ccb3830ab4b"
+    }
   }
 }
