@@ -24,7 +24,7 @@
       "runtimeVersion": "1.0.0"
     },
     "android": {
-      "package": "com.places.places",
+      "package": "com.places",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
