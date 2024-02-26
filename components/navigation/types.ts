@@ -7,7 +7,7 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 export type HomeStackParamList = {
   HomePage: undefined;
-  PlacesChat: { channel: any };
+  PlacesChat: { channelId: string };
   Thread: { channel: any; thread: any };
   ChannelInfo: { channelInfo: any };
   JoinPlace: { location: string };
