@@ -1,5 +1,6 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
+import { StreamChat } from "stream-chat";
 import {
   Channel,
   MessageList,
@@ -8,7 +9,6 @@ import {
 } from "stream-chat-expo";
 
 import { PlacesChatPageProps } from "../navigation/types";
-import { StreamChat } from "stream-chat";
 
 const PlacesChatPage = () => {
   const route = useRoute<PlacesChatPageProps["route"]>();

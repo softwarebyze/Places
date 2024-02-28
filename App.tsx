@@ -1,6 +1,9 @@
 import "expo-dev-client"; // https://docs.expo.dev/develop/development-builds/use-development-builds/#add-error-handling
 import { LinkingOptions, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import * as Linking from "expo-linking";
+import { useEffect } from "react";
+import { Text } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { OverlayProvider } from "stream-chat-expo";
 
@@ -14,10 +17,6 @@ import SignUpPage from "./components/pages/SignUpPage";
 import StartPage from "./components/pages/StartPage";
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
-
-import * as Linking from "expo-linking";
-import { Text } from "react-native";
-import { useEffect } from "react";
 
 const App = () => {
   const prefix = Linking.createURL("/");
