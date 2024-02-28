@@ -139,7 +139,7 @@ const Dropdown = (props: { heading: string }) => {
               location: { $in: [props.heading] },
             }}
             onSelect={(channel) => {
-              navigation.navigate("PlacesChat", { channel });
+              navigation.navigate("PlacesChat", { channelId: channel.id });
             }}
           />
           <JoinANewPlace location={props.heading} />
@@ -246,7 +246,7 @@ const PopularDropdown = () => {
 
     setRefetch(true);
 
-    navigation.navigate("PlacesChat", { channel });
+    navigation.navigate("PlacesChat", { channelId: channel.id });
   };
 
   return (
