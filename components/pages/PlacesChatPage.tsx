@@ -13,6 +13,9 @@ const PlacesChatPage = () => {
   const route = useRoute<PlacesChatPageProps["route"]>();
   const navigator = useNavigation<PlacesChatPageProps["navigation"]>();
   const { channel } = route.params;
+
+  navigator.setOptions({ title: channel.data.name });
+
   return (
     <OverlayProvider>
       <Channel channel={channel}>
