@@ -26,8 +26,8 @@ const client = StreamChat.getInstance(EXPO_PUBLIC_STREAM_API_KEY);
 
 const LoginPage = () => {
   const navigator = useNavigation<LoginPageProps["navigation"]>();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("zack@test.com");
+  const [password, setPassword] = useState("123456");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const emailIsValid = validateEmail(email);

@@ -8,6 +8,7 @@ import {
   View,
   Button,
   ActivityIndicator,
+  TextInput,
 } from "react-native";
 import PhoneInput from "react-native-phone-input";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -32,18 +33,18 @@ const Details = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [gender, setGender] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState(new Date(0));
-  const [showDatePicker, setShowDatePicker] = useState(false);
+  // const [showDatePicker, setShowDatePicker] = useState(false);
   const phoneRef = useRef();
   const [loading, setLoading] = useState(false);
 
   const completed = firstName.length && lastName.length && gender.length;
   const disabled = !completed;
 
-  const onChangeDate = (event, selectedDate) => {
-    const currentDate = selectedDate || dateOfBirth;
-    setShowDatePicker(false);
-    setDateOfBirth(currentDate);
-  };
+  // const onChangeDate = (event, selectedDate) => {
+  //   const currentDate = selectedDate || dateOfBirth;
+  //   setShowDatePicker(false);
+  //   setDateOfBirth(currentDate);
+  // };
 
   const genders = [
     { label: "Male", value: "Male" },
@@ -127,7 +128,7 @@ const Details = () => {
           >
             {/* Added platform code because there's a bug in Android 
           where the date picker won't hide */}
-            {Platform.OS === "ios" ? (
+            {/* {Platform.OS === "ios" ? (
               <DateTimePicker value={dateOfBirth} onChange={onChangeDate} />
             ) : showDatePicker ? (
               <DateTimePicker value={dateOfBirth} onChange={onChangeDate} />
@@ -136,7 +137,13 @@ const Details = () => {
                 title={dateOfBirth.toLocaleDateString()}
                 onPress={() => setShowDatePicker(true)}
               />
-            )}
+            )} */}
+            {/* just a text input for birth date */}
+            <TextInput
+              value={dateOfBirth.toLocaleDateString()}
+              // onChangeText={() => setShowDatePicker(true)}
+              // disabled
+            />
           </View>
         </View>
         {loading ? (

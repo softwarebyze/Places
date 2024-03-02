@@ -4,6 +4,7 @@
     "github.vscode-pull-request-github",
     "esbenp.prettier-vscode",
     "expo.vscode-expo-tools",
-    "eamodio.gitlens"
+    "eamodio.gitlens",
+    "yoavbls.pretty-ts-errors"
   ]
 }

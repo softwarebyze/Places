@@ -1,12 +1,26 @@
 import auth from "@react-native-firebase/auth";
-import firestore from "@react-native-firebase/firestore";
+import firestore, {
+  FirebaseFirestoreTypes,
+} from "@react-native-firebase/firestore";
+
+type UserData = {
+  details_completed?: boolean;
+  birth_date?: FirebaseFirestoreTypes.Timestamp;
+  first_name?: string;
+  gender?: string;
+  interests?: string[];
+  last_name?: string;
+  phone?: string;
+  cities?: string[];
+  [key: string]: any;
+};
 
 export const getUserData = async () => {
   const userId = auth().currentUser?.uid;
   if (!userId) throw new Error("No user ID found!");
   const userSnap = await firestore().collection("users").doc(userId).get();
   if (userSnap?.exists) {
-    const userData = userSnap.data();
+    const userData = userSnap.data(); // as UserData;
     console.log("userData :", userData);
     return userData;
   } else {
@@ -15,32 +29,25 @@ export const getUserData = async () => {
   }
 };
 
-export const fetchUsersCities = async () => {
-  try {
-    const userId = auth().currentUser?.uid;
-    const userSnap = await firestore().collection("users").doc(userId).get();
-    if (userSnap.exists) {
-      const cities = userSnap.data().cities || [userSnap.data().location];
-      return cities;
-    } else {
-      throw new Error("No user found");
-    }
-  } catch (error) {
-    console.error(error);
+export const fetchUserCities = async () => {
+  const userId = auth().currentUser?.uid;
+  const userSnap = await firestore().collection("users").doc(userId).get();
+  if (userSnap.exists) {
+    const cities = userSnap.data().cities || [userSnap.data().location];
+    console.log(cities);
+    return cities as string[];
+  } else {
+    throw new Error("No user found");
   }
 };
 
 export const addUserCity = async (city: string) => {
-  try {
-    const userId = auth().currentUser?.uid;
-    return await firestore()
-      .doc(`users/${userId}`)
-      .update({
-        cities: firestore.FieldValue.arrayUnion(city),
-      });
-  } catch (error) {
-    console.error(error);
-  }
+  const userId = auth().currentUser?.uid;
+  return await firestore()
+    .doc(`users/${userId}`)
+    .update({
+      cities: firestore.FieldValue.arrayUnion(city),
+    });
 };
 
 type UserDetails = {

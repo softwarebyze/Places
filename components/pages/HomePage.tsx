@@ -13,21 +13,29 @@ import {
   ActivityIndicator,
   ScrollView,
   GestureResponderEvent,
+  LogBox,
 } from "react-native";
 import { Channel, StreamChat } from "stream-chat";
 import { ChannelList } from "stream-chat-expo";
 
-import { cities as allCities } from "../../data/cities";
-import { addUserCity, fetchUsersCities } from "../../firebase/users";
+import { useAddCity } from "../../firebase/hooks/useAddCity";
+import { useCities } from "../../firebase/hooks/useCities";
+import { useUserCities } from "../../firebase/hooks/useUserCities";
+import { addUserCity } from "../../firebase/users";
 import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
 import AddCityForm from "../elements/AddCityForm";
 import PlacesHeader from "../elements/PlacesHeader";
 import { HomePageProps } from "../navigation/types";
 import Styles from "../styles/Styles";
+
 const terms = TERMS["English"];
 
 const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
+
+LogBox.ignoreLogs([
+  "VirtualizedLists should never be nested inside plain ScrollViews with the same orientation",
+]);
 
 const DropdownHeader = (props: {
   onPress: (event: GestureResponderEvent) => void;
@@ -114,7 +122,7 @@ const JoinANewPlace = (props: { location: string }) => {
   );
 };
 
-const Dropdown = (props: { heading: string }) => {
+const Dropdown = ({ heading }: { heading: string }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
 
   const toggleDropdown = () => {
@@ -127,24 +135,29 @@ const Dropdown = (props: { heading: string }) => {
     <View style={{ width: "100%" }}>
       <DropdownHeader
         onPress={toggleDropdown}
-        heading={props.heading}
+        heading={
+          heading + `${isCollapsed ? " is collapsed" : " is not xollapsed"}`
+        }
         isCollapsed={isCollapsed}
       />
-      {!isCollapsed && (
-        <>
-          <ChannelList
-            filters={{
-              type: "team",
-              members: { $in: [auth().currentUser.uid] },
-              location: { $in: [props.heading] },
-            }}
-            onSelect={(channel) => {
-              navigation.navigate("PlacesChat", { channel });
-            }}
-          />
-          <JoinANewPlace location={props.heading} />
-        </>
-      )}
+      <View
+        style={{
+          display: isCollapsed ? "none" : "flex",
+        }}
+      >
+        <ChannelList
+          filters={{
+            type: "team",
+            members: { $in: [auth().currentUser.uid] },
+            location: { $in: [heading] },
+          }}
+          onSelect={(channel) => {
+            navigation.navigate("PlacesChat", { channel });
+          }}
+          key={heading}
+        />
+        <JoinANewPlace location={heading} />
+      </View>
     </View>
   );
 };
@@ -194,29 +207,30 @@ const PopularChannel = ({ channel, onSelect }) => (
   </TouchableOpacity>
 );
 
-const fetchChannels = async () => {
+const fetchChannels = async (cities: string[]) => {
+  console.log("cities: ", cities);
   try {
-    const cities = await fetchUsersCities();
     const filters = {
       type: "team",
       members: { $nin: [auth().currentUser.uid] },
       location: { $in: cities },
     };
-    console.log(filters);
+    console.log("filters: ", filters);
     const options = { limit: 3, watch: true, state: true };
     const channels = await client.queryChannels(
       filters,
       { member_count: -1 },
       options,
     );
-    console.log(channels.length);
+    console.log("channels.length: ", channels.length);
     return channels;
   } catch (error) {
     console.error(error);
   }
 };
 
-const PopularDropdown = () => {
+const PopularDropdown = ({ cities }) => {
+  console.log("cities in popular dropdown: ", cities);
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [channelList, setChannelList] = useState([]);
   const [refetch, setRefetch] = useState(true);
@@ -227,12 +241,12 @@ const PopularDropdown = () => {
   useEffect(() => {
     if (!refetch) return;
     const fetchAndSetChannels = async () => {
-      const channels = await fetchChannels();
+      const channels = await fetchChannels(cities);
       setChannelList(channels);
     };
     fetchAndSetChannels();
     setRefetch(false);
-  }, [refetch]);
+  }, [refetch, cities]);
 
   const navigation = useNavigation<HomePageProps["navigation"]>();
 
@@ -271,12 +285,20 @@ const PopularDropdown = () => {
 };
 
 const HomePage = () => {
-  const [cities, setCities] = useState([]);
+  const { data: cities, isFetching } = useCities();
+  const { data: userCities } = useUserCities();
+  const { isPending: isAddingCity } = useAddCity();
   const [showAddCitySheet, setShowAddCitySheet] = useState(false);
   const addCitySheetRef = useRef(null);
-  const [loadingStatus, setLoadingStatus] = useState<string | null>(null);
+  const loadingStatus = isAddingCity
+    ? "Adding city"
+    : isFetching
+    ? "Fetching cities"
+    : null;
 
-  const noMoreCities = cities.length >= allCities.length;
+  if (!cities || !userCities) return null;
+
+  const noMoreCities = userCities.length >= cities.length;
 
   const onAddCitySheetChange = (code: number) => {
     if (code === -1) {
@@ -284,36 +306,32 @@ const HomePage = () => {
     }
   };
 
-  const handleAddCity = async (city: string) => {
-    try {
-      setLoadingStatus("Adding city");
-      await addUserCity(city);
-      const newCities = await fetchUsersCities();
-      setCities(newCities);
-      setShowAddCitySheet(false);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoadingStatus(null);
-    }
-  };
+  // const handleAddCity = async (city: string) => {
+  //   try {
+  //     await addUserCity(city);
+  //     const newCities = await fetchUsersCities();
+  //     setCities(newCities);
+  //     setShowAddCitySheet(false);
+  //   } catch (error) {
+  //     console.error(error);
+  //   } finally {
+  //   }
+  // };
 
-  useEffect(() => {
-    if (showAddCitySheet) return;
-    const fetchAndSetUsersCities = async () => {
-      try {
-        // only show loading if it's the first time fetching cities
-        if (!cities.length) setLoadingStatus("Fetching cities");
-        const newCities = await fetchUsersCities();
-        setCities(newCities);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoadingStatus(null);
-      }
-    };
-    fetchAndSetUsersCities();
-  }, [showAddCitySheet]);
+  // useEffect(() => {
+  //   if (showAddCitySheet) return;
+  //   const fetchAndSetUsersCities = async () => {
+  //     try {
+  //       // only show loading if it's the first time fetching cities
+  //       const newCities = await fetchUsersCities();
+  //       setCities(newCities);
+  //     } catch (error) {
+  //       console.error(error);
+  //     } finally {
+  //     }
+  //   };
+  //   fetchAndSetUsersCities();
+  // }, [showAddCitySheet]);
 
   return (
     <>
@@ -356,7 +374,7 @@ const HomePage = () => {
           ) : null}
         </View>
 
-        {cities.map((city) => (
+        {userCities.map((city) => (
           <Dropdown heading={city} key={city} />
         ))}
 
@@ -366,7 +384,7 @@ const HomePage = () => {
         >
           <Text style={styles.addACityText}>{`+ ${terms["add_a_city"]}`}</Text>
         </TouchableOpacity>
-        <PopularDropdown />
+        <PopularDropdown cities={userCities} />
       </ScrollView>
       {showAddCitySheet && (
         <BottomSheet
@@ -381,7 +399,7 @@ const HomePage = () => {
               You've added all the cities!
             </Text>
           ) : (
-            <AddCityForm handleAddCity={handleAddCity} currentCities={cities} />
+            <AddCityForm handleAddCity={addUserCity} currentCities={cities} />
           )}
         </BottomSheet>
       )}

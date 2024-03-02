@@ -10,6 +10,7 @@
     "web": "expo start --web",
     "prepare": "husky install",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "test": "maestro test test/",
     "doctor": "npx expo-doctor"
   },

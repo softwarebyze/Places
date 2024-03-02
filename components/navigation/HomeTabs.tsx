@@ -1,5 +1,7 @@
 import { Foundation, MaterialCommunityIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { StreamChat } from "stream-chat";
+import { DefaultStreamChatGenerics } from "stream-chat-expo";
 
 import HomeStack from "./HomeStack";
 import { HomeTabParamList } from "./types";
@@ -7,6 +9,9 @@ import Colors from "../../settings/Colors";
 import ProfilePage from "../pages/ProfilePage";
 
 const Tab = createBottomTabNavigator<HomeTabParamList>();
+const client = StreamChat.getInstance<DefaultStreamChatGenerics>(
+  process.env.EXPO_PUBLIC_STREAM_API_KEY,
+);
 
 const HomeTabs = () => (
   <Tab.Navigator

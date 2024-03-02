@@ -1,5 +1,5 @@
-import { useNavigation } from "@react-navigation/native";
 import auth from "@react-native-firebase/auth";
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View } from "react-native";
 import { ChannelList } from "stream-chat-expo";
