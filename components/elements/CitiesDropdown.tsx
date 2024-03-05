@@ -1,10 +1,11 @@
 import { View } from "react-native";
 
 import _Dropdown from "./_Dropdown";
-import { cities } from "../../data/cities";
+import { useCities } from "../../firebase/hooks/useCities";
 import Styles from "../styles/Styles";
 
 const CitiesDropdown = ({ onSelect, citiesToExclude = [] }) => {
+  const { data: cities } = useCities();
   const citiesToChoose = cities.filter(
     (city) => !citiesToExclude.includes(city),
   );

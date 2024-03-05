@@ -6,6 +6,7 @@ import { StreamChat } from "stream-chat";
 
 import { useUserData } from "../../firebase/hooks/useUserData";
 import TERMS from "../../settings/Terms";
+import { ChatWrapper } from "../elements/ChatWrapper";
 import _Button from "../elements/_Button";
 import STYLES from "../styles/Styles";
 
@@ -39,9 +40,8 @@ const ProfilePage = () => {
     },
   } = useUserData();
 
-  const logout = () => {
-    auth().signOut();
-    client.disconnectUser();
+  const logout = async () => {
+    await Promise.all([auth().signOut(), client.disconnectUser()]);
     navigator.navigate("Start");
   };
 
@@ -54,7 +54,7 @@ const ProfilePage = () => {
           marginVertical: 20,
         }}
       >
-        {client?.user.name}, {getAge(birth_date.toDate())}
+        {client?.user?.name}, {getAge(birth_date.toDate())}
       </Text>
       <_Button text={terms["0034"]} action={logout} />
     </View>

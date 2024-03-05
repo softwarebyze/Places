@@ -4,7 +4,7 @@ import { ActivityIndicator } from "react-native";
 
 import HomeTabs from "./HomeTabs";
 import { RootStackParamList } from "./types";
-import { useUserData } from "../../firebase/hooks/useUserData";
+import { useAuth, useUserData } from "../../firebase/hooks/useUserData";
 import Details from "../elements/Details";
 import InterestsPage from "../pages/InterestsPage";
 import LocationPage from "../pages/LocationPage";
@@ -16,6 +16,7 @@ const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 export const AppNavigator = () => {
   const { data: userData, isLoading } = useUserData();
+  const { user, loading } = useAuth();
   console.log("userData :", userData);
   const {
     details_completed,
@@ -28,9 +29,11 @@ export const AppNavigator = () => {
     cities,
   } = userData || {};
 
-  if (isLoading) return <ActivityIndicator />;
+  if (isLoading || loading) return <ActivityIndicator />;
 
   console.log("details_completed :", details_completed);
+  console.log("uid: ", auth().currentUser?.uid);
+  console.log(cities);
   return (
     <RootStack.Navigator
       screenOptions={{
@@ -38,7 +41,7 @@ export const AppNavigator = () => {
         headerTintColor: "rgba(28, 27, 31, 1)",
       }}
     >
-      {!auth().currentUser?.uid && (
+      {user?.uid && (
         <>
           <RootStack.Screen name="Start" component={StartPage} />
           <RootStack.Group screenOptions={{ presentation: "modal" }}>
@@ -77,14 +80,9 @@ export const AppNavigator = () => {
           ))}
       </RootStack.Group>
       {/* All the 4 tabs of the main app */}
-      <RootStack.Screen
-        name="HomeTabs"
-        component={() => (
-          //   <ChatWrapper>
-          <HomeTabs />
-          //   </ChatWrapper>
-        )}
-      />
+      {first_name && last_name && birth_date && (
+        <RootStack.Screen name="HomeTabs" component={HomeTabs} />
+      )}
     </RootStack.Navigator>
   );
 };

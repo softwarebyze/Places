@@ -1,12 +1,12 @@
 import auth from "@react-native-firebase/auth";
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, useEffect, useState } from "react";
+import { StreamChat } from "stream-chat";
 import { Chat, OverlayProvider, Streami18n } from "stream-chat-expo";
 
 import { AuthProgressLoader } from "./AuthProgressLoader";
 import { useUserData } from "../../firebase/hooks/useUserData";
 import { streamTokenProvider } from "../../firebaseConfig";
 import { STREAM_API_KEY } from "../constants";
-import { useChatClient } from "../hooks/useChatClient";
 import { StreamChatGenerics } from "../types";
 
 const streami18n = new Streami18n({
@@ -14,18 +14,25 @@ const streami18n = new Streami18n({
 });
 
 export const ChatWrapper = ({ children }: PropsWithChildren<object>) => {
-  const { data: userData } = useUserData();
-  console.log(userData);
-  const userId = auth()?.currentUser?.uid;
+  const {
+    data: { first_name, last_name },
+  } = useUserData();
+  const [chatClient, setChatClient] =
+    useState<StreamChat<StreamChatGenerics> | null>(null);
 
-  const chatClient = useChatClient({
-    apiKey: STREAM_API_KEY,
-    userData: {
-      id: userId,
-      name: `${userData.first_name} ${userData.last_name}`,
-    },
-    tokenOrProvider: streamTokenProvider,
-  });
+  useEffect(() => {
+    const userId = auth()?.currentUser?.uid;
+    const chatClient = StreamChat.getInstance(STREAM_API_KEY);
+    chatClient.connectUser(
+      {
+        id: userId,
+        name: `${first_name} ${last_name}`,
+      },
+      streamTokenProvider,
+    );
+
+    setChatClient(chatClient);
+  }, [auth, first_name, last_name]);
 
   if (!chatClient) {
     return <AuthProgressLoader />;
@@ -33,7 +40,7 @@ export const ChatWrapper = ({ children }: PropsWithChildren<object>) => {
 
   return (
     <OverlayProvider<StreamChatGenerics> i18nInstance={streami18n}>
-      <Chat client={chatClient} i18nInstance={streami18n} enableOfflineSupport>
+      <Chat client={chatClient} i18nInstance={streami18n}>
         {children}
       </Chat>
     </OverlayProvider>

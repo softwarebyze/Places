@@ -22,7 +22,9 @@ export const useChatClient = <
   const [chatClient, setChatClient] = useState<StreamChat<SCG> | null>(null);
 
   useEffect(() => {
-    const client = new StreamChat<SCG>(apiKey);
+    const client = StreamChat.getInstance<SCG>(apiKey);
+
+    console.log("useChatClient chatClient", chatClient);
 
     if (!userData) {
       return;

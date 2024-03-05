@@ -1,10 +1,12 @@
 import firestore from "@react-native-firebase/firestore";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+
+import { addUserCity } from "../users";
 
 const fetchCities = async () => {
   const querySnapshot = await firestore().collection("cities").get();
   const data = querySnapshot.docs.map((doc) => doc.data().name as string);
-  console.log(data);
+  console.log("fetchCities resuts: ", data);
   return data;
 };
 

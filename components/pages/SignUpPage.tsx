@@ -6,8 +6,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { StreamChat } from "stream-chat";
 
 import { signInWithGoogle } from "../../firebase/signInWithGoogle";
-import { getUserData } from "../../firebase/users";
-import { getStreamUserToken } from "../../firebaseConfig";
+// import { getUserData } from "../../firebase/users";
+// import { getStreamUserToken } from "../../firebaseConfig";
 import TERMS from "../../settings/Terms";
 import { ErrorModal } from "../elements/ErrorModal";
 import _Button from "../elements/_Button";
@@ -50,36 +50,36 @@ const SignUpPage = () => {
         signUpMethod === "google"
           ? signUpWithGoogle
           : signUpWithEmailAndPassword;
-      const user = await signInHandler();
-      console.log("user: ", JSON.stringify(user));
-      if (!user) return setLoading(false);
-      const userData = await getUserData();
+      await signInHandler();
+      // console.log("user: ", JSON.stringify(user));
+      // if (!user) return setLoading(false);
+      // const userData = await getUserData();
 
-      if (!userData?.details_completed) {
-        setLoading(false);
-        return navigator.replace("Details", {
-          firstName: user?.additionalUserInfo.profile?.given_name || "",
-          lastName: user?.additionalUserInfo.profile?.family_name || "",
-        });
-      }
-      if (!userData?.location && !userData?.cities.length)
-        return navigator.replace("ChooseLocation");
-      if (!userData?.interests)
-        return navigator.replace("ChooseInterests", {
-          location: userData.location,
-        });
-      if (!client?.user) {
-        const userId = auth()?.currentUser?.uid;
-        const tokenResponse = await getStreamUserToken();
-        const token = tokenResponse.data.toString();
-        if (!token) return;
-        await client.connectUser(
-          { id: userId, name: `${userData.first_name} ${userData.last_name}` },
-          token,
-        );
-      }
-      setLoading(false);
-      return navigator.replace("HomeTabs");
+      // if (!userData?.details_completed) {
+      //   setLoading(false);
+      //   return navigator.replace("Details", {
+      //     firstName: user?.additionalUserInfo.profile?.given_name || "",
+      //     lastName: user?.additionalUserInfo.profile?.family_name || "",
+      //   });
+      // }
+      // if (!userData?.location && !userData?.cities.length)
+      //   return navigator.replace("ChooseLocation");
+      // if (!userData?.interests)
+      //   return navigator.replace("ChooseInterests", {
+      //     location: userData.location,
+      //   });
+      // if (!client?.user) {
+      //   const userId = auth()?.currentUser?.uid;
+      //   const tokenResponse = await getStreamUserToken();
+      //   const token = tokenResponse.data.toString();
+      //   if (!token) return;
+      //   await client.connectUser(
+      //     { id: userId, name: `${userData.first_name} ${userData.last_name}` },
+      //     token,
+      //   );
+      // }
+      // setLoading(false);
+      // return navigator.replace("HomeTabs");
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
         setError({

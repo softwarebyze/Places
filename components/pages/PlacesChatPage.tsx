@@ -1,11 +1,6 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
-import React from "react";
-import {
-  Channel,
-  MessageList,
-  MessageInput,
-  OverlayProvider,
-} from "stream-chat-expo";
+import React, { useEffect } from "react";
+import { Channel, MessageList, MessageInput } from "stream-chat-expo";
 
 import { PlacesChatPageProps } from "../navigation/types";
 
@@ -14,19 +9,23 @@ const PlacesChatPage = () => {
   const navigator = useNavigation<PlacesChatPageProps["navigation"]>();
   const { channel } = route.params;
 
-  navigator.setOptions({ title: channel.data.name });
+  useEffect(
+    () =>
+      navigator.setOptions({
+        title: channel?.data?.name,
+      }),
+    [channel],
+  );
 
   return (
-    <OverlayProvider>
-      <Channel channel={channel}>
-        <MessageList
-          onThreadSelect={(thread) => {
-            navigator.navigate("Thread", { channel, thread });
-          }}
-        />
-        <MessageInput />
-      </Channel>
-    </OverlayProvider>
+    <Channel channel={channel}>
+      <MessageList
+        onThreadSelect={(thread) => {
+          navigator.navigate("Thread", { channel, thread });
+        }}
+      />
+      <MessageInput />
+    </Channel>
   );
 };
 

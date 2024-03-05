@@ -122,12 +122,16 @@ const JoinANewPlace = (props: { location: string }) => {
   );
 };
 
-const Dropdown = ({ heading }: { heading: string }) => {
-  const [isCollapsed, setIsCollapsed] = useState(true);
-
-  const toggleDropdown = () => {
-    setIsCollapsed((prevIsCollapsed) => !prevIsCollapsed);
-  };
+const Dropdown = ({
+  heading,
+  isOpen,
+  toggleDropdown,
+}: {
+  heading: string;
+  isOpen: boolean;
+  toggleDropdown: () => void;
+}) => {
+  const isCollapsed = !isOpen;
 
   const navigation = useNavigation<HomePageProps["navigation"]>();
 
@@ -135,9 +139,7 @@ const Dropdown = ({ heading }: { heading: string }) => {
     <View style={{ width: "100%" }}>
       <DropdownHeader
         onPress={toggleDropdown}
-        heading={
-          heading + `${isCollapsed ? " is collapsed" : " is not xollapsed"}`
-        }
+        heading={heading}
         isCollapsed={isCollapsed}
       />
       <View
@@ -231,11 +233,12 @@ const fetchChannels = async (cities: string[]) => {
 
 const PopularDropdown = ({ cities }) => {
   console.log("cities in popular dropdown: ", cities);
-  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [isPopularDropdownCollapsed, setIsPopularDropdownCollapsed] =
+    useState(true);
   const [channelList, setChannelList] = useState([]);
   const [refetch, setRefetch] = useState(true);
   const toggleDropdown = () => {
-    setIsCollapsed(!isCollapsed);
+    setIsPopularDropdownCollapsed((currentIsCollapsed) => !currentIsCollapsed);
   };
 
   useEffect(() => {
@@ -267,15 +270,16 @@ const PopularDropdown = ({ cities }) => {
     <View style={{ width: "100%", marginBottom: 16 }}>
       <PopularDropdownHeader
         onPress={toggleDropdown}
-        isCollapsed={isCollapsed}
+        isCollapsed={isPopularDropdownCollapsed}
       />
-      {!isCollapsed && (
+      {!isPopularDropdownCollapsed && (
         <FlatList
           data={channelList}
-          renderItem={({ item }) => (
+          renderItem={({ item }: { item: Channel }) => (
             <PopularChannel
               channel={item}
               onSelect={() => joinAndEnterChannel(item)}
+              key={item.id}
             />
           )}
         />
@@ -284,9 +288,15 @@ const PopularDropdown = ({ cities }) => {
   );
 };
 
+const customChannelFilterFunction = (channels: Channel[]) => {
+  return channels.filter((channel) => channel.data.location === "New York, NY");
+};
+
 const HomePage = () => {
   const { data: cities, isFetching } = useCities();
+  console.log({ cities });
   const { data: userCities } = useUserCities();
+  console.log({ userCities });
   const { isPending: isAddingCity } = useAddCity();
   const [showAddCitySheet, setShowAddCitySheet] = useState(false);
   const addCitySheetRef = useRef(null);
@@ -295,6 +305,8 @@ const HomePage = () => {
     : isFetching
     ? "Fetching cities"
     : null;
+
+  const [openDropdown, setOpenDropdown] = useState<string>("");
 
   if (!cities || !userCities) return null;
 
@@ -305,33 +317,6 @@ const HomePage = () => {
       setShowAddCitySheet(false);
     }
   };
-
-  // const handleAddCity = async (city: string) => {
-  //   try {
-  //     await addUserCity(city);
-  //     const newCities = await fetchUsersCities();
-  //     setCities(newCities);
-  //     setShowAddCitySheet(false);
-  //   } catch (error) {
-  //     console.error(error);
-  //   } finally {
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (showAddCitySheet) return;
-  //   const fetchAndSetUsersCities = async () => {
-  //     try {
-  //       // only show loading if it's the first time fetching cities
-  //       const newCities = await fetchUsersCities();
-  //       setCities(newCities);
-  //     } catch (error) {
-  //       console.error(error);
-  //     } finally {
-  //     }
-  //   };
-  //   fetchAndSetUsersCities();
-  // }, [showAddCitySheet]);
 
   return (
     <>
@@ -375,7 +360,16 @@ const HomePage = () => {
         </View>
 
         {userCities.map((city) => (
-          <Dropdown heading={city} key={city} />
+          <Dropdown
+            heading={city}
+            key={city}
+            isOpen={openDropdown === city}
+            toggleDropdown={() =>
+              setOpenDropdown((prevOpenDropdown) =>
+                prevOpenDropdown === city ? "" : city,
+              )
+            }
+          />
         ))}
 
         <TouchableOpacity
@@ -399,7 +393,12 @@ const HomePage = () => {
               You've added all the cities!
             </Text>
           ) : (
-            <AddCityForm handleAddCity={addUserCity} currentCities={cities} />
+            <AddCityForm
+              currentCities={userCities}
+              onAddCity={() => {
+                setShowAddCitySheet(false);
+              }}
+            />
           )}
         </BottomSheet>
       )}

@@ -1,19 +1,18 @@
-import { useMutation } from "@tanstack/react-query";
+import auth from "@react-native-firebase/auth";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { addUserCity } from "../users";
 
-// const handleAddCity = async (city: string) => {
-//     try {
-//       setLoadingStatus("Adding city");
-//       await addUserCity(city);
-//       const newCities = await fetchUsersCities();
-//       setCities(newCities);
-//       setShowAddCitySheet(false);
-//     } catch (error) {
-//       console.error(error);
-//     } finally {
-//       setLoadingStatus(null);
-//     }
-//   };
-
-export const useAddCity = () => useMutation({ mutationFn: addUserCity });
+export const useAddCity = () => {
+  const queryClient = useQueryClient();
+  const userId = auth().currentUser?.uid;
+  return useMutation({
+    mutationFn: addUserCity,
+    onSuccess: () => {
+      console.log("City added");
+      queryClient.invalidateQueries({
+        queryKey: ["collection", "users", userId, "cities"],
+      });
+    },
+  });
+};

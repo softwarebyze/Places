@@ -47,7 +47,8 @@ export const addUserCity = async (city: string) => {
     .doc(`users/${userId}`)
     .update({
       cities: firestore.FieldValue.arrayUnion(city),
-    });
+    })
+    .then(fetchUserCities);
 };
 
 type UserDetails = {

@@ -3,11 +3,11 @@ import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { Text, ActivityIndicator, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StreamChat } from "stream-chat";
+// import { StreamChat } from "stream-chat";
 
 import { signInWithGoogle } from "../../firebase/signInWithGoogle";
-import { getUserData } from "../../firebase/users";
-import { getStreamUserToken } from "../../firebaseConfig";
+// import { getUserData } from "../../firebase/users";
+// import { getStreamUserToken } from "../../firebaseConfig";
 import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
 import _Button from "../elements/_Button";
@@ -21,8 +21,8 @@ import STYLES from "../styles/Styles";
 
 const terms = TERMS["English"];
 
-const { EXPO_PUBLIC_STREAM_API_KEY } = process.env;
-const client = StreamChat.getInstance(EXPO_PUBLIC_STREAM_API_KEY);
+// const { EXPO_PUBLIC_STREAM_API_KEY } = process.env;
+// const client = StreamChat.getInstance(EXPO_PUBLIC_STREAM_API_KEY);
 
 const LoginPage = () => {
   const navigator = useNavigation<LoginPageProps["navigation"]>();
@@ -62,43 +62,43 @@ const LoginPage = () => {
     setLoadingStatus("Signing in");
     const signInHandler =
       signInMethod === "google" ? signInWithGoogle : signInWithEmailAndPassword;
-    const user = await signInHandler();
-    console.log("user: ", user);
-    if (!user) {
-      setLoading(false);
-      setLoadingStatus("nothing");
-      return;
-    }
-    setLoadingStatus("Getting user data");
-    const userData = await getUserData();
-    setLoadingStatus("Checking if user has completed details");
-    if (!userData?.details_completed) return navigator.replace("Details");
-    setLoadingStatus("Checking if user has location and cities set");
-    if (!userData?.location && !userData?.cities.length)
-      return navigator.replace("ChooseLocation");
-    setLoadingStatus("Checking if user has interests");
-    if (!userData?.interests)
-      return navigator.replace("ChooseInterests", {
-        location: userData.location,
-      });
-    setLoadingStatus("Checking if user is connected to stream?");
-    console.log(
-      "Checking if user is connected to stream? client?.user: ",
-      client?.user,
-    );
-    if (!client?.user) {
-      setLoadingStatus("User hasnt connected. getting user id");
-      const userId = auth()?.currentUser?.uid;
-      setLoadingStatus("Getting stream user token");
-      const tokenResponse = await getStreamUserToken();
-      const token = tokenResponse.data.toString();
-      if (!token) return;
-      setLoadingStatus("Connecting user to stream");
-      await client.connectUser(
-        { id: userId, name: `${userData.first_name} ${userData.last_name}` },
-        token,
-      );
-    }
+    await signInHandler();
+    // console.log("user: ", user);
+    // if (!user) {
+    //   setLoading(false);
+    //   setLoadingStatus("nothing");
+    //   return;
+    // }
+    // setLoadingStatus("Getting user data");
+    // const userData = await getUserData();
+    // setLoadingStatus("Checking if user has completed details");
+    // if (!userData?.details_completed) return navigator.replace("Details");
+    // setLoadingStatus("Checking if user has location and cities set");
+    // if (!userData?.location && !userData?.cities.length)
+    //   return navigator.replace("ChooseLocation");
+    // setLoadingStatus("Checking if user has interests");
+    // if (!userData?.interests)
+    //   return navigator.replace("ChooseInterests", {
+    //     location: userData.location,
+    //   });
+    // setLoadingStatus("Checking if user is connected to stream?");
+    // console.log(
+    //   "Checking if user is connected to stream? client?.user: ",
+    //   client?.user,
+    // );
+    // if (!client?.user) {
+    //   setLoadingStatus("User hasnt connected. getting user id");
+    //   const userId = auth()?.currentUser?.uid;
+    //   setLoadingStatus("Getting stream user token");
+    //   const tokenResponse = await getStreamUserToken();
+    //   const token = tokenResponse.data.toString();
+    //   if (!token) return;
+    //   setLoadingStatus("Connecting user to stream");
+    //   await client.connectUser(
+    //     { id: userId, name: `${userData.first_name} ${userData.last_name}` },
+    //     token,
+    //   );
+    // }
     setLoading(false);
     setLoadingStatus("nothing");
     return navigator.replace("HomeTabs");
