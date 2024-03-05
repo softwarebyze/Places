@@ -12,53 +12,58 @@ import LocationPage from "./components/pages/LocationPage";
 import LoginPage from "./components/pages/LoginPage";
 import SignUpPage from "./components/pages/SignUpPage";
 import StartPage from "./components/pages/StartPage";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
+const queryClient = new QueryClient();
+
 const App = () => (
-  <GestureHandlerRootView style={{ flex: 1 }}>
-    <NavigationContainer>
-      <OverlayProvider>
-        <RootStack.Navigator
-          screenOptions={{
-            headerShown: false,
-            headerTintColor: "rgba(28, 27, 31, 1)",
-          }}
-        >
-          {/* Start */}
-          <RootStack.Screen name="Start" component={StartPage} />
-          {/* Auth Modals */}
-          <RootStack.Group screenOptions={{ presentation: "modal" }}>
-            <RootStack.Screen name="Login" component={LoginPage} />
-            <RootStack.Screen name="Signup" component={SignUpPage} />
-          </RootStack.Group>
-          {/* Onboarding */}
-          <RootStack.Group>
-            <RootStack.Screen
-              name="Details"
-              component={Details}
-              options={{ headerShown: true }}
-            />
-            <RootStack.Screen
-              name="ChooseLocation"
-              component={LocationPage}
-              options={{
-                headerShown: true,
-                headerTitle: "Choose a Location",
-              }}
-            />
-            <RootStack.Screen
-              name="ChooseInterests"
-              component={InterestsPage}
-              options={{ headerShown: true, headerTitle: "Interests" }}
-            />
-          </RootStack.Group>
-          {/* All the 4 tabs of the main app */}
-          <RootStack.Screen name="HomeTabs" component={HomeTabs} />
-        </RootStack.Navigator>
-      </OverlayProvider>
-    </NavigationContainer>
-  </GestureHandlerRootView>
+  <QueryClientProvider client={queryClient}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <NavigationContainer>
+        <OverlayProvider>
+          <RootStack.Navigator
+            screenOptions={{
+              headerShown: false,
+              headerTintColor: "rgba(28, 27, 31, 1)",
+            }}
+          >
+            {/* Start */}
+            <RootStack.Screen name="Start" component={StartPage} />
+            {/* Auth Modals */}
+            <RootStack.Group screenOptions={{ presentation: "modal" }}>
+              <RootStack.Screen name="Login" component={LoginPage} />
+              <RootStack.Screen name="Signup" component={SignUpPage} />
+            </RootStack.Group>
+            {/* Onboarding */}
+            <RootStack.Group>
+              <RootStack.Screen
+                name="Details"
+                component={Details}
+                options={{ headerShown: true }}
+              />
+              <RootStack.Screen
+                name="ChooseLocation"
+                component={LocationPage}
+                options={{
+                  headerShown: true,
+                  headerTitle: "Choose a Location",
+                }}
+              />
+              <RootStack.Screen
+                name="ChooseInterests"
+                component={InterestsPage}
+                options={{ headerShown: true, headerTitle: "Interests" }}
+              />
+            </RootStack.Group>
+            {/* All the 4 tabs of the main app */}
+            <RootStack.Screen name="HomeTabs" component={HomeTabs} />
+          </RootStack.Navigator>
+        </OverlayProvider>
+      </NavigationContainer>
+    </GestureHandlerRootView>
+  </QueryClientProvider>
 );
 
 export default App;

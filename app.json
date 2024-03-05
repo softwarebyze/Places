@@ -16,7 +16,7 @@
     "jsEngine": "hermes",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.places.places",
+      "bundleIdentifier": "com.placesdev.places",
       "config": {
         "googleMapsApiKey": "AIzaSyA3sy5QlAue92zhvItbsNYjkL0GEOHiT5k"
       },
@@ -38,9 +38,6 @@
       "runtimeVersion": {
         "policy": "appVersion"
       }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
