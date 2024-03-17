@@ -1,4 +1,5 @@
 import React, { PropsWithChildren } from "react";
+import { Text } from "react-native";
 import { Chat, OverlayProvider, Streami18n } from "stream-chat-expo";
 
 import { AuthProgressLoader } from "./AuthProgressLoader";
@@ -12,19 +13,30 @@ const streami18n = new Streami18n({
 });
 
 export const ChatWrapper = ({ children }: PropsWithChildren<object>) => {
-  const chatClient = useChatClient();
+  // const chatClient = useChatClient();
+  const {
+    chatClient,
+    isError,
+    isLoading: isLoadingChatClient,
+  } = useChatClient();
 
   const { user } = useAuth();
 
   const { data: userData, isLoading: isLoadingUserData } = useUserData();
 
-  // if (!user || !userData?.firstName || !userData?.lastName) {
-  //   console.log(user, userData?.firstName, userData?.lastName);
-  //   console.log("just children");
-  //   return children;
-  // }
+  if (!user || !userData?.firstName || !userData?.lastName) {
+    console.log(user, userData?.firstName, userData?.lastName);
+    console.log("just children");
+    return children;
+  }
 
-  if (!chatClient || isLoadingUserData) {
+  if (!user || userData) return children;
+
+  if (isError) {
+    return <Text>Error</Text>;
+  }
+
+  if (!chatClient || isLoadingUserData || isLoadingChatClient) {
     return <AuthProgressLoader />;
   }
 

@@ -53,13 +53,13 @@ export const AppNavigator = () => {
               }}
             />
           )}
-          {!userData?.interests?.[0] && (
+          {/* {!userData?.interests?.[0] && (
             <RootStack.Screen
               name="ChooseInterests"
               component={InterestsPage}
               options={{ headerShown: true, headerTitle: "Interests" }}
             />
-          )}
+          )} */}
           <RootStack.Screen name="HomeTabs" component={HomeTabs} />
         </>
       )}
