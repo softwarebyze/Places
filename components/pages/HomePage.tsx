@@ -16,7 +16,7 @@ import {
   LogBox,
 } from "react-native";
 import { Channel, StreamChat } from "stream-chat";
-import { ChannelList } from "stream-chat-expo";
+import { ChannelList, useChatContext } from "stream-chat-expo";
 
 import { useAddCity } from "../../firebase/hooks/useAddCity";
 import { useCities } from "../../firebase/hooks/useCities";
@@ -24,14 +24,14 @@ import { useUserCities } from "../../firebase/hooks/useUserCities";
 import { addUserCity } from "../../firebase/users";
 import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
+import { useAuth } from "../contexts/AuthContext";
 import AddCityForm from "../elements/AddCityForm";
 import PlacesHeader from "../elements/PlacesHeader";
+import { useChatClient } from "../hooks/useChatClient";
 import { HomePageProps } from "../navigation/types";
 import Styles from "../styles/Styles";
 
 const terms = TERMS["English"];
-
-const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
 
 LogBox.ignoreLogs([
   "VirtualizedLists should never be nested inside plain ScrollViews with the same orientation",
@@ -209,29 +209,29 @@ const PopularChannel = ({ channel, onSelect }) => (
   </TouchableOpacity>
 );
 
-const fetchChannels = async (cities: string[]) => {
-  console.log("cities: ", cities);
-  try {
-    const filters = {
-      type: "team",
-      members: { $nin: [auth().currentUser.uid] },
-      location: { $in: cities },
-    };
-    console.log("filters: ", filters);
-    const options = { limit: 3, watch: true, state: true };
-    const channels = await client.queryChannels(
-      filters,
-      { member_count: -1 },
-      options,
-    );
-    console.log("channels.length: ", channels.length);
-    return channels;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 const PopularDropdown = ({ cities }) => {
+  const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
+  const fetchChannels = async (cities: string[]) => {
+    console.log("cities: ", cities);
+    try {
+      const filters = {
+        type: "team",
+        members: { $nin: [auth().currentUser.uid] },
+        location: { $in: cities },
+      };
+      console.log("filters: ", filters);
+      const options = { limit: 3, watch: true, state: true };
+      const channels = await client.queryChannels(
+        filters,
+        { member_count: -1 },
+        options,
+      );
+      console.log("channels.length: ", channels.length);
+      return channels;
+    } catch (error) {
+      console.error(error);
+    }
+  };
   console.log("cities in popular dropdown: ", cities);
   const [isPopularDropdownCollapsed, setIsPopularDropdownCollapsed] =
     useState(true);
@@ -240,6 +240,7 @@ const PopularDropdown = ({ cities }) => {
   const toggleDropdown = () => {
     setIsPopularDropdownCollapsed((currentIsCollapsed) => !currentIsCollapsed);
   };
+  const { user } = useAuth();
 
   useEffect(() => {
     if (!refetch) return;
@@ -254,7 +255,7 @@ const PopularDropdown = ({ cities }) => {
   const navigation = useNavigation<HomePageProps["navigation"]>();
 
   const joinAndEnterChannel = async (channel: Channel) => {
-    const userId = auth().currentUser.uid;
+    const userId = user.uid;
     try {
       await channel.addMembers([userId]);
     } catch (error) {
@@ -286,10 +287,6 @@ const PopularDropdown = ({ cities }) => {
       )}
     </View>
   );
-};
-
-const customChannelFilterFunction = (channels: Channel[]) => {
-  return channels.filter((channel) => channel.data.location === "New York, NY");
 };
 
 const HomePage = () => {

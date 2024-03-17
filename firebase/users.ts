@@ -17,7 +17,7 @@ type UserData = {
 
 export const getUserData = async () => {
   const userId = auth().currentUser?.uid;
-  if (!userId) throw new Error("No user ID found!");
+  if (!userId) return null;
   const userSnap = await firestore().collection("users").doc(userId).get();
   if (userSnap?.exists) {
     const userData = userSnap.data(); // as UserData;

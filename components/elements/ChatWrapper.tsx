@@ -1,12 +1,10 @@
-import auth from "@react-native-firebase/auth";
-import React, { PropsWithChildren, useEffect, useState } from "react";
-import { StreamChat } from "stream-chat";
+import React, { PropsWithChildren } from "react";
 import { Chat, OverlayProvider, Streami18n } from "stream-chat-expo";
 
 import { AuthProgressLoader } from "./AuthProgressLoader";
 import { useUserData } from "../../firebase/hooks/useUserData";
-import { streamTokenProvider } from "../../firebaseConfig";
-import { STREAM_API_KEY } from "../constants";
+import { useAuth } from "../contexts/AuthContext";
+import { useChatClient } from "../hooks/useChatClient";
 import { StreamChatGenerics } from "../types";
 
 const streami18n = new Streami18n({
@@ -14,27 +12,19 @@ const streami18n = new Streami18n({
 });
 
 export const ChatWrapper = ({ children }: PropsWithChildren<object>) => {
-  const {
-    data: { first_name, last_name },
-  } = useUserData();
-  const [chatClient, setChatClient] =
-    useState<StreamChat<StreamChatGenerics> | null>(null);
+  const chatClient = useChatClient();
 
-  useEffect(() => {
-    const userId = auth()?.currentUser?.uid;
-    const chatClient = StreamChat.getInstance(STREAM_API_KEY);
-    chatClient.connectUser(
-      {
-        id: userId,
-        name: `${first_name} ${last_name}`,
-      },
-      streamTokenProvider,
-    );
+  const { user } = useAuth();
 
-    setChatClient(chatClient);
-  }, [auth, first_name, last_name]);
+  const { data: userData, isLoading: isLoadingUserData } = useUserData();
 
-  if (!chatClient) {
+  // if (!user || !userData?.firstName || !userData?.lastName) {
+  //   console.log(user, userData?.firstName, userData?.lastName);
+  //   console.log("just children");
+  //   return children;
+  // }
+
+  if (!chatClient || isLoadingUserData) {
     return <AuthProgressLoader />;
   }
 

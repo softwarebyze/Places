@@ -1,17 +1,13 @@
-import auth from "@react-native-firebase/auth";
-import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
-import { useNavigation } from "@react-navigation/native";
 import { View, Text } from "react-native";
-import { StreamChat } from "stream-chat";
+import { useChatContext } from "stream-chat-expo";
 
 import { useUserData } from "../../firebase/hooks/useUserData";
 import TERMS from "../../settings/Terms";
-import { ChatWrapper } from "../elements/ChatWrapper";
+import { useAuth } from "../contexts/AuthContext";
 import _Button from "../elements/_Button";
 import STYLES from "../styles/Styles";
 
 const terms = TERMS["English"];
-const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
 
 const getAge = (date: Date) => {
   const today = new Date();
@@ -25,25 +21,12 @@ const getAge = (date: Date) => {
 };
 
 const ProfilePage = () => {
-  const navigator = useNavigation();
-
   const {
-    data: {
-      birth_date,
-      cities,
-      details_completed,
-      first_name,
-      gender,
-      interests,
-      last_name,
-      phone,
-    },
+    data: { birth_date },
   } = useUserData();
+  const { logout } = useAuth();
 
-  const logout = async () => {
-    await Promise.all([auth().signOut(), client.disconnectUser()]);
-    navigator.navigate("Start");
-  };
+  const { client } = useChatContext();
 
   return (
     <View style={STYLES.page}>

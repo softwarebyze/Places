@@ -32,7 +32,7 @@ const HomeStack = () => (
     <Stack.Screen
       name="ChannelInfo"
       component={ChannelInfoPage}
-      options={{ headerShown: true }}
+      options={{ headerShown: true, headerTitle: "Chat Info" }}
     />
     <Stack.Screen
       name="PlacesChat"

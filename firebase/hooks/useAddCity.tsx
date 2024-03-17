@@ -1,11 +1,12 @@
-import auth from "@react-native-firebase/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+import { useAuth } from "../../components/contexts/AuthContext";
 import { addUserCity } from "../users";
 
 export const useAddCity = () => {
   const queryClient = useQueryClient();
-  const userId = auth().currentUser?.uid;
+  const { user } = useAuth();
+  const userId = user?.uid;
   return useMutation({
     mutationFn: addUserCity,
     onSuccess: () => {

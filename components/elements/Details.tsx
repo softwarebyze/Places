@@ -1,5 +1,5 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import { useRef, useState } from "react";
 import {
   KeyboardAvoidingView,
@@ -8,7 +8,6 @@ import {
   View,
   Button,
   ActivityIndicator,
-  TextInput,
 } from "react-native";
 import PhoneInput from "react-native-phone-input";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -16,7 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import _Button from "./_Button";
 import _Dropdown from "./_Dropdown";
 import _Input from "./_Input";
-import { saveUserDetails } from "../../firebase/users";
+import { useAddUserDetails } from "../../firebase/hooks/useAddUserDetails";
 import Colors from "../../settings/Colors";
 import TERMS from "../../settings/Terms";
 import { DetailsPageProps } from "../navigation/types";
@@ -31,24 +30,24 @@ const Details = () => {
       firstName: "",
       lastName: "",
     };
+  const { mutateAsync: addUserDetails, isPending } = useAddUserDetails();
 
   const [firstName, setFirstName] = useState(firstNameProp);
   const [lastName, setLastName] = useState(lastNameProp);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [gender, setGender] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState(new Date(0));
-  // const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState(false);
   const phoneRef = useRef();
-  const [loading, setLoading] = useState(false);
 
   const completed = firstName.length && lastName.length && gender.length;
   const disabled = !completed;
 
-  // const onChangeDate = (event, selectedDate) => {
-  //   const currentDate = selectedDate || dateOfBirth;
-  //   setShowDatePicker(false);
-  //   setDateOfBirth(currentDate);
-  // };
+  const onChangeDate = (event, selectedDate) => {
+    const currentDate = selectedDate || dateOfBirth;
+    setShowDatePicker(false);
+    setDateOfBirth(currentDate);
+  };
 
   const genders = [
     { label: "Male", value: "Male" },
@@ -57,8 +56,7 @@ const Details = () => {
   ];
 
   const handleSubmitDetails = async () => {
-    setLoading(true);
-    await saveUserDetails({
+    await addUserDetails({
       first_name: firstName,
       last_name: lastName,
       phone: phoneNumber,
@@ -66,11 +64,8 @@ const Details = () => {
       birth_date: dateOfBirth,
       details_completed: true,
     });
-    navigator.navigate("ChooseLocation");
-    setLoading(false);
   };
 
-  const navigator = useNavigation();
   return (
     <SafeAreaView style={Styles.page}>
       <KeyboardAvoidingView style={[Styles.suliContinues, Styles.page]}>
@@ -132,7 +127,7 @@ const Details = () => {
           >
             {/* Added platform code because there's a bug in Android 
           where the date picker won't hide */}
-            {/* {Platform.OS === "ios" ? (
+            {Platform.OS === "ios" ? (
               <DateTimePicker value={dateOfBirth} onChange={onChangeDate} />
             ) : showDatePicker ? (
               <DateTimePicker value={dateOfBirth} onChange={onChangeDate} />
@@ -141,16 +136,16 @@ const Details = () => {
                 title={dateOfBirth.toLocaleDateString()}
                 onPress={() => setShowDatePicker(true)}
               />
-            )} */}
+            )}
             {/* just a text input for birth date */}
-            <TextInput
-              value={dateOfBirth.toLocaleDateString()}
-              // onChangeText={() => setShowDatePicker(true)}
-              // disabled
-            />
+            {/* <TextInput
+              value={dateOfBirth.toLocaleDateString()} */}
+            {/* // onChangeText={() => setShowDatePicker(true)} */}
+            {/* // disabled */}
+            {/* /> */}
           </View>
         </View>
-        {loading ? (
+        {isPending ? (
           <ActivityIndicator />
         ) : (
           <_Button

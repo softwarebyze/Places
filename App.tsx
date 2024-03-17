@@ -3,6 +3,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
+import { AuthProvider } from "./components/contexts/AuthContext";
+import { ChatWrapper } from "./components/elements/ChatWrapper";
 import { AppNavigator } from "./components/navigation/AppNavigator";
 
 const queryClient = new QueryClient();
@@ -11,7 +13,11 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer>
-        <AppNavigator />
+        <AuthProvider>
+          <ChatWrapper>
+            <AppNavigator />
+          </ChatWrapper>
+        </AuthProvider>
       </NavigationContainer>
     </GestureHandlerRootView>
   </QueryClientProvider>

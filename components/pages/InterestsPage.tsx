@@ -1,6 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import auth from "@react-native-firebase/auth";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import { useState, useEffect } from "react";
 import {
   Text,
@@ -11,8 +10,10 @@ import {
 } from "react-native";
 import { Channel, StreamChat } from "stream-chat";
 
-import { saveUserDetails } from "../../firebase/users";
+import { useAddUserDetails } from "../../firebase/hooks/useAddUserDetails";
+import { useUserCities } from "../../firebase/hooks/useUserCities";
 import Colors from "../../settings/Colors";
+import { useAuth } from "../contexts/AuthContext";
 import _Button from "../elements/_Button";
 import { InterestsPageProps } from "../navigation/types";
 import STYLES from "../styles/Styles";
@@ -65,12 +66,15 @@ export const InterestTag = (props) => {
 };
 
 const InterestsPage = () => {
-  const navigator = useNavigation<InterestsPageProps["navigation"]>();
   const route = useRoute<InterestsPageProps["route"]>();
   const REQUIRED_INTERESTS = 5;
   const [userInterests, setUserInterests] = useState([]);
   const [channelList, setChannelList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
+  const { data: cities, isLoading } = useUserCities();
+  const city = cities?.[0];
+  const { mutate: saveUserDetails, isPending } = useAddUserDetails();
 
   const disabled = userInterests.length < REQUIRED_INTERESTS;
 
@@ -92,6 +96,7 @@ const InterestsPage = () => {
   };
 
   useEffect(() => {
+    if (isLoading) return;
     const fetchInterests = async () => {
       try {
         setLoading(true);
@@ -100,11 +105,12 @@ const InterestsPage = () => {
           const newChannels = await client.queryChannels(
             {
               type: "team",
-              location: route.params.location,
+              location: route?.params?.location || city,
             },
             {},
             { limit: 30, offset: 30 * i },
           );
+          console.log({ newChannels });
           channels.push(...newChannels);
         }
         const channelsData = channels.map((c) => c.data);
@@ -132,13 +138,9 @@ const InterestsPage = () => {
     }
   };
   const handleSubmitInterests = async () => {
-    setLoading(true);
-    const userId = auth().currentUser.uid;
     const interests = userInterests.map((interest) => interest.name);
-    await saveUserDetails({ interests });
-    await addUserToChannels(userId, userInterests);
-    setLoading(false);
-    navigator.navigate("HomeTabs");
+    saveUserDetails({ interests });
+    await addUserToChannels(user.uid, userInterests);
   };
 
   const channelsGroupedByCategory = groupChannelsByCategory(channelList);
@@ -147,9 +149,8 @@ const InterestsPage = () => {
     <View style={[STYLES.page, { backgroundColor: Colors.light_grey }]}>
       <ScrollView>
         <Text style={[STYLES.descriptionText, { marginTop: 20 }]}>
-          Select at least {REQUIRED_INTERESTS} interests and we will add you to
-          the group chat (places) for the location you provided in the previous
-          step.
+          {`Select at least ${REQUIRED_INTERESTS} interests and we will add you to
+          their group chats in ${city}.`}
         </Text>
         <View style={{ marginBottom: 20 }}>
           <View>
