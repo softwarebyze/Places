@@ -82,6 +82,7 @@ export type RootStackScreenProps<T extends keyof RootStackParamList> =
 
 export type HomeTabParamList = {
   Home: NavigatorScreenParams<HomeStackParamList>;
+  Neighbors: undefined;
   Profile: undefined;
 };
 

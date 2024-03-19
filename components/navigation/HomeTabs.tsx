@@ -2,6 +2,7 @@ import { Foundation, MaterialCommunityIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import HomeStack from "./HomeStack";
+import NeighborsStack from "./NeighborsStack";
 import { HomeTabParamList } from "./types";
 import Colors from "../../settings/Colors";
 import ProfilePage from "../pages/ProfilePage";
@@ -35,6 +36,19 @@ const HomeTabs = () => (
           <Foundation name="home" size={size} color={color} />
         ),
         headerShown: false,
+      }}
+    />
+    <Tab.Screen
+      name="Neighbors"
+      component={NeighborsStack}
+      options={{
+        tabBarIcon: ({ color, size }) => (
+          <MaterialCommunityIcons
+            name="account-group-outline"
+            size={size}
+            color={color}
+          />
+        ),
       }}
     />
     <Tab.Screen
