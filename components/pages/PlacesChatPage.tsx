@@ -1,5 +1,5 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
-import React from "react";
+import { useEffect } from "react";
 import {
   Channel,
   MessageList,
@@ -13,6 +13,14 @@ const PlacesChatPage = () => {
   const route = useRoute<PlacesChatPageProps["route"]>();
   const navigator = useNavigation<PlacesChatPageProps["navigation"]>();
   const { channel } = route.params;
+
+  useEffect(() => {
+    if (!channel) return;
+    navigator.setOptions({
+      headerTitle: channel.data.name,
+    });
+  }, [channel]);
+
   return (
     <OverlayProvider>
       <Channel channel={channel}>
